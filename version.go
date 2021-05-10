@@ -1,4 +1,4 @@
-package hsd2s
+package d2d2s
 
 import "fmt"
 
