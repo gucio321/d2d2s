@@ -4,8 +4,8 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/OpenDiablo2/OpenDiablo2/d2common/d2datautils"
 	"github.com/OpenDiablo2/OpenDiablo2/d2common/d2enum"
+	"github.com/gucio321/d2d2s/datautils"
 )
 
 const (
@@ -44,18 +44,25 @@ type D2S struct {
 	Mercenary  mercenary
 	unknown8   [unknown8BytesCount]byte
 	Quests     *Quests
+	Waypoints  Waypoints
+	NPC        *NPC
+	Stats      *Stats
 }
 
 func Unmarshal(data []byte) (*D2S, error) {
 	var err error
 
+	fmt.Println("exec")
 	result := &D2S{
 		Status:     &Status{},
 		Hotkeys:    make(hotkeys),
 		Difficulty: make(Difficulty),
 		Quests:     &Quests{},
+		Waypoints:  make(Waypoints),
+		NPC:        &NPC{},
+		Stats:      &Stats{},
 	}
-	sr := d2datautils.CreateStreamReader(data)
+	sr := datautils.CreateStreamReader(data)
 
 	signature, err := sr.ReadUInt32()
 	if err != nil {
@@ -66,7 +73,7 @@ func Unmarshal(data []byte) (*D2S, error) {
 		return nil, errors.New("Unexpected file signature")
 	}
 
-	v, err := sr.ReadInt32()
+	v, err := sr.ReadUInt32()
 	if err != nil {
 		return nil, err
 	}
@@ -265,6 +272,26 @@ func Unmarshal(data []byte) (*D2S, error) {
 	err = result.Quests.Unmarshal(questsData)
 	if err != nil {
 		return nil, fmt.Errorf("error loading quests: %w", err)
+	}
+
+	wd, err := sr.ReadBytes(numWaypointsBytes)
+	var waypointsData [numWaypointsBytes]byte
+	copy(waypointsData[:], wd[:numWaypointsBytes])
+
+	if err := result.Waypoints.Load(waypointsData); err != nil {
+		return nil, fmt.Errorf("error loading waypoints data: %w", err)
+	}
+
+	nd, err := sr.ReadBytes(numNPCBytes)
+	var npcData [numNPCBytes]byte
+	copy(npcData[:], nd[:numNPCBytes])
+
+	if err := result.NPC.Load(npcData); err != nil {
+		return nil, fmt.Errorf("error loading npcs data: %w", err)
+	}
+
+	if err := result.Stats.Load(sr); err != nil {
+		return nil, fmt.Errorf("error loading character stats: %w", err)
 	}
 
 	return result, nil

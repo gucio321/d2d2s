@@ -3,8 +3,8 @@ package d2d2s
 import (
 	"errors"
 
-	"github.com/OpenDiablo2/OpenDiablo2/d2common/d2datautils"
 	"github.com/OpenDiablo2/OpenDiablo2/d2common/d2enum"
+	"github.com/gucio321/d2d2s/datautils"
 )
 
 const (
@@ -22,7 +22,7 @@ func (q *Quests) Unmarshal(data [numQuestsBytes]byte) error {
 
 	var err error
 
-	sr := d2datautils.CreateStreamReader(data[:])
+	sr := datautils.CreateStreamReader(data[:])
 
 	questHeaderID, err := sr.ReadBytes(4)
 	if err != nil {
@@ -54,7 +54,7 @@ type QuestSet struct {
 	Introduced bool
 }
 
-func (q *QuestSet) Unmarshal(sr *d2datautils.StreamReader) error {
+func (q *QuestSet) Unmarshal(sr *datautils.StreamReader) error {
 	var err error
 
 	introduced, err := sr.ReadUInt16()
