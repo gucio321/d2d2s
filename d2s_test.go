@@ -31,7 +31,6 @@ func Test_Marshal(t *testing.T) {
 		t.Error(err)
 	}
 
-	fmt.Println(x.version)
-	fmt.Println(x.Quests)
+	fmt.Println(x)
 	t.Fail()
 }
