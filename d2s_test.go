@@ -33,6 +33,6 @@ func Test_Marshal(t *testing.T) {
 	}
 
 	fmt.Println(x)
-	fmt.Println(x.Items)
+	fmt.Println(x.Waypoints[0])
 	t.Fail()
 }
