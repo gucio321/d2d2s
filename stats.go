@@ -127,6 +127,8 @@ func (s *Stats) Load(sr *datautils.StreamReader) error {
 		}
 	}
 
+	sr.SkipBytes((bm.BitsRead() / 8) + 1)
+
 	return nil
 }
 

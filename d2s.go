@@ -16,6 +16,8 @@ const (
 	numDifficoultyLevels  = 3
 	unknown8BytesCount    = 144
 	expectedQuestHeaderID = "Woo!"
+	skillsHeaderID        = "if"
+	numSkills             = 30
 )
 
 type hotkeys map[byte]SkillID
@@ -47,6 +49,7 @@ type D2S struct {
 	Waypoints  Waypoints
 	NPC        *NPC
 	Stats      *Stats
+	Skills     [numSkills]SkillID
 }
 
 func Unmarshal(data []byte) (*D2S, error) {
@@ -292,6 +295,19 @@ func Unmarshal(data []byte) (*D2S, error) {
 
 	if err := result.Stats.Load(sr); err != nil {
 		return nil, fmt.Errorf("error loading character stats: %w", err)
+	}
+
+	skillsID, err := sr.ReadBytes(2)
+	if err != nil {
+		return nil, err
+	}
+
+	fmt.Println(string(skillsID))
+	if string(skillsID) != skillsHeaderID {
+		return nil, errors.New("unexpected skills section header")
+	}
+
+	for i := 0; i < numSkills; i++ {
 	}
 
 	return result, nil
