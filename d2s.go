@@ -207,6 +207,8 @@ func Unmarshal(data []byte) (*D2S, error) {
 	}
 
 	for i := 0; i < numSkills; i++ {
+		id := sr.GetByte()
+		result.Skills[i] = SkillID(id)
 	}
 
 	return result, nil
