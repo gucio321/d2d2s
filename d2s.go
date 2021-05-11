@@ -50,12 +50,12 @@ type D2S struct {
 	NPC        *NPC
 	Stats      *Stats
 	Skills     [numSkills]SkillID
+	Items      *Items
 }
 
 func Unmarshal(data []byte) (*D2S, error) {
 	var err error
 
-	fmt.Println("exec")
 	result := &D2S{
 		Status:     &Status{},
 		Hotkeys:    make(hotkeys),
@@ -64,6 +64,7 @@ func Unmarshal(data []byte) (*D2S, error) {
 		Waypoints:  make(Waypoints),
 		NPC:        &NPC{},
 		Stats:      &Stats{},
+		Items:      &Items{},
 	}
 	// sr := datautils.CreateStreamGeter(data)
 	sr := datautils.CreateBitMuncher(data, 0)
@@ -201,7 +202,6 @@ func Unmarshal(data []byte) (*D2S, error) {
 
 	skillsID := sr.GetBytes(2)
 
-	fmt.Println(string(skillsID))
 	if string(skillsID) != skillsHeaderID {
 		return nil, errors.New("unexpected skills section header")
 	}
@@ -209,6 +209,10 @@ func Unmarshal(data []byte) (*D2S, error) {
 	for i := 0; i < numSkills; i++ {
 		id := sr.GetByte()
 		result.Skills[i] = SkillID(id)
+	}
+
+	if err := result.Items.Load(sr); err != nil {
+		return nil, err
 	}
 
 	return result, nil

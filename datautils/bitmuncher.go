@@ -80,6 +80,11 @@ func (v *BitMuncher) GetByte() byte {
 	return byte(v.GetBits(byteLen))
 }
 
+// ReadByte is.... lol, for implementing io.ByteReader :D
+func (v *BitMuncher) ReadByte() (byte, error) {
+	return v.GetByte(), nil
+}
+
 func (v *BitMuncher) GetUInt16() uint16 {
 	return uint16(v.GetBits(twoBytes))
 }

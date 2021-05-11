@@ -33,7 +33,6 @@ func (s *Stats) Load(sr *datautils.BitMuncher) error {
 
 	id := sr.GetBytes(2)
 
-	fmt.Println(string(id))
 	if string(id) != statsHeaderID {
 		return errors.New("Unexpected header")
 	}
@@ -68,7 +67,6 @@ func (s *Stats) Load(sr *datautils.BitMuncher) error {
 		i := bm.GetBits(9)
 		id := uint64(i)
 		// id := reverseBits(uint64(i), 9)
-		fmt.Println(id)
 		// id := reverseBits(i, 9)
 		if err != nil {
 			return err

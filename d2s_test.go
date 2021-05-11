@@ -29,11 +29,10 @@ func Test_Marshal(t *testing.T) {
 
 	x, err := Unmarshal(data)
 	if err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	fmt.Println(x)
-	fmt.Println(x.Stats)
-	fmt.Println(x.Stats.Level)
+	fmt.Println(x.Items)
 	t.Fail()
 }
