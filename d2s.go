@@ -65,53 +65,30 @@ func Unmarshal(data []byte) (*D2S, error) {
 		NPC:        &NPC{},
 		Stats:      &Stats{},
 	}
-	sr := datautils.CreateStreamReader(data)
+	// sr := datautils.CreateStreamGeter(data)
+	sr := datautils.CreateBitMuncher(data, 0)
 
-	signature, err := sr.ReadUInt32()
-	if err != nil {
-		return nil, err
-	}
+	signature := sr.GetUInt32()
 
 	if signature != saveFileSignature {
 		return nil, errors.New("Unexpected file signature")
 	}
 
-	v, err := sr.ReadUInt32()
-	if err != nil {
-		return nil, err
-	}
-
+	v := sr.GetUInt32()
 	result.version = version(v)
 
 	// file size in bytes ( len(data) )
-	_, err = sr.ReadInt32()
-	if err != nil {
-		return nil, err
-	}
+	_ = sr.GetInt32()
 
 	// checksum (32-bit checksum)
-	_, err = sr.ReadUInt32()
-	if err != nil {
-		return nil, err
-	}
+	_ = sr.GetUInt32()
 
-	result.unknown1, err = sr.ReadUInt32()
-	if err != nil {
-		return nil, err
-	}
+	result.unknown1 = sr.GetUInt32()
 
-	name, err := sr.ReadBytes(characterNameSize)
-	if err != nil {
-		return nil, err
-	}
-
+	name := sr.GetBytes(characterNameSize)
 	result.Name = string(name)
 
-	status, err := sr.ReadByte()
-	if err != nil {
-		return nil, err
-	}
-
+	status := sr.GetByte()
 	result.Status.Unmarshal(status)
 
 	/*
@@ -122,99 +99,48 @@ func Unmarshal(data []byte) (*D2S, error) {
 		Expansion game, the value is not incremented after killing Diablo, but is incremented by 2 after killing Baal.
 		(The reason is unknown.)  So it skips the values 4, 9, and 14.
 	*/
-	_, err = sr.ReadByte()
-	if err != nil {
-		return nil, err
-	}
+	_ = sr.GetByte()
 
-	result.unknown2, err = sr.ReadUInt16()
-	if err != nil {
-		return nil, err
-	}
+	result.unknown2 = sr.GetUInt16()
 
-	class, err := sr.ReadByte()
-	if err != nil {
-		return nil, err
-	}
-
+	class := sr.GetByte()
 	result.Class = CharacterClass(class)
 
-	result.unknown3, err = sr.ReadUInt16()
-	if err != nil {
-		return nil, err
-	}
+	result.unknown3 = sr.GetUInt16()
 
-	result.Level, err = sr.ReadByte()
-	if err != nil {
-		return nil, err
-	}
+	result.Level = sr.GetByte()
 
-	result.unknown4, err = sr.ReadUInt32()
-	if err != nil {
-		return nil, err
-	}
+	result.unknown4 = sr.GetUInt32()
 
-	result.Time, err = sr.ReadUInt32()
-	if err != nil {
-		return nil, err
-	}
+	result.Time = sr.GetUInt32()
 
-	result.unknown5, err = sr.ReadUInt32()
-	if err != nil {
-		return nil, err
-	}
+	result.unknown5 = sr.GetUInt32()
 
 	for i := byte(0); i < skillHotKeys; i++ {
-		id, err := sr.ReadUInt32()
-		if err != nil {
-			return nil, err
-		}
+		id := sr.GetUInt32()
 		result.Hotkeys[i] = SkillID(id)
 	}
 
-	lsk, err := sr.ReadUInt32()
-	if err != nil {
-		return nil, err
-	}
-
+	lsk := sr.GetUInt32()
 	result.LeftSkill = SkillID(lsk)
 
-	rsk, err := sr.ReadUInt32()
-	if err != nil {
-		return nil, err
-	}
-
+	rsk := sr.GetUInt32()
 	result.RightSkill = SkillID(rsk)
 
 	if result.Status.Expansion {
-		alsk, err := sr.ReadUInt32()
-		if err != nil {
-			return nil, err
-		}
-
+		alsk := sr.GetUInt32()
 		result.LeftSkillSwitch = SkillID(alsk)
 
-		arsk, err := sr.ReadUInt32()
-		if err != nil {
-			return nil, err
-		}
-
+		arsk := sr.GetUInt32()
 		result.RightSkillSwitch = SkillID(arsk)
 	}
 
-	unknown6, err := sr.ReadBytes(unknown6BytesCount)
-	if err != nil {
-		return nil, err
-	}
+	unknown6 := sr.GetBytes(unknown6BytesCount)
 
 	copy(result.unknown6[:], unknown6[:unknown6BytesCount])
 
 	for i := d2enum.DifficultyNormal; i <= d2enum.DifficultyHell; i++ {
-		d, err := sr.ReadByte()
-		if err != nil {
-			return nil, err
-		}
-
+		d := sr.GetByte()
 		if d == 0 {
 			continue
 		}
@@ -223,51 +149,27 @@ func Unmarshal(data []byte) (*D2S, error) {
 		result.Difficulty[i].Unmarshal(d)
 	}
 
-	result.MapID, err = sr.ReadUInt32()
-	if err != nil {
-		return nil, err
-	}
+	result.MapID = sr.GetUInt32()
 
-	result.unknown7, err = sr.ReadUInt16()
-	if err != nil {
-		return nil, err
-	}
+	result.unknown7 = sr.GetUInt16()
 
-	result.Mercenary.Died, err = sr.ReadUInt16()
-	if err != nil {
-		return nil, err
-	}
+	result.Mercenary.Died = sr.GetUInt16()
 
-	result.Mercenary.ID, err = sr.ReadUInt32()
-	if err != nil {
-		return nil, err
-	}
+	result.Mercenary.ID = sr.GetUInt32()
 
-	result.Mercenary.Name, err = sr.ReadUInt16()
-	if err != nil {
-		return nil, err
-	}
+	result.Mercenary.Name = sr.GetUInt16()
 
-	mercType, err := sr.ReadUInt16()
-	if err != nil {
-		return nil, err
-	}
+	mercType := sr.GetUInt16()
 
 	result.Mercenary.LoadType(mercType)
 
-	result.Mercenary.Experience, err = sr.ReadUInt32()
-	if err != nil {
-		return nil, err
-	}
+	result.Mercenary.Experience = sr.GetUInt32()
 
-	unknown8, err := sr.ReadBytes(unknown8BytesCount)
-	if err != nil {
-		return nil, err
-	}
+	unknown8 := sr.GetBytes(unknown8BytesCount)
 
 	copy(result.unknown8[:], unknown8[:unknown8BytesCount])
 
-	qd, err := sr.ReadBytes(numQuestsBytes)
+	qd := sr.GetBytes(numQuestsBytes)
 
 	var questsData [numQuestsBytes]byte
 	copy(questsData[:], qd[:numQuestsBytes])
@@ -277,7 +179,7 @@ func Unmarshal(data []byte) (*D2S, error) {
 		return nil, fmt.Errorf("error loading quests: %w", err)
 	}
 
-	wd, err := sr.ReadBytes(numWaypointsBytes)
+	wd := sr.GetBytes(numWaypointsBytes)
 	var waypointsData [numWaypointsBytes]byte
 	copy(waypointsData[:], wd[:numWaypointsBytes])
 
@@ -285,7 +187,7 @@ func Unmarshal(data []byte) (*D2S, error) {
 		return nil, fmt.Errorf("error loading waypoints data: %w", err)
 	}
 
-	nd, err := sr.ReadBytes(numNPCBytes)
+	nd := sr.GetBytes(numNPCBytes)
 	var npcData [numNPCBytes]byte
 	copy(npcData[:], nd[:numNPCBytes])
 
@@ -297,10 +199,7 @@ func Unmarshal(data []byte) (*D2S, error) {
 		return nil, fmt.Errorf("error loading character stats: %w", err)
 	}
 
-	skillsID, err := sr.ReadBytes(2)
-	if err != nil {
-		return nil, err
-	}
+	skillsID := sr.GetBytes(2)
 
 	fmt.Println(string(skillsID))
 	if string(skillsID) != skillsHeaderID {

@@ -28,11 +28,10 @@ type Stats struct {
 	StashedGold uint64
 }
 
-func (s *Stats) Load(sr *datautils.StreamReader) error {
-	id, err := sr.ReadBytes(2)
-	if err != nil {
-		return err
-	}
+func (s *Stats) Load(sr *datautils.BitMuncher) error {
+	var err error
+
+	id := sr.GetBytes(2)
 
 	fmt.Println(string(id))
 	if string(id) != statsHeaderID {
@@ -64,7 +63,7 @@ func (s *Stats) Load(sr *datautils.StreamReader) error {
 			x, _ := sr.ReadBytes(16)
 			fmt.Println(x)
 	*/
-	bm := datautils.CreateBitMuncher(sr.ReadAll(), 0)
+	bm := sr.Copy()
 	for {
 		i := bm.GetBits(9)
 		id := uint64(i)
@@ -127,7 +126,7 @@ func (s *Stats) Load(sr *datautils.StreamReader) error {
 		}
 	}
 
-	sr.SkipBytes((bm.BitsRead() / 8) + 1)
+	sr.SkipBits((8 * (bm.BitsRead() / 8)) + 8)
 
 	return nil
 }
