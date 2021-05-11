@@ -13,17 +13,14 @@ const (
 	questHeaderUnknownBytesCount = 6
 )
 
-/*
-type Quests struct {
-	unknown1 [questHeaderUnknownBytesCount]byte
-	QuestSets
-}*/
+// Quests represents quests status structure
 type Quests map[d2enum.DifficultyType]*[numActs]*QuestsSet
 
 func unknownQuestsHeaderBytes() [questHeaderUnknownBytesCount]byte {
 	return [questHeaderUnknownBytesCount]byte{6, 0, 0, 0, 42, 1}
 }
 
+// Unmarshal unmarshals quests status data
 func (q *Quests) Unmarshal(data [numQuestsBytes]byte) error {
 	sr := datautils.CreateBitMuncher(data[:], 0)
 
@@ -37,6 +34,7 @@ func (q *Quests) Unmarshal(data [numQuestsBytes]byte) error {
 
 	for i := d2enum.DifficultyNormal; i <= d2enum.DifficultyHell; i++ {
 		(*q)[i] = &[numActs]*QuestsSet{}
+
 		for act := 1; act <= numActs; act++ {
 			var l int
 			if act == 4 {
@@ -56,12 +54,14 @@ func (q *Quests) Unmarshal(data [numQuestsBytes]byte) error {
 	return nil
 }
 
+// QuestsSet represents a set of 6 (in case of act 4 - 3) quests
 type QuestsSet struct {
 	Introduced bool
 	Quests     []*Quest
 	ActEnd     bool // uncertain
 }
 
+// Unmarshal unmarshals quests set
 func (q *QuestsSet) Unmarshal(sr *datautils.BitMuncher, act int) (err error) {
 	switch act {
 	case 4:
@@ -104,6 +104,7 @@ func (q *QuestsSet) Unmarshal(sr *datautils.BitMuncher, act int) (err error) {
 	return nil
 }
 
+// Quest represents a single quest's state
 type Quest struct {
 	Data          []byte
 	Completed     bool
@@ -114,12 +115,14 @@ type Quest struct {
 	JustCompleted bool // gets set, when completed in current game
 }
 
+// Load loads quest into Quest structure
 func (q *Quest) Load() {
 	bm := datautils.CreateBitMuncher(q.Data, 0)
 
 	q.Completed = bm.GetBit() == 1
 	q.Done = bm.GetBit() == 1
 	q.Started = bm.GetBit() == 1
+
 	for i := 0; i < 9; i++ {
 		q.Body = append(q.Body, bm.GetBit() == 1)
 	}
