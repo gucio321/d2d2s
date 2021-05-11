@@ -19,3 +19,14 @@ for more informations, see [here](./docs/base.md)
 ## Status
 
 Work in progress...
+
+### features
+
+- decoding characters
+        - header
+        - status
+        - stats
+
+## Goals of the project
+
+this programm should be able to decode and encode D2S files
