@@ -20,7 +20,7 @@ func (i *Items) Load(sr *datautils.BitMuncher) error {
 
 	id := sr.GetBytes(2)
 	if string(id) != itemListID {
-		return errors.New("Unexpected item header")
+		return errors.New("unexpected item header")
 	}
 
 	numItems := sr.GetUInt16()
@@ -218,9 +218,11 @@ func (i *Items) Load(sr *datautils.BitMuncher) error {
 }
 
 type Item struct {
-	Identified  bool
-	HasSockets  bool
-	NewbieItem  bool // This bit is set on the weapon and shield your character is given when you start the game.  Apparently, this gives the item the property of having a repair cost of 1gp, as well as a sell value of 1gp.
+	Identified bool
+	HasSockets bool
+	// This bit is set on the weapon and shield your character is given when you start the game.  Apparently,
+	// this gives the item the property of having a repair cost of 1gp, as well as a sell value of 1gp.
+	NewbieItem  bool
 	Etheral     bool
 	HasRuneWord bool // need to check
 	Position    struct {

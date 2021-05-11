@@ -26,6 +26,7 @@ func (i *Items) LoadMagicAttributes(sr *datautils.BitMuncher, n int) error {
 		}
 
 		var values []int64
+
 		for _, bitLength := range prop.Bits {
 			val := sr.GetBits(int(bitLength))
 			if prop.Bias != 0 {
@@ -44,5 +45,6 @@ func (i *Items) LoadMagicAttributes(sr *datautils.BitMuncher, n int) error {
 
 		// i.Items[n].MagicAttributes = append(i.Items[n].MagicAttributes, attr)
 	}
+
 	return nil
 }

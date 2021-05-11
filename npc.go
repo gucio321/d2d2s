@@ -22,7 +22,8 @@ func (n *NPC) Load(data [numNPCBytes]byte) error {
 	}
 
 	if string(id) != npcHeaderID {
-		return errors.New("Unexpected header ID")
+		return errors.New("unexpected header ID")
 	}
+
 	return nil
 }

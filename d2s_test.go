@@ -7,8 +7,8 @@ import (
 )
 
 func Test_Marshal(t *testing.T) {
-	fmt.Println("exec")
 	testFile, fileErr := os.Open("testdata/testdata.d2s")
+
 	if fileErr != nil {
 		t.Error("cannot open test data file")
 		return

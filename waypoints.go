@@ -2,7 +2,6 @@ package d2d2s
 
 import (
 	"errors"
-	"fmt"
 
 	"github.com/OpenDiablo2/OpenDiablo2/d2common/d2enum"
 	"github.com/gucio321/d2d2s/datautils"
@@ -27,7 +26,6 @@ func (w *Waypoints) Load(data [numWaypointsBytes]byte) error {
 	sr := datautils.CreateStreamReader(data[:])
 
 	id, err := sr.ReadBytes(2)
-	fmt.Println(string(id))
 	if err != nil {
 		return err
 	}
@@ -41,13 +39,17 @@ func (w *Waypoints) Load(data [numWaypointsBytes]byte) error {
 
 	for i := d2enum.DifficultyNormal; i <= d2enum.DifficultyHell; i++ {
 		sr.SkipBytes(2)
+
 		d, err := sr.ReadBytes(5)
 		if err != nil {
 			return err
 		}
+
 		sr.SkipBytes(17)
+
 		bm := datautils.CreateBitMuncher(d, 0)
 		_ = bm
+
 		for range (*w)[i] {
 			// fmt.Println(bm.GetBit())
 			// w[i][idx].Active = (bm.GetBit() == 1)

@@ -34,35 +34,11 @@ func (s *Stats) Load(sr *datautils.BitMuncher) error {
 	id := sr.GetBytes(2)
 
 	if string(id) != statsHeaderID {
-		return errors.New("Unexpected header")
+		return errors.New("unexpected header")
 	}
 
-	/*
-		indicators, err := sr.ReadBytes(2)
-		if err != nil {
-			return err
-		}
-
-			// see: https://user.xmission.com/~trevin/DiabloIIv1.09_File_Format.shtml
-			bm := datautils.CreateBitMuncher(indicators, 0)
-
-			bm.SkipBits(1)
-			Strength, err := sr.ReadUInt64()
-			s.Strength = Strength / 255
-
-			bm.SkipBits(1)
-			s.Energy, err = sr.ReadUInt64()
-
-			bm.SkipBits(1)
-			s.Dexterity, err = sr.ReadUInt64()
-
-			bm.SkipBits(1)
-			s.Vitality, err = sr.ReadUInt64()
-
-			x, _ := sr.ReadBytes(16)
-			fmt.Println(x)
-	*/
 	bm := sr.Copy()
+
 	for {
 		i := bm.GetBits(9)
 		id := uint64(i)
@@ -136,9 +112,11 @@ func reverseBits(b uint64, n uint) uint64 {
 		d |= b & 1
 		b >>= 1
 	}
+
 	return d
 }
 
+// nolint:gochecknoglobals // data variable
 var attributeBitMap = map[uint64]uint{
 	strength:       10,
 	energy:         10,

@@ -4,7 +4,6 @@ import "fmt"
 
 type version int32
 
-// nolint:gomnd // constant values
 /*
    71 is 1.00 through v1.06
    87 is 1.07 or Expansion Set v1.08

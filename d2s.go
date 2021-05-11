@@ -69,10 +69,8 @@ func Unmarshal(data []byte) (*D2S, error) {
 	// sr := datautils.CreateStreamGeter(data)
 	sr := datautils.CreateBitMuncher(data, 0)
 
-	signature := sr.GetUInt32()
-
-	if signature != saveFileSignature {
-		return nil, errors.New("Unexpected file signature")
+	if signature := sr.GetUInt32(); signature != saveFileSignature {
+		return nil, errors.New("unexpected file signature")
 	}
 
 	v := sr.GetUInt32()
@@ -173,6 +171,7 @@ func Unmarshal(data []byte) (*D2S, error) {
 	qd := sr.GetBytes(numQuestsBytes)
 
 	var questsData [numQuestsBytes]byte
+
 	copy(questsData[:], qd[:numQuestsBytes])
 
 	err = result.Quests.Unmarshal(questsData)
@@ -181,7 +180,9 @@ func Unmarshal(data []byte) (*D2S, error) {
 	}
 
 	wd := sr.GetBytes(numWaypointsBytes)
+
 	var waypointsData [numWaypointsBytes]byte
+
 	copy(waypointsData[:], wd[:numWaypointsBytes])
 
 	if err := result.Waypoints.Load(waypointsData); err != nil {
@@ -189,7 +190,9 @@ func Unmarshal(data []byte) (*D2S, error) {
 	}
 
 	nd := sr.GetBytes(numNPCBytes)
+
 	var npcData [numNPCBytes]byte
+
 	copy(npcData[:], nd[:numNPCBytes])
 
 	if err := result.NPC.Load(npcData); err != nil {

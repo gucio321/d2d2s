@@ -15,8 +15,7 @@ type DifficultyLevelStatus struct {
 	act byte
 	unknown3,
 	unknown4,
-	unknown5,
-	unknown6 bool
+	unknown5 bool
 	active bool
 }
 
