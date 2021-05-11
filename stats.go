@@ -9,6 +9,7 @@ import (
 
 const statsHeaderID = "gf"
 
+// Stats represents character stats
 type Stats struct {
 	Strength,
 	Energy,
@@ -28,6 +29,7 @@ type Stats struct {
 	StashedGold uint64
 }
 
+// Load loads hero stats
 func (s *Stats) Load(sr *datautils.BitMuncher) error {
 	var err error
 

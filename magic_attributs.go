@@ -14,6 +14,7 @@ type MagicAttribute struct {
 }
 
 func (i *Items) LoadMagicAttributes(sr *datautils.BitMuncher, n int) error {
+	// nolint:wsl // WIP
 	for {
 		id := uint16(sr.GetBits(9))
 		if id == 0x1ff {

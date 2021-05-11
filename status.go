@@ -1,5 +1,6 @@
 package d2d2s
 
+// Status represents character status
 type Status struct {
 	Unknown0,
 	Unknown1,
@@ -11,6 +12,7 @@ type Status struct {
 	Unknown7 bool
 }
 
+// Unmarshal loads data into status structure
 func (s *Status) Unmarshal(data byte) {
 	s.Unknown0 = ((data >> 0) & 1) > 0
 	s.Unknown1 = ((data >> 1) & 1) > 0
