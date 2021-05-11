@@ -22,10 +22,7 @@ Work in progress...
 
 ### features
 
-- decoding characters
-        - header
-        - status
-        - stats
+- decoding character saves
 
 ## Goals of the project
 
