@@ -297,6 +297,9 @@ func (d *D2S) Encode() ([]byte, error) {
 	wd := d.Waypoints.Encode()
 	sw.PushBytes(wd[:]...)
 
+	nd := d.NPC.Encode()
+	sw.PushBytes(nd[:]...)
+
 	// we need to write file size and checksum here:
 	data := sw.GetBytes()
 	fileSize := uint32(len(data))
