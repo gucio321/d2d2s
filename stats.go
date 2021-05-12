@@ -104,6 +104,7 @@ func (s *Stats) Load(sr *datautils.BitMuncher) error {
 	return nil
 }
 
+// Encode encodes stats back into a bytes slice
 func (s *Stats) Encode() []byte {
 	sw := datautils.CreateStreamWriter()
 	sw.PushBytes([]byte(statsHeaderID)...)
@@ -163,8 +164,8 @@ func (s *Stats) Encode() []byte {
 	sw.PushBits16(stashedGold, 9)
 	sw.PushBits32(uint32(s.StashedGold), int(attributeBitMap[stashedGold]))
 
-	sw.PushBits16(0x1ff, 9)
-	sw.PushBits(0, 8-sw.Offset())
+	sw.PushBits16(0x1ff, 9)       // nolint:gomnd // end mark
+	sw.PushBits(0, 8-sw.Offset()) // nolint:gomnd // remaining bits
 
 	return sw.GetBytes()
 }

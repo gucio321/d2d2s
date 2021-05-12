@@ -23,6 +23,7 @@ func CreateStreamWriter() *StreamWriter {
 	return result
 }
 
+// Offset returns bit offset
 func (v *StreamWriter) Offset() int {
 	return v.bitOffset
 }

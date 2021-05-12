@@ -8,16 +8,18 @@ import (
 
 const corpseUnknownBytesCount = 12
 
+// Corpse represents a ... corpse ?!
 type Corpse struct {
 	unknown [corpseUnknownBytesCount]byte
 	Items   *Items
 }
 
+// Load loads corpse
 func (c *Corpse) Load(sr *datautils.BitMuncher) error {
-	id := sr.GetBytes(2)
+	id := sr.GetBytes(2) // nolint:gomnd // header
 
 	if string(id) != "JM" {
-		return errors.New("Unexpected header")
+		return errors.New("unexpected header")
 	}
 
 	isDead := sr.GetUInt16() == 1
@@ -29,7 +31,9 @@ func (c *Corpse) Load(sr *datautils.BitMuncher) error {
 	copy(c.unknown[:], unknown[:corpseUnknownBytesCount])
 
 	c.Items = &Items{}
-	c.Items.Load(sr)
+	if err := c.Items.Load(sr); err != nil {
+		return err
+	}
 
 	return nil
 }

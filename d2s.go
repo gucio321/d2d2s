@@ -62,7 +62,7 @@ type D2S struct {
 }
 
 // Unmarshal loads d2s file into D2S structure
-// nolint:funlen // probably inpossible to reduce, but TODO
+// nolint:funlen,gocyclo // probably inpossible to reduce, but TODO
 func Unmarshal(data []byte) (*D2S, error) {
 	var err error
 
@@ -243,7 +243,9 @@ func Unmarshal(data []byte) (*D2S, error) {
 
 	// iron golem for necromancer
 	if result.Class == CharacterClassNecromancer && result.Status.Expansion {
-		result.IronGolem.Load(sr)
+		if err := result.IronGolem.Load(sr); err != nil {
+			return nil, err
+		}
 	}
 
 	return result, nil
@@ -330,6 +332,7 @@ func (d *D2S) Encode() ([]byte, error) {
 
 	// skills section
 	sw.PushBytes([]byte(skillsHeaderID)...)
+
 	for i := 0; i < numSkills; i++ {
 		sw.PushBytes(byte(d.Skills[i]))
 	}

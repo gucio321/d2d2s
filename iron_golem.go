@@ -10,12 +10,14 @@ import (
 
 const golemHeaderID = "kf"
 
+// IronGolem represents an iron golem
 type IronGolem struct {
 	Item *d2s.Item
 }
 
+// Load loads a golem's data
 func (i *IronGolem) Load(sr *datautils.BitMuncher) error {
-	id := sr.GetBytes(2)
+	id := sr.GetBytes(2) // nolint:gomnd // header
 	if string(id) != golemHeaderID {
 		return errors.New("unexpected golem header")
 	}

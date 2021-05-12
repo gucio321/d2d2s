@@ -40,7 +40,9 @@ func (m *mercenary) LoadMercItems(sr *datautils.BitMuncher) error {
 	}
 
 	m.Items = &Items{}
-	m.Items.Load(sr)
+	if err := m.Items.Load(sr); err != nil {
+		return err
+	}
 
 	return nil
 }
