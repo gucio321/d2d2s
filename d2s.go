@@ -307,6 +307,12 @@ func (d *D2S) Encode() ([]byte, error) {
 
 	sw.PushBytes(d.Stats.Encode()...)
 
+	// skills section
+	sw.PushBytes([]byte(skillsHeaderID)...)
+	for i := 0; i < numSkills; i++ {
+		sw.PushBytes(byte(d.Skills[i]))
+	}
+
 	// we need to write file size and checksum here:
 	data := sw.GetBytes()
 	fileSize := uint32(len(data))
