@@ -2,7 +2,6 @@ package d2d2s
 
 import (
 	"errors"
-	"fmt"
 
 	"github.com/gucio321/d2d2s/datautils"
 	"github.com/nokka/d2s"
@@ -25,7 +24,6 @@ func (i *IronGolem) Load(sr *datautils.BitMuncher) error {
 	hasGolem := sr.GetByte() == 1
 
 	if !hasGolem {
-		fmt.Println("nec but no golem")
 		return nil // no golem
 	}
 
