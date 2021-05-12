@@ -2,9 +2,11 @@ package d2d2s
 
 import "fmt"
 
+// Version represents a file version
 type Version int32
 
 /*
+String returns a version string:
    71 is 1.00 through v1.06
    87 is 1.07 or Expansion Set v1.08
    89 is standard game v1.08
