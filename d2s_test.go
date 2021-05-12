@@ -1,6 +1,7 @@
 package d2d2s
 
 import (
+	"bytes"
 	"fmt"
 	"os"
 	"testing"
@@ -37,8 +38,10 @@ func Test_Marshal(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	m := 50
+	m := 500
 	fmt.Println(d[m:])
 	fmt.Println(data[m:len(d)])
+	fmt.Println(len(d[m:]), len(data[m:len(d)]))
+	fmt.Println(bytes.Equal(data[m:len(d)], d[m:]))
 	t.Fail()
 }

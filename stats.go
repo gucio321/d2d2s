@@ -19,13 +19,13 @@ type Stats struct {
 	Dexterity,
 	Vitality,
 	UnusedStats,
-	UnusedSkillPoints,
+	UnusedSkillPoints uint64
 	CurrentHP,
 	MaxHP,
 	CurrentMana,
 	MaxMana,
 	CurrentStamina,
-	MaxStamina,
+	MaxStamina float64
 	Level,
 	Experience,
 	Gold,
@@ -76,17 +76,17 @@ func (s *Stats) Load(sr *datautils.BitMuncher) error {
 		case unusedSkills:
 			s.UnusedSkillPoints = attr
 		case currentHP:
-			s.CurrentHP = attr / statsModifier
+			s.CurrentHP = float64(attr) / statsModifier
 		case maxHP:
-			s.MaxHP = attr / statsModifier
+			s.MaxHP = float64(attr) / statsModifier
 		case currentMana:
-			s.CurrentMana = attr / statsModifier
+			s.CurrentMana = float64(attr) / statsModifier
 		case maxMana:
-			s.MaxMana = attr / statsModifier
+			s.MaxMana = float64(attr) / statsModifier
 		case currentStamina:
-			s.CurrentStamina = attr / statsModifier
+			s.CurrentStamina = float64(attr) / statsModifier
 		case maxStamina:
-			s.MaxStamina = attr / statsModifier
+			s.MaxStamina = float64(attr) / statsModifier
 		case level:
 			s.Level = attr
 		case experience:
@@ -102,6 +102,71 @@ func (s *Stats) Load(sr *datautils.BitMuncher) error {
 	sr.SkipBits((8 * (bm.BitsRead() / 8)) + 8)
 
 	return nil
+}
+
+func (s *Stats) Encode() []byte {
+	sw := datautils.CreateStreamWriter()
+	sw.PushBytes([]byte(statsHeaderID)...)
+
+	sw.PushBits16(strength, 9)
+	sw.PushBits32(uint32(s.Strength), int(attributeBitMap[strength]))
+
+	sw.PushBits16(energy, 9)
+	sw.PushBits32(uint32(s.Energy), int(attributeBitMap[energy]))
+
+	sw.PushBits16(dexterity, 9)
+	sw.PushBits32(uint32(s.Dexterity), int(attributeBitMap[dexterity]))
+
+	sw.PushBits16(vitality, 9)
+	sw.PushBits32(uint32(s.Vitality), int(attributeBitMap[vitality]))
+
+	if s.UnusedStats > 0 {
+		sw.PushBits16(unusedStats, 9)
+		sw.PushBits32(uint32(s.UnusedStats), int(attributeBitMap[unusedStats]))
+	}
+
+	if s.UnusedSkillPoints > 0 {
+		sw.PushBits16(unusedSkills, 9)
+		sw.PushBits32(uint32(s.UnusedSkillPoints), int(attributeBitMap[unusedSkills]))
+	}
+
+	// Life
+	sw.PushBits16(currentHP, 9)
+	sw.PushBits32(uint32(s.CurrentHP*statsModifier), int(attributeBitMap[currentHP]))
+
+	sw.PushBits16(maxHP, 9)
+	sw.PushBits32(uint32(s.MaxHP*statsModifier), int(attributeBitMap[maxHP]))
+
+	// Mana
+	sw.PushBits16(currentMana, 9)
+	sw.PushBits32(uint32(s.CurrentMana*statsModifier), int(attributeBitMap[currentMana]))
+
+	sw.PushBits16(maxMana, 9)
+	sw.PushBits32(uint32(s.MaxMana*statsModifier), int(attributeBitMap[maxMana]))
+
+	// Stamina
+	sw.PushBits16(currentStamina, 9)
+	sw.PushBits32(uint32(s.CurrentStamina*statsModifier), int(attributeBitMap[currentStamina]))
+
+	sw.PushBits16(maxStamina, 9)
+	sw.PushBits32(uint32(s.MaxStamina*statsModifier), int(attributeBitMap[maxStamina]))
+
+	sw.PushBits16(level, 9)
+	sw.PushBits32(uint32(s.Level), int(attributeBitMap[level]))
+
+	sw.PushBits16(experience, 9)
+	sw.PushBits32(uint32(s.Experience), int(attributeBitMap[experience]))
+
+	sw.PushBits16(gold, 9)
+	sw.PushBits32(uint32(s.Gold), int(attributeBitMap[gold]))
+
+	sw.PushBits16(stashedGold, 9)
+	sw.PushBits32(uint32(s.StashedGold), int(attributeBitMap[stashedGold]))
+
+	sw.PushBits16(0x1ff, 9)
+	sw.PushBits(0, 8-sw.Offset())
+
+	return sw.GetBytes()
 }
 
 // nolint:gochecknoglobals,gomnd // data variable
