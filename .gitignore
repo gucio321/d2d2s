@@ -16,3 +16,6 @@
 
 # vim chache files
 *.swp
+
+# testdata
+testdata/*d2s
