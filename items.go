@@ -11,14 +11,18 @@ import (
 
 const itemListID = "JM"
 
+// Items represents items list
 type Items struct {
 	Items []d2s.Item
 }
 
+// Load loads items list data into Items structure
+// nolint:funlen // TODO: check, if it is possible to write encoder for d2s.Item
+// If not, theis function must be changed
 func (i *Items) Load(sr *datautils.BitMuncher) error {
 	var err error
 
-	id := sr.GetBytes(2)
+	id := sr.GetBytes(2) // nolint:gomnd // header
 	if string(id) != itemListID {
 		return errors.New("unexpected item header")
 	}
@@ -217,6 +221,7 @@ func (i *Items) Load(sr *datautils.BitMuncher) error {
 	return nil
 }
 
+// Item represents an item
 type Item struct {
 	Identified bool
 	HasSockets bool
@@ -297,8 +302,10 @@ type Item struct {
 	MagicAttributes []MagicAttribute
 }
 
+// ItemLocationType represents an item location
 type ItemLocationType byte
 
+// item locations
 const (
 	ItemLocationStored ItemLocationType = iota
 	ItemLocationEquipped
@@ -309,8 +316,10 @@ const (
 	ItemLocationInSocked // ?
 )
 
+// ItemEquippedPlace represents a place, where the item is equipped
 type ItemEquippedPlace byte
 
+// item equipped places
 const (
 	ItemEquippedAnywhere ItemEquippedPlace = iota
 	ItemEquippedHead
@@ -327,8 +336,10 @@ const (
 	ItemEquippedALeftHand
 )
 
+// StoragePlace represents a plece, where the item is stored
 type StoragePlace byte
 
+// storage places
 const (
 	StorageNone StoragePlace = iota
 	StorageInventory
@@ -338,8 +349,10 @@ const (
 	StorageStash
 )
 
+// ItemQuality represents a quality of an item
 type ItemQuality byte
 
+// item qualities
 const (
 	ItemQualityLow ItemQuality = iota + 1
 	ItemQualityNormal
@@ -351,8 +364,10 @@ const (
 	ItemQualityCrafted
 )
 
+// LowQualityItemType represents a type of low quality item
 type LowQualityItemType byte
 
+// low quality item types
 const (
 	LowQualityItemCrude LowQualityItemType = iota
 	LowQualityItemCracked

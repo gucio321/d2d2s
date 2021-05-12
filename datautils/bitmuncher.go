@@ -85,6 +85,7 @@ func (v *BitMuncher) ReadByte() (byte, error) {
 	return v.GetByte(), nil
 }
 
+// GetUInt16 reads uint16
 func (v *BitMuncher) GetUInt16() uint16 {
 	return uint16(v.GetBits(twoBytes))
 }
@@ -114,7 +115,7 @@ func (v *BitMuncher) GetBits(bits int) uint32 {
 	return result
 }
 
-// GetBytes returns byte slice of `n` lenght.
+// GetBytes returns byte slice of `n` length.
 func (v *BitMuncher) GetBytes(n int) (result []byte) {
 	result = make([]byte, n)
 	for i := 0; i < n; i++ {

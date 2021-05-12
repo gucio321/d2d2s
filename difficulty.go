@@ -7,11 +7,12 @@ import (
 
 const (
 	actBitsCount = 3
-	actMask      = 1<<actBitsCount - 1
 )
 
+// Difficulty represents a status of all difficulty levels
 type Difficulty map[d2enum.DifficultyType]*DifficultyLevelStatus
 
+// DifficultyLevelStatus represents a status of difficulty level
 type DifficultyLevelStatus struct {
 	act byte
 	unknown3,
@@ -21,9 +22,10 @@ type DifficultyLevelStatus struct {
 	active bool
 }
 
+// Unmarshal loads byte into DifficultyLevelStatus structure
 func (d *DifficultyLevelStatus) Unmarshal(data byte) {
 	bm := d2datautils.CreateBitMuncher([]byte{data}, 0)
-	d.act = byte(bm.GetBits(3))
+	d.act = byte(bm.GetBits(actBitsCount))
 	d.unknown3 = bm.GetBit() == 1
 	d.unknown4 = bm.GetBit() == 1
 	d.unknown5 = bm.GetBit() == 1
@@ -31,6 +33,7 @@ func (d *DifficultyLevelStatus) Unmarshal(data byte) {
 	d.active = bm.GetBit() == 1
 }
 
+// Encode encodes a difficulty level status back into byte data
 func (d *DifficultyLevelStatus) Encode() (result byte) {
 	sw := d2datautils.CreateStreamWriter()
 	sw.PushBits(d.act, 3)

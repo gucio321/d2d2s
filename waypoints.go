@@ -5,6 +5,7 @@ import (
 
 	"github.com/OpenDiablo2/OpenDiablo2/d2common/d2datautils"
 	"github.com/OpenDiablo2/OpenDiablo2/d2common/d2enum"
+
 	"github.com/gucio321/d2d2s/datautils"
 )
 
@@ -13,6 +14,10 @@ const (
 	waypointHeaderID               = "WS"
 	numUnknownWaypointsHeaderBytes = 6
 	numActs                        = 5
+	defaultWPCound                 = 9
+	act4WPCount                    = 3
+	unknownWaypointsBytesCount     = 17
+	waypointDataBytesCount         = 5
 )
 
 func unknownWaypointsHeaderBytes() [numUnknownWaypointsHeaderBytes]byte {
@@ -22,12 +27,13 @@ func unknownWaypointsHeaderBytes() [numUnknownWaypointsHeaderBytes]byte {
 // Waypoints contains state (active = true / inactive = false) of any waypoint in game (difficulty level / act)
 type Waypoints map[d2enum.DifficultyType]*[numActs][]bool
 
-func (w *Waypoints) Load(data [numWaypointsBytes]byte) error {
+// Load loads waypoints data
+func (w *Waypoints) Load(data *[numWaypointsBytes]byte) error {
 	var err error
 
-	sr := datautils.CreateStreamReader(data[:])
+	sr := datautils.CreateStreamReader((*data)[:])
 
-	id, err := sr.ReadBytes(2)
+	id, err := sr.ReadBytes(2) // nolint:gomnd // header
 	if err != nil {
 		return err
 	}
@@ -40,14 +46,14 @@ func (w *Waypoints) Load(data [numWaypointsBytes]byte) error {
 	sr.SkipBytes(numUnknownWaypointsHeaderBytes)
 
 	for i := d2enum.DifficultyNormal; i <= d2enum.DifficultyHell; i++ {
-		sr.SkipBytes(2)
+		sr.SkipBytes(2) // nolint:gomnd // unknown
 
-		d, err := sr.ReadBytes(5)
+		d, err := sr.ReadBytes(waypointDataBytesCount)
 		if err != nil {
 			return err
 		}
 
-		sr.SkipBytes(17)
+		sr.SkipBytes(unknownWaypointsBytesCount)
 
 		bm := datautils.CreateBitMuncher(d, 0)
 		_ = bm
@@ -56,10 +62,10 @@ func (w *Waypoints) Load(data [numWaypointsBytes]byte) error {
 
 		for act := 1; act <= numActs; act++ {
 			var l byte
-			if act == 4 { // for act 4
-				l = 3
+			if act == 4 { // nolint:gomnd // for act 4
+				l = act4WPCount
 			} else {
-				l = 9
+				l = defaultWPCound
 			}
 
 			(*w)[i][act-1] = make([]bool, l)
@@ -72,6 +78,7 @@ func (w *Waypoints) Load(data [numWaypointsBytes]byte) error {
 	return nil
 }
 
+// Encode encodes waypoints data back into byte array
 func (w *Waypoints) Encode() (result [numWaypointsBytes]byte) {
 	sw := d2datautils.CreateStreamWriter()
 
@@ -97,7 +104,7 @@ func (w *Waypoints) Encode() (result [numWaypointsBytes]byte) {
 		d := data.GetBytes()
 		sw.PushBytes(d...)
 
-		unknownData := [17]byte{}
+		unknownData := [unknownWaypointsBytesCount]byte{}
 		sw.PushBytes(unknownData[:]...)
 	}
 

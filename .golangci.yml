@@ -49,7 +49,6 @@ linters:
     - goconst
     - gocritic
     - gocyclo
-    - godox
     - gofmt
     - goimports
     - golint

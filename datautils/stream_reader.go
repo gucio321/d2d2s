@@ -153,6 +153,7 @@ func (v *StreamReader) EOF() bool {
 	return v.position >= uint64(len(v.data))
 }
 
+// ReadAll returns remaining data
 func (v *StreamReader) ReadAll() []byte {
 	return v.data[v.position:]
 }

@@ -7,17 +7,19 @@ import (
 	"github.com/gucio321/d2d2s/itemdata"
 )
 
+// MagicAttribute represents magic attributes data
 type MagicAttribute struct {
 	ID     uint16
 	Name   string
 	Values []int64
 }
 
+// LoadMagicAttributes loads magic attributes for n item
 func (i *Items) LoadMagicAttributes(sr *datautils.BitMuncher, n int) error {
-	// nolint:wsl // WIP
+	// nolint:wsl,gocritic // WIP
 	for {
-		id := uint16(sr.GetBits(9))
-		if id == 0x1ff {
+		id := uint16(sr.GetBits(9)) // nolint:gomnd // id size (bitfield)
+		if id == 0x1ff {            // nolint:gomnd // reached next section
 			break
 		}
 

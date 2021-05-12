@@ -6,6 +6,7 @@ import (
 
 	"github.com/OpenDiablo2/OpenDiablo2/d2common/d2datautils"
 	"github.com/OpenDiablo2/OpenDiablo2/d2common/d2enum"
+
 	"github.com/gucio321/d2d2s/datautils"
 )
 
@@ -14,7 +15,6 @@ const (
 	characterNameSize     = 16
 	skillHotKeys          = 16
 	unknown6BytesCount    = 32
-	numDifficoultyLevels  = 3
 	unknown8BytesCount    = 144
 	expectedQuestHeaderID = "Woo!"
 	skillsHeaderID        = "if"
@@ -25,6 +25,7 @@ const (
 
 type hotkeys map[byte]SkillID
 
+// D2S represents a Diablo II character save file structure
 type D2S struct {
 	version     version
 	unknown1    uint32
@@ -57,6 +58,8 @@ type D2S struct {
 	Items      *Items
 }
 
+// Unmarshal loads d2s file into D2S structure
+// nolint:funlen // probably inpossible to reduce, but TODO
 func Unmarshal(data []byte) (*D2S, error) {
 	var err error
 
@@ -70,7 +73,7 @@ func Unmarshal(data []byte) (*D2S, error) {
 		Stats:      &Stats{},
 		Items:      &Items{},
 	}
-	// sr := datautils.CreateStreamGeter(data)
+
 	sr := datautils.CreateBitMuncher(data, 0)
 
 	if signature := sr.GetUInt32(); signature != saveFileSignature {
@@ -178,7 +181,7 @@ func Unmarshal(data []byte) (*D2S, error) {
 
 	copy(questsData[:], qd[:numQuestsBytes])
 
-	err = result.Quests.Unmarshal(questsData)
+	err = result.Quests.Unmarshal(&questsData)
 	if err != nil {
 		return nil, fmt.Errorf("error loading quests: %w", err)
 	}
@@ -189,7 +192,7 @@ func Unmarshal(data []byte) (*D2S, error) {
 
 	copy(waypointsData[:], wd[:numWaypointsBytes])
 
-	if err := result.Waypoints.Load(waypointsData); err != nil {
+	if err := result.Waypoints.Load(&waypointsData); err != nil {
 		return nil, fmt.Errorf("error loading waypoints data: %w", err)
 	}
 
@@ -207,7 +210,7 @@ func Unmarshal(data []byte) (*D2S, error) {
 		return nil, fmt.Errorf("error loading character stats: %w", err)
 	}
 
-	skillsID := sr.GetBytes(2)
+	skillsID := sr.GetBytes(2) // nolint:gomnd // skills header
 
 	if string(skillsID) != skillsHeaderID {
 		return nil, errors.New("unexpected skills section header")
@@ -225,6 +228,8 @@ func Unmarshal(data []byte) (*D2S, error) {
 	return result, nil
 }
 
+// Encode encodes character save back into a byte slice (WIP)
+// nolint:funlen // I suppose, it is unable to reduce, but TODO
 func (d *D2S) Encode() ([]byte, error) {
 	sw := d2datautils.CreateStreamWriter()
 	sw.PushUint32(saveFileSignature)
@@ -305,7 +310,7 @@ func (d *D2S) Encode() ([]byte, error) {
 	fileSize := uint32(len(data))
 
 	for i := 0; i < int32Size; i++ {
-		data[fileSizePosition+i] = byte(fileSize >> i * 8)
+		data[fileSizePosition+i] = byte(fileSize >> i * 8) // nolint:gomnd // byte size
 	}
 
 	// checksum here - TODO

@@ -1,7 +1,9 @@
 package d2d2s
 
+// CharacterClass represents class of a character
 type CharacterClass byte
 
+// character classes
 const (
 	CharacterClassAmazon CharacterClass = iota
 	CharacterClassSorceress

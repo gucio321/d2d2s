@@ -7,7 +7,10 @@ import (
 	"github.com/gucio321/d2d2s/datautils"
 )
 
-const statsHeaderID = "gf"
+const (
+	statsHeaderID = "gf"
+	statsModifier = 256
+)
 
 // Stats represents character stats
 type Stats struct {
@@ -30,11 +33,9 @@ type Stats struct {
 }
 
 // Load loads hero stats
+// nolint:gocyclo // can't reduce (switch-case)
 func (s *Stats) Load(sr *datautils.BitMuncher) error {
-	var err error
-
-	id := sr.GetBytes(2)
-
+	id := sr.GetBytes(2) // nolint:gomnd // header
 	if string(id) != statsHeaderID {
 		return errors.New("unexpected header")
 	}
@@ -42,15 +43,10 @@ func (s *Stats) Load(sr *datautils.BitMuncher) error {
 	bm := sr.Copy()
 
 	for {
-		i := bm.GetBits(9)
+		i := bm.GetBits(9) // nolint:gomnd // id size
 		id := uint64(i)
-		// id := reverseBits(uint64(i), 9)
-		// id := reverseBits(i, 9)
-		if err != nil {
-			return err
-		}
 
-		// If all 9 bits are set, we've hit the end of the attributes section
+		// nolint:gomnd // If all 9 bits are set, we've hit the end of the attributes section
 		//  at 0x1ff and exit the loop.
 		if id == 0x1ff {
 			break
@@ -80,17 +76,17 @@ func (s *Stats) Load(sr *datautils.BitMuncher) error {
 		case unusedSkills:
 			s.UnusedSkillPoints = attr
 		case currentHP:
-			s.CurrentHP = attr / 256
+			s.CurrentHP = attr / statsModifier
 		case maxHP:
-			s.MaxHP = attr / 256
+			s.MaxHP = attr / statsModifier
 		case currentMana:
-			s.CurrentMana = attr / 256
+			s.CurrentMana = attr / statsModifier
 		case maxMana:
-			s.MaxMana = attr / 256
+			s.MaxMana = attr / statsModifier
 		case currentStamina:
-			s.CurrentStamina = attr / 256
+			s.CurrentStamina = attr / statsModifier
 		case maxStamina:
-			s.MaxStamina = attr / 256
+			s.MaxStamina = attr / statsModifier
 		case level:
 			s.Level = attr
 		case experience:
@@ -102,23 +98,13 @@ func (s *Stats) Load(sr *datautils.BitMuncher) error {
 		}
 	}
 
+	// nolint:gomnd // need to equalize offset
 	sr.SkipBits((8 * (bm.BitsRead() / 8)) + 8)
 
 	return nil
 }
 
-func reverseBits(b uint64, n uint) uint64 {
-	var d uint64
-	for i := 0; i < int(n); i++ {
-		d <<= 1
-		d |= b & 1
-		b >>= 1
-	}
-
-	return d
-}
-
-// nolint:gochecknoglobals // data variable
+// nolint:gochecknoglobals,gomnd // data variable
 var attributeBitMap = map[uint64]uint{
 	strength:       10,
 	energy:         10,

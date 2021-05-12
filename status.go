@@ -1,6 +1,10 @@
 package d2d2s
 
-import "github.com/OpenDiablo2/OpenDiablo2/d2common/d2datautils"
+import (
+	"github.com/OpenDiablo2/OpenDiablo2/d2common/d2datautils"
+
+	"github.com/gucio321/d2d2s/datautils"
+)
 
 // Status represents character status
 type Status struct {
@@ -16,14 +20,15 @@ type Status struct {
 
 // Unmarshal loads data into status structure
 func (s *Status) Unmarshal(data byte) {
-	s.Unknown0 = ((data >> 0) & 1) > 0
-	s.Unknown1 = ((data >> 1) & 1) > 0
-	s.Hardcore = ((data >> 2) & 1) > 0
-	s.Died = ((data >> 3) & 1) > 0
-	s.Unknown4 = ((data >> 4) & 1) > 0
-	s.Expansion = ((data >> 5) & 1) > 0
-	s.Ladder = ((data >> 6) & 1) > 0
-	s.Unknown7 = ((data >> 7) & 1) > 0
+	bm := datautils.CreateBitMuncher([]byte{data}, 0)
+	s.Unknown0 = bm.GetBit() == 1
+	s.Unknown1 = bm.GetBit() == 1
+	s.Hardcore = bm.GetBit() == 1
+	s.Died = bm.GetBit() == 1
+	s.Unknown4 = bm.GetBit() == 1
+	s.Expansion = bm.GetBit() == 1
+	s.Ladder = bm.GetBit() == 1
+	s.Unknown7 = bm.GetBit() == 1
 }
 
 // Encode encodes status back into a byte data

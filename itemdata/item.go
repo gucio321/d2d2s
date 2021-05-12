@@ -1,16 +1,17 @@
-// this data are copied from https://github.com/nokka/d2s , Thanx!
+// Package itemdata contains data copied from https://github.com/nokka/d2s , Thanx!
+// nolint:gochecknoglobals,gomnd,golint,stylecheck,unused,deadcode,varcheck //data file
 package itemdata
 
 func GetTypeID(t string) ItemTypeID {
-	if _, ok := armorCodes[t]; ok {
+	if _, ok := ArmorCodes[t]; ok {
 		return ItemTypeIDArmor
 	}
 
-	if _, ok := shieldCodes[t]; ok {
+	if _, ok := ShieldCodes[t]; ok {
 		return ItemTypeIDShield
 	}
 
-	if _, ok := weaponCodes[t]; ok {
+	if _, ok := WeaponCodes[t]; ok {
 		return ItemTypeIDWeapon
 	}
 
@@ -676,7 +677,7 @@ const (
 )
 
 // Attributes that only exists on a player ear.
-type earAttributes struct {
+type EarAttributes struct {
 	Class uint64 `json:"class"`
 	Level uint64 `json:"level"`
 	Name  string `json:"name"`
@@ -697,7 +698,7 @@ type MagicAttribute struct {
 }
 
 // MagicalProperty describes a string template, bias, and bit length for a
-// particular kind of magical property, such as bonuses to all resistences or
+// particular kind of magical property, such as bonuses to all resistances or
 // magic item finding.
 type MagicalProperty struct {
 	Bits []uint
@@ -714,7 +715,7 @@ type WeaponDamage struct {
 	TwoMax int `json:"twohand_max,omitempty"`
 }
 
-var weaponDamageMap = map[string]WeaponDamage{
+var WeaponDamageMap = map[string]WeaponDamage{
 	// Axes
 	HandAxe:       {Min: 3, Max: 6},
 	Axe:           {Min: 4, Max: 11},
@@ -1096,7 +1097,7 @@ var SetListMap = map[uint64]uint64{
 // that require certain other set items in order to be activated
 // (instead of the normal requirements of just 'wearing > x of any
 // items in the set'); determined by add_func=1 in SetItems.txt
-var setReqIDsMap = map[uint64][]uint64{
+var SetReqIDsMap = map[uint64][]uint64{
 	// Civerb's Ward: [Civerb's Icon, Civerb's Cudgel]
 	0: {1, 2},
 }
@@ -1463,7 +1464,7 @@ var MagicalProperties = map[uint64]MagicalProperty{
 }
 
 // Shield item codes mapped to their in game, human-friendly, readable name.
-var shieldCodes = map[string]string{
+var ShieldCodes = map[string]string{
 	Aegis:            "Aegis",
 	AerinShield:      "Aerin Shield",
 	AkaranRondache:   "Akaran Rondache",
@@ -1520,7 +1521,7 @@ var shieldCodes = map[string]string{
 }
 
 // Armor item codes mapped to their in game, human-friendly, readable name.
-var armorCodes = map[string]string{
+var ArmorCodes = map[string]string{
 	AlphaHelm:         "Alpha Helm",
 	AncientArmor:      "Ancient Armor",
 	Antlers:           "Antlers",
@@ -1673,7 +1674,7 @@ var armorCodes = map[string]string{
 }
 
 // Weapon item codes mapped to their in game, human-friendly, readable name.
-var weaponCodes = map[string]string{
+var WeaponCodes = map[string]string{
 	AncientAxe:          "Ancient Axe",
 	AncientSword:        "Ancient Sword",
 	Arbalest:            "Arbalest",
@@ -1984,7 +1985,7 @@ var weaponCodes = map[string]string{
 
 // Misc items codes, like jewelry, gems, potions and runes, mapped to their in
 // game, human-friendly, readable name.
-var miscCodes = map[string]string{
+var MiscCodes = map[string]string{
 	Amethyst:                      "Amethyst",
 	AmnRune:                       "Amn Rune",
 	Amulet:                        "Amulet",
@@ -2126,7 +2127,7 @@ var miscCodes = map[string]string{
 	ZodRune:                       "Zod Rune",
 }
 
-var rareNames = map[uint64]string{
+var RareNames = map[uint64]string{
 	1:   "Bite",
 	2:   "Scratch",
 	3:   "Scalpel",
@@ -2330,7 +2331,7 @@ var rareNames = map[uint64]string{
 	201: "Corruption",
 }
 
-var setNames = map[uint64]string{
+var SetNames = map[uint64]string{
 	0:   "Civerb's Ward",
 	1:   "Civerb's Icon",
 	2:   "Civerb's Cudgel",
@@ -2460,7 +2461,7 @@ var setNames = map[uint64]string{
 	126: "Sander's Superstition",
 }
 
-var runewordNames = map[uint64]string{
+var RunewordNames = map[uint64]string{
 	27:   "Ancient's Pledge",
 	30:   "Beast",
 	32:   "Black",
@@ -2542,7 +2543,7 @@ var runewordNames = map[uint64]string{
 	2718: "Delirium",
 }
 
-var uniqueNames = map[uint64]string{
+var UniqueNames = map[uint64]string{
 	0:   "The Gnasher",
 	1:   "Deathspade",
 	2:   "Bladebone",
@@ -2946,7 +2947,7 @@ var uniqueNames = map[uint64]string{
 	400: "Hellfire Torch",
 }
 
-var magicalPrefixes = map[uint64]string{
+var MagicalPrefixes = map[uint64]string{
 	2:   "Sturdy",
 	3:   "Strong",
 	4:   "Glorious",
@@ -3586,7 +3587,7 @@ var magicalPrefixes = map[uint64]string{
 	669: "Cruel",
 }
 
-var magicalSuffixes = map[uint64]string{
+var MagicalSuffixes = map[uint64]string{
 	1:   "Health",
 	2:   "Protection",
 	3:   "Absorption",

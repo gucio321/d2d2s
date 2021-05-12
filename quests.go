@@ -5,12 +5,15 @@ import (
 
 	"github.com/OpenDiablo2/OpenDiablo2/d2common/d2datautils"
 	"github.com/OpenDiablo2/OpenDiablo2/d2common/d2enum"
+
 	"github.com/gucio321/d2d2s/datautils"
 )
 
 const (
 	numQuestsBytes               = 298
 	questHeaderUnknownBytesCount = 6
+	defaultQuestsCount           = 6
+	act4QuestsCount              = 3
 )
 
 // Quests represents quests status structure
@@ -21,10 +24,10 @@ func unknownQuestsHeaderBytes() [questHeaderUnknownBytesCount]byte {
 }
 
 // Unmarshal unmarshals quests status data
-func (q *Quests) Unmarshal(data [numQuestsBytes]byte) error {
-	sr := datautils.CreateBitMuncher(data[:], 0)
+func (q *Quests) Unmarshal(data *[numQuestsBytes]byte) error {
+	sr := datautils.CreateBitMuncher((*data)[:], 0)
 
-	questHeaderID := sr.GetBytes(4)
+	questHeaderID := sr.GetBytes(4) // nolint:gomnd // header
 
 	if string(questHeaderID) != expectedQuestHeaderID {
 		return errors.New("unexpected quest header")
@@ -37,17 +40,20 @@ func (q *Quests) Unmarshal(data [numQuestsBytes]byte) error {
 
 		for act := 1; act <= numActs; act++ {
 			var l int
-			if act == 4 {
-				l = 3
+			if act == 4 { // nolint:gomnd // act 4
+				l = act4QuestsCount
 			} else {
-				l = 6
+				l = defaultQuestsCount
 			}
 
 			(*q)[i][act-1] = &QuestsSet{
 				Quests: make([]*Quest, l),
 			}
 
-			(*q)[i][act-1].Unmarshal(sr, act)
+			err := (*q)[i][act-1].Unmarshal(sr, act)
+			if err != nil {
+				return err
+			}
 		}
 	}
 
@@ -89,37 +95,37 @@ func (q *QuestsSet) Unmarshal(sr *datautils.BitMuncher, act int) (err error) {
 	q.Act = act
 
 	switch act {
-	case 4:
+	case 4: // nolint:gomnd // act 4
 		q.Introduced = sr.GetUInt16() == 1
 
 		for qst := range q.Quests {
 			q.Quests[qst] = &Quest{}
-			q.Quests[qst].Data = sr.GetBytes(2)
+			q.Quests[qst].Data = sr.GetBytes(2) // nolint:gomnd // quest data size
 			q.Quests[qst].Load()
 		}
 
 		q.ActEnd = sr.GetUInt16() == 1
-		sr.SkipBits(3 * 8)
-	case 5:
+		sr.SkipBits(3 * 8) // nolint:gomnd // 3 unknown bytes
+	case 5: // nolint:gomnd // act 5
 		q.Introduced = sr.GetUInt16() == 1
-		sr.SkipBits(2 * 8)
+		sr.SkipBits(2 * 8) // nolint:gomnd // 2 unknown bytes
 
 		for qst := range q.Quests {
 			q.Quests[qst] = &Quest{}
-			q.Quests[qst].Data = sr.GetBytes(2)
+			q.Quests[qst].Data = sr.GetBytes(2) // nolint:gomnd // quest data size
 			q.Quests[qst].Load()
 		}
 
 		q.ActEnd = sr.GetUInt16() == 1
 
-		sr.SkipBits(7 * 8)
+		sr.SkipBits(7 * 8) // nolint:gomnd // 7 unknown bytes
 
 	default:
 		q.Introduced = sr.GetUInt16() == 1
 
 		for qst := range q.Quests {
 			q.Quests[qst] = &Quest{}
-			q.Quests[qst].Data = sr.GetBytes(2)
+			q.Quests[qst].Data = sr.GetBytes(2) // nolint:gomnd // quest data size
 			q.Quests[qst].Load()
 		}
 
@@ -134,7 +140,7 @@ func (q *QuestsSet) Encode() []byte {
 	sw := d2datautils.CreateStreamWriter()
 
 	switch q.Act {
-	case 4:
+	case 4: // nolint:gomnd // act 4
 		if q.Introduced {
 			sw.PushUint16(1)
 		} else {
@@ -153,7 +159,7 @@ func (q *QuestsSet) Encode() []byte {
 		}
 
 		sw.PushBytes(0, 0, 0)
-	case 5:
+	case 5: // nolint:gomnd // act 5
 		if q.Introduced {
 			sw.PushUint16(1)
 		} else {
