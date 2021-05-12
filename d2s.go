@@ -292,8 +292,10 @@ func (d *D2S) Encode() ([]byte, error) {
 	sw.PushBytes(d.unknown8[:]...)
 
 	qd := d.Quests.Encode()
-
 	sw.PushBytes(qd[:]...)
+
+	wd := d.Waypoints.Encode()
+	sw.PushBytes(wd[:]...)
 
 	// we need to write file size and checksum here:
 	data := sw.GetBytes()
