@@ -18,11 +18,10 @@ for more informations, see [here](./docs/base.md)
 
 ## Status
 
-Work in progress...
-
-### features
-
-- decoding character saves
+for now (May 2021) the project is early in development.
+However, it is possible to:
+- decode character save file into a (in a greater part) human-readable structure
+- encoding part of structure (excepting items list)
 
 ## Goals of the project
 
