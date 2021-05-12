@@ -1,6 +1,7 @@
 package d2d2s
 
 import (
+	"github.com/OpenDiablo2/OpenDiablo2/d2common/d2datautils"
 	"github.com/OpenDiablo2/OpenDiablo2/d2common/d2enum"
 )
 
@@ -15,14 +16,29 @@ type DifficultyLevelStatus struct {
 	act byte
 	unknown3,
 	unknown4,
-	unknown5 bool
+	unknown5,
+	unknown6 bool
 	active bool
 }
 
 func (d *DifficultyLevelStatus) Unmarshal(data byte) {
-	d.act = data & actMask
-	d.unknown3 = ((data >> 3) & 1) > 0
-	d.unknown4 = ((data >> 4) & 1) > 0
-	d.unknown5 = ((data >> 5) & 1) > 0
-	d.active = ((data >> 6) & 1) > 0
+	bm := d2datautils.CreateBitMuncher([]byte{data}, 0)
+	d.act = byte(bm.GetBits(3))
+	d.unknown3 = bm.GetBit() == 1
+	d.unknown4 = bm.GetBit() == 1
+	d.unknown5 = bm.GetBit() == 1
+	d.unknown6 = bm.GetBit() == 1
+	d.active = bm.GetBit() == 1
+}
+
+func (d *DifficultyLevelStatus) Encode() (result byte) {
+	sw := d2datautils.CreateStreamWriter()
+	sw.PushBits(d.act, 3)
+	sw.PushBit(d.unknown3)
+	sw.PushBit(d.unknown4)
+	sw.PushBit(d.unknown5)
+	sw.PushBit(d.unknown6)
+	sw.PushBit(d.active)
+
+	return sw.GetBytes()[0]
 }

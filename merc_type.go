@@ -14,3 +14,7 @@ type mercenary struct {
 func (m *mercenary) LoadType(data uint16) {
 	m.Type.Code = data
 }
+
+func (m *mercenary) EncodeType() (result uint16) {
+	return m.Type.Code
+}

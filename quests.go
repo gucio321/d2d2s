@@ -2,8 +2,8 @@ package d2d2s
 
 import (
 	"errors"
-	"fmt"
 
+	"github.com/OpenDiablo2/OpenDiablo2/d2common/d2datautils"
 	"github.com/OpenDiablo2/OpenDiablo2/d2common/d2enum"
 	"github.com/gucio321/d2d2s/datautils"
 )
@@ -54,15 +54,36 @@ func (q *Quests) Unmarshal(data [numQuestsBytes]byte) error {
 	return nil
 }
 
+func (q *Quests) Encode() (result [numQuestsBytes]byte) {
+	sw := d2datautils.CreateStreamWriter()
+
+	sw.PushBytes([]byte(expectedQuestHeaderID)...)
+	unknown := unknownQuestsHeaderBytes()
+	sw.PushBytes(unknown[:]...)
+
+	for i := d2enum.DifficultyNormal; i <= d2enum.DifficultyHell; i++ {
+		for act := 1; act <= numActs; act++ {
+			data := (*q)[i][act-1].Encode()
+			sw.PushBytes(data...)
+		}
+	}
+
+	data := sw.GetBytes()
+	copy(result[:], data[:numQuestsBytes])
+	return result
+}
+
 // QuestsSet represents a set of 6 (in case of act 4 - 3) quests
 type QuestsSet struct {
 	Introduced bool
 	Quests     []*Quest
 	ActEnd     bool // uncertain
+	Act        int
 }
 
 // Unmarshal unmarshals quests set
 func (q *QuestsSet) Unmarshal(sr *datautils.BitMuncher, act int) (err error) {
+	q.Act = act
 	switch act {
 	case 4:
 		q.Introduced = sr.GetUInt16() == 1
@@ -104,6 +125,71 @@ func (q *QuestsSet) Unmarshal(sr *datautils.BitMuncher, act int) (err error) {
 	return nil
 }
 
+func (q *QuestsSet) Encode() []byte {
+	sw := d2datautils.CreateStreamWriter()
+	switch q.Act {
+	case 4:
+		if q.Introduced {
+			sw.PushUint16(1)
+		} else {
+			sw.PushUint16(0)
+		}
+		for qst := range q.Quests {
+			// TODO: Quest.Encode()
+			sw.PushBytes(q.Quests[qst].Data...)
+		}
+
+		if q.ActEnd {
+			sw.PushUint16(1)
+		} else {
+			sw.PushUint16(0)
+		}
+
+		sw.PushBytes(0, 0, 0)
+	case 5:
+		if q.Introduced {
+			sw.PushUint16(1)
+		} else {
+			sw.PushUint16(0)
+		}
+
+		sw.PushUint16(0)
+
+		for qst := range q.Quests {
+			// TODO: Quest.Encode()
+			sw.PushBytes(q.Quests[qst].Data...)
+		}
+
+		if q.ActEnd {
+			sw.PushUint16(1)
+		} else {
+			sw.PushUint16(0)
+		}
+
+		sw.PushBytes(0, 0, 0, 0, 0, 0, 0)
+	default:
+		if q.Introduced {
+			sw.PushUint16(1)
+		} else {
+			sw.PushUint16(0)
+		}
+
+		for qst := range q.Quests {
+			// TODO: Quest.Encode()
+			sw.PushBytes(q.Quests[qst].Data...)
+		}
+
+		if q.ActEnd {
+			sw.PushUint16(1)
+		} else {
+			sw.PushUint16(0)
+		}
+	}
+
+	data := sw.GetBytes()
+	return data
+}
+
 // Quest represents a single quest's state
 type Quest struct {
 	Data          []byte
@@ -129,5 +215,4 @@ func (q *Quest) Load() {
 
 	q.Closed = bm.GetBit() == 1
 	q.JustCompleted = bm.GetBit() == 1
-	fmt.Println(bm.Offset())
 }

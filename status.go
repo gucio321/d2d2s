@@ -1,5 +1,7 @@
 package d2d2s
 
+import "github.com/OpenDiablo2/OpenDiablo2/d2common/d2datautils"
+
 // Status represents character status
 type Status struct {
 	Unknown0,
@@ -22,4 +24,18 @@ func (s *Status) Unmarshal(data byte) {
 	s.Expansion = ((data >> 5) & 1) > 0
 	s.Ladder = ((data >> 6) & 1) > 0
 	s.Unknown7 = ((data >> 7) & 1) > 0
+}
+
+func (s *Status) Encode() (result byte) {
+	sw := d2datautils.CreateStreamWriter()
+	sw.PushBit(s.Unknown0)
+	sw.PushBit(s.Unknown1)
+	sw.PushBit(s.Hardcore)
+	sw.PushBit(s.Died)
+	sw.PushBit(s.Unknown4)
+	sw.PushBit(s.Expansion)
+	sw.PushBit(s.Ladder)
+	sw.PushBit(s.Unknown7)
+
+	return sw.GetBytes()[0]
 }

@@ -32,7 +32,13 @@ func Test_Marshal(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	fmt.Println(x)
-	fmt.Println((*x.Quests)[0][3].Quests[0])
+	d, err := x.Encode()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	m := 50
+	fmt.Println(d[m:])
+	fmt.Println(data[m:len(d)])
 	t.Fail()
 }

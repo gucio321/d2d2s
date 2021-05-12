@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 
+	"github.com/OpenDiablo2/OpenDiablo2/d2common/d2datautils"
 	"github.com/OpenDiablo2/OpenDiablo2/d2common/d2enum"
 	"github.com/gucio321/d2d2s/datautils"
 )
@@ -18,23 +19,26 @@ const (
 	expectedQuestHeaderID = "Woo!"
 	skillsHeaderID        = "if"
 	numSkills             = 30
+	int32Size             = 4
+	fileSizePosition      = 8
 )
 
 type hotkeys map[byte]SkillID
 
 type D2S struct {
-	version  version
-	unknown1 uint32
-	Name     string
-	Status   *Status
-	unknown2 uint16
-	Class    CharacterClass
-	unknown3 uint16
-	Level    byte
-	unknown4 uint32
-	Time     uint32
-	unknown5 uint32
-	Hotkeys  hotkeys
+	version     version
+	unknown1    uint32
+	Name        string
+	Status      *Status
+	Progression byte
+	unknown2    uint16
+	Class       CharacterClass
+	unknown3    uint16
+	Level       byte
+	unknown4    uint32
+	Time        uint32
+	unknown5    uint32
+	Hotkeys     hotkeys
 	LeftSkill,
 	RightSkill,
 	LeftSkillSwitch,
@@ -98,7 +102,7 @@ func Unmarshal(data []byte) (*D2S, error) {
 		Expansion game, the value is not incremented after killing Diablo, but is incremented by 2 after killing Baal.
 		(The reason is unknown.)  So it skips the values 4, 9, and 14.
 	*/
-	_ = sr.GetByte()
+	result.Progression = sr.GetByte()
 
 	result.unknown2 = sr.GetUInt16()
 
@@ -219,4 +223,84 @@ func Unmarshal(data []byte) (*D2S, error) {
 	}
 
 	return result, nil
+}
+
+func (d *D2S) Encode() ([]byte, error) {
+	sw := d2datautils.CreateStreamWriter()
+	sw.PushUint32(saveFileSignature)
+	sw.PushUint32(uint32(d.version))
+	// file size, 0 for now
+	sw.PushUint32(0)
+	// checksum - 0 for now
+	sw.PushUint32(0)
+
+	name := []byte(d.Name)
+	if len(name) > characterNameSize {
+		return nil, errors.New("wrong character name! (len(name) > 16)")
+	}
+
+	sw.PushUint32(d.unknown1)
+
+	sw.PushBytes(name...)
+	for i := 0; i < characterNameSize-len(name); i++ {
+		sw.PushBytes(0)
+	}
+
+	sw.PushBytes(d.Status.Encode())
+	sw.PushBytes(d.Progression)
+	sw.PushUint16(d.unknown2)
+	sw.PushBytes(byte(d.Class))
+	sw.PushUint16(d.unknown3)
+	sw.PushBytes(d.Level)
+	sw.PushUint32(d.unknown4)
+	sw.PushUint32(d.Time)
+	sw.PushUint32(d.unknown5)
+
+	for i := byte(0); i < skillHotKeys; i++ {
+		sw.PushUint32(uint32(d.Hotkeys[i]))
+	}
+
+	sw.PushUint32(uint32(d.LeftSkill))
+	sw.PushUint32(uint32(d.RightSkill))
+	if d.Status.Expansion {
+		sw.PushUint32(uint32(d.LeftSkillSwitch))
+		sw.PushUint32(uint32(d.RightSkillSwitch))
+	}
+
+	sw.PushBytes(d.unknown6[:]...)
+
+	for i := d2enum.DifficultyNormal; i <= d2enum.DifficultyHell; i++ {
+		if d.Difficulty[i] == nil {
+			sw.PushBytes(0)
+			continue
+		}
+
+		sw.PushBytes(d.Difficulty[i].Encode())
+	}
+
+	sw.PushUint32(d.MapID)
+	sw.PushUint16(d.unknown7)
+
+	// merc
+	sw.PushUint16(d.Mercenary.Died)
+	sw.PushUint32(d.Mercenary.ID)
+	sw.PushUint16(d.Mercenary.Name)
+	sw.PushUint16(d.Mercenary.EncodeType())
+	sw.PushUint32(d.Mercenary.Experience)
+	sw.PushBytes(d.unknown8[:]...)
+
+	qd := d.Quests.Encode()
+
+	sw.PushBytes(qd[:]...)
+
+	// we need to write file size and checksum here:
+	data := sw.GetBytes()
+	fileSize := uint32(len(data))
+	for i := 0; i < int32Size; i++ {
+		data[fileSizePosition+i] = byte(fileSize >> i * 8)
+	}
+
+	// checksum here - TODO
+
+	return data, nil
 }
