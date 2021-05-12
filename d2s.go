@@ -56,6 +56,9 @@ type D2S struct {
 	Stats      *Stats
 	Skills     [numSkills]SkillID
 	Items      *Items
+	Corpse     *Corpse
+	// necromancer only
+	IronGolem *IronGolem
 }
 
 // Unmarshal loads d2s file into D2S structure
@@ -72,6 +75,8 @@ func Unmarshal(data []byte) (*D2S, error) {
 		NPC:        &NPC{},
 		Stats:      &Stats{},
 		Items:      &Items{},
+		Corpse:     &Corpse{},
+		IronGolem:  &IronGolem{},
 	}
 
 	sr := datautils.CreateBitMuncher(data, 0)
@@ -223,6 +228,22 @@ func Unmarshal(data []byte) (*D2S, error) {
 
 	if err := result.Items.Load(sr); err != nil {
 		return nil, err
+	}
+
+	// thanks to @nokka <https://github.com/nokka/d2s> for figuring out these fields!
+	if err := result.Corpse.Load(sr); err != nil {
+		return nil, err
+	}
+
+	if result.Status.Expansion {
+		if err := result.Mercenary.LoadMercItems(sr); err != nil {
+			return nil, err
+		}
+	}
+
+	// iron golem for necromancer
+	if result.Class == CharacterClassNecromancer && result.Status.Expansion {
+		result.IronGolem.Load(sr)
 	}
 
 	return result, nil
