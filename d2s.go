@@ -242,6 +242,7 @@ func (d *D2S) Encode() ([]byte, error) {
 	sw.PushUint32(d.unknown1)
 
 	sw.PushBytes(name...)
+
 	for i := 0; i < characterNameSize-len(name); i++ {
 		sw.PushBytes(0)
 	}
@@ -262,6 +263,7 @@ func (d *D2S) Encode() ([]byte, error) {
 
 	sw.PushUint32(uint32(d.LeftSkill))
 	sw.PushUint32(uint32(d.RightSkill))
+
 	if d.Status.Expansion {
 		sw.PushUint32(uint32(d.LeftSkillSwitch))
 		sw.PushUint32(uint32(d.RightSkillSwitch))
@@ -296,6 +298,7 @@ func (d *D2S) Encode() ([]byte, error) {
 	// we need to write file size and checksum here:
 	data := sw.GetBytes()
 	fileSize := uint32(len(data))
+
 	for i := 0; i < int32Size; i++ {
 		data[fileSizePosition+i] = byte(fileSize >> i * 8)
 	}

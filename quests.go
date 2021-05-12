@@ -54,10 +54,12 @@ func (q *Quests) Unmarshal(data [numQuestsBytes]byte) error {
 	return nil
 }
 
+// Encode encodes quests back into byte array
 func (q *Quests) Encode() (result [numQuestsBytes]byte) {
 	sw := d2datautils.CreateStreamWriter()
 
 	sw.PushBytes([]byte(expectedQuestHeaderID)...)
+
 	unknown := unknownQuestsHeaderBytes()
 	sw.PushBytes(unknown[:]...)
 
@@ -70,6 +72,7 @@ func (q *Quests) Encode() (result [numQuestsBytes]byte) {
 
 	data := sw.GetBytes()
 	copy(result[:], data[:numQuestsBytes])
+
 	return result
 }
 
@@ -84,6 +87,7 @@ type QuestsSet struct {
 // Unmarshal unmarshals quests set
 func (q *QuestsSet) Unmarshal(sr *datautils.BitMuncher, act int) (err error) {
 	q.Act = act
+
 	switch act {
 	case 4:
 		q.Introduced = sr.GetUInt16() == 1
@@ -125,8 +129,10 @@ func (q *QuestsSet) Unmarshal(sr *datautils.BitMuncher, act int) (err error) {
 	return nil
 }
 
+// Encode encodes quests set into a byte slice
 func (q *QuestsSet) Encode() []byte {
 	sw := d2datautils.CreateStreamWriter()
+
 	switch q.Act {
 	case 4:
 		if q.Introduced {
@@ -134,6 +140,7 @@ func (q *QuestsSet) Encode() []byte {
 		} else {
 			sw.PushUint16(0)
 		}
+
 		for qst := range q.Quests {
 			// TODO: Quest.Encode()
 			sw.PushBytes(q.Quests[qst].Data...)
@@ -187,6 +194,7 @@ func (q *QuestsSet) Encode() []byte {
 	}
 
 	data := sw.GetBytes()
+
 	return data
 }
 

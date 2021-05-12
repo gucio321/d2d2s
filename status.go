@@ -26,6 +26,7 @@ func (s *Status) Unmarshal(data byte) {
 	s.Unknown7 = ((data >> 7) & 1) > 0
 }
 
+// Encode encodes status back into a byte data
 func (s *Status) Encode() (result byte) {
 	sw := d2datautils.CreateStreamWriter()
 	sw.PushBit(s.Unknown0)
