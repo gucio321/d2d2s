@@ -27,7 +27,7 @@ type hotkeys map[byte]SkillID
 
 // D2S represents a Diablo II character save file structure
 type D2S struct {
-	version     version
+	Version     Version
 	unknown1    uint32
 	Name        string
 	Status      *Status
@@ -86,7 +86,7 @@ func Unmarshal(data []byte) (*D2S, error) {
 	}
 
 	v := sr.GetUInt32()
-	result.version = version(v)
+	result.Version = Version(v)
 
 	// file size in bytes ( len(data) )
 	_ = sr.GetInt32()
@@ -256,7 +256,7 @@ func Unmarshal(data []byte) (*D2S, error) {
 func (d *D2S) Encode() ([]byte, error) {
 	sw := d2datautils.CreateStreamWriter()
 	sw.PushUint32(saveFileSignature)
-	sw.PushUint32(uint32(d.version))
+	sw.PushUint32(uint32(d.Version))
 	// file size, 0 for now
 	sw.PushUint32(0)
 	// checksum - 0 for now

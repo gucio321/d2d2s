@@ -2,7 +2,7 @@ package d2d2s
 
 import "fmt"
 
-type version int32
+type Version int32
 
 /*
    71 is 1.00 through v1.06
@@ -11,8 +11,8 @@ type version int32
    92 is v1.09 (both the standard game and the Expansion Set.)
    96 is v1.10+
 */
-func (v version) String() string {
-	lookup := map[version]string{
+func (v Version) String() string {
+	lookup := map[Version]string{
 		71: "Diablo II v1.00 - v1.06",
 		87: "Diablo II v1.07 or Diablo II: Lord of Destruction v1.08",
 		89: "Diablo II v1.08",

@@ -43,6 +43,5 @@ func Test_Marshal(t *testing.T) {
 	fmt.Println(data[m:len(d)])
 	fmt.Println(len(d[m:]), len(data[m:len(d)]))
 	fmt.Println(bytes.Equal(data[m:len(d)], d[m:]))
-	fmt.Println(x.IronGolem)
 	t.Fail()
 }
