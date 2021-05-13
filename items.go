@@ -55,6 +55,25 @@ func (i *Items) LoadList(sr *datautils.BitMuncher, numItems uint16) error {
 	return nil
 }
 
+// Encode encodes items list back into a byte slice
+func (i *Items) Encode() []byte {
+	sw := datautils.CreateStreamWriter()
+
+	// header
+	sw.PushBytes([]byte(itemListID)...)
+	sw.PushUint16(uint16(len(*i)))
+
+	item := (*i)[0]
+	// for _, item := range *i {
+	sw.PushBytes(item.Encode()...)
+	//item = (*i)[1]
+	//sw.PushBytes(item.Encode()...)
+	// check subitems (socketed)!
+	//}
+
+	return sw.GetBytes()
+}
+
 type Item struct {
 	unknown1  byte // 4 bits
 	unknown2  byte // 6 bits
@@ -454,6 +473,71 @@ func (i *Item) loadSimpleFields(sr *datautils.BitMuncher) (err error) {
 	}
 
 	return nil
+}
+
+func (i *Item) Encode() []byte {
+	sw := datautils.CreateStreamWriter()
+
+	sw.PushBytes([]byte(itemListID)...)
+	i.encodeSimpleFields(sw)
+	if !i.IsSimple {
+		i.encodeExtendedFields(sw)
+	}
+	fmt.Println(i.IsSimple)
+	/*for _, item := range i.SocketedItems {
+		sw.PushBytes(item.Encode()...)
+	}*/
+	fmt.Println(sw.Offset())
+	sw.PushBit(false)
+	sw.Align()
+
+	return sw.GetBytes()
+}
+
+func (i *Item) encodeExtendedFields(sw *datautils.StreamWriter) {
+	fmt.Println(i.ID)
+	sw.PushUint32(i.ID)
+}
+
+func (i *Item) encodeSimpleFields(sw *datautils.StreamWriter) {
+	sw.PushBits(i.unknown1, 4)
+	sw.PushBit(i.Identified)
+	sw.PushBits(i.unknown2, 6)
+	sw.PushBit(i.Socketed.IsInSocket)
+	sw.PushBit(i.unknown3)
+	sw.PushBit(i.JustPicked)
+	sw.PushBits(i.unknown4, 2)
+	sw.PushBit(i.IsEar)
+	sw.PushBit(i.NewbieItem)
+	sw.PushBits(i.unknown5, 3)
+	sw.PushBit(i.IsSimple)
+	sw.PushBit(i.Etheral)
+	sw.PushBit(i.unknown6)
+	sw.PushBit(len(i.Personalization.Name) > 0)
+	sw.PushBit(i.unknown7)
+	sw.PushBit(i.RuneWord.HasRuneWord)
+	sw.PushBits(i.unknown8, 5)
+	sw.PushBytes(i.Version)
+	sw.PushBits(i.unknown9, 2)
+	sw.PushBits(byte(i.Location.LocationID), 3)
+	sw.PushBits(byte(i.Location.EquippedID), 4)
+	sw.PushBits(byte(i.Location.X), 4)
+	sw.PushBits(byte(i.Location.Y), 3)
+	sw.PushBit(i.unknown10)
+	sw.PushBits(byte(i.Location.StorageID), 3)
+	if i.IsEar {
+		sw.PushBits(byte(i.Ear.Class), 3)
+		sw.PushBits(byte(i.Ear.Level), 7)
+		for _, c := range i.Ear.Name {
+			sw.PushBits(byte(c), 7)
+		}
+		sw.PushBits(0, 7)
+		sw.Align()
+	} else {
+		sw.PushBytes([]byte(i.Type)...)
+		sw.PushBytes(byte(' '))
+		sw.PushBits(i.NumberOfItemsInSockets, 3)
+	}
 }
 
 // ItemLocationType represents an item location
