@@ -245,7 +245,6 @@ func Unmarshal(data []byte) (*D2S, error) {
 			return nil, err
 		}
 	}
-	fmt.Println(len(*result.Mercenary.Items))
 
 	// iron golem for necromancer
 	if result.Class == CharacterClassNecromancer && result.Status.Expansion {

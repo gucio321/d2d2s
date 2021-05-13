@@ -2,7 +2,6 @@ package d2d2s
 
 import (
 	"errors"
-	"fmt"
 
 	"github.com/gucio321/d2d2s/datautils"
 )
@@ -29,8 +28,6 @@ func (m *mercenary) EncodeType() (result uint16) {
 
 func (m *mercenary) LoadMercItems(sr *datautils.BitMuncher) error {
 	id := sr.GetBytes(2)
-
-	fmt.Println(string(id))
 	if string(id) != "jf" {
 		return errors.New("unexpected merc header")
 	}
