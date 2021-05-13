@@ -34,20 +34,22 @@ func (i *Items) LoadHeader(sr *datautils.BitMuncher) (numItems uint16, err error
 func (i *Items) LoadList(sr *datautils.BitMuncher, numItems uint16) error {
 	*i = make([]Item, numItems)
 	// note: if item has sockets, it is followed by item socketed in!
-	for n := uint16(0); n < numItems; {
-		item := &Item{}
-		if err := item.Load(sr); err != nil {
+	for n := uint16(0); n < numItems; n++ {
+		if err := (*i)[n].Load(sr); err != nil {
 			return err
 		}
 
 		// if item is socketed into another item ( last on list) we need to append it
-		if item.Location.LocationID == ItemLocationInSocket {
-			(*i)[n].SocketedItems = append((*i)[n].SocketedItems, *item)
-		} else { // else, next item
-			n++
+		if !(*i)[n].IsSimple {
+			for s := byte(0); s < (*i)[n].NumberOfItemsInSockets; s++ {
+				item := &Item{}
+				if err := item.Load(sr); err != nil {
+					return err
+				}
+				(*i)[n].SocketedItems = append((*i)[n].SocketedItems, *item)
+			}
 		}
 
-		sr.AlignToBytes()
 	}
 	/*
 		items, err := d2s.ParseItemList(sr, int(numItems))
@@ -104,7 +106,7 @@ type Item struct {
 		TwoHandMin int
 		TwoHandMax int
 	}
-	NumberOfSockets byte // part of simple item!
+	NumberOfItemsInSockets byte
 
 	// Part 2; extended
 	ID              uint32      // 32 bits (just uint32)
@@ -180,6 +182,8 @@ func (i *Item) Load(sr *datautils.BitMuncher) (err error) {
 			return err
 		}
 	}
+
+	sr.AlignToBytes()
 
 	return nil
 }
@@ -454,7 +458,7 @@ func (i *Item) loadSimpleFields(sr *datautils.BitMuncher) (err error) {
 			}
 		}
 
-		i.NumberOfSockets = byte(sr.GetBits(3))
+		i.NumberOfItemsInSockets = byte(sr.GetBits(3))
 	}
 
 	return nil
