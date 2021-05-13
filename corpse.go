@@ -2,6 +2,7 @@ package d2d2s
 
 import (
 	"errors"
+	"fmt"
 
 	"github.com/gucio321/d2d2s/datautils"
 )
@@ -39,6 +40,7 @@ func (c *Corpse) Load(sr *datautils.BitMuncher) error {
 	if err := c.Items.LoadList(sr, numItems); err != nil {
 		return err
 	}
+	fmt.Println(len(*c.Items))
 
 	return nil
 }

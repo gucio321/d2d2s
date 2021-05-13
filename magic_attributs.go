@@ -7,6 +7,8 @@ import (
 	"github.com/gucio321/d2d2s/itemdata"
 )
 
+type MagicAttributes []MagicAttribute
+
 // MagicAttribute represents magic attributes data
 type MagicAttribute struct {
 	ID     uint16
@@ -15,15 +17,14 @@ type MagicAttribute struct {
 }
 
 // LoadMagicAttributes loads magic attributes for n item
-func (i *Items) LoadMagicAttributes(sr *datautils.BitMuncher, n int) error {
-	// nolint:wsl,gocritic // WIP
+func (m *MagicAttributes) Load(sr *datautils.BitMuncher) error {
 	for {
-		id := uint16(sr.GetBits(9)) // nolint:gomnd // id size (bitfield)
+		id := uint64(sr.GetBits(9)) // nolint:gomnd // id size (bitfield)
 		if id == 0x1ff {            // nolint:gomnd // reached next section
 			break
 		}
 
-		prop, ok := itemdata.MagicalProperties[uint64(id)]
+		prop, ok := itemdata.MagicalProperties[id]
 		if !ok {
 			return errors.New("unexpected magical property")
 		}
@@ -39,14 +40,14 @@ func (i *Items) LoadMagicAttributes(sr *datautils.BitMuncher, n int) error {
 			values = append(values, int64(val))
 		}
 
-		// attr := MagicAttribute{
-		_ = MagicAttribute{
-			ID:     id,
+		attr := MagicAttribute{
+			ID:     uint16(id),
 			Name:   prop.Name,
 			Values: values,
 		}
 
 		// i.Items[n].MagicAttributes = append(i.Items[n].MagicAttributes, attr)
+		*m = append(*m, attr)
 	}
 
 	return nil
