@@ -1079,7 +1079,7 @@ const (
 // Each set item has 5 bits of data containing the number of set lists follow
 // the magical attributes list, this map tells us how many lists to read
 // depending on the value given from the 5 bits. A number of 0-5 set lists.
-var SetListMap = map[uint64]uint64{
+var SetListMap = map[byte]uint64{
 	0:  0,
 	1:  1,
 	2:  1,
@@ -2127,7 +2127,7 @@ var MiscCodes = map[string]string{
 	ZodRune:                       "Zod Rune",
 }
 
-var RareNames = map[uint64]string{
+var RareNames = map[uint16]string{
 	1:   "Bite",
 	2:   "Scratch",
 	3:   "Scalpel",
@@ -2331,7 +2331,7 @@ var RareNames = map[uint64]string{
 	201: "Corruption",
 }
 
-var SetNames = map[uint64]string{
+var SetNames = map[uint16]string{
 	0:   "Civerb's Ward",
 	1:   "Civerb's Icon",
 	2:   "Civerb's Cudgel",
@@ -2461,7 +2461,7 @@ var SetNames = map[uint64]string{
 	126: "Sander's Superstition",
 }
 
-var RunewordNames = map[uint64]string{
+var RunewordNames = map[uint16]string{
 	27:   "Ancient's Pledge",
 	30:   "Beast",
 	32:   "Black",
@@ -2543,7 +2543,7 @@ var RunewordNames = map[uint64]string{
 	2718: "Delirium",
 }
 
-var UniqueNames = map[uint64]string{
+var UniqueNames = map[uint16]string{
 	0:   "The Gnasher",
 	1:   "Deathspade",
 	2:   "Bladebone",
@@ -2947,7 +2947,7 @@ var UniqueNames = map[uint64]string{
 	400: "Hellfire Torch",
 }
 
-var MagicalPrefixes = map[uint64]string{
+var MagicalPrefixes = map[uint16]string{
 	2:   "Sturdy",
 	3:   "Strong",
 	4:   "Glorious",
@@ -3587,7 +3587,7 @@ var MagicalPrefixes = map[uint64]string{
 	669: "Cruel",
 }
 
-var MagicalSuffixes = map[uint64]string{
+var MagicalSuffixes = map[uint16]string{
 	1:   "Health",
 	2:   "Protection",
 	3:   "Absorption",
