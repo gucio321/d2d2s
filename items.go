@@ -6,7 +6,6 @@ import (
 	"github.com/nokka/d2s"
 
 	"github.com/gucio321/d2d2s/datautils"
-	"github.com/gucio321/d2d2s/itemdata"
 )
 
 const itemListID = "JM"
@@ -16,19 +15,21 @@ type Items struct {
 	Items []d2s.Item
 }
 
+func (i *Items) LoadHeader(sr *datautils.BitMuncher) (numItems uint16, err error) {
+	id := sr.GetBytes(2) // nolint:gomnd // header
+	if string(id) != itemListID {
+		return 0, errors.New("unexpected item header")
+	}
+
+	numItems = sr.GetUInt16()
+
+	return numItems, nil
+}
+
 // Load loads items list data into Items structure
 // nolint:funlen // TODO: check, if it is possible to write encoder for d2s.Item
 // If not, theis function must be changed
-func (i *Items) Load(sr *datautils.BitMuncher) error {
-	var err error
-
-	id := sr.GetBytes(2) // nolint:gomnd // header
-	if string(id) != itemListID {
-		return errors.New("unexpected item header")
-	}
-
-	numItems := sr.GetUInt16()
-
+func (i *Items) LoadList(sr *datautils.BitMuncher, numItems uint16) error {
 	items, err := d2s.ParseItemList(sr, int(numItems))
 	if err != nil {
 		return err
@@ -221,6 +222,7 @@ func (i *Items) Load(sr *datautils.BitMuncher) error {
 	return nil
 }
 
+/*
 // Item represents an item
 type Item struct {
 	Identified bool
@@ -301,6 +303,7 @@ type Item struct {
 	SetListCount    byte
 	MagicAttributes []MagicAttribute
 }
+*/
 
 // ItemLocationType represents an item location
 type ItemLocationType byte

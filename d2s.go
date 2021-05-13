@@ -226,7 +226,12 @@ func Unmarshal(data []byte) (*D2S, error) {
 		result.Skills[i] = SkillID(id)
 	}
 
-	if err := result.Items.Load(sr); err != nil {
+	numItems, err := result.Items.LoadHeader(sr)
+	if err != nil {
+		return nil, err
+	}
+
+	if err := result.Items.LoadList(sr, numItems); err != nil {
 		return nil, err
 	}
 

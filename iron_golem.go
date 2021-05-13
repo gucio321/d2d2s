@@ -27,12 +27,13 @@ func (i *IronGolem) Load(sr *datautils.BitMuncher) error {
 		return nil // no golem
 	}
 
-	item, err := d2s.ParseItemList(sr, 1)
+	item := &Items{}
+	err := item.LoadList(sr, 1)
 	if err != nil {
 		return err
 	}
 
-	i.Item = &item[0]
+	i.Item = &item.Items[0]
 
 	return nil
 }

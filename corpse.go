@@ -31,7 +31,12 @@ func (c *Corpse) Load(sr *datautils.BitMuncher) error {
 	copy(c.unknown[:], unknown[:corpseUnknownBytesCount])
 
 	c.Items = &Items{}
-	if err := c.Items.Load(sr); err != nil {
+	numItems, err := c.Items.LoadHeader(sr)
+	if err != nil {
+		return err
+	}
+
+	if err := c.Items.LoadList(sr, numItems); err != nil {
 		return err
 	}
 
