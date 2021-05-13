@@ -2,18 +2,20 @@ package d2d2s
 
 import (
 	"errors"
-
-	"github.com/nokka/d2s"
+	"fmt"
+	"strings"
 
 	"github.com/gucio321/d2d2s/datautils"
+	"github.com/gucio321/d2d2s/itemdata"
 )
 
-const itemListID = "JM"
+const (
+	itemListID       = "JM"
+	characterNameLen = 15
+)
 
 // Items represents items list
-type Items struct {
-	Items []d2s.Item
-}
+type Items []Item
 
 func (i *Items) LoadHeader(sr *datautils.BitMuncher) (numItems uint16, err error) {
 	id := sr.GetBytes(2) // nolint:gomnd // header
@@ -30,13 +32,186 @@ func (i *Items) LoadHeader(sr *datautils.BitMuncher) (numItems uint16, err error
 // nolint:funlen // TODO: check, if it is possible to write encoder for d2s.Item
 // If not, theis function must be changed
 func (i *Items) LoadList(sr *datautils.BitMuncher, numItems uint16) error {
-	items, err := d2s.ParseItemList(sr, int(numItems))
-	if err != nil {
+	*i = make([]Item, numItems)
+	// note: if item has sockets, it is followed by item socketed in!
+	o := sr.Offset()
+	for item := uint16(0); item < numItems; item++ {
+		if err := (*i)[item].Load(sr); err != nil {
+			return err
+		}
+		fmt.Println(item)
+		fmt.Println((*i)[item])
+		fmt.Println((*i)[item].TypeName)
+		fmt.Println((*i)[item].IsSimple)
+		fmt.Println(sr.Offset() - o)
+
+		sr.AlignToBytes()
+	}
+	/*
+		items, err := d2s.ParseItemList(sr, int(numItems))
+		if err != nil {
+			return err
+		}
+
+		i = items
+	*/
+
+	return nil
+}
+
+type Item struct {
+	unknown1  byte // 4 bits
+	unknown2  byte // 6 bits
+	unknown3  bool // 1 bit
+	unknown4  byte // 2 bits
+	unknown5  byte // 3 bits
+	unknown6  bool // 1 bit
+	unknown7  bool // 1 bit
+	unknown8  byte // 5 bits
+	unknown9  byte // 2 bits
+	unknown10 bool // 1 bit
+
+	// Part 1: simple item
+	Identified     bool
+	Socketed       bool
+	JustPicked     bool // This bit is set on items which you have picked up since the last time the game was saved.  Why?...
+	IsEar          bool
+	NewbieItem     bool // it is set when th item is an item generated with a new character
+	IsSimple       bool // only 111 bits of data
+	Etheral        bool
+	IsPersonalized bool
+	HasRuneWord    bool
+	Version        byte // byte
+	Location       struct {
+		LocationID ItemLocationType  // 3 bits
+		EquippedID ItemEquippedPlace // 4 bits
+		X          byte              // 4 bits
+		Y          byte              // 3 bits
+		StorageID  StoragePlace      // 3 bits
+	}
+	Ear struct {
+		Class CharacterClass // 3 bits
+		Level byte           // 7 bits
+		Name  string         // len(Name) * 7 bits
+	}
+	Type       string
+	TypeID     itemdata.ItemTypeID
+	TypeName   string
+	BaseDamage struct {
+		Min        int
+		Max        int
+		TwoHandMin int
+		TwoHandMax int
+	}
+	NumberOfSockets byte
+}
+
+func (i *Item) Load(sr *datautils.BitMuncher) (err error) {
+	if err := i.loadSimpleFields(sr); err != nil {
 		return err
 	}
 
-	i.Items = items
-	/*
+	return nil
+}
+
+func (i *Item) loadSimpleFields(sr *datautils.BitMuncher) (err error) {
+	id := sr.GetBytes(2)
+	if string(id) != itemListID {
+		return errors.New("unexpected item signature")
+	}
+
+	i.unknown1 = byte(sr.GetBits(4))
+	i.Identified = sr.GetBit() == 1
+	i.unknown2 = byte(sr.GetBits(6))
+	i.Socketed = sr.GetBit() == 1
+	i.unknown3 = sr.GetBit() == 1
+	i.JustPicked = sr.GetBit() == 1
+	i.unknown4 = byte(sr.GetBits(2))
+	i.IsEar = sr.GetBit() == 1
+	i.NewbieItem = sr.GetBit() == 1
+	i.unknown5 = byte(sr.GetBits(3))
+	i.IsSimple = sr.GetBit() == 1
+	i.Etheral = sr.GetBit() == 1
+	i.unknown6 = sr.GetBit() == 1
+	i.IsPersonalized = sr.GetBit() == 1
+	i.unknown7 = sr.GetBit() == 1
+	i.HasRuneWord = sr.GetBit() == 1
+	i.unknown8 = byte(sr.GetBits(5))
+	i.Version = sr.GetByte()
+	i.unknown9 = byte(sr.GetBits(2))
+	i.Location.LocationID = ItemLocationType(sr.GetBits(3))
+	i.Location.EquippedID = ItemEquippedPlace(sr.GetBits(4))
+	i.Location.X = byte(sr.GetBits(4))
+	i.Location.Y = byte(sr.GetBits(3))
+	i.unknown10 = sr.GetBit() == 1
+	i.Location.StorageID = StoragePlace(sr.GetBits(3))
+
+	if i.IsEar {
+		i.Ear.Class = CharacterClass(sr.GetBits(3))
+		i.Ear.Level = byte(sr.GetBits(7))
+		var name []byte
+		for {
+			char := byte(sr.GetBits(7))
+			if char == 0 {
+				break
+			}
+
+			name = append(name, char)
+		}
+
+		i.Ear.Name = string(name)
+
+		sr.AlignToBytes()
+	} else {
+		i.Type = strings.Trim(string(sr.GetBytes(4)), " ")
+		i.TypeID = itemdata.GetTypeID(i.Type)
+		switch i.TypeID {
+		case itemdata.ItemTypeIDArmor:
+			typeName, ok := itemdata.ArmorCodes[i.Type]
+			if ok {
+				i.TypeName = typeName
+			}
+		case itemdata.ItemTypeIDShield:
+			typeName, ok := itemdata.ShieldCodes[i.Type]
+			if ok {
+				i.TypeName = typeName
+			}
+		case itemdata.ItemTypeIDWeapon:
+			typeName, ok := itemdata.WeaponCodes[i.Type]
+			if ok {
+				i.TypeName = typeName
+			}
+
+			baseDamage, ok := itemdata.WeaponDamageMap[i.Type]
+			if ok {
+				// If the item is ethereal we need to add 50% enhanced
+				// damage to the base damage.
+				if i.Etheral {
+					i.BaseDamage.Min = int((float64(baseDamage.Min) * 1.5))
+					i.BaseDamage.Max = int((float64(baseDamage.Max) * 1.5))
+					i.BaseDamage.TwoHandMin = int((float64(baseDamage.TwoMin) * 1.5))
+					i.BaseDamage.TwoHandMax = int((float64(baseDamage.TwoMax) * 1.5))
+				} else {
+					i.BaseDamage.Min = baseDamage.Min
+					i.BaseDamage.Max = baseDamage.Max
+					i.BaseDamage.TwoHandMin = baseDamage.TwoMin
+					i.BaseDamage.TwoHandMax = baseDamage.TwoMax
+				}
+			}
+		case itemdata.ItemTypeIDOther:
+			typeName, ok := itemdata.MiscCodes[i.Type]
+			if ok {
+				i.TypeName = typeName
+			}
+		}
+
+		i.NumberOfSockets = byte(sr.GetBits(3))
+	}
+
+	return nil
+}
+
+/*
 		i.Items = make([]Item, numItems)
 
 		for n := range i.Items {
@@ -217,10 +392,10 @@ func (i *Items) LoadList(sr *datautils.BitMuncher, numItems uint16) error {
 			sr.SkipBits(8 - sr.Offset())
 			sr.SkipBits(8)
 		}
-	*/
 
 	return nil
 }
+*/
 
 /*
 // Item represents an item

@@ -4,14 +4,13 @@ import (
 	"errors"
 
 	"github.com/gucio321/d2d2s/datautils"
-	"github.com/nokka/d2s"
 )
 
 const golemHeaderID = "kf"
 
 // IronGolem represents an iron golem
 type IronGolem struct {
-	Item *d2s.Item
+	Item *Item
 }
 
 // Load loads a golem's data
@@ -33,7 +32,7 @@ func (i *IronGolem) Load(sr *datautils.BitMuncher) error {
 		return err
 	}
 
-	i.Item = &item.Items[0]
+	i.Item = &(*item)[0]
 
 	return nil
 }
