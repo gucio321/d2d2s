@@ -3,6 +3,7 @@ package d2d2s
 import (
 	"errors"
 
+	"github.com/OpenDiablo2/OpenDiablo2/d2common/d2datautils"
 	"github.com/gucio321/d2d2s/datautils"
 )
 
@@ -47,4 +48,13 @@ func (m *mercenary) LoadMercItems(sr *datautils.BitMuncher) error {
 	}
 
 	return nil
+}
+
+func (m *mercenary) Encode(sw *d2datautils.StreamWriter) {
+	sw.PushBytes([]byte("jf")...)
+	if m.ID == 0 {
+		return
+	}
+
+	sw.PushBytes(m.Items.Encode()...)
 }

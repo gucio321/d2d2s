@@ -21,6 +21,7 @@ const (
 	numSkills             = 30
 	int32Size             = 4
 	fileSizePosition      = 8
+	checksumPosition      = 12
 )
 
 type hotkeys map[byte]SkillID
@@ -342,6 +343,14 @@ func (d *D2S) Encode() ([]byte, error) {
 		sw.PushBytes(byte(d.Skills[i]))
 	}
 
+	sw.PushBytes(d.Items.Encode()...)
+	d.Corpse.Encode(sw)
+	d.Mercenary.Encode(sw)
+
+	if d.Class == CharacterClassNecromancer && d.Status.Expansion {
+		d.IronGolem.Encode(sw)
+	}
+
 	// we need to write file size and checksum here:
 	data := sw.GetBytes()
 	fileSize := uint32(len(data))
@@ -351,6 +360,15 @@ func (d *D2S) Encode() ([]byte, error) {
 	}
 
 	// checksum here - TODO
+
+	var sum uint32
+	for i := range data {
+		sum = (sum << 1) + uint32(data[i])
+	}
+
+	for i := 0; i < int32Size; i++ {
+		data[checksumPosition+i] = byte(sum >> i * 8) // nolint:gomnd // byte size
+	}
 
 	return data, nil
 }

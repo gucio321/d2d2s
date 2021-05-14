@@ -143,3 +143,9 @@ func (v *StreamWriter) PushUint64(val uint64) {
 	v.data.WriteByte(byte(val >> 48))
 	v.data.WriteByte(byte(val >> 56))
 }
+
+func (v *StreamWriter) Align() {
+	if o := v.Offset() % bitsPerByte; o > 0 {
+		v.PushBits(0, bitsPerByte-o)
+	}
+}
