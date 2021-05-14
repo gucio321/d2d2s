@@ -1161,7 +1161,7 @@ var TomeMap = map[string]bool{
 	IdentifyBook:   true,
 }
 
-var MagicalProperties = map[uint64]MagicalProperty{
+var MagicalProperties = map[uint16]MagicalProperty{
 	0:  {Bits: []uint{8}, Bias: 32, Name: "+{0} to Strength"},
 	1:  {Bits: []uint{7}, Bias: 32, Name: "+{0} to Energy"},
 	2:  {Bits: []uint{7}, Bias: 32, Name: "+{0} to Dexterity"},

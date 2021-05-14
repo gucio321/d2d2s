@@ -3,6 +3,7 @@ package d2d2s
 import (
 	"errors"
 	"fmt"
+	"log"
 	"strings"
 
 	"github.com/gucio321/d2d2s/datautils"
@@ -63,13 +64,25 @@ func (i *Items) Encode() []byte {
 	sw.PushBytes([]byte(itemListID)...)
 	sw.PushUint16(uint16(len(*i)))
 
-	item := (*i)[0]
 	// for _, item := range *i {
-	sw.PushBytes(item.Encode()...)
-	//item = (*i)[1]
-	//sw.PushBytes(item.Encode()...)
-	// check subitems (socketed)!
-	//}
+	for n := 0; n < 42; n++ {
+		item := (*i)[n]
+		sw.PushBytes(item.Encode()...)
+		// sw.PushBytes(item.SocketedItems[0].Encode()...)
+		for _, s := range item.SocketedItems {
+			fmt.Println("encoding socketed")
+			sw.PushBytes(s.Encode()...)
+		}
+	}
+
+	item := (*i)[42]
+	fmt.Println(item.IsSimple)
+	fmt.Println(item.SocketedItems)
+	fmt.Println(item.Quality)
+	fmt.Println(item.TypeName)
+	fmt.Println(item.Attributes)
+	fmt.Println(item.MultiplePicture.HasMultiplePicture)
+	// sw.PushBytes(item.Encode()...)
 
 	return sw.GetBytes()
 }
@@ -427,7 +440,8 @@ func (i *Item) loadSimpleFields(sr *datautils.BitMuncher) (err error) {
 
 		sr.AlignToBytes()
 	} else {
-		i.Type = strings.Trim(string(sr.GetBytes(4)), " ")
+		t := sr.GetBytes(4)
+		i.Type = strings.Trim(string(t), " ")
 		i.TypeID = itemdata.GetTypeID(i.Type)
 		switch i.TypeID {
 		case itemdata.ItemTypeIDArmor:
@@ -478,28 +492,136 @@ func (i *Item) loadSimpleFields(sr *datautils.BitMuncher) (err error) {
 func (i *Item) Encode() []byte {
 	sw := datautils.CreateStreamWriter()
 
-	sw.PushBytes([]byte(itemListID)...)
 	i.encodeSimpleFields(sw)
 	if !i.IsSimple {
-		i.encodeExtendedFields(sw)
+		if err := i.encodeExtendedFields(sw); err != nil {
+			log.Fatal(err)
+		}
 	}
-	fmt.Println(i.IsSimple)
-	/*for _, item := range i.SocketedItems {
-		sw.PushBytes(item.Encode()...)
-	}*/
-	fmt.Println(sw.Offset())
-	sw.PushBit(false)
+
 	sw.Align()
 
 	return sw.GetBytes()
 }
 
-func (i *Item) encodeExtendedFields(sw *datautils.StreamWriter) {
-	fmt.Println(i.ID)
-	sw.PushUint32(i.ID)
+func (i *Item) encodeExtendedFields(sw *datautils.StreamWriter) (err error) {
+	sw.PushBits32(i.ID, 32)
+	sw.PushBits(i.Level, 7)
+	sw.PushBits(byte(i.Quality), 4)
+	sw.PushBit(i.MultiplePicture.HasMultiplePicture)
+	if i.MultiplePicture.HasMultiplePicture {
+		sw.PushBits(i.MultiplePicture.ID, 3)
+	}
+
+	sw.PushBit(i.ClassSpecific.IsClassSpecific)
+	if i.ClassSpecific.IsClassSpecific {
+		sw.PushBits16(i.ClassSpecific.Data, 11)
+	}
+
+	switch i.Quality {
+	case ItemQualityLow:
+		sw.PushBits(i.QualityData.LowQualityID, 3)
+	case ItemQualityNormal:
+		// noop
+	case ItemQualityHigh:
+		sw.PushBits(i.QualityData.HighQualityData, 3)
+	case ItemQualityEnchanced:
+		sw.PushBits16(i.QualityData.MagicPrefix[0].ID, 11)
+		sw.PushBits16(i.QualityData.MagicSuffix[0].ID, 11)
+	case ItemQualitySet:
+		sw.PushBits16(i.QualityData.SetID, 12)
+	case ItemQualityRare, ItemQualityCrafted:
+		for _, name := range i.QualityData.RareNames {
+			sw.PushBits(byte(name.ID), 8)
+		}
+		for n := 0; n < 3; n++ {
+			l := len(i.QualityData.MagicPrefix)
+			hasPrefix := n < l
+			sw.PushBit(hasPrefix)
+			if hasPrefix {
+				sw.PushBits16(i.QualityData.MagicPrefix[n].ID, 11)
+			}
+
+			l = len(i.QualityData.MagicSuffix)
+			hasSuffix := n < l
+			sw.PushBit(hasSuffix)
+			if hasSuffix {
+				sw.PushBits16(i.QualityData.MagicSuffix[n].ID, 11)
+			}
+		}
+	case ItemQualityUnique:
+		sw.PushBits16(i.QualityData.UniqueID, 12)
+	}
+
+	if i.RuneWord.HasRuneWord {
+		sw.PushBits16(i.RuneWord.ID, 12)
+		sw.PushBits(i.RuneWord.unknown, 4)
+	}
+
+	if i.Personalization.IsPersonalized {
+		name := []byte(i.Personalization.Name)
+		for _, c := range name {
+			sw.PushBits(c, 7)
+		}
+
+		sw.PushBits(byte(' '), 7)
+	}
+
+	if itemdata.TomeMap[i.Type] {
+		sw.PushBits(i.unknown11, 5)
+	}
+
+	sw.PushBit(i.Timestamp)
+
+	if i.TypeID == itemdata.ItemTypeIDArmor ||
+		i.TypeID == itemdata.ItemTypeIDShield {
+		sw.PushBits16(i.ExtraStats.DefenseRating+10, 11)
+	}
+
+	if i.TypeID == itemdata.ItemTypeIDArmor ||
+		i.TypeID == itemdata.ItemTypeIDWeapon ||
+		i.TypeID == itemdata.ItemTypeIDShield {
+		sw.PushBits(i.ExtraStats.Durability.Max, 8)
+		if i.ExtraStats.Durability.Max > 0 {
+			sw.PushBits(i.ExtraStats.Durability.Current, 8)
+			sw.PushBit(i.unknown12)
+		}
+	}
+
+	if itemdata.QuantityMap[i.Type] {
+		sw.PushBits16(i.ExtraStats.Quantity, 9)
+	}
+
+	if i.Socketed.IsInSocket {
+		sw.PushBits(i.Socketed.TotalNumberOfSockets, 4)
+	}
+
+	if i.Quality == ItemQualitySet {
+		sw.PushBits(i.QualityData.SetListID, 5)
+	}
+
+	if err := i.Attributes.Encode(sw); err != nil {
+		return err
+	}
+
+	// OFC lenght of set attributes is > 0 fo sets
+	for _, a := range i.QualityData.SetAttributes {
+		if err := a.Encode(sw); err != nil {
+			return err
+		}
+	}
+
+	if i.RuneWord.HasRuneWord {
+		if err := i.RuneWord.Attributes.Encode(sw); err != nil {
+			return err
+		}
+	}
+
+	return nil
 }
 
 func (i *Item) encodeSimpleFields(sw *datautils.StreamWriter) {
+	sw.PushBytes([]byte(itemListID)...)
 	sw.PushBits(i.unknown1, 4)
 	sw.PushBit(i.Identified)
 	sw.PushBits(i.unknown2, 6)
@@ -534,8 +656,11 @@ func (i *Item) encodeSimpleFields(sw *datautils.StreamWriter) {
 		sw.PushBits(0, 7)
 		sw.Align()
 	} else {
-		sw.PushBytes([]byte(i.Type)...)
-		sw.PushBytes(byte(' '))
+		name := []byte(i.Type)
+		for _, c := range name {
+			sw.PushBits(c, 8)
+		}
+		sw.PushBits(byte(' '), 8)
 		sw.PushBits(i.NumberOfItemsInSockets, 3)
 	}
 }
