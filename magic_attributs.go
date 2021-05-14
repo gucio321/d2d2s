@@ -61,10 +61,11 @@ func (m *MagicAttributes) Encode(sw *datautils.StreamWriter) (err error) {
 		if !ok {
 			return errors.New("unexpected magical property")
 		}
+
 		for n, bitLength := range prop.Bits {
 			val := a.Values[n]
 			if prop.Bias != 0 {
-				val += int64(prop.Bias)
+				val += int64(uint64(prop.Bias))
 			}
 
 			sw.PushBits16(uint16(val), int(bitLength))

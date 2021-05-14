@@ -3,6 +3,7 @@ package d2d2s
 import (
 	"errors"
 
+	"github.com/OpenDiablo2/OpenDiablo2/d2common/d2datautils"
 	"github.com/gucio321/d2d2s/datautils"
 )
 
@@ -35,4 +36,16 @@ func (i *IronGolem) Load(sr *datautils.BitMuncher) error {
 	i.Item = &(*item)[0]
 
 	return nil
+}
+
+func (i *IronGolem) Encode(sw *d2datautils.StreamWriter) {
+	sw.PushBytes([]byte(golemHeaderID)...)
+	hasGolem := i.Item != nil
+	if !hasGolem {
+		sw.PushBytes(0)
+		return
+	}
+	sw.PushBytes(1)
+
+	sw.PushBytes(i.Item.Encode()...)
 }

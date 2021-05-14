@@ -2,8 +2,8 @@ package d2d2s
 
 import (
 	"errors"
-	"fmt"
 
+	"github.com/OpenDiablo2/OpenDiablo2/d2common/d2datautils"
 	"github.com/gucio321/d2d2s/datautils"
 )
 
@@ -40,7 +40,21 @@ func (c *Corpse) Load(sr *datautils.BitMuncher) error {
 	if err := c.Items.LoadList(sr, numItems); err != nil {
 		return err
 	}
-	fmt.Println(len(*c.Items))
+
+	return nil
+}
+
+func (c *Corpse) Encode(sw *d2datautils.StreamWriter) (err error) {
+	sw.PushBytes([]byte("JM")...)
+	isDead := c.Items != nil
+	if !isDead {
+		sw.PushUint16(0)
+		return nil
+	}
+
+	sw.PushUint16(1)
+	sw.PushBytes(c.unknown[:]...)
+	sw.PushBytes(c.Items.Encode()...)
 
 	return nil
 }

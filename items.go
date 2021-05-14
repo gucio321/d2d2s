@@ -64,25 +64,15 @@ func (i *Items) Encode() []byte {
 	sw.PushBytes([]byte(itemListID)...)
 	sw.PushUint16(uint16(len(*i)))
 
-	// for _, item := range *i {
-	for n := 0; n < 42; n++ {
-		item := (*i)[n]
+	for _, item := range *i {
+		// for n := 0; n < 42; n++ {
+		// item := (*i)[n]
 		sw.PushBytes(item.Encode()...)
 		// sw.PushBytes(item.SocketedItems[0].Encode()...)
 		for _, s := range item.SocketedItems {
-			fmt.Println("encoding socketed")
 			sw.PushBytes(s.Encode()...)
 		}
 	}
-
-	item := (*i)[42]
-	fmt.Println(item.IsSimple)
-	fmt.Println(item.SocketedItems)
-	fmt.Println(item.Quality)
-	fmt.Println(item.TypeName)
-	fmt.Println(item.Attributes)
-	fmt.Println(item.MultiplePicture.HasMultiplePicture)
-	// sw.PushBytes(item.Encode()...)
 
 	return sw.GetBytes()
 }
