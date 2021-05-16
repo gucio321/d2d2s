@@ -1,7 +1,8 @@
 package d2d2s
 
 import (
-	"io/ioutil"
+	"bytes"
+	"fmt"
 	"os"
 	"testing"
 )
@@ -38,23 +39,24 @@ func Test_Marshal(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	// nolint:gosec // only tests
-	err = ioutil.WriteFile("/tmp/out.d2s", d, 0o600)
-	if err != nil {
-		t.Fatal(err)
-	}
+	/*
+		// nolint:gosec // only tests
+		err = ioutil.WriteFile("/tmp/out.d2s", d, 0o600)
+		if err != nil {
+			t.Fatal(err)
+		}
 
-	_, err = Unmarshal(d)
-	if err != nil {
-		t.Fatal(err)
-	}
+		_, err = Unmarshal(d)
+		if err != nil {
+			t.Fatal(err)
+		}
+	*/
 
 	// nolint:gocritic // will use later
-	/*m := 500
-	fmt.Println(d[m:])
-	fmt.Println(data[m:len(d)])
-	fmt.Println(len(d[m:]), len(data[m:len(d)]))
+	m := 16
+	// fmt.Println(d[m:])
+	// fmt.Println(data[m:len(d)])
+	// fmt.Println(len(d[m:]), len(data[m:len(d)]))
 	fmt.Println(bytes.Equal(data[m:len(d)], d[m:]))
-	//t.Fail()
-	*/
+	t.Fail()
 }

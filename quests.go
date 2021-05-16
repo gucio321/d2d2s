@@ -88,6 +88,8 @@ type QuestsSet struct {
 	Quests     []*Quest
 	ActEnd     bool // uncertain
 	Act        int
+	unknown1   []byte
+	unknown2   []byte
 }
 
 // Unmarshal unmarshals quests set
@@ -105,10 +107,10 @@ func (q *QuestsSet) Unmarshal(sr *datautils.BitMuncher, act int) (err error) {
 		}
 
 		q.ActEnd = sr.GetUInt16() == 1
-		sr.SkipBits(3 * 8) // nolint:gomnd // 3 unknown bytes
+		q.unknown1 = sr.GetBytes(3) // nolint:gomnd // 3 unknown bytes
 	case 5: // nolint:gomnd // act 5
 		q.Introduced = sr.GetUInt16() == 1
-		sr.SkipBits(2 * 8) // nolint:gomnd // 2 unknown bytes
+		q.unknown1 = sr.GetBytes(2) // nolint:gomnd // 2 unknown bytes
 
 		for qst := range q.Quests {
 			q.Quests[qst] = &Quest{}
@@ -118,8 +120,7 @@ func (q *QuestsSet) Unmarshal(sr *datautils.BitMuncher, act int) (err error) {
 
 		q.ActEnd = sr.GetUInt16() == 1
 
-		sr.SkipBits(7 * 8) // nolint:gomnd // 7 unknown bytes
-
+		q.unknown2 = sr.GetBytes(7) // nolint:gomnd // 7 unknown bytes
 	default:
 		q.Introduced = sr.GetUInt16() == 1
 
@@ -158,7 +159,7 @@ func (q *QuestsSet) Encode() []byte {
 			sw.PushUint16(0)
 		}
 
-		sw.PushBytes(0, 0, 0)
+		sw.PushBytes(q.unknown1...)
 	case 5: // nolint:gomnd // act 5
 		if q.Introduced {
 			sw.PushUint16(1)
@@ -166,7 +167,7 @@ func (q *QuestsSet) Encode() []byte {
 			sw.PushUint16(0)
 		}
 
-		sw.PushUint16(0)
+		sw.PushBytes(q.unknown1...)
 
 		for qst := range q.Quests {
 			// TODO: Quest.Encode()
@@ -179,7 +180,7 @@ func (q *QuestsSet) Encode() []byte {
 			sw.PushUint16(0)
 		}
 
-		sw.PushBytes(0, 0, 0, 0, 0, 0, 0)
+		sw.PushBytes(q.unknown2...)
 	default:
 		if q.Introduced {
 			sw.PushUint16(1)
