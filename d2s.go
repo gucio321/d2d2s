@@ -346,6 +346,7 @@ func (d *D2S) Encode() ([]byte, error) {
 	}
 
 	sw.PushBytes(d.Items.Encode()...)
+
 	if err := d.Corpse.Encode(sw); err != nil {
 		return nil, err
 	}
@@ -371,7 +372,6 @@ func (d *D2S) Encode() ([]byte, error) {
 		sum <<= 1
 		sum += uint32(data[i])
 	}
-	fmt.Println(sum)
 
 	for i := 0; i < int32Size; i++ {
 		data[checksumPosition+i] = byte(sum >> i * 8) // nolint:gomnd // byte size
