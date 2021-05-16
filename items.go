@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/gucio321/d2d2s/datautils"
+	"github.com/gucio321/d2d2s/enums"
 	"github.com/gucio321/d2d2s/itemdata"
 )
 
@@ -144,16 +145,16 @@ type Item struct {
 	Etheral    bool
 	Version    byte // byte
 	Location   struct {
-		LocationID ItemLocationType  // 3 bits
-		EquippedID ItemEquippedPlace // 4 bits
-		X          byte              // 4 bits
-		Y          byte              // 3 bits
-		StorageID  StoragePlace      // 3 bits
+		LocationID enums.ItemLocationType  // 3 bits
+		EquippedID enums.ItemEquippedPlace // 4 bits
+		X          byte                    // 4 bits
+		Y          byte                    // 3 bits
+		StorageID  enums.StoragePlace      // 3 bits
 	}
 	Ear struct {
-		Class CharacterClass // 3 bits
-		Level byte           // 7 bits
-		Name  string         // len(Name) * 7 bits
+		Class enums.CharacterClass // 3 bits
+		Level byte                 // 7 bits
+		Name  string               // len(Name) * 7 bits
 	}
 	Type       string
 	TypeID     itemdata.ItemTypeID
@@ -168,9 +169,9 @@ type Item struct {
 	NumberOfItemsInSockets byte // 3 bits
 
 	// Part 2; extended
-	ID              uint32      // 32 bits (just uint32)
-	Level           byte        // 7 bits
-	Quality         ItemQuality // 4 bits
+	ID              uint32            // 32 bits (just uint32)
+	Level           byte              // 7 bits
+	Quality         enums.ItemQuality // 4 bits
 	MultiplePicture struct {
 		HasMultiplePicture bool // 1 bit
 		ID                 byte // 7 bits
@@ -252,7 +253,7 @@ func (i *Item) Load(sr *datautils.BitMuncher) (err error) {
 func (i *Item) loadExtendedFields(sr *datautils.BitMuncher) (err error) {
 	i.ID = sr.GetUInt32() // probably 4 * 8 chars
 	i.Level = byte(sr.GetBits(levelLen))
-	i.Quality = ItemQuality(sr.GetBits(qualityLen))
+	i.Quality = enums.ItemQuality(sr.GetBits(qualityLen))
 
 	// multiple picture
 	i.MultiplePicture.HasMultiplePicture = sr.GetBit() == 1
@@ -268,13 +269,13 @@ func (i *Item) loadExtendedFields(sr *datautils.BitMuncher) (err error) {
 	}
 
 	switch i.Quality {
-	case ItemQualityLow:
+	case enums.ItemQualityLow:
 		i.QualityData.LowQualityID = byte(sr.GetBits(lowQualityIDLen))
-	case ItemQualityNormal:
+	case enums.ItemQualityNormal:
 		// noop
-	case ItemQualityHigh:
+	case enums.ItemQualityHigh:
 		i.QualityData.HighQualityData = byte(sr.GetBits(highQualityDataLen))
-	case ItemQualityEnchanced:
+	case enums.ItemQualityEnchanced:
 		i.QualityData.MagicPrefix = make([]MagicModifier, 1)
 		id := uint16(sr.GetBits(magicModifierIDLen)) // helper variable (avoid noise with x.y.z.id ;-)
 		i.QualityData.MagicPrefix[0].ID = id
@@ -292,7 +293,7 @@ func (i *Item) loadExtendedFields(sr *datautils.BitMuncher) (err error) {
 		if ok {
 			i.QualityData.MagicSuffix[0].Name = suffixName
 		}
-	case ItemQualitySet:
+	case enums.ItemQualitySet:
 		id := uint16(sr.GetBits(setIDLen))
 		i.QualityData.SetID = id
 		setName, ok := itemdata.SetNames[id]
@@ -300,7 +301,7 @@ func (i *Item) loadExtendedFields(sr *datautils.BitMuncher) (err error) {
 		if ok {
 			i.QualityData.SetName = setName
 		}
-	case ItemQualityRare, ItemQualityCrafted:
+	case enums.ItemQualityRare, enums.ItemQualityCrafted:
 		i.QualityData.RareNames = make([]MagicModifier, 2)
 
 		for n := 0; n < 2; n++ {
@@ -341,7 +342,7 @@ func (i *Item) loadExtendedFields(sr *datautils.BitMuncher) (err error) {
 				}
 			}
 		}
-	case ItemQualityUnique:
+	case enums.ItemQualityUnique:
 		id := uint16(sr.GetBits(uniqueIDLen))
 		i.QualityData.UniqueID = id
 		uniqueName, ok := itemdata.UniqueNames[id]
@@ -409,7 +410,7 @@ func (i *Item) loadExtendedFields(sr *datautils.BitMuncher) (err error) {
 	}
 
 	var setListValue byte
-	if i.Quality == ItemQualitySet {
+	if i.Quality == enums.ItemQualitySet {
 		setListValue = byte(sr.GetBits(setListIDLen))
 		listCount, ok := itemdata.SetListMap[setListValue]
 		i.QualityData.SetListID = setListValue
@@ -472,15 +473,15 @@ func (i *Item) loadSimpleFields(sr *datautils.BitMuncher) (err error) {
 	i.unknown8 = byte(sr.GetBits(unknown8Len))
 	i.Version = sr.GetByte()
 	i.unknown9 = byte(sr.GetBits(unknown9Len))
-	i.Location.LocationID = ItemLocationType(sr.GetBits(locationLocationIDLen))
-	i.Location.EquippedID = ItemEquippedPlace(sr.GetBits(locationEquippedIDLen))
+	i.Location.LocationID = enums.ItemLocationType(sr.GetBits(locationLocationIDLen))
+	i.Location.EquippedID = enums.ItemEquippedPlace(sr.GetBits(locationEquippedIDLen))
 	i.Location.X = byte(sr.GetBits(locationXLen))
 	i.Location.Y = byte(sr.GetBits(locationYLen))
 	i.unknown10 = sr.GetBit() == 1
-	i.Location.StorageID = StoragePlace(sr.GetBits(locationStorageIDLen))
+	i.Location.StorageID = enums.StoragePlace(sr.GetBits(locationStorageIDLen))
 
 	if i.IsEar {
-		i.Ear.Class = CharacterClass(sr.GetBits(earClassLen))
+		i.Ear.Class = enums.CharacterClass(sr.GetBits(earClassLen))
 		i.Ear.Level = byte(sr.GetBits(earLevelLen))
 
 		var name []byte
@@ -582,18 +583,18 @@ func (i *Item) encodeExtendedFields(sw *datautils.StreamWriter) (err error) {
 	}
 
 	switch i.Quality {
-	case ItemQualityLow:
+	case enums.ItemQualityLow:
 		sw.PushBits(i.QualityData.LowQualityID, lowQualityIDLen)
-	case ItemQualityNormal:
+	case enums.ItemQualityNormal:
 		// noop
-	case ItemQualityHigh:
+	case enums.ItemQualityHigh:
 		sw.PushBits(i.QualityData.HighQualityData, highQualityDataLen)
-	case ItemQualityEnchanced:
+	case enums.ItemQualityEnchanced:
 		sw.PushBits16(i.QualityData.MagicPrefix[0].ID, 11)
 		sw.PushBits16(i.QualityData.MagicSuffix[0].ID, 11)
-	case ItemQualitySet:
+	case enums.ItemQualitySet:
 		sw.PushBits16(i.QualityData.SetID, setIDLen)
-	case ItemQualityRare, ItemQualityCrafted:
+	case enums.ItemQualityRare, enums.ItemQualityCrafted:
 		for _, name := range i.QualityData.RareNames {
 			sw.PushBits(byte(name.ID), 8)
 		}
@@ -615,7 +616,7 @@ func (i *Item) encodeExtendedFields(sw *datautils.StreamWriter) (err error) {
 				sw.PushBits16(i.QualityData.MagicSuffix[n].ID, 11)
 			}
 		}
-	case ItemQualityUnique:
+	case enums.ItemQualityUnique:
 		sw.PushBits16(i.QualityData.UniqueID, uniqueIDLen)
 	}
 
@@ -663,7 +664,7 @@ func (i *Item) encodeExtendedFields(sw *datautils.StreamWriter) (err error) {
 		sw.PushBits(i.Socketed.TotalNumberOfSockets, totalNSocketsLen)
 	}
 
-	if i.Quality == ItemQualitySet {
+	if i.Quality == enums.ItemQualitySet {
 		sw.PushBits(i.QualityData.SetListID, setListIDLen)
 	}
 
@@ -734,79 +735,6 @@ func (i *Item) encodeSimpleFields(sw *datautils.StreamWriter) {
 		sw.PushBits(i.NumberOfItemsInSockets, numItemsInSocketsLen)
 	}
 }
-
-// ItemLocationType represents an item location
-type ItemLocationType byte
-
-// item locations
-const (
-	ItemLocationStored ItemLocationType = iota
-	ItemLocationEquipped
-	ItemLocationBelt
-	_
-	ItemLocationMoved // i.e., has been picked up by the mouse
-	_
-	ItemLocationInSocket // ?
-)
-
-// ItemEquippedPlace represents a place, where the item is equipped
-type ItemEquippedPlace byte
-
-// item equipped places
-const (
-	ItemEquippedAnywhere ItemEquippedPlace = iota
-	ItemEquippedHead
-	ItemEquippedNeck
-	ItemEquippedTorse
-	ItemEquippedRightHand
-	ItemEquippedLeftHand
-	ItemEquippedRightFinger
-	ItemEquippedLeftFinger
-	ItemEquippedWaist
-	ItemEquippedFeet
-	ItemEquippedHands
-	ItemEquippedARightHand
-	ItemEquippedALeftHand
-)
-
-// StoragePlace represents a plece, where the item is stored
-type StoragePlace byte
-
-// storage places
-const (
-	StorageNone StoragePlace = iota
-	StorageInventory
-	_
-	_
-	StorageCube
-	StorageStash
-)
-
-// ItemQuality represents a quality of an item
-type ItemQuality byte
-
-// item qualities
-const (
-	ItemQualityLow ItemQuality = iota + 1
-	ItemQualityNormal
-	ItemQualityHigh
-	ItemQualityEnchanced
-	ItemQualitySet
-	ItemQualityRare
-	ItemQualityUnique
-	ItemQualityCrafted
-)
-
-// LowQualityItemType represents a type of low quality item
-type LowQualityItemType byte
-
-// low quality item types
-const (
-	LowQualityItemCrude LowQualityItemType = iota
-	LowQualityItemCracked
-	LowQualityItemDamaged
-	LowQualityItemLowQuality
-)
 
 // MagicModifier represents a magic modifier
 type MagicModifier struct {

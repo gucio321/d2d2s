@@ -8,6 +8,7 @@ import (
 	"github.com/OpenDiablo2/OpenDiablo2/d2common/d2enum"
 
 	"github.com/gucio321/d2d2s/datautils"
+	"github.com/gucio321/d2d2s/enums"
 )
 
 const (
@@ -34,7 +35,7 @@ type D2S struct {
 	Status      *Status
 	Progression byte
 	unknown2    uint16
-	Class       CharacterClass
+	Class       enums.CharacterClass
 	unknown3    uint16
 	Level       byte
 	unknown4    uint32
@@ -116,7 +117,7 @@ func Unmarshal(data []byte) (*D2S, error) {
 	result.unknown2 = sr.GetUInt16()
 
 	class := sr.GetByte()
-	result.Class = CharacterClass(class)
+	result.Class = enums.CharacterClass(class)
 
 	result.unknown3 = sr.GetUInt16()
 
@@ -248,7 +249,7 @@ func Unmarshal(data []byte) (*D2S, error) {
 	}
 
 	// iron golem for necromancer
-	if result.Class == CharacterClassNecromancer && result.Status.Expansion {
+	if result.Class == enums.CharacterClassNecromancer && result.Status.Expansion {
 		if err := result.IronGolem.Load(sr); err != nil {
 			return nil, err
 		}
@@ -351,7 +352,7 @@ func (d *D2S) Encode() ([]byte, error) {
 
 	d.Mercenary.Encode(sw)
 
-	if d.Class == CharacterClassNecromancer && d.Status.Expansion {
+	if d.Class == enums.CharacterClassNecromancer && d.Status.Expansion {
 		d.IronGolem.Encode(sw)
 	}
 
