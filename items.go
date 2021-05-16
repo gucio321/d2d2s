@@ -40,7 +40,7 @@ const (
 	typeLen              = 4
 	levelLen             = 7
 	qualityLen           = 4
-	multiplePictureIDLen = 7
+	multiplePictureIDLen = 3
 	classSpecificDataLen = 11
 	lowQualityIDLen      = 3
 	highQualityDataLen   = 3
