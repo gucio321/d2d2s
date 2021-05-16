@@ -29,15 +29,9 @@ type Waypoints map[d2enum.DifficultyType]*[numActs][]bool
 
 // Load loads waypoints data
 func (w *Waypoints) Load(data *[numWaypointsBytes]byte) error {
-	var err error
+	sr := datautils.CreateBitMuncher((*data)[:], 0)
 
-	sr := datautils.CreateStreamReader((*data)[:])
-
-	id, err := sr.ReadBytes(2) // nolint:gomnd // header
-	if err != nil {
-		return err
-	}
-
+	id := sr.GetBytes(2) // nolint:gomnd // header
 	if string(id) != waypointHeaderID {
 		return errors.New("unexpected header identifier")
 	}
@@ -48,15 +42,11 @@ func (w *Waypoints) Load(data *[numWaypointsBytes]byte) error {
 	for i := d2enum.DifficultyNormal; i <= d2enum.DifficultyHell; i++ {
 		sr.SkipBytes(2) // nolint:gomnd // unknown
 
-		d, err := sr.ReadBytes(waypointDataBytesCount)
-		if err != nil {
-			return err
-		}
+		d := sr.GetBytes(waypointDataBytesCount)
 
 		sr.SkipBytes(unknownWaypointsBytesCount)
 
 		bm := datautils.CreateBitMuncher(d, 0)
-		_ = bm
 
 		(*w)[i] = &[numActs][]bool{}
 
