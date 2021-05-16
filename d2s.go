@@ -198,7 +198,7 @@ func Unmarshal(data []byte) (*D2S, error) {
 
 	copy(waypointsData[:], wd[:numWaypointsBytes])
 
-	if err := result.Waypoints.Load(&waypointsData); err != nil {
+	if err := result.Waypoints.Load(&waypointsData); err != nil { // nolint:govet // it is ok
 		return nil, fmt.Errorf("error loading waypoints data: %w", err)
 	}
 
@@ -208,11 +208,11 @@ func Unmarshal(data []byte) (*D2S, error) {
 
 	copy(npcData[:], nd[:numNPCBytes])
 
-	if err := result.NPC.Load(npcData); err != nil {
+	if err := result.NPC.Load(npcData); err != nil { // nolint:govet // it is og
 		return nil, fmt.Errorf("error loading npcs data: %w", err)
 	}
 
-	if err := result.Stats.Load(sr); err != nil {
+	if err := result.Stats.Load(sr); err != nil { // nolint:govet // it is ok
 		return nil, fmt.Errorf("error loading character stats: %w", err)
 	}
 
@@ -344,7 +344,11 @@ func (d *D2S) Encode() ([]byte, error) {
 	}
 
 	sw.PushBytes(d.Items.Encode()...)
-	d.Corpse.Encode(sw)
+
+	if err := d.Corpse.Encode(sw); err != nil {
+		return nil, err
+	}
+
 	d.Mercenary.Encode(sw)
 
 	if d.Class == CharacterClassNecromancer && d.Status.Expansion {

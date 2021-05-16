@@ -4,6 +4,7 @@ import (
 	"errors"
 
 	"github.com/OpenDiablo2/OpenDiablo2/d2common/d2datautils"
+
 	"github.com/gucio321/d2d2s/datautils"
 )
 
@@ -28,7 +29,7 @@ func (m *mercenary) EncodeType() (result uint16) {
 }
 
 func (m *mercenary) LoadMercItems(sr *datautils.BitMuncher) error {
-	id := sr.GetBytes(2)
+	id := sr.GetBytes(2) // nolint:gomnd // header size
 	if string(id) != "jf" {
 		return errors.New("unexpected merc header")
 	}
@@ -39,10 +40,12 @@ func (m *mercenary) LoadMercItems(sr *datautils.BitMuncher) error {
 	}
 
 	m.Items = &Items{}
+
 	numItems, err := m.Items.LoadHeader(sr)
 	if err != nil {
 		return err
 	}
+
 	if err := m.Items.LoadList(sr, numItems); err != nil {
 		return err
 	}
@@ -52,6 +55,7 @@ func (m *mercenary) LoadMercItems(sr *datautils.BitMuncher) error {
 
 func (m *mercenary) Encode(sw *d2datautils.StreamWriter) {
 	sw.PushBytes([]byte("jf")...)
+
 	if m.ID == 0 {
 		return
 	}

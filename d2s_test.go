@@ -31,14 +31,14 @@ func Test_Marshal(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	x.Name = "kejcam"
 
 	d, err := x.Encode()
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	err = ioutil.WriteFile("/tmp/maciej1.d2s", d, 0o644)
+	// nolint:gosec // only tests
+	err = ioutil.WriteFile("/tmp/out.d2s", d, 0o600)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -48,6 +48,7 @@ func Test_Marshal(t *testing.T) {
 		t.Fatal(err)
 	}
 
+	// nolint:gocritic // will use later
 	/*m := 500
 	fmt.Println(d[m:])
 	fmt.Println(data[m:len(d)])

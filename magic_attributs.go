@@ -7,6 +7,9 @@ import (
 	"github.com/gucio321/d2d2s/itemdata"
 )
 
+const endOfListMark = 0x1ff
+
+// MagicAttributes represents a list of magic attributes
 type MagicAttributes []MagicAttribute
 
 // MagicAttribute represents magic attributes data
@@ -16,11 +19,11 @@ type MagicAttribute struct {
 	Values []int64
 }
 
-// LoadMagicAttributes loads magic attributes for n item
+// Load loads magic attributes for n item
 func (m *MagicAttributes) Load(sr *datautils.BitMuncher) error {
 	for {
 		id := uint16(sr.GetBits(9)) // nolint:gomnd // id size (bitfield)
-		if id == 0x1ff {            // nolint:gomnd // reached next section
+		if id == endOfListMark {
 			break
 		}
 
@@ -46,13 +49,13 @@ func (m *MagicAttributes) Load(sr *datautils.BitMuncher) error {
 			Values: values,
 		}
 
-		// i.Items[n].MagicAttributes = append(i.Items[n].MagicAttributes, attr)
 		*m = append(*m, attr)
 	}
 
 	return nil
 }
 
+// Encode encodes magical attributes back into byte slice
 func (m *MagicAttributes) Encode(sw *datautils.StreamWriter) (err error) {
 	for _, a := range *m {
 		sw.PushBits16(a.ID, 9)
@@ -65,13 +68,14 @@ func (m *MagicAttributes) Encode(sw *datautils.StreamWriter) (err error) {
 		for n, bitLength := range prop.Bits {
 			val := a.Values[n]
 			if prop.Bias != 0 {
-				val += int64(uint64(prop.Bias))
+				val += int64(prop.Bias)
 			}
 
 			sw.PushBits16(uint16(val), int(bitLength))
 		}
 	}
 
-	sw.PushBits16(0x1ff, 9)
+	sw.PushBits16(endOfListMark, 9)
+
 	return nil
 }

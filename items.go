@@ -11,13 +11,57 @@ import (
 )
 
 const (
-	itemListID       = "JM"
-	characterNameLen = 15
+	byteLen   = 8
+	uint32Len = 4 * byteLen
+
+	itemListID = "JM"
+
+	etheralItemsDamageModifier = 1.5
+	defenseRatingModifier      = 10
+
+	unknown1Len  = 4
+	unknown2Len  = 6
+	unknown4Len  = 2
+	unknown5Len  = 3
+	unknown8Len  = 5
+	unknown9Len  = 2
+	unknown11Len = 5
+
+	locationLocationIDLen = 3
+	locationEquippedIDLen = 4
+	locationXLen          = 4
+	locationYLen          = 3
+	locationStorageIDLen  = 3
+	// ear
+	earClassLen          = 3
+	earLevelLen          = levelLen
+	numItemsInSocketsLen = 3
+
+	typeLen              = 4
+	levelLen             = 7
+	qualityLen           = 4
+	multiplePictureIDLen = 7
+	classSpecificDataLen = 11
+	lowQualityIDLen      = 3
+	highQualityDataLen   = 3
+	setIDLen             = 12
+	setListIDLen         = 5
+	uniqueIDLen          = 12
+	runeWordIDLen        = 12
+	runeWordUnknownLen   = 4
+	defenseRatingLen     = 11
+	quantityLen          = 9
+	totalNSocketsLen     = 4
+
+	characterLen       = 7
+	magicModifierIDLen = 11
+	rareNameIDLen      = 8
 )
 
 // Items represents items list
 type Items []Item
 
+// LoadHeader loads items header and returns items count
 func (i *Items) LoadHeader(sr *datautils.BitMuncher) (numItems uint16, err error) {
 	id := sr.GetBytes(2) // nolint:gomnd // header
 	if string(id) != itemListID {
@@ -29,8 +73,7 @@ func (i *Items) LoadHeader(sr *datautils.BitMuncher) (numItems uint16, err error
 	return numItems, nil
 }
 
-// Load loads items list data into Items structure
-// nolint:funlen // TODO: check, if it is possible to write encoder for d2s.Item
+// LoadList loads items list data into Items structure
 // If not, theis function must be changed
 func (i *Items) LoadList(sr *datautils.BitMuncher, numItems uint16) error {
 	*i = make([]Item, numItems)
@@ -47,10 +90,10 @@ func (i *Items) LoadList(sr *datautils.BitMuncher, numItems uint16) error {
 				if err := item.Load(sr); err != nil {
 					return err
 				}
+
 				(*i)[n].SocketedItems = append((*i)[n].SocketedItems, *item)
 			}
 		}
-
 	}
 
 	return nil
@@ -64,19 +107,20 @@ func (i *Items) Encode() []byte {
 	sw.PushBytes([]byte(itemListID)...)
 	sw.PushUint16(uint16(len(*i)))
 
-	for _, item := range *i {
+	for n := range *i {
 		// for n := 0; n < 42; n++ {
-		// item := (*i)[n]
+		item := (*i)[n]
 		sw.PushBytes(item.Encode()...)
-		// sw.PushBytes(item.SocketedItems[0].Encode()...)
-		for _, s := range item.SocketedItems {
-			sw.PushBytes(s.Encode()...)
+
+		for s := 0; s < len(item.SocketedItems); s++ {
+			sw.PushBytes(item.SocketedItems[s].Encode()...)
 		}
 	}
 
 	return sw.GetBytes()
 }
 
+// Item represents an item
 type Item struct {
 	unknown1  byte // 4 bits
 	unknown2  byte // 6 bits
@@ -120,7 +164,8 @@ type Item struct {
 		TwoHandMin int
 		TwoHandMax int
 	}
-	NumberOfItemsInSockets byte
+
+	NumberOfItemsInSockets byte // 3 bits
 
 	// Part 2; extended
 	ID              uint32      // 32 bits (just uint32)
@@ -158,7 +203,7 @@ type Item struct {
 	}
 	RuneWord struct {
 		HasRuneWord bool
-		ID          uint16
+		ID          uint16 // 12 bits
 		Name        string
 		unknown     byte // 4 bits (brobably always value 5)
 		Attributes  MagicAttributes
@@ -185,6 +230,7 @@ type Item struct {
 	SocketedItems []Item
 }
 
+// Load loads an item
 func (i *Item) Load(sr *datautils.BitMuncher) (err error) {
 	if err := i.loadSimpleFields(sr); err != nil {
 		return err
@@ -202,60 +248,66 @@ func (i *Item) Load(sr *datautils.BitMuncher) (err error) {
 	return nil
 }
 
+// nolint:funlen,gocognit,gocyclo // will reduce later
 func (i *Item) loadExtendedFields(sr *datautils.BitMuncher) (err error) {
 	i.ID = sr.GetUInt32() // probably 4 * 8 chars
-	i.Level = byte(sr.GetBits(7))
-	i.Quality = ItemQuality(sr.GetBits(4))
+	i.Level = byte(sr.GetBits(levelLen))
+	i.Quality = ItemQuality(sr.GetBits(qualityLen))
 
 	// multiple picture
 	i.MultiplePicture.HasMultiplePicture = sr.GetBit() == 1
 	if i.MultiplePicture.HasMultiplePicture {
-		i.MultiplePicture.ID = byte(sr.GetBits(3))
+		i.MultiplePicture.ID = byte(sr.GetBits(multiplePictureIDLen))
 	}
 
 	// class specific
 	i.ClassSpecific.IsClassSpecific = sr.GetBit() == 1
 	if i.ClassSpecific.IsClassSpecific {
 		// probably class is somewhere here ... ?
-		i.ClassSpecific.Data = uint16(sr.GetBits(11))
+		i.ClassSpecific.Data = uint16(sr.GetBits(classSpecificDataLen))
 	}
 
 	switch i.Quality {
 	case ItemQualityLow:
-		i.QualityData.LowQualityID = byte(sr.GetBits(3))
+		i.QualityData.LowQualityID = byte(sr.GetBits(lowQualityIDLen))
 	case ItemQualityNormal:
 		// noop
 	case ItemQualityHigh:
-		i.QualityData.HighQualityData = byte(sr.GetBits(3))
+		i.QualityData.HighQualityData = byte(sr.GetBits(highQualityDataLen))
 	case ItemQualityEnchanced:
 		i.QualityData.MagicPrefix = make([]MagicModifier, 1)
-		id := uint16(sr.GetBits(11)) // helper variable (avoid noise with x.y.z.id ;-)
+		id := uint16(sr.GetBits(magicModifierIDLen)) // helper variable (avoid noise with x.y.z.id ;-)
 		i.QualityData.MagicPrefix[0].ID = id
 		prefixName, ok := itemdata.MagicalPrefixes[id]
+
 		if ok {
 			i.QualityData.MagicPrefix[0].Name = prefixName
 		}
 
 		i.QualityData.MagicSuffix = make([]MagicModifier, 1)
-		id = uint16(sr.GetBits(11)) // helper variable (avoid noise with x.y.z.id ;-)
+		id = uint16(sr.GetBits(magicModifierIDLen)) // helper variable (avoid noise with x.y.z.id ;-)
 		i.QualityData.MagicSuffix[0].ID = id
 		suffixName, ok := itemdata.MagicalSuffixes[id]
+
 		if ok {
 			i.QualityData.MagicSuffix[0].Name = suffixName
 		}
 	case ItemQualitySet:
-		id := uint16(sr.GetBits(12))
+		id := uint16(sr.GetBits(setIDLen))
 		i.QualityData.SetID = id
 		setName, ok := itemdata.SetNames[id]
+
 		if ok {
 			i.QualityData.SetName = setName
 		}
 	case ItemQualityRare, ItemQualityCrafted:
 		i.QualityData.RareNames = make([]MagicModifier, 2)
+
 		for n := 0; n < 2; n++ {
-			id := uint16(sr.GetBits(8))
+			id := uint16(sr.GetBits(rareNameIDLen))
 			i.QualityData.RareNames[n].ID = id
 			name, ok := itemdata.RareNames[id]
+
 			if ok {
 				i.QualityData.RareNames[n].Name = name
 			}
@@ -263,13 +315,15 @@ func (i *Item) loadExtendedFields(sr *datautils.BitMuncher) (err error) {
 
 		i.QualityData.MagicPrefix = make([]MagicModifier, 0)
 		i.QualityData.MagicSuffix = make([]MagicModifier, 0)
-		for p := 0; p < 3; p++ { // nolint:gomnd // 3 sets of modifiers allowed
+
+		for p := 0; p < 3; p++ {
 			prefixExist := sr.GetBit() == 1
 			if prefixExist {
 				i.QualityData.MagicPrefix = append(i.QualityData.MagicPrefix, MagicModifier{})
-				id := uint16(sr.GetBits(11))
+				id := uint16(sr.GetBits(magicModifierIDLen))
 				i.QualityData.MagicPrefix[p].ID = id
 				name, ok := itemdata.MagicalPrefixes[id]
+
 				if ok {
 					i.QualityData.MagicPrefix[p].Name = name
 				}
@@ -277,39 +331,43 @@ func (i *Item) loadExtendedFields(sr *datautils.BitMuncher) (err error) {
 
 			suffixExist := sr.GetBit() == 1
 			if suffixExist {
-				i.QualityData.MagicSuffix = append(i.QualityData.MagicPrefix, MagicModifier{})
-				id := uint16(sr.GetBits(11))
+				i.QualityData.MagicSuffix = append(i.QualityData.MagicSuffix, MagicModifier{})
+				id := uint16(sr.GetBits(magicModifierIDLen))
 				i.QualityData.MagicSuffix[p].ID = id
 				name, ok := itemdata.MagicalSuffixes[id]
+
 				if ok {
 					i.QualityData.MagicSuffix[p].Name = name
 				}
 			}
 		}
 	case ItemQualityUnique:
-		id := uint16(sr.GetBits(12))
+		id := uint16(sr.GetBits(uniqueIDLen))
 		i.QualityData.UniqueID = id
 		uniqueName, ok := itemdata.UniqueNames[id]
+
 		if ok {
 			i.QualityData.UniqueName = uniqueName
 		}
 	}
 
 	if i.RuneWord.HasRuneWord {
-		id := uint16(sr.GetBits(12))
+		id := uint16(sr.GetBits(runeWordIDLen))
 		i.RuneWord.ID = id
 		name, ok := itemdata.RunewordNames[id]
+
 		if ok {
 			i.RuneWord.Name = name
 		}
 
-		i.RuneWord.unknown = byte(sr.GetBits(4))
+		i.RuneWord.unknown = byte(sr.GetBits(runeWordUnknownLen))
 	}
 
 	if i.Personalization.IsPersonalized {
 		name := make([]byte, 0)
+
 		for {
-			char := byte(sr.GetBits(7))
+			char := byte(sr.GetBits(characterLen))
 			if char == 0 {
 				break
 			}
@@ -321,15 +379,15 @@ func (i *Item) loadExtendedFields(sr *datautils.BitMuncher) (err error) {
 	}
 
 	if itemdata.TomeMap[i.Type] {
-		i.unknown11 = byte(sr.GetBits(5))
+		i.unknown11 = byte(sr.GetBits(unknown11Len))
 	}
 
 	i.Timestamp = sr.GetBit() == 1
 
 	if i.TypeID == itemdata.ItemTypeIDArmor ||
 		i.TypeID == itemdata.ItemTypeIDShield {
-		defRating := uint16(sr.GetBits(11))
-		i.ExtraStats.DefenseRating = defRating - 10
+		defRating := uint16(sr.GetBits(defenseRatingLen))
+		i.ExtraStats.DefenseRating = defRating - defenseRatingModifier
 	}
 
 	if i.TypeID == itemdata.ItemTypeIDArmor ||
@@ -343,21 +401,23 @@ func (i *Item) loadExtendedFields(sr *datautils.BitMuncher) (err error) {
 	}
 
 	if itemdata.QuantityMap[i.Type] {
-		i.ExtraStats.Quantity = uint16(sr.GetBits(9))
+		i.ExtraStats.Quantity = uint16(sr.GetBits(quantityLen))
 	}
 
 	if i.Socketed.IsInSocket {
-		i.Socketed.TotalNumberOfSockets = byte(sr.GetBits(4))
+		i.Socketed.TotalNumberOfSockets = byte(sr.GetBits(totalNSocketsLen))
 	}
 
-	var setListValue byte = 0
+	var setListValue byte
 	if i.Quality == ItemQualitySet {
-		setListValue = byte(sr.GetBits(5))
+		setListValue = byte(sr.GetBits(setListIDLen))
 		listCount, ok := itemdata.SetListMap[setListValue]
 		i.QualityData.SetListID = setListValue
+
 		if !ok {
 			return fmt.Errorf("unknown set list value %d", setListValue)
 		}
+
 		i.QualityData.SetListCount = listCount
 	}
 
@@ -365,60 +425,68 @@ func (i *Item) loadExtendedFields(sr *datautils.BitMuncher) (err error) {
 		return err
 	}
 
+	// nolint:wsl // note at the end of block
 	if c := i.QualityData.SetListCount; c > 0 {
 		for j := 0; j < int(c); j++ {
 			i.QualityData.SetAttributes = append(i.QualityData.SetAttributes, MagicAttributes{})
-			i.QualityData.SetAttributes[len(i.QualityData.SetAttributes)-1].Load(sr)
+			if err := i.QualityData.SetAttributes[len(i.QualityData.SetAttributes)-1].Load(sr); err != nil {
+				return err
+			}
 		}
+
 		// here could be interpretation of above data
 		// however it is optional because doesn't affect stream
 	}
 
 	if i.RuneWord.HasRuneWord {
-		i.RuneWord.Attributes.Load(sr)
+		if err := i.RuneWord.Attributes.Load(sr); err != nil {
+			return err
+		}
 	}
 
 	return nil
 }
 
 func (i *Item) loadSimpleFields(sr *datautils.BitMuncher) (err error) {
-	id := sr.GetBytes(2)
+	id := sr.GetBytes(2) // nolint:gomnd // header
 	if string(id) != itemListID {
 		return errors.New("unexpected item signature")
 	}
 
-	i.unknown1 = byte(sr.GetBits(4))
+	i.unknown1 = byte(sr.GetBits(unknown1Len))
 	i.Identified = sr.GetBit() == 1
-	i.unknown2 = byte(sr.GetBits(6))
+	i.unknown2 = byte(sr.GetBits(unknown2Len))
 	i.Socketed.IsInSocket = sr.GetBit() == 1
 	i.unknown3 = sr.GetBit() == 1
 	i.JustPicked = sr.GetBit() == 1
-	i.unknown4 = byte(sr.GetBits(2))
+	i.unknown4 = byte(sr.GetBits(unknown4Len))
 	i.IsEar = sr.GetBit() == 1
 	i.NewbieItem = sr.GetBit() == 1
-	i.unknown5 = byte(sr.GetBits(3))
+	i.unknown5 = byte(sr.GetBits(unknown5Len))
 	i.IsSimple = sr.GetBit() == 1
 	i.Etheral = sr.GetBit() == 1
 	i.unknown6 = sr.GetBit() == 1
 	i.Personalization.IsPersonalized = sr.GetBit() == 1
 	i.unknown7 = sr.GetBit() == 1
 	i.RuneWord.HasRuneWord = sr.GetBit() == 1
-	i.unknown8 = byte(sr.GetBits(5))
+	i.unknown8 = byte(sr.GetBits(unknown8Len))
 	i.Version = sr.GetByte()
-	i.unknown9 = byte(sr.GetBits(2))
-	i.Location.LocationID = ItemLocationType(sr.GetBits(3))
-	i.Location.EquippedID = ItemEquippedPlace(sr.GetBits(4))
-	i.Location.X = byte(sr.GetBits(4))
-	i.Location.Y = byte(sr.GetBits(3))
+	i.unknown9 = byte(sr.GetBits(unknown9Len))
+	i.Location.LocationID = ItemLocationType(sr.GetBits(locationLocationIDLen))
+	i.Location.EquippedID = ItemEquippedPlace(sr.GetBits(locationEquippedIDLen))
+	i.Location.X = byte(sr.GetBits(locationXLen))
+	i.Location.Y = byte(sr.GetBits(locationYLen))
 	i.unknown10 = sr.GetBit() == 1
-	i.Location.StorageID = StoragePlace(sr.GetBits(3))
+	i.Location.StorageID = StoragePlace(sr.GetBits(locationStorageIDLen))
 
 	if i.IsEar {
-		i.Ear.Class = CharacterClass(sr.GetBits(3))
-		i.Ear.Level = byte(sr.GetBits(7))
+		i.Ear.Class = CharacterClass(sr.GetBits(earClassLen))
+		i.Ear.Level = byte(sr.GetBits(earLevelLen))
+
 		var name []byte
+
 		for {
-			char := byte(sr.GetBits(7))
+			char := byte(sr.GetBits(characterLen))
 			if char == 0 {
 				break
 			}
@@ -430,7 +498,7 @@ func (i *Item) loadSimpleFields(sr *datautils.BitMuncher) (err error) {
 
 		sr.AlignToBytes()
 	} else {
-		t := sr.GetBytes(4)
+		t := sr.GetBytes(typeLen)
 		i.Type = strings.Trim(string(t), " ")
 		i.TypeID = itemdata.GetTypeID(i.Type)
 		switch i.TypeID {
@@ -455,10 +523,10 @@ func (i *Item) loadSimpleFields(sr *datautils.BitMuncher) (err error) {
 				// If the item is ethereal we need to add 50% enhanced
 				// damage to the base damage.
 				if i.Etheral {
-					i.BaseDamage.Min = int((float64(baseDamage.Min) * 1.5))
-					i.BaseDamage.Max = int((float64(baseDamage.Max) * 1.5))
-					i.BaseDamage.TwoHandMin = int((float64(baseDamage.TwoMin) * 1.5))
-					i.BaseDamage.TwoHandMax = int((float64(baseDamage.TwoMax) * 1.5))
+					i.BaseDamage.Min = int((float64(baseDamage.Min) * etheralItemsDamageModifier))
+					i.BaseDamage.Max = int((float64(baseDamage.Max) * etheralItemsDamageModifier))
+					i.BaseDamage.TwoHandMin = int((float64(baseDamage.TwoMin) * etheralItemsDamageModifier))
+					i.BaseDamage.TwoHandMax = int((float64(baseDamage.TwoMax) * etheralItemsDamageModifier))
 				} else {
 					i.BaseDamage.Min = baseDamage.Min
 					i.BaseDamage.Max = baseDamage.Max
@@ -473,16 +541,18 @@ func (i *Item) loadSimpleFields(sr *datautils.BitMuncher) (err error) {
 			}
 		}
 
-		i.NumberOfItemsInSockets = byte(sr.GetBits(3))
+		i.NumberOfItemsInSockets = byte(sr.GetBits(numItemsInSocketsLen))
 	}
 
 	return nil
 }
 
+// Encode encodes an item into a byte slice
 func (i *Item) Encode() []byte {
 	sw := datautils.CreateStreamWriter()
 
 	i.encodeSimpleFields(sw)
+
 	if !i.IsSimple {
 		if err := i.encodeExtendedFields(sw); err != nil {
 			log.Fatal(err)
@@ -494,40 +564,45 @@ func (i *Item) Encode() []byte {
 	return sw.GetBytes()
 }
 
+// nolint:funlen,gocognit,gocyclo // will reduce later
 func (i *Item) encodeExtendedFields(sw *datautils.StreamWriter) (err error) {
-	sw.PushBits32(i.ID, 32)
-	sw.PushBits(i.Level, 7)
-	sw.PushBits(byte(i.Quality), 4)
+	sw.PushBits32(i.ID, uint32Len)
+	sw.PushBits(i.Level, levelLen)
+	sw.PushBits(byte(i.Quality), qualityLen)
 	sw.PushBit(i.MultiplePicture.HasMultiplePicture)
+
 	if i.MultiplePicture.HasMultiplePicture {
 		sw.PushBits(i.MultiplePicture.ID, 3)
 	}
 
 	sw.PushBit(i.ClassSpecific.IsClassSpecific)
+
 	if i.ClassSpecific.IsClassSpecific {
-		sw.PushBits16(i.ClassSpecific.Data, 11)
+		sw.PushBits16(i.ClassSpecific.Data, classSpecificDataLen)
 	}
 
 	switch i.Quality {
 	case ItemQualityLow:
-		sw.PushBits(i.QualityData.LowQualityID, 3)
+		sw.PushBits(i.QualityData.LowQualityID, lowQualityIDLen)
 	case ItemQualityNormal:
 		// noop
 	case ItemQualityHigh:
-		sw.PushBits(i.QualityData.HighQualityData, 3)
+		sw.PushBits(i.QualityData.HighQualityData, highQualityDataLen)
 	case ItemQualityEnchanced:
 		sw.PushBits16(i.QualityData.MagicPrefix[0].ID, 11)
 		sw.PushBits16(i.QualityData.MagicSuffix[0].ID, 11)
 	case ItemQualitySet:
-		sw.PushBits16(i.QualityData.SetID, 12)
+		sw.PushBits16(i.QualityData.SetID, setIDLen)
 	case ItemQualityRare, ItemQualityCrafted:
 		for _, name := range i.QualityData.RareNames {
 			sw.PushBits(byte(name.ID), 8)
 		}
+
 		for n := 0; n < 3; n++ {
 			l := len(i.QualityData.MagicPrefix)
 			hasPrefix := n < l
 			sw.PushBit(hasPrefix)
+
 			if hasPrefix {
 				sw.PushBits16(i.QualityData.MagicPrefix[n].ID, 11)
 			}
@@ -535,66 +610,68 @@ func (i *Item) encodeExtendedFields(sw *datautils.StreamWriter) (err error) {
 			l = len(i.QualityData.MagicSuffix)
 			hasSuffix := n < l
 			sw.PushBit(hasSuffix)
+
 			if hasSuffix {
 				sw.PushBits16(i.QualityData.MagicSuffix[n].ID, 11)
 			}
 		}
 	case ItemQualityUnique:
-		sw.PushBits16(i.QualityData.UniqueID, 12)
+		sw.PushBits16(i.QualityData.UniqueID, uniqueIDLen)
 	}
 
 	if i.RuneWord.HasRuneWord {
-		sw.PushBits16(i.RuneWord.ID, 12)
-		sw.PushBits(i.RuneWord.unknown, 4)
+		sw.PushBits16(i.RuneWord.ID, runeWordIDLen)
+		sw.PushBits(i.RuneWord.unknown, runeWordUnknownLen)
 	}
 
 	if i.Personalization.IsPersonalized {
 		name := []byte(i.Personalization.Name)
 		for _, c := range name {
-			sw.PushBits(c, 7)
+			sw.PushBits(c, characterLen)
 		}
 
-		sw.PushBits(byte(' '), 7)
+		sw.PushBits(byte(' '), characterLen)
 	}
 
 	if itemdata.TomeMap[i.Type] {
-		sw.PushBits(i.unknown11, 5)
+		sw.PushBits(i.unknown11, unknown11Len)
 	}
 
 	sw.PushBit(i.Timestamp)
 
 	if i.TypeID == itemdata.ItemTypeIDArmor ||
 		i.TypeID == itemdata.ItemTypeIDShield {
-		sw.PushBits16(i.ExtraStats.DefenseRating+10, 11)
+		sw.PushBits16(i.ExtraStats.DefenseRating+defenseRatingModifier, defenseRatingLen)
 	}
 
 	if i.TypeID == itemdata.ItemTypeIDArmor ||
 		i.TypeID == itemdata.ItemTypeIDWeapon ||
 		i.TypeID == itemdata.ItemTypeIDShield {
-		sw.PushBits(i.ExtraStats.Durability.Max, 8)
+		sw.PushBits(i.ExtraStats.Durability.Max, byteLen)
+
 		if i.ExtraStats.Durability.Max > 0 {
-			sw.PushBits(i.ExtraStats.Durability.Current, 8)
+			sw.PushBits(i.ExtraStats.Durability.Current, byteLen)
 			sw.PushBit(i.unknown12)
 		}
 	}
 
 	if itemdata.QuantityMap[i.Type] {
-		sw.PushBits16(i.ExtraStats.Quantity, 9)
+		sw.PushBits16(i.ExtraStats.Quantity, quantityLen)
 	}
 
 	if i.Socketed.IsInSocket {
-		sw.PushBits(i.Socketed.TotalNumberOfSockets, 4)
+		sw.PushBits(i.Socketed.TotalNumberOfSockets, totalNSocketsLen)
 	}
 
 	if i.Quality == ItemQualitySet {
-		sw.PushBits(i.QualityData.SetListID, 5)
+		sw.PushBits(i.QualityData.SetListID, setListIDLen)
 	}
 
 	if err := i.Attributes.Encode(sw); err != nil {
 		return err
 	}
 
-	// OFC lenght of set attributes is > 0 fo sets
+	// OFC length of set attributes is > 0 fo sets
 	for _, a := range i.QualityData.SetAttributes {
 		if err := a.Encode(sw); err != nil {
 			return err
@@ -612,38 +689,41 @@ func (i *Item) encodeExtendedFields(sw *datautils.StreamWriter) (err error) {
 
 func (i *Item) encodeSimpleFields(sw *datautils.StreamWriter) {
 	sw.PushBytes([]byte(itemListID)...)
-	sw.PushBits(i.unknown1, 4)
+	sw.PushBits(i.unknown1, unknown1Len)
 	sw.PushBit(i.Identified)
-	sw.PushBits(i.unknown2, 6)
+	sw.PushBits(i.unknown2, unknown2Len)
 	sw.PushBit(i.Socketed.IsInSocket)
 	sw.PushBit(i.unknown3)
 	sw.PushBit(i.JustPicked)
-	sw.PushBits(i.unknown4, 2)
+	sw.PushBits(i.unknown4, unknown4Len)
 	sw.PushBit(i.IsEar)
 	sw.PushBit(i.NewbieItem)
-	sw.PushBits(i.unknown5, 3)
+	sw.PushBits(i.unknown5, unknown5Len)
 	sw.PushBit(i.IsSimple)
 	sw.PushBit(i.Etheral)
 	sw.PushBit(i.unknown6)
 	sw.PushBit(len(i.Personalization.Name) > 0)
 	sw.PushBit(i.unknown7)
 	sw.PushBit(i.RuneWord.HasRuneWord)
-	sw.PushBits(i.unknown8, 5)
+	sw.PushBits(i.unknown8, unknown8Len)
 	sw.PushBytes(i.Version)
-	sw.PushBits(i.unknown9, 2)
-	sw.PushBits(byte(i.Location.LocationID), 3)
-	sw.PushBits(byte(i.Location.EquippedID), 4)
-	sw.PushBits(byte(i.Location.X), 4)
-	sw.PushBits(byte(i.Location.Y), 3)
+	sw.PushBits(i.unknown9, unknown9Len)
+	sw.PushBits(byte(i.Location.LocationID), locationLocationIDLen)
+	sw.PushBits(byte(i.Location.EquippedID), locationEquippedIDLen)
+	sw.PushBits(i.Location.X, locationXLen)
+	sw.PushBits(i.Location.Y, locationYLen)
 	sw.PushBit(i.unknown10)
-	sw.PushBits(byte(i.Location.StorageID), 3)
+	sw.PushBits(byte(i.Location.StorageID), locationStorageIDLen)
+
 	if i.IsEar {
-		sw.PushBits(byte(i.Ear.Class), 3)
-		sw.PushBits(byte(i.Ear.Level), 7)
+		sw.PushBits(byte(i.Ear.Class), earClassLen)
+		sw.PushBits(i.Ear.Level, earLevelLen)
+
 		for _, c := range i.Ear.Name {
-			sw.PushBits(byte(c), 7)
+			sw.PushBits(byte(c), characterLen)
 		}
-		sw.PushBits(0, 7)
+
+		sw.PushBits(0, characterLen)
 		sw.Align()
 	} else {
 		name := []byte(i.Type)
@@ -651,7 +731,7 @@ func (i *Item) encodeSimpleFields(sw *datautils.StreamWriter) {
 			sw.PushBits(c, 8)
 		}
 		sw.PushBits(byte(' '), 8)
-		sw.PushBits(i.NumberOfItemsInSockets, 3)
+		sw.PushBits(i.NumberOfItemsInSockets, numItemsInSocketsLen)
 	}
 }
 
@@ -728,6 +808,7 @@ const (
 	LowQualityItemLowQuality
 )
 
+// MagicModifier represents a magic modifier
 type MagicModifier struct {
 	ID   uint16
 	Name string
