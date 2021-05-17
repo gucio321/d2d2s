@@ -6,7 +6,6 @@ import (
 	"strings"
 
 	"github.com/OpenDiablo2/OpenDiablo2/d2common/d2datautils"
-	"github.com/OpenDiablo2/OpenDiablo2/d2common/d2enum"
 
 	"github.com/gucio321/d2d2s/datautils"
 	"github.com/gucio321/d2d2s/enums"
@@ -48,7 +47,7 @@ type D2S struct {
 	LeftSkillSwitch,
 	RightSkillSwitch SkillID
 	unknown6   [unknown6BytesCount]byte // probably character apperence in char select menu
-	Difficulty Difficulty
+	Difficulty *Difficulty
 	MapID      uint32
 	unknown7   uint16
 	Mercenary  mercenary
@@ -69,7 +68,7 @@ func New() *D2S {
 	result := &D2S{
 		Status:     &Status{},
 		Hotkeys:    make(hotkeys),
-		Difficulty: make(Difficulty),
+		Difficulty: NewDifficulty(),
 		Quests:     NewQuests(),
 		Waypoints:  NewWaypoints(),
 		NPC:        &NPC{},
@@ -161,15 +160,7 @@ func Unmarshal(data []byte) (*D2S, error) {
 
 	copy(result.unknown6[:], unknown6[:unknown6BytesCount])
 
-	for i := d2enum.DifficultyNormal; i <= d2enum.DifficultyHell; i++ {
-		d := sr.GetByte()
-		if d == 0 {
-			continue
-		}
-
-		result.Difficulty[i] = &DifficultyLevelStatus{}
-		result.Difficulty[i].Unmarshal(d)
-	}
+	result.Difficulty.Load(sr)
 
 	result.MapID = sr.GetUInt32()
 
@@ -315,14 +306,7 @@ func (d *D2S) Encode() ([]byte, error) {
 
 	sw.PushBytes(d.unknown6[:]...)
 
-	for i := d2enum.DifficultyNormal; i <= d2enum.DifficultyHell; i++ {
-		if d.Difficulty[i] == nil {
-			sw.PushBytes(0)
-			continue
-		}
-
-		sw.PushBytes(d.Difficulty[i].Encode())
-	}
+	d.Difficulty.Encode(sw)
 
 	sw.PushUint32(d.MapID)
 	sw.PushUint16(d.unknown7)
