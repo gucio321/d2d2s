@@ -27,12 +27,14 @@ func unknownWaypointsHeaderBytes() [numUnknownWaypointsHeaderBytes]byte {
 // Waypoints contains state (active = true / inactive = false) of any waypoint in game (difficulty level / act)
 type Waypoints map[d2enum.DifficultyType]*[numActs][]bool
 
+// NewWaypoints creates a new waypoints structure
 func NewWaypoints() *Waypoints {
 	result := &Waypoints{}
 	*result = make(Waypoints)
 
 	for i := d2enum.DifficultyNormal; i <= d2enum.DifficultyHell; i++ {
 		(*result)[i] = &[numActs][]bool{}
+
 		for act := 1; act <= numActs; act++ {
 			var l byte
 			if act == 4 { // nolint:gomnd // for act 4

@@ -63,6 +63,7 @@ type D2S struct {
 	IronGolem *IronGolem
 }
 
+// New creates a new D2S structure
 func New() *D2S {
 	result := &D2S{
 		Status:     &Status{},

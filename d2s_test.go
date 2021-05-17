@@ -62,8 +62,7 @@ func Test_Marshal(t *testing.T) {
 
 func Test_New(t *testing.T) {
 	x := New()
-	_, err := x.Encode()
-	if err != nil {
+	if _, err := x.Encode(); err != nil {
 		t.Fatal(err)
 	}
 }

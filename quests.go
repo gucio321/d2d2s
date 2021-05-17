@@ -14,14 +14,18 @@ const (
 	questHeaderUnknownBytesCount = 6
 	defaultQuestsCount           = 6
 	act4QuestsCount              = 3
+	act4                         = 4
+	act5                         = 5
 )
 
 // Quests represents quests status structure
 type Quests map[d2enum.DifficultyType]*[numActs]*QuestsSet
 
+// NewQuests creates a new quests structure
 func NewQuests() *Quests {
 	result := &Quests{}
 	*result = make(Quests)
+
 	for i := d2enum.DifficultyNormal; i <= d2enum.DifficultyHell; i++ {
 		(*result)[i] = &[numActs]*QuestsSet{}
 
@@ -43,9 +47,9 @@ func NewQuests() *Quests {
 			}
 
 			switch act {
-			case 4:
+			case act4:
 				(*result)[i][act-1].unknown1 = make([]byte, 3)
-			case 5:
+			case act5:
 				(*result)[i][act-1].unknown1 = make([]byte, 2)
 				(*result)[i][act-1].unknown2 = make([]byte, 7)
 			}
@@ -129,14 +133,14 @@ func (q *QuestsSet) Unmarshal(sr *datautils.BitMuncher, act int) (err error) {
 	}
 
 	switch act {
-	case 4: // nolint:gomnd // act 4
+	case act4:
 		q.Introduced = sr.GetUInt16() == 1
 
 		loadQuests(sr)
 
 		q.ActEnd = sr.GetUInt16() == 1
 		q.unknown1 = sr.GetBytes(3) // nolint:gomnd // 3 unknown bytes
-	case 5: // nolint:gomnd // act 5
+	case act5:
 		q.Introduced = sr.GetUInt16() == 1
 		q.unknown1 = sr.GetBytes(2) // nolint:gomnd // 2 unknown bytes
 
@@ -161,7 +165,7 @@ func (q *QuestsSet) Encode() []byte {
 	sw := d2datautils.CreateStreamWriter()
 
 	switch q.Act {
-	case 4: // nolint:gomnd // act 4
+	case act4:
 		if q.Introduced {
 			sw.PushUint16(1)
 		} else {
@@ -180,7 +184,7 @@ func (q *QuestsSet) Encode() []byte {
 		}
 
 		sw.PushBytes(q.unknown1...)
-	case 5: // nolint:gomnd // act 5
+	case act5:
 		if q.Introduced {
 			sw.PushUint16(1)
 		} else {
