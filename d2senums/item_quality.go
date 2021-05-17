@@ -1,4 +1,4 @@
-package enums
+package d2senums
 
 //go:generate stringer -linecomment -type ItemQuality -output item_quality_string.go
 //go:generate stringer -linecomment -type LowQualityItemType -output low_quality_string.go

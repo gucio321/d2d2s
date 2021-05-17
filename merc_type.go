@@ -6,6 +6,7 @@ import (
 
 	"github.com/OpenDiablo2/OpenDiablo2/d2common/d2datautils"
 
+	"github.com/gucio321/d2d2s/d2sitems"
 	"github.com/gucio321/d2d2s/datautils"
 )
 
@@ -17,7 +18,7 @@ type mercenary struct {
 		Code uint16
 	}
 	Experience uint32
-	Items      *Items
+	Items      *d2sitems.Items
 }
 
 // todo; see: https://user.xmission.com/~trevin/DiabloIIv1.09_Mercenaries.html#code
@@ -40,11 +41,11 @@ func (m *mercenary) LoadMercItems(sr *datautils.BitMuncher) error {
 		return nil // just no merc
 	}
 
-	m.Items = &Items{}
+	m.Items = &d2sitems.Items{}
 
 	numItems, err := m.Items.LoadHeader(sr)
 	if err != nil {
-		return err
+		return fmt.Errorf("error loading mercenary items: %w", err)
 	}
 
 	if err := m.Items.LoadList(sr, numItems); err != nil {

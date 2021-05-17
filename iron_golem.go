@@ -2,9 +2,11 @@ package d2d2s
 
 import (
 	"errors"
+	"fmt"
 
 	"github.com/OpenDiablo2/OpenDiablo2/d2common/d2datautils"
 
+	"github.com/gucio321/d2d2s/d2sitems"
 	"github.com/gucio321/d2d2s/datautils"
 )
 
@@ -12,7 +14,7 @@ const golemHeaderID = "kf"
 
 // IronGolem represents an iron golem
 type IronGolem struct {
-	Item *Item
+	Item *d2sitems.Item
 }
 
 // Load loads a golem's data
@@ -28,9 +30,9 @@ func (i *IronGolem) Load(sr *datautils.BitMuncher) error {
 		return nil // no golem
 	}
 
-	item := &Items{}
+	item := &d2sitems.Items{}
 	if err := item.LoadList(sr, 1); err != nil {
-		return err
+		return fmt.Errorf("error lading golem item: %w", err)
 	}
 
 	i.Item = &(*item)[0]

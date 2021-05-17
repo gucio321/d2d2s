@@ -7,8 +7,10 @@ import (
 
 	"github.com/OpenDiablo2/OpenDiablo2/d2common/d2datautils"
 
+	"github.com/gucio321/d2d2s/d2scorpse"
+	"github.com/gucio321/d2d2s/d2senums"
+	"github.com/gucio321/d2d2s/d2sitems"
 	"github.com/gucio321/d2d2s/datautils"
-	"github.com/gucio321/d2d2s/enums"
 )
 
 const (
@@ -35,7 +37,7 @@ type D2S struct {
 	Status      *Status
 	Progression byte
 	unknown2    uint16
-	Class       enums.CharacterClass
+	Class       d2senums.CharacterClass
 	unknown3    uint16
 	Level       byte
 	unknown4    uint32
@@ -57,8 +59,8 @@ type D2S struct {
 	NPC        *NPC
 	Stats      *Stats
 	Skills     [numSkills]SkillID
-	Items      *Items
-	Corpse     *Corpse
+	Items      *d2sitems.Items
+	Corpse     *d2scorpse.Corpse
 	// necromancer only
 	IronGolem *IronGolem
 }
@@ -73,8 +75,8 @@ func New() *D2S {
 		Waypoints:  NewWaypoints(),
 		NPC:        &NPC{},
 		Stats:      &Stats{},
-		Items:      &Items{},
-		Corpse:     &Corpse{},
+		Items:      &d2sitems.Items{},
+		Corpse:     d2scorpse.New(),
 		IronGolem:  &IronGolem{},
 	}
 
@@ -125,7 +127,7 @@ func Unmarshal(data []byte) (*D2S, error) {
 	result.unknown2 = sr.GetUInt16()
 
 	class := sr.GetByte()
-	result.Class = enums.CharacterClass(class)
+	result.Class = d2senums.CharacterClass(class)
 
 	result.unknown3 = sr.GetUInt16()
 
@@ -230,16 +232,16 @@ func Unmarshal(data []byte) (*D2S, error) {
 
 	numItems, err := result.Items.LoadHeader(sr)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("error loading items header: %w", err)
 	}
 
 	if err := result.Items.LoadList(sr, numItems); err != nil {
-		return nil, err
+		return nil, fmt.Errorf("error loading items list: %w", err)
 	}
 
 	// thanks to @nokka <https://github.com/nokka/d2s> for figuring out these fields!
 	if err := result.Corpse.Load(sr); err != nil {
-		return nil, err
+		return nil, fmt.Errorf("error loading corpse: %w", err)
 	}
 
 	if result.Status.Expansion {
@@ -249,7 +251,7 @@ func Unmarshal(data []byte) (*D2S, error) {
 	}
 
 	// iron golem for necromancer
-	if result.Class == enums.CharacterClassNecromancer && result.Status.Expansion {
+	if result.Class == d2senums.CharacterClassNecromancer && result.Status.Expansion {
 		if err := result.IronGolem.Load(sr); err != nil {
 			return nil, err
 		}
@@ -340,12 +342,12 @@ func (d *D2S) Encode() ([]byte, error) {
 	sw.PushBytes(d.Items.Encode()...)
 
 	if err := d.Corpse.Encode(sw); err != nil {
-		return nil, err
+		return nil, fmt.Errorf("error encoding corpse: %w", err)
 	}
 
 	d.Mercenary.Encode(sw)
 
-	if d.Class == enums.CharacterClassNecromancer && d.Status.Expansion {
+	if d.Class == d2senums.CharacterClassNecromancer && d.Status.Expansion {
 		d.IronGolem.Encode(sw)
 	}
 

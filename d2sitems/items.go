@@ -1,4 +1,4 @@
-package d2d2s
+package d2sitems
 
 import (
 	"errors"
@@ -6,9 +6,10 @@ import (
 	"log"
 	"strings"
 
+	"github.com/gucio321/d2d2s/d2senums"
+	"github.com/gucio321/d2d2s/d2sitems/d2smagicattributes"
+	"github.com/gucio321/d2d2s/d2sitems/itemdata"
 	"github.com/gucio321/d2d2s/datautils"
-	"github.com/gucio321/d2d2s/enums"
-	"github.com/gucio321/d2d2s/itemdata"
 )
 
 const (
@@ -145,16 +146,16 @@ type Item struct {
 	Etheral    bool
 	Version    byte // byte
 	Location   struct {
-		LocationID enums.ItemLocationType  // 3 bits
-		EquippedID enums.ItemEquippedPlace // 4 bits
-		X          byte                    // 4 bits
-		Y          byte                    // 3 bits
-		StorageID  enums.StoragePlace      // 3 bits
+		LocationID d2senums.ItemLocationType  // 3 bits
+		EquippedID d2senums.ItemEquippedPlace // 4 bits
+		X          byte                       // 4 bits
+		Y          byte                       // 3 bits
+		StorageID  d2senums.StoragePlace      // 3 bits
 	}
 	Ear struct {
-		Class enums.CharacterClass // 3 bits
-		Level byte                 // 7 bits
-		Name  string               // len(Name) * 7 bits
+		Class d2senums.CharacterClass // 3 bits
+		Level byte                    // 7 bits
+		Name  string                  // len(Name) * 7 bits
 	}
 	Type       string
 	TypeID     itemdata.ItemTypeID
@@ -169,9 +170,9 @@ type Item struct {
 	NumberOfItemsInSockets byte // 3 bits
 
 	// Part 2; extended
-	ID              uint32            // 32 bits (just uint32)
-	Level           byte              // 7 bits
-	Quality         enums.ItemQuality // 4 bits
+	ID              uint32               // 32 bits (just uint32)
+	Level           byte                 // 7 bits
+	Quality         d2senums.ItemQuality // 4 bits
 	MultiplePicture struct {
 		HasMultiplePicture bool // 1 bit
 		ID                 byte // 7 bits
@@ -197,7 +198,7 @@ type Item struct {
 		SetName       string
 		SetListID     byte // 5 bits
 		SetListCount  uint64
-		SetAttributes []MagicAttributes
+		SetAttributes []d2smagicattributes.MagicAttributes
 
 		UniqueID   uint16 // 12 bits
 		UniqueName string
@@ -207,7 +208,7 @@ type Item struct {
 		ID          uint16 // 12 bits
 		Name        string
 		unknown     byte // 4 bits (brobably always value 5)
-		Attributes  MagicAttributes
+		Attributes  d2smagicattributes.MagicAttributes
 	}
 	Personalization struct {
 		IsPersonalized bool
@@ -227,7 +228,7 @@ type Item struct {
 		TotalNumberOfSockets byte // 4 bits
 	}
 
-	Attributes    MagicAttributes
+	Attributes    d2smagicattributes.MagicAttributes
 	SocketedItems []Item
 }
 
@@ -253,7 +254,7 @@ func (i *Item) Load(sr *datautils.BitMuncher) (err error) {
 func (i *Item) loadExtendedFields(sr *datautils.BitMuncher) (err error) {
 	i.ID = sr.GetUInt32() // probably 4 * 8 chars
 	i.Level = byte(sr.GetBits(levelLen))
-	i.Quality = enums.ItemQuality(sr.GetBits(qualityLen))
+	i.Quality = d2senums.ItemQuality(sr.GetBits(qualityLen))
 
 	// multiple picture
 	i.MultiplePicture.HasMultiplePicture = sr.GetBit() == 1
@@ -269,13 +270,13 @@ func (i *Item) loadExtendedFields(sr *datautils.BitMuncher) (err error) {
 	}
 
 	switch i.Quality {
-	case enums.ItemQualityLow:
+	case d2senums.ItemQualityLow:
 		i.QualityData.LowQualityID = byte(sr.GetBits(lowQualityIDLen))
-	case enums.ItemQualityNormal:
+	case d2senums.ItemQualityNormal:
 		// noop
-	case enums.ItemQualityHigh:
+	case d2senums.ItemQualityHigh:
 		i.QualityData.HighQualityData = byte(sr.GetBits(highQualityDataLen))
-	case enums.ItemQualityEnchanced:
+	case d2senums.ItemQualityEnchanced:
 		i.QualityData.MagicPrefix = make([]MagicModifier, 1)
 		id := uint16(sr.GetBits(magicModifierIDLen)) // helper variable (avoid noise with x.y.z.id ;-)
 		i.QualityData.MagicPrefix[0].ID = id
@@ -293,7 +294,7 @@ func (i *Item) loadExtendedFields(sr *datautils.BitMuncher) (err error) {
 		if ok {
 			i.QualityData.MagicSuffix[0].Name = suffixName
 		}
-	case enums.ItemQualitySet:
+	case d2senums.ItemQualitySet:
 		id := uint16(sr.GetBits(setIDLen))
 		i.QualityData.SetID = id
 		setName, ok := itemdata.SetNames[id]
@@ -301,7 +302,7 @@ func (i *Item) loadExtendedFields(sr *datautils.BitMuncher) (err error) {
 		if ok {
 			i.QualityData.SetName = setName
 		}
-	case enums.ItemQualityRare, enums.ItemQualityCrafted:
+	case d2senums.ItemQualityRare, d2senums.ItemQualityCrafted:
 		i.QualityData.RareNames = make([]MagicModifier, 2)
 
 		for n := 0; n < 2; n++ {
@@ -342,7 +343,7 @@ func (i *Item) loadExtendedFields(sr *datautils.BitMuncher) (err error) {
 				}
 			}
 		}
-	case enums.ItemQualityUnique:
+	case d2senums.ItemQualityUnique:
 		id := uint16(sr.GetBits(uniqueIDLen))
 		i.QualityData.UniqueID = id
 		uniqueName, ok := itemdata.UniqueNames[id]
@@ -410,7 +411,7 @@ func (i *Item) loadExtendedFields(sr *datautils.BitMuncher) (err error) {
 	}
 
 	var setListValue byte
-	if i.Quality == enums.ItemQualitySet {
+	if i.Quality == d2senums.ItemQualitySet {
 		setListValue = byte(sr.GetBits(setListIDLen))
 		listCount, ok := itemdata.SetListMap[setListValue]
 		i.QualityData.SetListID = setListValue
@@ -423,15 +424,15 @@ func (i *Item) loadExtendedFields(sr *datautils.BitMuncher) (err error) {
 	}
 
 	if err := i.Attributes.Load(sr); err != nil {
-		return err
+		return fmt.Errorf("error loading item attributes: %w", err)
 	}
 
 	// nolint:wsl // note at the end of block
 	if c := i.QualityData.SetListCount; c > 0 {
 		for j := 0; j < int(c); j++ {
-			i.QualityData.SetAttributes = append(i.QualityData.SetAttributes, MagicAttributes{})
+			i.QualityData.SetAttributes = append(i.QualityData.SetAttributes, d2smagicattributes.MagicAttributes{})
 			if err := i.QualityData.SetAttributes[len(i.QualityData.SetAttributes)-1].Load(sr); err != nil {
-				return err
+				return fmt.Errorf("error loading set attributes: %w", err)
 			}
 		}
 
@@ -441,7 +442,7 @@ func (i *Item) loadExtendedFields(sr *datautils.BitMuncher) (err error) {
 
 	if i.RuneWord.HasRuneWord {
 		if err := i.RuneWord.Attributes.Load(sr); err != nil {
-			return err
+			return fmt.Errorf("error loading runeword attributes: %w", err)
 		}
 	}
 
@@ -473,15 +474,15 @@ func (i *Item) loadSimpleFields(sr *datautils.BitMuncher) (err error) {
 	i.unknown8 = byte(sr.GetBits(unknown8Len))
 	i.Version = sr.GetByte()
 	i.unknown9 = byte(sr.GetBits(unknown9Len))
-	i.Location.LocationID = enums.ItemLocationType(sr.GetBits(locationLocationIDLen))
-	i.Location.EquippedID = enums.ItemEquippedPlace(sr.GetBits(locationEquippedIDLen))
+	i.Location.LocationID = d2senums.ItemLocationType(sr.GetBits(locationLocationIDLen))
+	i.Location.EquippedID = d2senums.ItemEquippedPlace(sr.GetBits(locationEquippedIDLen))
 	i.Location.X = byte(sr.GetBits(locationXLen))
 	i.Location.Y = byte(sr.GetBits(locationYLen))
 	i.unknown10 = sr.GetBit() == 1
-	i.Location.StorageID = enums.StoragePlace(sr.GetBits(locationStorageIDLen))
+	i.Location.StorageID = d2senums.StoragePlace(sr.GetBits(locationStorageIDLen))
 
 	if i.IsEar {
-		i.Ear.Class = enums.CharacterClass(sr.GetBits(earClassLen))
+		i.Ear.Class = d2senums.CharacterClass(sr.GetBits(earClassLen))
 		i.Ear.Level = byte(sr.GetBits(earLevelLen))
 
 		var name []byte
@@ -583,18 +584,18 @@ func (i *Item) encodeExtendedFields(sw *datautils.StreamWriter) (err error) {
 	}
 
 	switch i.Quality {
-	case enums.ItemQualityLow:
+	case d2senums.ItemQualityLow:
 		sw.PushBits(i.QualityData.LowQualityID, lowQualityIDLen)
-	case enums.ItemQualityNormal:
+	case d2senums.ItemQualityNormal:
 		// noop
-	case enums.ItemQualityHigh:
+	case d2senums.ItemQualityHigh:
 		sw.PushBits(i.QualityData.HighQualityData, highQualityDataLen)
-	case enums.ItemQualityEnchanced:
+	case d2senums.ItemQualityEnchanced:
 		sw.PushBits16(i.QualityData.MagicPrefix[0].ID, 11)
 		sw.PushBits16(i.QualityData.MagicSuffix[0].ID, 11)
-	case enums.ItemQualitySet:
+	case d2senums.ItemQualitySet:
 		sw.PushBits16(i.QualityData.SetID, setIDLen)
-	case enums.ItemQualityRare, enums.ItemQualityCrafted:
+	case d2senums.ItemQualityRare, d2senums.ItemQualityCrafted:
 		for _, name := range i.QualityData.RareNames {
 			sw.PushBits(byte(name.ID), 8)
 		}
@@ -616,7 +617,7 @@ func (i *Item) encodeExtendedFields(sw *datautils.StreamWriter) (err error) {
 				sw.PushBits16(i.QualityData.MagicSuffix[n].ID, 11)
 			}
 		}
-	case enums.ItemQualityUnique:
+	case d2senums.ItemQualityUnique:
 		sw.PushBits16(i.QualityData.UniqueID, uniqueIDLen)
 	}
 
@@ -664,24 +665,24 @@ func (i *Item) encodeExtendedFields(sw *datautils.StreamWriter) (err error) {
 		sw.PushBits(i.Socketed.TotalNumberOfSockets, totalNSocketsLen)
 	}
 
-	if i.Quality == enums.ItemQualitySet {
+	if i.Quality == d2senums.ItemQualitySet {
 		sw.PushBits(i.QualityData.SetListID, setListIDLen)
 	}
 
 	if err := i.Attributes.Encode(sw); err != nil {
-		return err
+		return fmt.Errorf("error encoding item attributes: %w", err)
 	}
 
 	// OFC length of set attributes is > 0 fo sets
 	for _, a := range i.QualityData.SetAttributes {
 		if err := a.Encode(sw); err != nil {
-			return err
+			return fmt.Errorf("error encoding set attributes: %w", err)
 		}
 	}
 
 	if i.RuneWord.HasRuneWord {
 		if err := i.RuneWord.Attributes.Encode(sw); err != nil {
-			return err
+			return fmt.Errorf("error encoding runeword's attributes: %w", err)
 		}
 	}
 

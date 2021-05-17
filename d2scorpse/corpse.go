@@ -1,4 +1,4 @@
-package d2d2s
+package d2scorpse
 
 import (
 	"errors"
@@ -6,15 +6,23 @@ import (
 
 	"github.com/OpenDiablo2/OpenDiablo2/d2common/d2datautils"
 
+	"github.com/gucio321/d2d2s/d2sitems"
 	"github.com/gucio321/d2d2s/datautils"
 )
 
 const corpseUnknownBytesCount = 12
 
+// New creates a new corpse data
+func New() *Corpse {
+	result := &Corpse{}
+
+	return result
+}
+
 // Corpse represents a ... corpse ?!
 type Corpse struct {
 	unknown [corpseUnknownBytesCount]byte
-	Items   *Items
+	Items   *d2sitems.Items
 }
 
 // Load loads corpse
@@ -33,11 +41,11 @@ func (c *Corpse) Load(sr *datautils.BitMuncher) error {
 	unknown := sr.GetBytes(corpseUnknownBytesCount)
 	copy(c.unknown[:], unknown[:corpseUnknownBytesCount])
 
-	c.Items = &Items{}
+	c.Items = &d2sitems.Items{}
 
 	numItems, err := c.Items.LoadHeader(sr)
 	if err != nil {
-		return err
+		return fmt.Errorf("error loading items header: %w", err)
 	}
 
 	if err := c.Items.LoadList(sr, numItems); err != nil {

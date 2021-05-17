@@ -1,10 +1,10 @@
-package d2d2s
+package d2smagicattributes
 
 import (
 	"errors"
 
+	"github.com/gucio321/d2d2s/d2sitems/itemdata"
 	"github.com/gucio321/d2d2s/datautils"
-	"github.com/gucio321/d2d2s/itemdata"
 )
 
 const endOfListMark = 0x1ff

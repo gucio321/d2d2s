@@ -1,4 +1,4 @@
-package enums
+package d2senums
 
 //go:generate stringer -linecomment -type ItemLocationType -output location_type_string.go
 //go:generate stringer -linecomment -type StoragePlace -output storage_place_string.go

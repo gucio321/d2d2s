@@ -1,4 +1,4 @@
-package enums
+package d2senums
 
 //go:generate stringer -type CharacterClass -trimprefix CharacterClass -linecomment -output class_string.go
 
