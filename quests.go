@@ -6,6 +6,7 @@ import (
 	"github.com/OpenDiablo2/OpenDiablo2/d2common/d2datautils"
 	"github.com/OpenDiablo2/OpenDiablo2/d2common/d2enum"
 
+	"github.com/gucio321/d2d2s/d2senums"
 	"github.com/gucio321/d2d2s/datautils"
 )
 
@@ -19,7 +20,7 @@ const (
 )
 
 // Quests represents quests status structure
-type Quests map[d2enum.DifficultyType]*[numActs]*QuestsSet
+type Quests map[d2enum.DifficultyType]*[d2senums.NumActs]*QuestsSet
 
 // NewQuests creates a new quests structure
 func NewQuests() *Quests {
@@ -27,9 +28,9 @@ func NewQuests() *Quests {
 	*result = make(Quests)
 
 	for i := d2enum.DifficultyNormal; i <= d2enum.DifficultyHell; i++ {
-		(*result)[i] = &[numActs]*QuestsSet{}
+		(*result)[i] = &[d2senums.NumActs]*QuestsSet{}
 
-		for act := 1; act <= numActs; act++ {
+		for act := 1; act <= d2senums.NumActs; act++ {
 			var l int
 			if act == 4 { // nolint:gomnd // act 4
 				l = act4QuestsCount
@@ -76,7 +77,7 @@ func (q *Quests) Unmarshal(data *[numQuestsBytes]byte) error {
 	_ = sr.GetBytes(questHeaderUnknownBytesCount)
 
 	for i := d2enum.DifficultyNormal; i <= d2enum.DifficultyHell; i++ {
-		for act := 1; act <= numActs; act++ {
+		for act := 1; act <= d2senums.NumActs; act++ {
 			err := (*q)[i][act-1].Unmarshal(sr, act)
 			if err != nil {
 				return err
@@ -97,7 +98,7 @@ func (q *Quests) Encode() (result [numQuestsBytes]byte) {
 	sw.PushBytes(unknown[:]...)
 
 	for i := d2enum.DifficultyNormal; i <= d2enum.DifficultyHell; i++ {
-		for act := 1; act <= numActs; act++ {
+		for act := 1; act <= d2senums.NumActs; act++ {
 			data := (*q)[i][act-1].Encode()
 			sw.PushBytes(data...)
 		}

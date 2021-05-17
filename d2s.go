@@ -15,6 +15,7 @@ import (
 	"github.com/gucio321/d2d2s/d2sitems"
 	"github.com/gucio321/d2d2s/d2smercenary"
 	"github.com/gucio321/d2d2s/d2snpc"
+	"github.com/gucio321/d2d2s/d2swaypoints"
 	"github.com/gucio321/d2d2s/datautils"
 )
 
@@ -60,7 +61,7 @@ type D2S struct {
 	Mercenary  *d2smercenary.Mercenary
 	unknown8   [unknown8BytesCount]byte
 	Quests     *Quests
-	Waypoints  *Waypoints
+	Waypoints  *d2swaypoints.Waypoints
 	NPC        *d2snpc.NPC
 	Stats      *Stats
 	Skills     [numSkills]SkillID
@@ -78,7 +79,7 @@ func New() *D2S {
 		Difficulty: d2sdifficulty.New(),
 		Mercenary:  d2smercenary.New(),
 		Quests:     NewQuests(),
-		Waypoints:  NewWaypoints(),
+		Waypoints:  d2swaypoints.New(),
 		NPC:        d2snpc.New(),
 		Stats:      &Stats{},
 		Items:      &d2sitems.Items{},
@@ -207,11 +208,11 @@ func Unmarshal(data []byte) (*D2S, error) {
 		return nil, fmt.Errorf("error loading quests: %w", err)
 	}
 
-	wd := sr.GetBytes(numWaypointsBytes)
+	wd := sr.GetBytes(d2swaypoints.NumWaypointsBytes)
 
-	var waypointsData [numWaypointsBytes]byte
+	var waypointsData [d2swaypoints.NumWaypointsBytes]byte
 
-	copy(waypointsData[:], wd[:numWaypointsBytes])
+	copy(waypointsData[:], wd[:d2swaypoints.NumWaypointsBytes])
 
 	if err := result.Waypoints.Load(&waypointsData); err != nil { // nolint:govet // it is ok
 		return nil, fmt.Errorf("error loading waypoints data: %w", err)
