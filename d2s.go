@@ -33,7 +33,7 @@ const (
 	checksumPosition      = 12
 )
 
-type hotkeys map[byte]SkillID
+type hotkeys map[byte]d2senums.SkillID
 
 // D2S represents a Diablo II character save file structure
 type D2S struct {
@@ -53,7 +53,7 @@ type D2S struct {
 	LeftSkill,
 	RightSkill,
 	LeftSkillSwitch,
-	RightSkillSwitch SkillID
+	RightSkillSwitch d2senums.SkillID
 	unknown6   [unknown6BytesCount]byte // probably character apperence in char select menu
 	Difficulty *d2sdifficulty.Difficulty
 	MapID      uint32
@@ -64,7 +64,7 @@ type D2S struct {
 	Waypoints  *d2swaypoints.Waypoints
 	NPC        *d2snpc.NPC
 	Stats      *Stats
-	Skills     [numSkills]SkillID
+	Skills     [numSkills]d2senums.SkillID
 	Items      *d2sitems.Items
 	Corpse     *d2scorpse.Corpse
 	// necromancer only
@@ -154,21 +154,21 @@ func Unmarshal(data []byte) (*D2S, error) {
 
 	for i := byte(0); i < skillHotKeys; i++ {
 		id := sr.GetUInt32()
-		result.Hotkeys[i] = SkillID(id)
+		result.Hotkeys[i] = d2senums.SkillID(id)
 	}
 
 	lsk := sr.GetUInt32()
-	result.LeftSkill = SkillID(lsk)
+	result.LeftSkill = d2senums.SkillID(lsk)
 
 	rsk := sr.GetUInt32()
-	result.RightSkill = SkillID(rsk)
+	result.RightSkill = d2senums.SkillID(rsk)
 
 	if result.Status.Expansion {
 		alsk := sr.GetUInt32()
-		result.LeftSkillSwitch = SkillID(alsk)
+		result.LeftSkillSwitch = d2senums.SkillID(alsk)
 
 		arsk := sr.GetUInt32()
-		result.RightSkillSwitch = SkillID(arsk)
+		result.RightSkillSwitch = d2senums.SkillID(arsk)
 	}
 
 	unknown6 := sr.GetBytes(unknown6BytesCount)
@@ -240,7 +240,7 @@ func Unmarshal(data []byte) (*D2S, error) {
 
 	for i := 0; i < numSkills; i++ {
 		id := sr.GetByte()
-		result.Skills[i] = SkillID(id)
+		result.Skills[i] = d2senums.SkillID(id)
 	}
 
 	numItems, err := result.Items.LoadHeader(sr)

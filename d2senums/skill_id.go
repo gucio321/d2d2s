@@ -1,4 +1,4 @@
-package d2d2s
+package d2senums
 
 // SkillID represents a skill ID
 type SkillID int32
