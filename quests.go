@@ -34,7 +34,20 @@ func NewQuests() *Quests {
 			}
 
 			(*result)[i][act-1] = &QuestsSet{
+				Act:    act,
 				Quests: make([]*Quest, l),
+			}
+
+			for qst := range (*result)[i][act-1].Quests {
+				(*result)[i][act-1].Quests[qst] = &Quest{}
+			}
+
+			switch act {
+			case 4:
+				(*result)[i][act-1].unknown1 = make([]byte, 3)
+			case 5:
+				(*result)[i][act-1].unknown1 = make([]byte, 2)
+				(*result)[i][act-1].unknown2 = make([]byte, 7)
 			}
 		}
 	}
@@ -106,15 +119,20 @@ type QuestsSet struct {
 func (q *QuestsSet) Unmarshal(sr *datautils.BitMuncher, act int) (err error) {
 	q.Act = act
 
+	loadQuests := func(sr *datautils.BitMuncher) {
+		for qst := range q.Quests {
+			q.Quests[qst] = &Quest{}
+			data := sr.GetBytes(2) // nolint:gomnd // quest data size
+			copy(q.Quests[qst].Data[:], data[:2])
+			q.Quests[qst].Load()
+		}
+	}
+
 	switch act {
 	case 4: // nolint:gomnd // act 4
 		q.Introduced = sr.GetUInt16() == 1
 
-		for qst := range q.Quests {
-			q.Quests[qst] = &Quest{}
-			q.Quests[qst].Data = sr.GetBytes(2) // nolint:gomnd // quest data size
-			q.Quests[qst].Load()
-		}
+		loadQuests(sr)
 
 		q.ActEnd = sr.GetUInt16() == 1
 		q.unknown1 = sr.GetBytes(3) // nolint:gomnd // 3 unknown bytes
@@ -122,11 +140,7 @@ func (q *QuestsSet) Unmarshal(sr *datautils.BitMuncher, act int) (err error) {
 		q.Introduced = sr.GetUInt16() == 1
 		q.unknown1 = sr.GetBytes(2) // nolint:gomnd // 2 unknown bytes
 
-		for qst := range q.Quests {
-			q.Quests[qst] = &Quest{}
-			q.Quests[qst].Data = sr.GetBytes(2) // nolint:gomnd // quest data size
-			q.Quests[qst].Load()
-		}
+		loadQuests(sr)
 
 		q.ActEnd = sr.GetUInt16() == 1
 
@@ -134,11 +148,7 @@ func (q *QuestsSet) Unmarshal(sr *datautils.BitMuncher, act int) (err error) {
 	default:
 		q.Introduced = sr.GetUInt16() == 1
 
-		for qst := range q.Quests {
-			q.Quests[qst] = &Quest{}
-			q.Quests[qst].Data = sr.GetBytes(2) // nolint:gomnd // quest data size
-			q.Quests[qst].Load()
-		}
+		loadQuests(sr)
 
 		q.ActEnd = sr.GetUInt16() == 1
 	}
@@ -160,7 +170,7 @@ func (q *QuestsSet) Encode() []byte {
 
 		for qst := range q.Quests {
 			// TODO: Quest.Encode()
-			sw.PushBytes(q.Quests[qst].Data...)
+			sw.PushBytes(q.Quests[qst].Data[:]...)
 		}
 
 		if q.ActEnd {
@@ -181,7 +191,7 @@ func (q *QuestsSet) Encode() []byte {
 
 		for qst := range q.Quests {
 			// TODO: Quest.Encode()
-			sw.PushBytes(q.Quests[qst].Data...)
+			sw.PushBytes(q.Quests[qst].Data[:]...)
 		}
 
 		if q.ActEnd {
@@ -200,7 +210,7 @@ func (q *QuestsSet) Encode() []byte {
 
 		for qst := range q.Quests {
 			// TODO: Quest.Encode()
-			sw.PushBytes(q.Quests[qst].Data...)
+			sw.PushBytes(q.Quests[qst].Data[:]...)
 		}
 
 		if q.ActEnd {
@@ -217,25 +227,25 @@ func (q *QuestsSet) Encode() []byte {
 
 // Quest represents a single quest's state
 type Quest struct {
-	Data          []byte
+	Data          [2]byte
 	Completed     bool
 	Done          bool // all requirements has been completed (need to get reward)
 	Started       bool // when NPC gives you quest
-	Body          []bool
+	Body          [9]bool
 	Closed        bool //  you have seen the swirling fire animation that closes a quest icon.
 	JustCompleted bool // gets set, when completed in current game
 }
 
 // Load loads quest into Quest structure
 func (q *Quest) Load() {
-	bm := datautils.CreateBitMuncher(q.Data, 0)
+	bm := datautils.CreateBitMuncher(q.Data[:], 0)
 
 	q.Completed = bm.GetBit() == 1
 	q.Done = bm.GetBit() == 1
 	q.Started = bm.GetBit() == 1
 
 	for i := 0; i < 9; i++ {
-		q.Body = append(q.Body, bm.GetBit() == 1)
+		q.Body[i] = bm.GetBit() == 1
 	}
 
 	q.Closed = bm.GetBit() == 1
