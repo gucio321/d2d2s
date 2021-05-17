@@ -76,6 +76,7 @@ type D2S struct {
 // New creates a new D2S structure
 func New() *D2S {
 	result := &D2S{
+		Version:    d2senums.VersionLODLatest,
 		Status:     d2sstatus.New(),
 		Hotkeys:    make(hotkeys),
 		Difficulty: d2sdifficulty.New(),
