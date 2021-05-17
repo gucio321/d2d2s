@@ -59,3 +59,11 @@ func Test_Marshal(t *testing.T) {
 	// fmt.Println(bytes.Equal(data[m:len(d)], d[m:]))
 	// t.Fail()
 }
+
+func Test_New(t *testing.T) {
+	x := New()
+	_, err := x.Encode()
+	if err != nil {
+		t.Fatal(err)
+	}
+}

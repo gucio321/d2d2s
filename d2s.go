@@ -63,11 +63,7 @@ type D2S struct {
 	IronGolem *IronGolem
 }
 
-// Unmarshal loads d2s file into D2S structure
-// nolint:funlen,gocyclo // probably inpossible to reduce, but TODO
-func Unmarshal(data []byte) (*D2S, error) {
-	var err error
-
+func New() *D2S {
 	result := &D2S{
 		Status:     &Status{},
 		Hotkeys:    make(hotkeys),
@@ -80,6 +76,16 @@ func Unmarshal(data []byte) (*D2S, error) {
 		Corpse:     &Corpse{},
 		IronGolem:  &IronGolem{},
 	}
+
+	return result
+}
+
+// Unmarshal loads d2s file into D2S structure
+// nolint:funlen,gocyclo // probably inpossible to reduce, but TODO
+func Unmarshal(data []byte) (*D2S, error) {
+	var err error
+
+	result := New()
 
 	sr := datautils.CreateBitMuncher(data, 0)
 
