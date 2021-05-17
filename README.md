@@ -1,3 +1,7 @@
+![CircleCI](https://img.shields.io/circleci/build/github/gucio321/d2d2s/master)
+[![Go Report Card](https://goreportcard.com/badge/github.com/gucio321/d2d2s)](https://goreportcard.com/report/github.com/gucio321/d2d2s)
+[![GoDoc](https://pkg.go.dev/badge/github.com/gucio321/d2d2s?utm_source=godoc)](https://pkg.go.dev/mod/github.com/gucio321/d2d2s)
+
 ## Description
 
 This package can be used for loading, modifing and saving Diablo II
