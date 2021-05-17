@@ -2,6 +2,7 @@ package d2d2s
 
 import (
 	"errors"
+	"fmt"
 
 	"github.com/OpenDiablo2/OpenDiablo2/d2common/d2datautils"
 
@@ -47,7 +48,7 @@ func (m *mercenary) LoadMercItems(sr *datautils.BitMuncher) error {
 	}
 
 	if err := m.Items.LoadList(sr, numItems); err != nil {
-		return err
+		return fmt.Errorf("error reading mercenary items list: %w", err)
 	}
 
 	return nil

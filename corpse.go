@@ -2,6 +2,7 @@ package d2d2s
 
 import (
 	"errors"
+	"fmt"
 
 	"github.com/OpenDiablo2/OpenDiablo2/d2common/d2datautils"
 
@@ -40,7 +41,7 @@ func (c *Corpse) Load(sr *datautils.BitMuncher) error {
 	}
 
 	if err := c.Items.LoadList(sr, numItems); err != nil {
-		return err
+		return fmt.Errorf("error loading corpse items list: %w", err)
 	}
 
 	return nil

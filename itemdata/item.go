@@ -1,5 +1,5 @@
 // Package itemdata contains data copied from https://github.com/nokka/d2s , Thanx!
-// nolint:gochecknoglobals,gomnd,golint,stylecheck,unused,deadcode,varcheck //data file
+// nolint:gochecknoglobals,gomnd,golint,stylecheck,unused,deadcode,varcheck,revive //data file
 package itemdata
 
 func GetTypeID(t string) ItemTypeID {
