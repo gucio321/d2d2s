@@ -1,4 +1,4 @@
-package d2d2s
+package d2sstatus
 
 import (
 	"github.com/OpenDiablo2/OpenDiablo2/d2common/d2datautils"
@@ -16,6 +16,12 @@ type Status struct {
 	Expansion,
 	Ladder,
 	Unknown7 bool
+}
+
+// New creates a new status structure
+func New() *Status {
+	result := &Status{}
+	return result
 }
 
 // Unmarshal loads data into status structure

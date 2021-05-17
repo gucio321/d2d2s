@@ -16,6 +16,7 @@ import (
 	"github.com/gucio321/d2d2s/d2smercenary"
 	"github.com/gucio321/d2d2s/d2snpc"
 	"github.com/gucio321/d2d2s/d2squests"
+	"github.com/gucio321/d2d2s/d2sstatus"
 	"github.com/gucio321/d2d2s/d2swaypoints"
 	"github.com/gucio321/d2d2s/datautils"
 )
@@ -40,7 +41,7 @@ type D2S struct {
 	Version     d2senums.Version
 	unknown1    uint32
 	Name        string
-	Status      *Status
+	Status      *d2sstatus.Status
 	Progression byte
 	unknown2    uint16
 	Class       d2senums.CharacterClass
@@ -74,7 +75,7 @@ type D2S struct {
 // New creates a new D2S structure
 func New() *D2S {
 	result := &D2S{
-		Status:     &Status{},
+		Status:     d2sstatus.New(),
 		Hotkeys:    make(hotkeys),
 		Difficulty: d2sdifficulty.New(),
 		Mercenary:  d2smercenary.New(),
