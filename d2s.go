@@ -3,6 +3,7 @@ package d2d2s
 import (
 	"errors"
 	"fmt"
+	"log"
 	"strings"
 
 	"github.com/OpenDiablo2/OpenDiablo2/d2common/d2datautils"
@@ -33,7 +34,7 @@ type hotkeys map[byte]SkillID
 
 // D2S represents a Diablo II character save file structure
 type D2S struct {
-	Version     Version
+	Version     d2senums.Version
 	unknown1    uint32
 	Name        string
 	Status      *Status
@@ -99,7 +100,13 @@ func Unmarshal(data []byte) (*D2S, error) {
 	}
 
 	v := sr.GetUInt32()
-	result.Version = Version(v)
+	version := d2senums.Version(v)
+
+	if version != d2senums.VersionLODLatest {
+		log.Printf("Warning! wrong version %s. It might be unsupported", version.String())
+	}
+
+	result.Version = version
 
 	// file size in bytes ( len(data) )
 	_ = sr.GetInt32()
