@@ -10,6 +10,7 @@ import (
 	"github.com/gucio321/d2d2s/d2scorpse"
 	"github.com/gucio321/d2d2s/d2sdifficulty"
 	"github.com/gucio321/d2d2s/d2senums"
+	"github.com/gucio321/d2d2s/d2sirongolem"
 	"github.com/gucio321/d2d2s/d2sitems"
 	"github.com/gucio321/d2d2s/datautils"
 )
@@ -63,7 +64,7 @@ type D2S struct {
 	Items      *d2sitems.Items
 	Corpse     *d2scorpse.Corpse
 	// necromancer only
-	IronGolem *IronGolem
+	IronGolem *d2sirongolem.IronGolem
 }
 
 // New creates a new D2S structure
@@ -78,7 +79,7 @@ func New() *D2S {
 		Stats:      &Stats{},
 		Items:      &d2sitems.Items{},
 		Corpse:     d2scorpse.New(),
-		IronGolem:  &IronGolem{},
+		IronGolem:  d2sirongolem.New(),
 	}
 
 	return result
@@ -254,7 +255,7 @@ func Unmarshal(data []byte) (*D2S, error) {
 	// iron golem for necromancer
 	if result.Class == d2senums.CharacterClassNecromancer && result.Status.Expansion {
 		if err := result.IronGolem.Load(sr); err != nil {
-			return nil, err
+			return nil, fmt.Errorf("error loading iron golem: %w", err)
 		}
 	}
 

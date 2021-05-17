@@ -1,4 +1,4 @@
-package d2d2s
+package d2sirongolem
 
 import (
 	"errors"
@@ -11,6 +11,15 @@ import (
 )
 
 const golemHeaderID = "kf"
+
+// New creates a new IronGolem
+func New() *IronGolem {
+	result := &IronGolem{
+		Item: &d2sitems.Item{},
+	}
+
+	return result
+}
 
 // IronGolem represents an iron golem
 type IronGolem struct {
