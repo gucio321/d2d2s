@@ -15,22 +15,22 @@ import (
 	"github.com/gucio321/d2d2s/d2sitems"
 	"github.com/gucio321/d2d2s/d2smercenary"
 	"github.com/gucio321/d2d2s/d2snpc"
+	"github.com/gucio321/d2d2s/d2squests"
 	"github.com/gucio321/d2d2s/d2swaypoints"
 	"github.com/gucio321/d2d2s/datautils"
 )
 
 const (
-	saveFileSignature     = 0xaa55aa55
-	characterNameSize     = 16
-	skillHotKeys          = 16
-	unknown6BytesCount    = 32
-	unknown8BytesCount    = 144
-	expectedQuestHeaderID = "Woo!"
-	skillsHeaderID        = "if"
-	numSkills             = 30
-	int32Size             = 4
-	fileSizePosition      = 8
-	checksumPosition      = 12
+	saveFileSignature  = 0xaa55aa55
+	characterNameSize  = 16
+	skillHotKeys       = 16
+	unknown6BytesCount = 32
+	unknown8BytesCount = 144
+	skillsHeaderID     = "if"
+	numSkills          = 30
+	int32Size          = 4
+	fileSizePosition   = 8
+	checksumPosition   = 12
 )
 
 type hotkeys map[byte]d2senums.SkillID
@@ -60,7 +60,7 @@ type D2S struct {
 	unknown7   uint16
 	Mercenary  *d2smercenary.Mercenary
 	unknown8   [unknown8BytesCount]byte
-	Quests     *Quests
+	Quests     *d2squests.Quests
 	Waypoints  *d2swaypoints.Waypoints
 	NPC        *d2snpc.NPC
 	Stats      *Stats
@@ -78,7 +78,7 @@ func New() *D2S {
 		Hotkeys:    make(hotkeys),
 		Difficulty: d2sdifficulty.New(),
 		Mercenary:  d2smercenary.New(),
-		Quests:     NewQuests(),
+		Quests:     d2squests.New(),
 		Waypoints:  d2swaypoints.New(),
 		NPC:        d2snpc.New(),
 		Stats:      &Stats{},
@@ -197,11 +197,11 @@ func Unmarshal(data []byte) (*D2S, error) {
 
 	copy(result.unknown8[:], unknown8[:unknown8BytesCount])
 
-	qd := sr.GetBytes(numQuestsBytes)
+	qd := sr.GetBytes(d2squests.NumQuestsBytes)
 
-	var questsData [numQuestsBytes]byte
+	var questsData [d2squests.NumQuestsBytes]byte
 
-	copy(questsData[:], qd[:numQuestsBytes])
+	copy(questsData[:], qd[:d2squests.NumQuestsBytes])
 
 	err = result.Quests.Unmarshal(&questsData)
 	if err != nil {

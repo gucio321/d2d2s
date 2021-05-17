@@ -1,4 +1,4 @@
-package d2d2s
+package d2squests
 
 import (
 	"errors"
@@ -11,7 +11,10 @@ import (
 )
 
 const (
-	numQuestsBytes               = 298
+	// NumQuestsBytes is a total number of quests data bytes
+	NumQuestsBytes = 298
+
+	expectedQuestHeaderID        = "Woo!"
 	questHeaderUnknownBytesCount = 6
 	defaultQuestsCount           = 6
 	act4QuestsCount              = 3
@@ -22,8 +25,8 @@ const (
 // Quests represents quests status structure
 type Quests map[d2enum.DifficultyType]*[d2senums.NumActs]*QuestsSet
 
-// NewQuests creates a new quests structure
-func NewQuests() *Quests {
+// New creates a new quests structure
+func New() *Quests {
 	result := &Quests{}
 	*result = make(Quests)
 
@@ -65,7 +68,7 @@ func unknownQuestsHeaderBytes() [questHeaderUnknownBytesCount]byte {
 }
 
 // Unmarshal unmarshals quests status data
-func (q *Quests) Unmarshal(data *[numQuestsBytes]byte) error {
+func (q *Quests) Unmarshal(data *[NumQuestsBytes]byte) error {
 	sr := datautils.CreateBitMuncher((*data)[:], 0)
 
 	questHeaderID := sr.GetBytes(4) // nolint:gomnd // header
@@ -89,7 +92,7 @@ func (q *Quests) Unmarshal(data *[numQuestsBytes]byte) error {
 }
 
 // Encode encodes quests back into byte array
-func (q *Quests) Encode() (result [numQuestsBytes]byte) {
+func (q *Quests) Encode() (result [NumQuestsBytes]byte) {
 	sw := d2datautils.CreateStreamWriter()
 
 	sw.PushBytes([]byte(expectedQuestHeaderID)...)
@@ -105,7 +108,7 @@ func (q *Quests) Encode() (result [numQuestsBytes]byte) {
 	}
 
 	data := sw.GetBytes()
-	copy(result[:], data[:numQuestsBytes])
+	copy(result[:], data[:NumQuestsBytes])
 
 	return result
 }
