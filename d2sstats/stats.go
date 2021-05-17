@@ -1,4 +1,4 @@
-package d2d2s
+package d2sstats
 
 import (
 	"errors"
@@ -30,6 +30,12 @@ type Stats struct {
 	Experience,
 	Gold,
 	StashedGold uint64
+}
+
+// New creates a new stats list
+func New() *Stats {
+	result := &Stats{}
+	return result
 }
 
 // Load loads hero stats

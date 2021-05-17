@@ -16,6 +16,7 @@ import (
 	"github.com/gucio321/d2d2s/d2smercenary"
 	"github.com/gucio321/d2d2s/d2snpc"
 	"github.com/gucio321/d2d2s/d2squests"
+	"github.com/gucio321/d2d2s/d2sstats"
 	"github.com/gucio321/d2d2s/d2sstatus"
 	"github.com/gucio321/d2d2s/d2swaypoints"
 	"github.com/gucio321/d2d2s/datautils"
@@ -64,7 +65,7 @@ type D2S struct {
 	Quests     *d2squests.Quests
 	Waypoints  *d2swaypoints.Waypoints
 	NPC        *d2snpc.NPC
-	Stats      *Stats
+	Stats      *d2sstats.Stats
 	Skills     [numSkills]d2senums.SkillID
 	Items      *d2sitems.Items
 	Corpse     *d2scorpse.Corpse
@@ -82,7 +83,7 @@ func New() *D2S {
 		Quests:     d2squests.New(),
 		Waypoints:  d2swaypoints.New(),
 		NPC:        d2snpc.New(),
-		Stats:      &Stats{},
+		Stats:      d2sstats.New(),
 		Items:      &d2sitems.Items{},
 		Corpse:     d2scorpse.New(),
 		IronGolem:  d2sirongolem.New(),
