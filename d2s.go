@@ -72,7 +72,7 @@ func Unmarshal(data []byte) (*D2S, error) {
 		Status:     &Status{},
 		Hotkeys:    make(hotkeys),
 		Difficulty: make(Difficulty),
-		Quests:     &Quests{},
+		Quests:     NewQuests(),
 		Waypoints:  make(Waypoints),
 		NPC:        &NPC{},
 		Stats:      &Stats{},

@@ -19,6 +19,29 @@ const (
 // Quests represents quests status structure
 type Quests map[d2enum.DifficultyType]*[numActs]*QuestsSet
 
+func NewQuests() *Quests {
+	result := &Quests{}
+	*result = make(Quests)
+	for i := d2enum.DifficultyNormal; i <= d2enum.DifficultyHell; i++ {
+		(*result)[i] = &[numActs]*QuestsSet{}
+
+		for act := 1; act <= numActs; act++ {
+			var l int
+			if act == 4 { // nolint:gomnd // act 4
+				l = act4QuestsCount
+			} else {
+				l = defaultQuestsCount
+			}
+
+			(*result)[i][act-1] = &QuestsSet{
+				Quests: make([]*Quest, l),
+			}
+		}
+	}
+
+	return result
+}
+
 func unknownQuestsHeaderBytes() [questHeaderUnknownBytesCount]byte {
 	return [questHeaderUnknownBytesCount]byte{6, 0, 0, 0, 42, 1}
 }
@@ -36,20 +59,7 @@ func (q *Quests) Unmarshal(data *[numQuestsBytes]byte) error {
 	_ = sr.GetBytes(questHeaderUnknownBytesCount)
 
 	for i := d2enum.DifficultyNormal; i <= d2enum.DifficultyHell; i++ {
-		(*q)[i] = &[numActs]*QuestsSet{}
-
 		for act := 1; act <= numActs; act++ {
-			var l int
-			if act == 4 { // nolint:gomnd // act 4
-				l = act4QuestsCount
-			} else {
-				l = defaultQuestsCount
-			}
-
-			(*q)[i][act-1] = &QuestsSet{
-				Quests: make([]*Quest, l),
-			}
-
 			err := (*q)[i][act-1].Unmarshal(sr, act)
 			if err != nil {
 				return err
