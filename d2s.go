@@ -68,7 +68,7 @@ func New() *D2S {
 		Status:     &Status{},
 		Hotkeys:    make(hotkeys),
 		Difficulty: make(Difficulty),
-		Quests:     &Quests{},
+		Quests:     NewQuests(),
 		Waypoints:  make(Waypoints),
 		NPC:        &NPC{},
 		Stats:      &Stats{},
