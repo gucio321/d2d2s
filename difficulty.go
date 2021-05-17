@@ -3,6 +3,7 @@ package d2d2s
 import (
 	"github.com/OpenDiablo2/OpenDiablo2/d2common/d2datautils"
 	"github.com/OpenDiablo2/OpenDiablo2/d2common/d2enum"
+
 	"github.com/gucio321/d2d2s/datautils"
 )
 
@@ -10,6 +11,7 @@ const (
 	actBitsCount = 3
 )
 
+// NewDifficulty creates a new Difficulty
 func NewDifficulty() *Difficulty {
 	result := &Difficulty{}
 	*result = make(Difficulty)
@@ -24,6 +26,7 @@ func NewDifficulty() *Difficulty {
 // Difficulty represents a status of all difficulty levels
 type Difficulty map[d2enum.DifficultyType]*DifficultyLevelStatus
 
+// Load loads difficulty status
 func (d *Difficulty) Load(sr *datautils.BitMuncher) {
 	for i := d2enum.DifficultyNormal; i <= d2enum.DifficultyHell; i++ {
 		data := sr.GetByte()
@@ -32,6 +35,7 @@ func (d *Difficulty) Load(sr *datautils.BitMuncher) {
 	}
 }
 
+// Encode encodes difficulty status back into a byte slice
 func (d *Difficulty) Encode(sw *d2datautils.StreamWriter) {
 	for i := d2enum.DifficultyNormal; i <= d2enum.DifficultyHell; i++ {
 		sw.PushBytes((*d)[i].Encode())
