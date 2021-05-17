@@ -1,4 +1,4 @@
-package d2d2s
+package d2sdifficulty
 
 import (
 	"github.com/OpenDiablo2/OpenDiablo2/d2common/d2datautils"
@@ -11,8 +11,8 @@ const (
 	actBitsCount = 3
 )
 
-// NewDifficulty creates a new Difficulty
-func NewDifficulty() *Difficulty {
+// New creates a new Difficulty
+func New() *Difficulty {
 	result := &Difficulty{}
 	*result = make(Difficulty)
 

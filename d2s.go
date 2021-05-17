@@ -8,6 +8,7 @@ import (
 	"github.com/OpenDiablo2/OpenDiablo2/d2common/d2datautils"
 
 	"github.com/gucio321/d2d2s/d2scorpse"
+	"github.com/gucio321/d2d2s/d2sdifficulty"
 	"github.com/gucio321/d2d2s/d2senums"
 	"github.com/gucio321/d2d2s/d2sitems"
 	"github.com/gucio321/d2d2s/datautils"
@@ -49,7 +50,7 @@ type D2S struct {
 	LeftSkillSwitch,
 	RightSkillSwitch SkillID
 	unknown6   [unknown6BytesCount]byte // probably character apperence in char select menu
-	Difficulty *Difficulty
+	Difficulty *d2sdifficulty.Difficulty
 	MapID      uint32
 	unknown7   uint16
 	Mercenary  mercenary
@@ -70,7 +71,7 @@ func New() *D2S {
 	result := &D2S{
 		Status:     &Status{},
 		Hotkeys:    make(hotkeys),
-		Difficulty: NewDifficulty(),
+		Difficulty: d2sdifficulty.New(),
 		Quests:     NewQuests(),
 		Waypoints:  NewWaypoints(),
 		NPC:        &NPC{},

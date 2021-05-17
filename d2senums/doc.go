@@ -1,2 +1,2 @@
-// Package enums contains enumerations used in project
+// Package d2senums contains enumerations used in project
 package d2senums
