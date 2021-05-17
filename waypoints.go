@@ -27,6 +27,27 @@ func unknownWaypointsHeaderBytes() [numUnknownWaypointsHeaderBytes]byte {
 // Waypoints contains state (active = true / inactive = false) of any waypoint in game (difficulty level / act)
 type Waypoints map[d2enum.DifficultyType]*[numActs][]bool
 
+func NewWaypoints() *Waypoints {
+	result := &Waypoints{}
+	*result = make(Waypoints)
+
+	for i := d2enum.DifficultyNormal; i <= d2enum.DifficultyHell; i++ {
+		(*result)[i] = &[numActs][]bool{}
+		for act := 1; act <= numActs; act++ {
+			var l byte
+			if act == 4 { // nolint:gomnd // for act 4
+				l = act4WPCount
+			} else {
+				l = defaultWPCound
+			}
+
+			(*result)[i][act-1] = make([]bool, l)
+		}
+	}
+
+	return result
+}
+
 // Load loads waypoints data
 func (w *Waypoints) Load(data *[numWaypointsBytes]byte) error {
 	sr := datautils.CreateBitMuncher((*data)[:], 0)
@@ -48,17 +69,7 @@ func (w *Waypoints) Load(data *[numWaypointsBytes]byte) error {
 
 		bm := datautils.CreateBitMuncher(d, 0)
 
-		(*w)[i] = &[numActs][]bool{}
-
 		for act := 1; act <= numActs; act++ {
-			var l byte
-			if act == 4 { // nolint:gomnd // for act 4
-				l = act4WPCount
-			} else {
-				l = defaultWPCound
-			}
-
-			(*w)[i][act-1] = make([]bool, l)
 			for wp := range (*w)[i][act-1] {
 				(*w)[i][act-1][wp] = (bm.GetBit() == 1)
 			}

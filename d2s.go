@@ -53,7 +53,7 @@ type D2S struct {
 	Mercenary  mercenary
 	unknown8   [unknown8BytesCount]byte
 	Quests     *Quests
-	Waypoints  Waypoints
+	Waypoints  *Waypoints
 	NPC        *NPC
 	Stats      *Stats
 	Skills     [numSkills]SkillID
@@ -69,7 +69,7 @@ func New() *D2S {
 		Hotkeys:    make(hotkeys),
 		Difficulty: make(Difficulty),
 		Quests:     NewQuests(),
-		Waypoints:  make(Waypoints),
+		Waypoints:  NewWaypoints(),
 		NPC:        &NPC{},
 		Stats:      &Stats{},
 		Items:      &Items{},
