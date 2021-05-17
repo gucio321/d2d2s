@@ -3,6 +3,7 @@ package d2d2s
 import (
 	"errors"
 	"fmt"
+	"strings"
 
 	"github.com/OpenDiablo2/OpenDiablo2/d2common/d2datautils"
 	"github.com/OpenDiablo2/OpenDiablo2/d2common/d2enum"
@@ -107,7 +108,7 @@ func Unmarshal(data []byte) (*D2S, error) {
 	result.unknown1 = sr.GetUInt32()
 
 	name := sr.GetBytes(characterNameSize)
-	result.Name = string(name)
+	result.Name = strings.ReplaceAll(string(name), string(rune(0)), "")
 
 	status := sr.GetByte()
 	result.Status.Unmarshal(status)
