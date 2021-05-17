@@ -14,6 +14,7 @@ import (
 	"github.com/gucio321/d2d2s/d2sirongolem"
 	"github.com/gucio321/d2d2s/d2sitems"
 	"github.com/gucio321/d2d2s/d2smercenary"
+	"github.com/gucio321/d2d2s/d2snpc"
 	"github.com/gucio321/d2d2s/datautils"
 )
 
@@ -60,7 +61,7 @@ type D2S struct {
 	unknown8   [unknown8BytesCount]byte
 	Quests     *Quests
 	Waypoints  *Waypoints
-	NPC        *NPC
+	NPC        *d2snpc.NPC
 	Stats      *Stats
 	Skills     [numSkills]SkillID
 	Items      *d2sitems.Items
@@ -78,7 +79,7 @@ func New() *D2S {
 		Mercenary:  d2smercenary.New(),
 		Quests:     NewQuests(),
 		Waypoints:  NewWaypoints(),
-		NPC:        &NPC{},
+		NPC:        d2snpc.New(),
 		Stats:      &Stats{},
 		Items:      &d2sitems.Items{},
 		Corpse:     d2scorpse.New(),
@@ -216,11 +217,11 @@ func Unmarshal(data []byte) (*D2S, error) {
 		return nil, fmt.Errorf("error loading waypoints data: %w", err)
 	}
 
-	nd := sr.GetBytes(numNPCBytes)
+	nd := sr.GetBytes(d2snpc.NumNPCBytes)
 
-	var npcData [numNPCBytes]byte
+	var npcData [d2snpc.NumNPCBytes]byte
 
-	copy(npcData[:], nd[:numNPCBytes])
+	copy(npcData[:], nd[:d2snpc.NumNPCBytes])
 
 	if err := result.NPC.Load(npcData); err != nil { // nolint:govet // it is og
 		return nil, fmt.Errorf("error loading npcs data: %w", err)
