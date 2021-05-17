@@ -1,4 +1,4 @@
-package d2d2s
+package d2smercenary
 
 import (
 	"errors"
@@ -10,7 +10,8 @@ import (
 	"github.com/gucio321/d2d2s/datautils"
 )
 
-type mercenary struct {
+// Mercenary stores mercenary data
+type Mercenary struct {
 	Died uint16 // ?
 	ID   uint32
 	Name uint16
@@ -21,16 +22,27 @@ type mercenary struct {
 	Items      *d2sitems.Items
 }
 
-// todo; see: https://user.xmission.com/~trevin/DiabloIIv1.09_Mercenaries.html#code
-func (m *mercenary) LoadType(data uint16) {
+// New creates a new mercenary structure
+func New() *Mercenary {
+	result := &Mercenary{
+		Items: &d2sitems.Items{},
+	}
+
+	return result
+}
+
+// LoadType load merc type: TODO; see: https://user.xmission.com/~trevin/DiabloIIv1.09_Mercenaries.html#code
+func (m *Mercenary) LoadType(data uint16) {
 	m.Type.Code = data
 }
 
-func (m *mercenary) EncodeType() (result uint16) {
+// EncodeType encodes merc type (TODO)
+func (m *Mercenary) EncodeType() (result uint16) {
 	return m.Type.Code
 }
 
-func (m *mercenary) LoadMercItems(sr *datautils.BitMuncher) error {
+// LoadMercItems loads merc items
+func (m *Mercenary) LoadMercItems(sr *datautils.BitMuncher) error {
 	id := sr.GetBytes(2) // nolint:gomnd // header size
 	if string(id) != "jf" {
 		return errors.New("unexpected merc header")
@@ -40,8 +52,6 @@ func (m *mercenary) LoadMercItems(sr *datautils.BitMuncher) error {
 	if m.ID == 0 {
 		return nil // just no merc
 	}
-
-	m.Items = &d2sitems.Items{}
 
 	numItems, err := m.Items.LoadHeader(sr)
 	if err != nil {
@@ -55,7 +65,8 @@ func (m *mercenary) LoadMercItems(sr *datautils.BitMuncher) error {
 	return nil
 }
 
-func (m *mercenary) Encode(sw *d2datautils.StreamWriter) {
+// EncodeItems encodes merc items data back into byte slice
+func (m *Mercenary) EncodeItems(sw *d2datautils.StreamWriter) {
 	sw.PushBytes([]byte("jf")...)
 
 	if m.ID == 0 {

@@ -13,6 +13,7 @@ import (
 	"github.com/gucio321/d2d2s/d2senums"
 	"github.com/gucio321/d2d2s/d2sirongolem"
 	"github.com/gucio321/d2d2s/d2sitems"
+	"github.com/gucio321/d2d2s/d2smercenary"
 	"github.com/gucio321/d2d2s/datautils"
 )
 
@@ -55,7 +56,7 @@ type D2S struct {
 	Difficulty *d2sdifficulty.Difficulty
 	MapID      uint32
 	unknown7   uint16
-	Mercenary  mercenary
+	Mercenary  *d2smercenary.Mercenary
 	unknown8   [unknown8BytesCount]byte
 	Quests     *Quests
 	Waypoints  *Waypoints
@@ -74,6 +75,7 @@ func New() *D2S {
 		Status:     &Status{},
 		Hotkeys:    make(hotkeys),
 		Difficulty: d2sdifficulty.New(),
+		Mercenary:  d2smercenary.New(),
 		Quests:     NewQuests(),
 		Waypoints:  NewWaypoints(),
 		NPC:        &NPC{},
@@ -255,7 +257,7 @@ func Unmarshal(data []byte) (*D2S, error) {
 
 	if result.Status.Expansion {
 		if err := result.Mercenary.LoadMercItems(sr); err != nil {
-			return nil, err
+			return nil, fmt.Errorf("error loading merc items: %w", err)
 		}
 	}
 
@@ -354,7 +356,7 @@ func (d *D2S) Encode() ([]byte, error) {
 		return nil, fmt.Errorf("error encoding corpse: %w", err)
 	}
 
-	d.Mercenary.Encode(sw)
+	d.Mercenary.EncodeItems(sw)
 
 	if d.Class == d2senums.CharacterClassNecromancer && d.Status.Expansion {
 		d.IronGolem.Encode(sw)
