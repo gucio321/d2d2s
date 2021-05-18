@@ -36,7 +36,6 @@ func Test_Load(t *testing.T) {
 	assert.Equal(t, "example", x.Name, "Unexpected name read")
 }
 
-// nolint:wsl // just test
 func Test_LoadEncode(t *testing.T) {
 	testFile, fileErr := os.Open("testdata/example.d2s")
 
