@@ -98,7 +98,7 @@ func New() *D2S {
 }
 
 // Load loads d2s file into D2S structure
-// nolint:funlen,gocyclo // probably inpossible to reduce, but TODO
+// nolint:funlen,gocyclo // can't reduce
 func Load(data []byte) (*D2S, error) {
 	result := New()
 
@@ -266,27 +266,11 @@ func (d *D2S) loadHotkeys(sr *datautils.BitMuncher) {
 }
 
 // Encode encodes character save back into a byte slice (WIP)
-// nolint:funlen // I suppose, it is unable to reduce, but TODO
 func (d *D2S) Encode() ([]byte, error) {
 	sw := d2datautils.CreateStreamWriter()
-	sw.PushUint32(saveFileSignature)
-	sw.PushUint32(uint32(d.Version))
-	// file size, 0 for now
-	sw.PushUint32(0)
-	// checksum - 0 for now
-	sw.PushUint32(0)
 
-	name := []byte(d.Name)
-	if len(name) > characterNameSize {
-		return nil, errors.New("wrong character name! (len(name) > 16)")
-	}
-
-	sw.PushUint32(d.unknown1)
-
-	sw.PushBytes(name...)
-
-	for i := 0; i < characterNameSize-len(name); i++ {
-		sw.PushBytes(0)
+	if err := d.encodeHeader(sw); err != nil {
+		return nil, err
 	}
 
 	sw.PushBytes(d.Status.Encode())
@@ -299,9 +283,7 @@ func (d *D2S) Encode() ([]byte, error) {
 	sw.PushUint32(d.Time)
 	sw.PushUint32(d.unknown5)
 
-	for i := byte(0); i < skillHotKeys; i++ {
-		sw.PushUint32(uint32(d.Hotkeys[i]))
-	}
+	d.encodeHotkeys(sw)
 
 	sw.PushUint32(uint32(d.LeftSkill))
 	sw.PushUint32(uint32(d.RightSkill))
@@ -318,12 +300,8 @@ func (d *D2S) Encode() ([]byte, error) {
 	sw.PushUint32(d.MapID)
 	sw.PushUint16(d.unknown7)
 
-	// merc
-	sw.PushUint16(d.Mercenary.Died)
-	sw.PushUint32(d.Mercenary.ID)
-	sw.PushUint16(d.Mercenary.Name)
-	sw.PushUint16(d.Mercenary.EncodeType())
-	sw.PushUint32(d.Mercenary.Experience)
+	d.Mercenary.EncodeHeader(sw)
+
 	sw.PushBytes(d.unknown8[:]...)
 
 	qd := d.Quests.Encode()
@@ -353,19 +331,46 @@ func (d *D2S) Encode() ([]byte, error) {
 
 	// we need to write file size and checksum here:
 	data := sw.GetBytes()
-	fileSize := uint32(len(data))
+	CalculateFileSize(&data)
+	CalculateChecksum(&data)
 
-	fileSizeBytes := make([]byte, int32Size)
-	binary.LittleEndian.PutUint32(fileSizeBytes, fileSize)
+	return data, nil
+}
 
-	for i := 0; i < int32Size; i++ {
-		data[fileSizePosition+i] = fileSizeBytes[i]
+func (d *D2S) encodeHeader(sw *d2datautils.StreamWriter) error {
+	sw.PushUint32(saveFileSignature)
+	sw.PushUint32(uint32(d.Version))
+	// file size, 0 for now
+	sw.PushUint32(0)
+	// checksum - 0 for now
+	sw.PushUint32(0)
+
+	name := []byte(d.Name)
+	if len(name) > characterNameSize {
+		return errors.New("wrong character name! (len(name) > 16)")
 	}
 
-	// checksum here - TODO
+	sw.PushUint32(d.unknown1)
 
+	sw.PushBytes(name...)
+
+	for i := 0; i < characterNameSize-len(name); i++ {
+		sw.PushBytes(0)
+	}
+
+	return nil
+}
+
+func (d *D2S) encodeHotkeys(sw *d2datautils.StreamWriter) {
+	for i := byte(0); i < skillHotKeys; i++ {
+		sw.PushUint32(uint32(d.Hotkeys[i]))
+	}
+}
+
+// CalculateChecksum calculates a checksum and saves in a byte slice
+func CalculateChecksum(data *[]byte) {
 	var sum uint32
-	for i := range data {
+	for i := range *data {
 		// thanks goes to <https://github.com/pairofdocs>
 		// this shift expresion was translated from here: https://github.com/pairofdocs/d2s_edit_recalc
 		// origin:
@@ -378,15 +383,25 @@ func (d *D2S) Encode() ([]byte, error) {
 		// ```
 		sum = ((sum << 1) % math.MaxUint32) | (sum >> (int32Size*byteLen - 1))
 
-		sum += uint32(data[i])
+		sum += uint32((*data)[i])
 	}
 
 	sumBytes := make([]byte, int32Size)
 	binary.LittleEndian.PutUint32(sumBytes, sum)
 
 	for i := 0; i < int32Size; i++ {
-		data[checksumPosition+i] = sumBytes[i]
+		(*data)[checksumPosition+i] = sumBytes[i]
 	}
+}
 
-	return data, nil
+// CalculateFileSize calculates a file size in bytes and writes it in byte slice
+func CalculateFileSize(data *[]byte) {
+	fileSize := uint32(len(*data))
+
+	fileSizeBytes := make([]byte, int32Size)
+	binary.LittleEndian.PutUint32(fileSizeBytes, fileSize)
+
+	for i := 0; i < int32Size; i++ {
+		(*data)[fileSizePosition+i] = fileSizeBytes[i]
+	}
 }

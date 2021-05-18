@@ -77,6 +77,15 @@ func (m *Mercenary) LoadMercItems(sr *datautils.BitMuncher) error {
 	return nil
 }
 
+// EncodeHeader encodes merc header into a byte slice
+func (m *Mercenary) EncodeHeader(sw *d2datautils.StreamWriter) {
+	sw.PushUint16(m.Died)
+	sw.PushUint32(m.ID)
+	sw.PushUint16(m.Name)
+	sw.PushUint16(m.EncodeType())
+	sw.PushUint32(m.Experience)
+}
+
 // EncodeItems encodes merc items data back into byte slice
 func (m *Mercenary) EncodeItems(sw *d2datautils.StreamWriter) {
 	sw.PushBytes([]byte("jf")...)
