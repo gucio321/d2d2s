@@ -15,7 +15,8 @@ const golemHeaderID = "kf"
 // New creates a new IronGolem
 func New() *IronGolem {
 	result := &IronGolem{
-		Item: &d2sitems.Item{},
+		HasGolem: false,
+		Item:     &d2sitems.Item{},
 	}
 
 	return result
@@ -23,7 +24,8 @@ func New() *IronGolem {
 
 // IronGolem represents an iron golem
 type IronGolem struct {
-	Item *d2sitems.Item
+	HasGolem bool
+	Item     *d2sitems.Item
 }
 
 // Load loads a golem's data
@@ -33,9 +35,9 @@ func (i *IronGolem) Load(sr *datautils.BitMuncher) error {
 		return errors.New("unexpected golem header")
 	}
 
-	hasGolem := sr.GetByte() == 1
+	i.HasGolem = sr.GetByte() == 1
 
-	if !hasGolem {
+	if !i.HasGolem {
 		return nil // no golem
 	}
 
@@ -53,9 +55,7 @@ func (i *IronGolem) Load(sr *datautils.BitMuncher) error {
 func (i *IronGolem) Encode(sw *d2datautils.StreamWriter) {
 	sw.PushBytes([]byte(golemHeaderID)...)
 
-	hasGolem := i.Item != nil
-
-	if !hasGolem {
+	if !i.HasGolem {
 		sw.PushBytes(0)
 		return
 	}
