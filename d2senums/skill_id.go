@@ -1,7 +1,7 @@
 package d2senums
 
 //go:generate stringer -type SkillID -linecomment -output skill_id_string.go
-//go:generate string2enum -type SkillID -linecomment -output skill_id_string2enum.go
+//go:generate string2enum -samepkg -type SkillID -linecomment -output skill_id_string2enum.go
 
 // SkillID represents a skill ID
 type SkillID int32
