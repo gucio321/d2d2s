@@ -7,7 +7,7 @@
 This package can be used for loading, modifing and saving Diablo II
 character save files (.D2S).
 
-## Dependencies
+## Dependencies / Documentation
 
 ### D2S structure documentation:
 
@@ -27,7 +27,47 @@ for now (May 2021) the project is early in development.
 However, it is possible to:
 
 *   decode character save file into a (in a greater part) human-readable structure
-*   encoding part of structure (excepting items list)
+*   encoding file
+
+## Example
+
+for some reasons, this project isn't able to create a whole new
+file yet, but it is able to load modify and than encode D2S format
+
+```golang
+package main
+
+import (
+        "fmt"
+        "ioutil"
+        "log"
+
+        "github.com/gucio321/d2d2s"
+)
+
+func main() {
+        data, err := ioutil.ReadFile("/path/to/file.d2s")
+        if err != nil {
+                log.Fatal(err)
+        }
+
+        character, err := d2d2s.Unmarshal(data)
+        if err != nil {
+                log.Fatal(err)
+        }
+
+        // some edits
+
+        newData, err := d2d2s.Encode(character)
+        if err != nil {
+                log.fatal(err)
+        }
+
+        ioutil.WriteFile("/path/to/new/file.d2s", newData, 0o600)
+}
+```
+
+for more examples, see [here](./examples)
 
 ## Goals of the project
 
