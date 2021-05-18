@@ -5,7 +5,11 @@ import (
 	"log"
 )
 
-const bitsPerByte = 8
+const (
+	bitsPerByte   = 8
+	bytesPerint16 = 2
+	bytesPerint32 = 4
+)
 
 // StreamWriter allows you to create a byte array by streaming in writes of various sizes
 type StreamWriter struct {
