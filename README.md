@@ -34,6 +34,8 @@ However, it is possible to:
 for some reasons, this project isn't able to create a whole new
 file yet, but it is able to load modify and than encode D2S format
 
+<details><summary>simple example</summary>
+
 ```golang
 package main
 
@@ -66,6 +68,8 @@ func main() {
         ioutil.WriteFile("/path/to/new/file.d2s", newData, 0o600)
 }
 ```
+
+</details>
 
 for more examples, see [here](./examples)
 
