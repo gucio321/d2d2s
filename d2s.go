@@ -98,9 +98,9 @@ func New() *D2S {
 	return result
 }
 
-// Unmarshal loads d2s file into D2S structure
+// Load loads d2s file into D2S structure
 // nolint:funlen,gocyclo // probably inpossible to reduce, but TODO
-func Unmarshal(data []byte) (*D2S, error) {
+func Load(data []byte) (*D2S, error) {
 	var err error
 
 	result := New()

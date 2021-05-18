@@ -28,7 +28,7 @@ func Test_Load(t *testing.T) {
 		}
 	}
 
-	x, err := Unmarshal(data)
+	x, err := Load(data)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -57,7 +57,7 @@ func Test_LoadEncode(t *testing.T) {
 		}
 	}
 
-	x, err := Unmarshal(data)
+	x, err := Load(data)
 	if err != nil {
 		t.Fatal(err)
 	}
