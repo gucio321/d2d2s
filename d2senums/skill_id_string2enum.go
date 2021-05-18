@@ -389,7 +389,7 @@ func _(s string) {
 	// 183
 	case "claw mastery":
 	// 184
-	case "psyhic hammer":
+	case "psychic hammer":
 	// 185
 	case "tiger strike":
 	// 186

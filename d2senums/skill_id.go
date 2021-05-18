@@ -206,7 +206,7 @@ const (
 	// Assassin Skills
 	SkillAssasinFireTrauma      // fire trauma
 	SkillAssasinClawMastery     // claw mastery
-	SkillAssasinPsyhicHammer    // psyhic hammer
+	SkillAssasinPsyhicHammer    // psychic hammer
 	SkillAssasinTigerStrike     // tiger strike
 	SkillAssasinDragonTalon     // dragon talon
 	SkillAssasinShockField      // shock field
