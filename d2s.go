@@ -18,6 +18,7 @@ import (
 	"github.com/gucio321/d2d2s/d2smercenary"
 	"github.com/gucio321/d2d2s/d2snpc"
 	"github.com/gucio321/d2d2s/d2squests"
+	"github.com/gucio321/d2d2s/d2sskills"
 	"github.com/gucio321/d2d2s/d2sstats"
 	"github.com/gucio321/d2d2s/d2sstatus"
 	"github.com/gucio321/d2d2s/d2swaypoints"
@@ -31,7 +32,6 @@ const (
 	unknown6BytesCount = 32
 	unknown8BytesCount = 144
 	skillsHeaderID     = "if"
-	numSkills          = 30
 	int32Size          = 4
 	byteLen            = 8
 	fileSizePosition   = 8
@@ -69,9 +69,10 @@ type D2S struct {
 	Waypoints  *d2swaypoints.Waypoints
 	NPC        *d2snpc.NPC
 	Stats      *d2sstats.Stats
-	Skills     [numSkills]d2senums.SkillID
+	Skills     *d2sskills.Skills
 	Items      *d2sitems.Items
 	Corpse     *d2scorpse.Corpse
+
 	// necromancer only
 	IronGolem *d2sirongolem.IronGolem
 }
@@ -88,6 +89,7 @@ func New() *D2S {
 		Waypoints:  d2swaypoints.New(),
 		NPC:        d2snpc.New(),
 		Stats:      d2sstats.New(),
+		Skills:     d2sskills.New(),
 		Items:      &d2sitems.Items{},
 		Corpse:     d2scorpse.New(),
 		IronGolem:  d2sirongolem.New(),
@@ -243,10 +245,7 @@ func Unmarshal(data []byte) (*D2S, error) {
 		return nil, errors.New("unexpected skills section header")
 	}
 
-	for i := 0; i < numSkills; i++ {
-		id := sr.GetByte()
-		result.Skills[i] = d2senums.SkillID(id)
-	}
+	result.Skills.Load(sr, result.Class)
 
 	numItems, err := result.Items.LoadHeader(sr)
 	if err != nil {
@@ -353,9 +352,7 @@ func (d *D2S) Encode() ([]byte, error) {
 	// skills section
 	sw.PushBytes([]byte(skillsHeaderID)...)
 
-	for i := 0; i < numSkills; i++ {
-		sw.PushBytes(byte(d.Skills[i]))
-	}
+	d.Skills.Encode(sw, d.Class)
 
 	sw.PushBytes(d.Items.Encode()...)
 

@@ -1,5 +1,7 @@
 package d2senums
 
+import "log"
+
 //go:generate stringer -type SkillID -linecomment -output skill_id_string.go
 //go:generate string2enum -samepkg -type SkillID -linecomment -output skill_id_string2enum.go
 
@@ -259,3 +261,23 @@ const (
 	SkillIDDruid SkillIDModifier = iota*30 + 221
 	SkillIDAssasin
 )
+
+// GetSkillModifier returns a skill id modifier basing on character class
+func GetSkillModifier(class CharacterClass) SkillIDModifier {
+	lookup := map[CharacterClass]SkillIDModifier{
+		CharacterClassAmazon:      SkillIDAmazon,
+		CharacterClassSorceress:   SkillIDSorceress,
+		CharacterClassNecromancer: SkillIDNecromancer,
+		CharacterClassPaladin:     SkillIDPaladin,
+		CharacterClassBarbarian:   SkillIDBarbarian,
+		CharacterClassDruid:       SkillIDDruid,
+		CharacterClassAssassin:    SkillIDAssasin,
+	}
+
+	m, ok := lookup[class]
+	if !ok {
+		log.Panicf("unexpected character class %v", class)
+	}
+
+	return m
+}
