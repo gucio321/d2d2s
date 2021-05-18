@@ -1,0 +1,19 @@
+documentation:
+  - ./*md
+  - ./docs/**/*
+
+dependencies:
+  - go.mod
+  - go.sum
+
+workflow:
+  - .github/**/*
+
+code:
+  - ./**/*go
+
+unittests:
+  - ./**/*_test.go
+
+danger-zone:
+  - ./LICENSE
