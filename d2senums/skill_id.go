@@ -171,6 +171,12 @@ const (
 	SkillBarbarianWarCry            // war cry
 	SkillBarbarianBattleCommands    // battle commands
 
+	// common (scrolls/tomes)
+	SkillScrollIdentify    SKillID = 217 + iota // scroll of identify
+	SkillTomeIdentify                           // tome of identify
+	SkillScrollTownPortall                      // scroll of town portal
+	SkillTomeTownPortal                         // tome of town portal
+
 	// Druid Skills
 	SkillDruidRaven            // raven
 	SkillDruidPlaguePoppy      // plague poppy
@@ -246,6 +252,7 @@ const (
 	SkillIDNecromancer
 	SkillIDPaladin
 	SkillIDBarbarian
-	SkillIDDruid
+
+	SkillIDDruid SkillIDModifier = iota*30 + 221
 	SkillIDAssasin
 )
