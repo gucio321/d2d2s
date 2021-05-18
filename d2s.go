@@ -31,7 +31,6 @@ const (
 	skillHotKeys       = 16
 	unknown6BytesCount = 32
 	unknown8BytesCount = 144
-	skillsHeaderID     = "if"
 	int32Size          = 4
 	byteLen            = 8
 	fileSizePosition   = 8
@@ -101,35 +100,13 @@ func New() *D2S {
 // Load loads d2s file into D2S structure
 // nolint:funlen,gocyclo // probably inpossible to reduce, but TODO
 func Load(data []byte) (*D2S, error) {
-	var err error
-
 	result := New()
 
 	sr := datautils.CreateBitMuncher(data, 0)
 
-	if signature := sr.GetUInt32(); signature != saveFileSignature {
-		return nil, errors.New("unexpected file signature")
+	if err := result.loadHeader(sr); err != nil {
+		return nil, err
 	}
-
-	v := sr.GetUInt32()
-	version := d2senums.Version(v)
-
-	if version != d2senums.VersionLODLatest {
-		log.Printf("Warning! wrong version %s. It might be unsupported", version.String())
-	}
-
-	result.Version = version
-
-	// file size in bytes ( len(data) )
-	_ = sr.GetInt32()
-
-	// checksum (32-bit checksum)
-	_ = sr.GetUInt32()
-
-	result.unknown1 = sr.GetUInt32()
-
-	name := sr.GetBytes(characterNameSize)
-	result.Name = strings.ReplaceAll(string(name), string(rune(0)), "")
 
 	status := sr.GetByte()
 	result.Status.Unmarshal(status)
@@ -143,26 +120,17 @@ func Load(data []byte) (*D2S, error) {
 		(The reason is unknown.)  So it skips the values 4, 9, and 14.
 	*/
 	result.Progression = sr.GetByte()
-
 	result.unknown2 = sr.GetUInt16()
 
 	class := sr.GetByte()
 	result.Class = d2senums.CharacterClass(class)
 
 	result.unknown3 = sr.GetUInt16()
-
 	result.Level = sr.GetByte()
-
 	result.unknown4 = sr.GetUInt32()
-
 	result.Time = sr.GetUInt32()
-
 	result.unknown5 = sr.GetUInt32()
-
-	for i := byte(0); i < skillHotKeys; i++ {
-		id := sr.GetUInt32()
-		result.Hotkeys[i] = d2senums.SkillID(id)
-	}
+	result.loadHotkeys(sr)
 
 	lsk := sr.GetUInt32()
 	result.LeftSkill = d2senums.SkillID(lsk)
@@ -185,20 +153,9 @@ func Load(data []byte) (*D2S, error) {
 	result.Difficulty.Load(sr)
 
 	result.MapID = sr.GetUInt32()
-
 	result.unknown7 = sr.GetUInt16()
 
-	result.Mercenary.Died = sr.GetUInt16()
-
-	result.Mercenary.ID = sr.GetUInt32()
-
-	result.Mercenary.Name = sr.GetUInt16()
-
-	mercType := sr.GetUInt16()
-
-	result.Mercenary.LoadType(mercType)
-
-	result.Mercenary.Experience = sr.GetUInt32()
+	result.Mercenary.LoadHeader(sr)
 
 	unknown8 := sr.GetBytes(unknown8BytesCount)
 
@@ -210,7 +167,7 @@ func Load(data []byte) (*D2S, error) {
 
 	copy(questsData[:], qd[:d2squests.NumQuestsBytes])
 
-	err = result.Quests.Unmarshal(&questsData)
+	err := result.Quests.Unmarshal(&questsData)
 	if err != nil {
 		return nil, fmt.Errorf("error loading quests: %w", err)
 	}
@@ -239,13 +196,9 @@ func Load(data []byte) (*D2S, error) {
 		return nil, fmt.Errorf("error loading character stats: %w", err)
 	}
 
-	skillsID := sr.GetBytes(2) // nolint:gomnd // skills header
-
-	if string(skillsID) != skillsHeaderID {
-		return nil, errors.New("unexpected skills section header")
+	if skillErr := result.Skills.Load(sr, result.Class); skillErr != nil {
+		return nil, fmt.Errorf("error loading skills: %w", skillErr)
 	}
-
-	result.Skills.Load(sr, result.Class)
 
 	numItems, err := result.Items.LoadHeader(sr)
 	if err != nil {
@@ -275,6 +228,41 @@ func Load(data []byte) (*D2S, error) {
 	}
 
 	return result, nil
+}
+
+func (d *D2S) loadHeader(sr *datautils.BitMuncher) error {
+	if signature := sr.GetUInt32(); signature != saveFileSignature {
+		return errors.New("unexpected file signature")
+	}
+
+	v := sr.GetUInt32()
+	version := d2senums.Version(v)
+
+	if version != d2senums.VersionLODLatest {
+		log.Printf("Warning! wrong version %s. It might be unsupported", version.String())
+	}
+
+	d.Version = version
+
+	// file size in bytes ( len(data) )
+	_ = sr.GetInt32()
+
+	// checksum (32-bit checksum)
+	_ = sr.GetUInt32()
+
+	d.unknown1 = sr.GetUInt32()
+
+	name := sr.GetBytes(characterNameSize)
+	d.Name = strings.ReplaceAll(string(name), string(rune(0)), "")
+
+	return nil
+}
+
+func (d *D2S) loadHotkeys(sr *datautils.BitMuncher) {
+	for i := byte(0); i < skillHotKeys; i++ {
+		id := sr.GetUInt32()
+		d.Hotkeys[i] = d2senums.SkillID(id)
+	}
 }
 
 // Encode encodes character save back into a byte slice (WIP)
@@ -348,9 +336,6 @@ func (d *D2S) Encode() ([]byte, error) {
 	sw.PushBytes(nd[:]...)
 
 	sw.PushBytes(d.Stats.Encode()...)
-
-	// skills section
-	sw.PushBytes([]byte(skillsHeaderID)...)
 
 	d.Skills.Encode(sw, d.Class)
 

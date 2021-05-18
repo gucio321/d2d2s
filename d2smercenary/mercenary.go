@@ -31,6 +31,18 @@ func New() *Mercenary {
 	return result
 }
 
+// LoadHeader loads merc header
+func (m *Mercenary) LoadHeader(sr *datautils.BitMuncher) {
+	m.Died = sr.GetUInt16()
+	m.ID = sr.GetUInt32()
+	m.Name = sr.GetUInt16()
+
+	mercType := sr.GetUInt16()
+	m.LoadType(mercType)
+
+	m.Experience = sr.GetUInt32()
+}
+
 // LoadType load merc type: TODO; see: https://user.xmission.com/~trevin/DiabloIIv1.09_Mercenaries.html#code
 func (m *Mercenary) LoadType(data uint16) {
 	m.Type.Code = data
