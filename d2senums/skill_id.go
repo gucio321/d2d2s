@@ -172,7 +172,7 @@ const (
 	SkillBarbarianBattleCommands    // battle commands
 
 	// common (scrolls/tomes)
-	SkillScrollIdentify    SKillID = 217 + iota // scroll of identify
+	SkillScrollIdentify    SkillID = 217 + iota // scroll of identify
 	SkillTomeIdentify                           // tome of identify
 	SkillScrollTownPortall                      // scroll of town portal
 	SkillTomeTownPortal                         // tome of town portal
@@ -252,7 +252,9 @@ const (
 	SkillIDNecromancer
 	SkillIDPaladin
 	SkillIDBarbarian
+)
 
+const (
 	SkillIDDruid SkillIDModifier = iota*30 + 221
 	SkillIDAssasin
 )

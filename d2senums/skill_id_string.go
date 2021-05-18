@@ -160,15 +160,90 @@ func _() {
 	_ = x[SkillBarbarianNaturalResistance-149]
 	_ = x[SkillBarbarianWarCry-150]
 	_ = x[SkillBarbarianBattleCommands-151]
+	_ = x[SkillScrollIdentify-369]
+	_ = x[SkillTomeIdentify-370]
+	_ = x[SkillScrollTownPortall-371]
+	_ = x[SkillTomeTownPortal-372]
+	_ = x[SkillDruidRaven-373]
+	_ = x[SkillDruidPlaguePoppy-374]
+	_ = x[SkillDruidWearwolf-375]
+	_ = x[SkillDruidShapeShifting-376]
+	_ = x[SkillDruidFirestorm-377]
+	_ = x[SkillDruidOakSage-378]
+	_ = x[SkillDruidSummonSpriteWolf-379]
+	_ = x[SkillDruidWearbear-380]
+	_ = x[SkillDruidMoltenBoulder-381]
+	_ = x[SkillDruidArcticBlast-382]
+	_ = x[SkillDruidCycleLife-383]
+	_ = x[SkillDruidFeralRage-384]
+	_ = x[SkillDruidMaul-385]
+	_ = x[SkillDruidEruption-386]
+	_ = x[SkillDruidCycloneArmor-387]
+	_ = x[SkillDruidHeartOfWolverine-388]
+	_ = x[SkillDruidSummonFenris-389]
+	_ = x[SkillDruidRabies-390]
+	_ = x[SkillDruidFireClaws-391]
+	_ = x[SkillDruidTwister-392]
+	_ = x[SkillDruidVines-393]
+	_ = x[SkillDruidHunger-394]
+	_ = x[SkillDruidShockWave-395]
+	_ = x[SkillDruidVolcano-396]
+	_ = x[SkillDruidTornado-397]
+	_ = x[SkillDruidBarbsSpirit-398]
+	_ = x[SkillDruidSummonGrizzly-399]
+	_ = x[SkillDruidFury-400]
+	_ = x[SkillDruidArmageddon-401]
+	_ = x[SkillDruidHurricane-402]
+	_ = x[SkillAssasinFireTrauma-403]
+	_ = x[SkillAssasinClawMastery-404]
+	_ = x[SkillAssasinPsyhicHammer-405]
+	_ = x[SkillAssasinTigerStrike-406]
+	_ = x[SkillAssasinDragonTalon-407]
+	_ = x[SkillAssasinShockField-408]
+	_ = x[SkillAssasinBladeSentinel-409]
+	_ = x[SkillAssasinQuickness-410]
+	_ = x[SkillAssasinFistsOfFire-411]
+	_ = x[SkillAssasinDragonClaw-412]
+	_ = x[SkillAssasinChargedBolt-413]
+	_ = x[SkillAssasinFireWeak-414]
+	_ = x[SkillAssasinWeaponBlock-415]
+	_ = x[SkillAssasinShadowsCloak-416]
+	_ = x[SkillAssasinCobraStrike-417]
+	_ = x[SkillAssasinBladeFury-418]
+	_ = x[SkillAssasinFade-419]
+	_ = x[SkillAssasinShadowWarrior-420]
+	_ = x[SkillAssasinClawsOfThunder-421]
+	_ = x[SkillAssasinDragonTail-422]
+	_ = x[SkillAssasinLightningSentry-423]
+	_ = x[SkillAssasinInfernoSentry-424]
+	_ = x[SkillAssasinMindBlast-425]
+	_ = x[SkillAssasinBladeOfIce-426]
+	_ = x[SkillAssasinDragonFight-427]
+	_ = x[SkillAssasinDeathSentry-428]
+	_ = x[SkillAssasinBladeShield-429]
+	_ = x[SkillAssasinVenom-430]
+	_ = x[SkillAssasinShadowMastery-431]
+	_ = x[SkillAssasinRoyalStrike-432]
 }
 
-const _SkillID_name = "attackkickthrowunsummonleft hand throwleft hand swingmagic arrowfire arrowinner sightcritical strikejabcold arrowmultiple shotdodgepower strikepoison javelinexploding arrowslow missileavoidimpalelightning boltice arrowguided arrowpenetratecharged strikeplague javelinstrafeimmolation arrowdopplezonevadefendfreezing arrowvalkyriepiercelightning strikelightning furyfire boltwarmthcharged boltice boltfrozen armorinfernostatic fieldtelekinesisfrost novaice blastblazefire ballnovalightningshiver armorfire wallenchantchain lightningteleportglacial spikemeteorthunder stormenergy shieldblizzardchilling armorfire masteryhydralightning masteryfrozen orbcold masteryamplify damageteethbone armorskeleton masteryraise skeletondim visionweakenpoison daggercorpse explosioncly golemiron maidenterrorbone wallgolem masteryraise skeletal magconfuselife tappoison explosionbone spearblood golemattractdecrepifybone prisonsummon resistiron golemlower lesistpoison novabone spiritfire golemrevivesacrificesmitemightprayerresist fireholy boltholy firethornedefianceresist coldzealchargeblassed aimconcentrationholy freezevigorconversionholy shieldholy shocksanctuarymeditationfist of the Heavensfanaticismconvictionredemptionsalvationbashsword masteryaxe masterymace masteryhowlfind potionleapdouble swingpole arm masterythrowing masteryspear masterytauntshoutstumdouble throwincreased staminafind itemsleap attackconcentrateiron skinbattle cryfrenzyincreased speedbattle ordersgrim wardwhirlwindberserknatural resistancewar crybattle commands"
+const (
+	_SkillID_name_0 = "attackkickthrowunsummonleft hand throwleft hand swingmagic arrowfire arrowinner sightcritical strikejabcold arrowmultiple shotdodgepower strikepoison javelinexploding arrowslow missileavoidimpalelightning boltice arrowguided arrowpenetratecharged strikeplague javelinstrafeimmolation arrowdopplezonevadefendfreezing arrowvalkyriepiercelightning strikelightning furyfire boltwarmthcharged boltice boltfrozen armorinfernostatic fieldtelekinesisfrost novaice blastblazefire ballnovalightningshiver armorfire wallenchantchain lightningteleportglacial spikemeteorthunder stormenergy shieldblizzardchilling armorfire masteryhydralightning masteryfrozen orbcold masteryamplify damageteethbone armorskeleton masteryraise skeletondim visionweakenpoison daggercorpse explosioncly golemiron maidenterrorbone wallgolem masteryraise skeletal magconfuselife tappoison explosionbone spearblood golemattractdecrepifybone prisonsummon resistiron golemlower lesistpoison novabone spiritfire golemrevivesacrificesmitemightprayerresist fireholy boltholy firethornedefianceresist coldzealchargeblassed aimconcentrationholy freezevigorconversionholy shieldholy shocksanctuarymeditationfist of the Heavensfanaticismconvictionredemptionsalvationbashsword masteryaxe masterymace masteryhowlfind potionleapdouble swingpole arm masterythrowing masteryspear masterytauntshoutstumdouble throwincreased staminafind itemsleap attackconcentrateiron skinbattle cryfrenzyincreased speedbattle ordersgrim wardwhirlwindberserknatural resistancewar crybattle commands"
+	_SkillID_name_1 = "scroll of identifytome of identifyscroll of town portaltome of town portalravenplague poppywarwolfshape shiftingfirestormoak sagesummon sprite wolfwearbearmolten boulderarctic blastcycle of lifeferal ragemauleruptioncyclone armorheart of wolverinesummon fenrisrabiesfire clawstwistervineshungershock wavevolcanotornadospirit of barbssummon grizzlyfuryarmageddonhurricanefire traumaclaw masterypsychic hammertiger strikedragon talonshock fieldblade sentinelquicknessfists of firedragon clawcharged bolt sentryweak of fire sentryweapon blockcloak of shadowscobra strikeblade furyfadeshadow warriorclaws of thunderdragon taillightning sentryinferno sentrymint blastblade of icedragon fightdeath sentryblade shieldvenomshadow masteryroyal strike"
+)
 
-var _SkillID_index = [...]uint16{0, 6, 10, 15, 23, 38, 53, 64, 74, 85, 100, 103, 113, 126, 131, 143, 157, 172, 184, 189, 195, 209, 218, 230, 239, 253, 267, 273, 289, 298, 303, 307, 321, 329, 335, 351, 365, 374, 380, 392, 400, 412, 419, 431, 442, 452, 461, 466, 475, 479, 488, 500, 509, 516, 531, 539, 552, 558, 571, 584, 592, 606, 618, 623, 640, 650, 662, 676, 681, 691, 707, 721, 731, 737, 750, 766, 775, 786, 792, 801, 814, 832, 839, 847, 863, 873, 884, 891, 900, 911, 924, 934, 946, 957, 968, 978, 984, 993, 998, 1003, 1009, 1020, 1029, 1038, 1044, 1052, 1063, 1067, 1073, 1084, 1097, 1108, 1113, 1123, 1134, 1144, 1153, 1163, 1182, 1192, 1202, 1212, 1221, 1225, 1238, 1249, 1261, 1265, 1276, 1280, 1292, 1308, 1324, 1337, 1342, 1347, 1351, 1363, 1380, 1390, 1401, 1412, 1421, 1431, 1437, 1452, 1465, 1474, 1483, 1490, 1508, 1515, 1530}
+var (
+	_SkillID_index_0 = [...]uint16{0, 6, 10, 15, 23, 38, 53, 64, 74, 85, 100, 103, 113, 126, 131, 143, 157, 172, 184, 189, 195, 209, 218, 230, 239, 253, 267, 273, 289, 298, 303, 307, 321, 329, 335, 351, 365, 374, 380, 392, 400, 412, 419, 431, 442, 452, 461, 466, 475, 479, 488, 500, 509, 516, 531, 539, 552, 558, 571, 584, 592, 606, 618, 623, 640, 650, 662, 676, 681, 691, 707, 721, 731, 737, 750, 766, 775, 786, 792, 801, 814, 832, 839, 847, 863, 873, 884, 891, 900, 911, 924, 934, 946, 957, 968, 978, 984, 993, 998, 1003, 1009, 1020, 1029, 1038, 1044, 1052, 1063, 1067, 1073, 1084, 1097, 1108, 1113, 1123, 1134, 1144, 1153, 1163, 1182, 1192, 1202, 1212, 1221, 1225, 1238, 1249, 1261, 1265, 1276, 1280, 1292, 1308, 1324, 1337, 1342, 1347, 1351, 1363, 1380, 1390, 1401, 1412, 1421, 1431, 1437, 1452, 1465, 1474, 1483, 1490, 1508, 1515, 1530}
+	_SkillID_index_1 = [...]uint16{0, 18, 34, 55, 74, 79, 91, 98, 112, 121, 129, 147, 155, 169, 181, 194, 204, 208, 216, 229, 247, 260, 266, 276, 283, 288, 294, 304, 311, 318, 333, 347, 351, 361, 370, 381, 393, 407, 419, 431, 442, 456, 465, 478, 489, 508, 527, 539, 555, 567, 577, 581, 595, 611, 622, 638, 652, 662, 674, 686, 698, 710, 715, 729, 741}
+)
 
 func (i SkillID) String() string {
-	if i < 0 || i >= SkillID(len(_SkillID_index)-1) {
+	switch {
+	case 0 <= i && i <= 151:
+		return _SkillID_name_0[_SkillID_index_0[i]:_SkillID_index_0[i+1]]
+	case 369 <= i && i <= 432:
+		i -= 369
+		return _SkillID_name_1[_SkillID_index_1[i]:_SkillID_index_1[i+1]]
+	default:
 		return "SkillID(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _SkillID_name[_SkillID_index[i]:_SkillID_index[i+1]]
 }

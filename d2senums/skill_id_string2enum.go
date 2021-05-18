@@ -9,9 +9,14 @@ func SkillIDFromString(s string) SkillID {
 	if len(s) == 0 {
 		return 0
 	}
-	for i := range _SkillID_index[:len(_SkillID_index)-1] {
-		if s == _SkillID_name[_SkillID_index[i]:_SkillID_index[i+1]] {
-			return SkillID(i)
+	for i := range _SkillID_index_0[:len(_SkillID_index_0)-1] {
+		if s == _SkillID_name_0[_SkillID_index_0[i]:_SkillID_index_0[i+1]] {
+			return SkillID(i + 0)
+		}
+	}
+	for i := range _SkillID_index_1[:len(_SkillID_index_1)-1] {
+		if s == _SkillID_name_1[_SkillID_index_1[i]:_SkillID_index_1[i+1]] {
+			return SkillID(i + 369)
 		}
 	}
 	panic(fmt.Errorf("unable to locate SkillID enum corresponding to %q", s))
@@ -324,5 +329,133 @@ func _(s string) {
 	case "war cry":
 	// 151
 	case "battle commands":
+	// 369
+	case "scroll of identify":
+	// 370
+	case "tome of identify":
+	// 371
+	case "scroll of town portal":
+	// 372
+	case "tome of town portal":
+	// 373
+	case "raven":
+	// 374
+	case "plague poppy":
+	// 375
+	case "warwolf":
+	// 376
+	case "shape shifting":
+	// 377
+	case "firestorm":
+	// 378
+	case "oak sage":
+	// 379
+	case "summon sprite wolf":
+	// 380
+	case "wearbear":
+	// 381
+	case "molten boulder":
+	// 382
+	case "arctic blast":
+	// 383
+	case "cycle of life":
+	// 384
+	case "feral rage":
+	// 385
+	case "maul":
+	// 386
+	case "eruption":
+	// 387
+	case "cyclone armor":
+	// 388
+	case "heart of wolverine":
+	// 389
+	case "summon fenris":
+	// 390
+	case "rabies":
+	// 391
+	case "fire claws":
+	// 392
+	case "twister":
+	// 393
+	case "vines":
+	// 394
+	case "hunger":
+	// 395
+	case "shock wave":
+	// 396
+	case "volcano":
+	// 397
+	case "tornado":
+	// 398
+	case "spirit of barbs":
+	// 399
+	case "summon grizzly":
+	// 400
+	case "fury":
+	// 401
+	case "armageddon":
+	// 402
+	case "hurricane":
+	// 403
+	case "fire trauma":
+	// 404
+	case "claw mastery":
+	// 405
+	case "psychic hammer":
+	// 406
+	case "tiger strike":
+	// 407
+	case "dragon talon":
+	// 408
+	case "shock field":
+	// 409
+	case "blade sentinel":
+	// 410
+	case "quickness":
+	// 411
+	case "fists of fire":
+	// 412
+	case "dragon claw":
+	// 413
+	case "charged bolt sentry":
+	// 414
+	case "weak of fire sentry":
+	// 415
+	case "weapon block":
+	// 416
+	case "cloak of shadows":
+	// 417
+	case "cobra strike":
+	// 418
+	case "blade fury":
+	// 419
+	case "fade":
+	// 420
+	case "shadow warrior":
+	// 421
+	case "claws of thunder":
+	// 422
+	case "dragon tail":
+	// 423
+	case "lightning sentry":
+	// 424
+	case "inferno sentry":
+	// 425
+	case "mint blast":
+	// 426
+	case "blade of ice":
+	// 427
+	case "dragon fight":
+	// 428
+	case "death sentry":
+	// 429
+	case "blade shield":
+	// 430
+	case "venom":
+	// 431
+	case "shadow mastery":
+	// 432
+	case "royal strike":
 	}
 }
