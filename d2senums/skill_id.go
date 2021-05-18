@@ -180,4 +180,6 @@ const (
 	SkillIDAmazon SkillIDModifier = iota*30 + 6
 	SkillIDSorceress
 	SkillIDNecromancer
+	SkillIDPaladin
+	SkillIDBarbarian
 )
