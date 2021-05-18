@@ -254,6 +254,7 @@ const (
 	SkillIDBarbarian
 )
 
+// skillID modifiers: part 2
 const (
 	SkillIDDruid SkillIDModifier = iota*30 + 221
 	SkillIDAssasin
