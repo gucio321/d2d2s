@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"math"
 	"strings"
 
 	"github.com/OpenDiablo2/OpenDiablo2/d2common/d2datautils"
@@ -32,6 +33,7 @@ const (
 	skillsHeaderID     = "if"
 	numSkills          = 30
 	int32Size          = 4
+	byteLen            = 8
 	fileSizePosition   = 8
 	checksumPosition   = 12
 )
@@ -120,9 +122,7 @@ func Unmarshal(data []byte) (*D2S, error) {
 	_ = sr.GetInt32()
 
 	// checksum (32-bit checksum)
-	sum := sr.GetUInt32()
-	_ = sum
-	fmt.Println(sum)
+	_ = sr.GetUInt32()
 
 	result.unknown1 = sr.GetUInt32()
 
@@ -375,6 +375,7 @@ func (d *D2S) Encode() ([]byte, error) {
 
 	fileSizeBytes := make([]byte, int32Size)
 	binary.LittleEndian.PutUint32(fileSizeBytes, fileSize)
+
 	for i := 0; i < int32Size; i++ {
 		data[fileSizePosition+i] = fileSizeBytes[i]
 	}
@@ -383,12 +384,26 @@ func (d *D2S) Encode() ([]byte, error) {
 
 	var sum uint32
 	for i := range data {
-		sum <<= uint32(1)
+		// thanks goes to <https://github.com/pairofdocs>
+		// this shift expresion was translated from here: https://github.com/pairofdocs/d2s_edit_recalc
+		// origin:
+		// ```python
+		// # from stackoverflow ref
+		// def leftshift(int_in, shift_n, tot_bits):
+		//    # returns an int.  take bin() to get  '0b10101'
+		//    # bin(leftshift(int('10000000000000000000000000000000',2), 1, 32) )  ---> 0000...1
+		//    return ((int_in << shift_n) % (1 << tot_bits)) | (int_in >> (tot_bits - shift_n))
+		// ```
+		sum = ((sum << 1) % math.MaxUint32) | (sum >> (int32Size*byteLen - 1))
+
 		sum += uint32(data[i])
 	}
 
+	sumBytes := make([]byte, int32Size)
+	binary.LittleEndian.PutUint32(sumBytes, sum)
+
 	for i := 0; i < int32Size; i++ {
-		data[checksumPosition+i] = byte(sum >> i * 8) // nolint:gomnd // byte size
+		data[checksumPosition+i] = sumBytes[i]
 	}
 
 	return data, nil

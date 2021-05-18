@@ -1,8 +1,6 @@
 package d2d2s
 
 import (
-	"bytes"
-	"fmt"
 	"os"
 	"testing"
 )
@@ -65,7 +63,7 @@ func Test_LoadEncode(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	d, err := x.Encode()
+	_, err = x.Encode()
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -85,13 +83,15 @@ func Test_LoadEncode(t *testing.T) {
 	*/
 
 	// nolint:gocritic // will use later
-	m := 0
-	max := 12
-	fmt.Println(d[m:max])
-	fmt.Println(data[m:max])
-	// fmt.Println(len(d[m:max]), len(data[m:max]))
-	fmt.Println(bytes.Equal(data[m:max], d[m:max]))
-	t.Fail()
+	/*
+		m := 0
+		max := 16
+		fmt.Println(d[m:max])
+		fmt.Println(data[m:max])
+		// fmt.Println(len(d[m:max]), len(data[m:max]))
+		fmt.Println(bytes.Equal(data[m:max], d[m:max]))
+		t.Fail()
+	*/
 }
 
 /*
