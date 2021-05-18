@@ -170,6 +170,70 @@ const (
 	SkillBarbarianNaturalResistance // natural resistance
 	SkillBarbarianWarCry            // war cry
 	SkillBarbarianBattleCommands    // battle commands
+
+	// Druid Skills
+	SkillDruidRaven            // raven
+	SkillDruidPlaguePoppy      // plague poppy
+	SkillDruidWearwolf         // warwolf
+	SkillDruidShapeShifting    // shape shifting
+	SkillDruidFirestorm        // firestorm
+	SkillDruidOakSage          // oak sage
+	SkillDruidSummonSpriteWolf // summon sprite wolf
+	SkillDruidWearbear         // wearbear
+	SkillDruidMoltenBoulder    // molten boulder
+	SkillDruidArcticBlast      // arctic blast
+	SkillDruidCycleLife        // cycle of life
+	SkillDruidFeralRage        // feral rage
+	SkillDruidMaul             // maul
+	SkillDruidEruption         // eruption
+	SkillDruidCycloneArmor     // cyclone armor
+	SkillDruidHeartOfWolverine // heart of wolverine
+	SkillDruidSummonFenris     // summon fenris
+	SkillDruidRabies           // rabies
+	SkillDruidFireClaws        // fire claws
+	SkillDruidTwister          // twister
+	SkillDruidVines            // vines
+	SkillDruidHunger           // hunger
+	SkillDruidShockWave        // shock wave
+	SkillDruidVolcano          // volcano
+	SkillDruidTornado          // tornado
+	SkillDruidBarbsSpirit      // spirit of barbs
+	SkillDruidSummonGrizzly    // summon grizzly
+	SkillDruidFury             // fury
+	SkillDruidArmageddon       // armageddon
+	SkillDruidHurricane        // hurricane
+
+	// Assassin Skills
+	SkillAssasinFireTrauma      // fire trauma
+	SkillAssasinClawMastery     // claw mastery
+	SkillAssasinPsyhicHammer    // psyhic hammer
+	SkillAssasinTigerStrike     // tiger strike
+	SkillAssasinDragonTalon     // dragon talon
+	SkillAssasinShockField      // shock field
+	SkillAssasinBladeSentinel   // blade sentinel
+	SkillAssasinQuickness       // quickness
+	SkillAssasinFistsOfFire     // fists of fire
+	SkillAssasinDragonClaw      // dragon claw
+	SkillAssasinChargedBolt     // charged bolt sentry
+	SkillAssasinFireWeak        // weak of fire sentry
+	SkillAssasinWeaponBlock     // weapon block
+	SkillAssasinShadowsCloak    // cloak of shadows
+	SkillAssasinCobraStrike     // cobra strike
+	SkillAssasinBladeFury       // blade fury
+	SkillAssasinFade            // fade
+	SkillAssasinShadowWarrior   // shadow warrior
+	SkillAssasinClawsOfThunder  // claws of thunder
+	SkillAssasinDragonTail      // dragon tail
+	SkillAssasinLightningSentry // lightning sentry
+	SkillAssasinInfernoSentry   // inferno sentry
+	SkillAssasinMindBlast       // mint blast
+	SkillAssasinBladeOfIce      // blade of ice
+	SkillAssasinDragonFight     // dragon fight
+	SkillAssasinDeathSentry     // death sentry
+	SkillAssasinBladeShield     // blade shield
+	SkillAssasinVenom           // venom
+	SkillAssasinShadowMastery   // shadow mastery
+	SkillAssasinRoyalStrike     // royal strike
 )
 
 // SkillIDModifier represents an offset for each character class to get a common skill ID
@@ -182,4 +246,6 @@ const (
 	SkillIDNecromancer
 	SkillIDPaladin
 	SkillIDBarbarian
+	SkillIDDruid
+	SkillIDAssasin
 )
