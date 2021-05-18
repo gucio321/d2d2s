@@ -1,6 +1,7 @@
 package d2senums
 
 //go:generate stringer -type SkillID -linecomment -output skill_id_string.go
+//go:generate string2enum -type SkillID -linecomment -output skill_id_string2enum.go
 
 // SkillID represents a skill ID
 type SkillID int32
@@ -109,6 +110,66 @@ const (
 	SkillNecromancerBoneSpirit       // bone spirit
 	SkillNecromancerFireGolem        // fire golem
 	SkillNecromancerRevive           // revive
+
+	// Paladin Skills
+	SkillPaladinSacrifice     // sacrifice
+	SkillPaladinSmite         // smite
+	SkillPaladinMight         // might
+	SkillPaladinPrayer        // prayer
+	SkillPaladinResistFire    // resist fire
+	SkillPaladinHolyBolt      // holy bolt
+	SkillPaladinHolyFire      // holy fire
+	SkillPaladinThorne        // thorne
+	SkillPaladinDefiance      // defiance
+	SkillPaladinResistCold    // resist cold
+	SkillPaladinZeal          // zeal
+	SkillPaladinCharge        // charge
+	SkillPaladinBlassedAim    // blassed aim
+	SkillPaladinConcentration // concentration
+	SkillPaladinHolyFreeze    // holy freeze
+	SkillPaladinVigor         // vigor
+	SkillPaladinConversion    // conversion
+	SkillPaladinHolyShield    // holy shield
+	SkillPaladinHolyShock     // holy shock
+	SkillPaladinSanctuary     // sanctuary
+	SkillPaladinMeditation    // meditation
+	SkillPaladinFOH           // fist of the Heavens
+	SkillPaladinFanaticism    // fanaticism
+	SkillPaladinConviction    // conviction
+	SkillPaladinRedemption    // redemption
+	SkillPaladinSalvation     // salvation
+
+	// Barbarian Skills
+	SkillBarbarianBash              // bash
+	SkillBarbarianSwordMastery      // sword mastery
+	SkillBarbarianAxeMastery        // axe mastery
+	SkillBarbarianMaceMastery       // mace mastery
+	SkillBarbarianHowl              // howl
+	SkillBarbarianFindPotion        // find potion
+	SkillBarbarianLeap              // leap
+	SkillBarbarianDoubleSwing       // double swing
+	SkillBarbarianPoleArmMastery    // pole arm mastery
+	SkillBarbarianThrowingMastery   // throwing mastery
+	SkillBarbarianSpearMastery      // spear mastery
+	SkillBarbarianTaunt             // taunt
+	SkillBarbarianShout             // shout
+	SkillBarbarianStum              // stum
+	SkillBarbarianDoubleThrow       // double throw
+	SkillBarbarianIncreasedStamina  // increased stamina
+	SkillBarbarianFintItems         // find items
+	SkillBarbarianLeapAttack        // leap attack
+	SkillBarbarianConcentrate       // concentrate
+	SkillBarbarianIronSkin          // iron skin
+	SkillBarbarianBattleCry         // battle cry
+	SkillBarbarianFrenzy            // frenzy
+	SkillBarbarianIncreasedSpeed    // increased speed
+	SkillBarbarianBattleOrders      // battle orders
+	SkillBarbarianGrimWard          // grim ward
+	SkillBarbarianWhirlwind         // whirlwind
+	SkillBarbarianBerserk           // berserk
+	SkillBarbarianNaturalResistance // natural resistance
+	SkillBarbarianWarCry            // war cry
+	SkillBarbarianBattleCommands    // battle commands
 )
 
 // SkillIDModifier represents an offset for each character class to get a common skill ID
