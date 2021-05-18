@@ -1,6 +1,7 @@
 package d2d2s
 
 import (
+	"encoding/binary"
 	"errors"
 	"fmt"
 	"log"
@@ -120,6 +121,7 @@ func Unmarshal(data []byte) (*D2S, error) {
 
 	// checksum (32-bit checksum)
 	sum := sr.GetUInt32()
+	_ = sum
 	fmt.Println(sum)
 
 	result.unknown1 = sr.GetUInt32()
@@ -371,15 +373,17 @@ func (d *D2S) Encode() ([]byte, error) {
 	data := sw.GetBytes()
 	fileSize := uint32(len(data))
 
+	fileSizeBytes := make([]byte, int32Size)
+	binary.LittleEndian.PutUint32(fileSizeBytes, fileSize)
 	for i := 0; i < int32Size; i++ {
-		data[fileSizePosition+i] = byte(fileSize >> i * 8) // nolint:gomnd // byte size
+		data[fileSizePosition+i] = fileSizeBytes[i]
 	}
 
 	// checksum here - TODO
 
 	var sum uint32
 	for i := range data {
-		sum <<= 1
+		sum <<= uint32(1)
 		sum += uint32(data[i])
 	}
 
