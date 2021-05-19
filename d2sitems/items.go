@@ -186,9 +186,9 @@ type Item struct {
 		MagicPrefix []MagicModifier
 		MagicSuffix []MagicModifier
 		// Rare, Crafted only
-		RareNames []MagicModifier // len() * 8 bits
+		RareNames []itemdata.RareName // len() * 8 bits
 
-		SetID         uint16 // 12 bits
+		SetID         itemdata.SetID // 12 bits
 		SetName       string
 		SetListID     byte // 5 bits
 		SetListCount  byte
@@ -199,9 +199,8 @@ type Item struct {
 	}
 	RuneWord struct {
 		HasRuneWord bool
-		ID          uint16 // 12 bits
-		Name        string
-		unknown     byte // 4 bits (brobably always value 5)
+		ID          itemdata.RunewordID // 12 bits
+		unknown     byte                // 4 bits (brobably always value 5)
 		Attributes  d2smagicattributes.MagicAttributes
 	}
 	Personalization struct {
@@ -290,23 +289,13 @@ func (i *Item) loadExtendedFields(sr *datautils.BitMuncher) (err error) {
 		}
 	case d2senums.ItemQualitySet:
 		id := uint16(sr.GetBits(setIDLen))
-		i.QualityData.SetID = id
-		setName, ok := itemdata.SetNames[id]
-
-		if ok {
-			i.QualityData.SetName = setName
-		}
+		i.QualityData.SetID = itemdata.SetID(id)
 	case d2senums.ItemQualityRare, d2senums.ItemQualityCrafted:
-		i.QualityData.RareNames = make([]MagicModifier, 2)
+		i.QualityData.RareNames = make([]itemdata.RareName, 2)
 
 		for n := 0; n < 2; n++ {
 			id := uint16(sr.GetBits(rareNameIDLen))
-			i.QualityData.RareNames[n].ID = id
-			name, ok := itemdata.RareNames[id]
-
-			if ok {
-				i.QualityData.RareNames[n].Name = name
-			}
+			i.QualityData.RareNames[n] = itemdata.RareName(id)
 		}
 
 		i.QualityData.MagicPrefix = make([]MagicModifier, 0)
@@ -349,12 +338,7 @@ func (i *Item) loadExtendedFields(sr *datautils.BitMuncher) (err error) {
 
 	if i.RuneWord.HasRuneWord {
 		id := uint16(sr.GetBits(runeWordIDLen))
-		i.RuneWord.ID = id
-		name, ok := itemdata.RunewordNames[id]
-
-		if ok {
-			i.RuneWord.Name = name
-		}
+		i.RuneWord.ID = itemdata.RunewordID(id)
 
 		i.RuneWord.unknown = byte(sr.GetBits(runeWordUnknownLen))
 	}
@@ -578,10 +562,10 @@ func (i *Item) encodeExtendedFields(sw *datautils.StreamWriter) (err error) {
 		sw.PushBits16(i.QualityData.MagicPrefix[0].ID, 11)
 		sw.PushBits16(i.QualityData.MagicSuffix[0].ID, 11)
 	case d2senums.ItemQualitySet:
-		sw.PushBits16(i.QualityData.SetID, setIDLen)
+		sw.PushBits16(uint16(i.QualityData.SetID), setIDLen)
 	case d2senums.ItemQualityRare, d2senums.ItemQualityCrafted:
 		for _, name := range i.QualityData.RareNames {
-			sw.PushBits(byte(name.ID), 8)
+			sw.PushBits(byte(name), 8)
 		}
 
 		for n := 0; n < 3; n++ {
@@ -606,7 +590,7 @@ func (i *Item) encodeExtendedFields(sw *datautils.StreamWriter) (err error) {
 	}
 
 	if i.RuneWord.HasRuneWord {
-		sw.PushBits16(i.RuneWord.ID, runeWordIDLen)
+		sw.PushBits16(uint16(i.RuneWord.ID), runeWordIDLen)
 		sw.PushBits(i.RuneWord.unknown, runeWordUnknownLen)
 	}
 
