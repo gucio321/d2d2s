@@ -18,8 +18,7 @@ const (
 
 	itemListID = "JM"
 
-	etheralItemsDamageModifier = 1.5
-	defenseRatingModifier      = 10
+	defenseRatingModifier = 10
 
 	unknown1Len  = 4
 	unknown2Len  = 6
@@ -160,12 +159,7 @@ type Item struct {
 	Type       itemdata.ItemCode
 	TypeID     itemdata.ItemTypeID
 	TypeName   string
-	BaseDamage struct {
-		Min        int
-		Max        int
-		TwoHandMin int
-		TwoHandMax int
-	}
+	BaseDamage *itemdata.WeaponDamage
 
 	NumberOfItemsInSockets byte // 3 bits
 
@@ -520,21 +514,15 @@ func (i *Item) loadSimpleFields(sr *datautils.BitMuncher) (err error) {
 				i.TypeName = typeName
 			}
 
-			baseDamage, ok := itemdata.WeaponDamageMap[i.Type]
-			if ok {
+			baseDamage := i.Type.WeaponDamage()
+			if baseDamage != nil {
 				// If the item is ethereal we need to add 50% enhanced
 				// damage to the base damage.
 				if i.Etheral {
-					i.BaseDamage.Min = int((float64(baseDamage.Min) * etheralItemsDamageModifier))
-					i.BaseDamage.Max = int((float64(baseDamage.Max) * etheralItemsDamageModifier))
-					i.BaseDamage.TwoHandMin = int((float64(baseDamage.TwoMin) * etheralItemsDamageModifier))
-					i.BaseDamage.TwoHandMax = int((float64(baseDamage.TwoMax) * etheralItemsDamageModifier))
-				} else {
-					i.BaseDamage.Min = baseDamage.Min
-					i.BaseDamage.Max = baseDamage.Max
-					i.BaseDamage.TwoHandMin = baseDamage.TwoMin
-					i.BaseDamage.TwoHandMax = baseDamage.TwoMax
+					baseDamage.Etheral()
 				}
+
+				i.BaseDamage = baseDamage
 			}
 		case itemdata.ItemTypeIDOther:
 			typeName, ok := itemdata.MiscCodes[i.Type]
