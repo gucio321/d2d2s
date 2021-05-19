@@ -2,35 +2,6 @@
 // nolint:gochecknoglobals,gomnd,golint,stylecheck,revive //data file
 package itemdata
 
-// GetTypeID returns type id basing on item code given
-func GetTypeID(t ItemCode) ItemTypeID {
-	if _, ok := ArmorCodes[t]; ok {
-		return ItemTypeIDArmor
-	}
-
-	if _, ok := ShieldCodes[t]; ok {
-		return ItemTypeIDShield
-	}
-
-	if _, ok := WeaponCodes[t]; ok {
-		return ItemTypeIDWeapon
-	}
-
-	return ItemTypeIDOther
-}
-
-// ItemTypeID represents an item type ID
-type ItemTypeID byte
-
-// Item types, used to decide what attribute to give an item socketed with
-// gems or runes mostly.
-const (
-	ItemTypeIDArmor ItemTypeID = iota
-	ItemTypeIDShield
-	ItemTypeIDWeapon
-	ItemTypeIDOther
-)
-
 // SetListMap - Each set item has 5 bits of data containing the number of set lists follow
 // the magical attributes list, this map tells us how many lists to read
 // depending on the value given from the 5 bits. A number of 0-5 set lists.

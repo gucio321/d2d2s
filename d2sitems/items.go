@@ -496,7 +496,7 @@ func (i *Item) loadSimpleFields(sr *datautils.BitMuncher) (err error) {
 	} else {
 		t := sr.GetBytes(typeLen)
 		i.Type = itemdata.ItemCodeFromString(strings.Trim(string(t), " "))
-		i.TypeID = itemdata.GetTypeID(i.Type)
+		i.TypeID = i.Type.GetTypeID()
 		switch i.TypeID {
 		case itemdata.ItemTypeIDArmor:
 			typeName, ok := itemdata.ArmorCodes[i.Type]
