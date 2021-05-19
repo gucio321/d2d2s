@@ -194,7 +194,7 @@ type Item struct {
 		SetListCount  byte
 		SetAttributes []d2smagicattributes.MagicAttributes
 
-		UniqueID   uint16 // 12 bits
+		UniqueID   itemdata.UniqueID // 12 bits
 		UniqueName string
 	}
 	RuneWord struct {
@@ -328,12 +328,7 @@ func (i *Item) loadExtendedFields(sr *datautils.BitMuncher) (err error) {
 		}
 	case d2senums.ItemQualityUnique:
 		id := uint16(sr.GetBits(uniqueIDLen))
-		i.QualityData.UniqueID = id
-		uniqueName, ok := itemdata.UniqueNames[id]
-
-		if ok {
-			i.QualityData.UniqueName = uniqueName
-		}
+		i.QualityData.UniqueID = itemdata.UniqueID(id)
 	}
 
 	if i.RuneWord.HasRuneWord {
@@ -586,7 +581,7 @@ func (i *Item) encodeExtendedFields(sw *datautils.StreamWriter) (err error) {
 			}
 		}
 	case d2senums.ItemQualityUnique:
-		sw.PushBits16(i.QualityData.UniqueID, uniqueIDLen)
+		sw.PushBits16(uint16(i.QualityData.UniqueID), uniqueIDLen)
 	}
 
 	if i.RuneWord.HasRuneWord {

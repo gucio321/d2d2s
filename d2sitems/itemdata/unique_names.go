@@ -1,5 +1,7 @@
 package itemdata
 
+//go:generate stringer -linecomment -type UniqueID -output unique_string.go
+
 // UniqueID represents an uinque item's id
 type UniqueID uint16
 
