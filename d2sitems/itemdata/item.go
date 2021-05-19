@@ -1,32 +1,6 @@
 // Package itemdata contains data copied from https://github.com/nokka/d2s , Thanx!
-// nolint:gochecknoglobals,gomnd,golint,stylecheck,revive //data file
+// nolint:gochecknoglobals,golint,stylecheck,revive //data file
 package itemdata
-
-// SetListMap - Each set item has 5 bits of data containing the number of set lists follow
-// the magical attributes list, this map tells us how many lists to read
-// depending on the value given from the 5 bits. A number of 0-5 set lists.
-var SetListMap = map[byte]uint64{
-	0:  0,
-	1:  1,
-	2:  1,
-	3:  2,
-	4:  1,
-	6:  2,
-	7:  3,
-	10: 2,
-	12: 2,
-	15: 4,
-	31: 5,
-}
-
-// SetReqIDsMap - Certain set items (only Civerb's Ward in unmodded D2) have bonuses
-// that require certain other set items in order to be activated
-// (instead of the normal requirements of just 'wearing > x of any
-// items in the set'); determined by add_func=1 in SetItems.txt
-var SetReqIDsMap = map[uint64][]uint64{
-	// Civerb's Ward: [Civerb's Icon, Civerb's Cudgel]
-	0: {1, 2},
-}
 
 // HasQuantity returns true if the item has quantity bits
 func (c ItemCode) HasQuantity() bool {

@@ -191,7 +191,7 @@ type Item struct {
 		SetID         uint16 // 12 bits
 		SetName       string
 		SetListID     byte // 5 bits
-		SetListCount  uint64
+		SetListCount  byte
 		SetAttributes []d2smagicattributes.MagicAttributes
 
 		UniqueID   uint16 // 12 bits
@@ -407,12 +407,8 @@ func (i *Item) loadExtendedFields(sr *datautils.BitMuncher) (err error) {
 	var setListValue byte
 	if i.Quality == d2senums.ItemQualitySet {
 		setListValue = byte(sr.GetBits(setListIDLen))
-		listCount, ok := itemdata.SetListMap[setListValue]
+		listCount := itemdata.GetSetAttributesLen(setListValue)
 		i.QualityData.SetListID = setListValue
-
-		if !ok {
-			return fmt.Errorf("unknown set list value %d", setListValue)
-		}
 
 		i.QualityData.SetListCount = listCount
 	}
