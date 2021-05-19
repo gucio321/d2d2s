@@ -1,5 +1,4 @@
 // Package itemdata contains data copied from https://github.com/nokka/d2s , Thanx!
-// nolint:gochecknoglobals,golint,stylecheck,revive //data file
 package itemdata
 
 // HasQuantity returns true if the item has quantity bits
@@ -287,7 +286,7 @@ var ArmorCodes = map[ItemCode]string{
 	WyrmhideBoots:     "Wyrmhide Boots",
 }
 
-// WeaponCodes: Weapon item codes mapped to their in game, human-friendly, readable name.
+// WeaponCodes : Weapon item codes mapped to their in game, human-friendly, readable name.
 // nolint:gochecknoglobals // data variable
 var WeaponCodes = map[ItemCode]string{
 	AncientAxe:          "Ancient Axe",
