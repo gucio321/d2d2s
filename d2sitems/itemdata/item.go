@@ -2,6 +2,7 @@
 // nolint:gochecknoglobals,gomnd,golint,stylecheck,revive //data file
 package itemdata
 
+// GetTypeID returns type id basing on item code given
 func GetTypeID(t ItemCode) ItemTypeID {
 	if _, ok := ArmorCodes[t]; ok {
 		return ItemTypeIDArmor
@@ -377,7 +378,7 @@ const (
 	ItemTypeIDOther
 )
 
-// Each set item has 5 bits of data containing the number of set lists follow
+// SetListMap - Each set item has 5 bits of data containing the number of set lists follow
 // the magical attributes list, this map tells us how many lists to read
 // depending on the value given from the 5 bits. A number of 0-5 set lists.
 var SetListMap = map[byte]uint64{
@@ -394,7 +395,7 @@ var SetListMap = map[byte]uint64{
 	31: 5,
 }
 
-// Certain set items (only Civerb's Ward in unmodded D2) have bonuses
+// SetReqIDsMap - Certain set items (only Civerb's Ward in unmodded D2) have bonuses
 // that require certain other set items in order to be activated
 // (instead of the normal requirements of just 'wearing > x of any
 // items in the set'); determined by add_func=1 in SetItems.txt
@@ -403,63 +404,77 @@ var SetReqIDsMap = map[uint64][]uint64{
 	0: {1, 2},
 }
 
-// All item types that contain the quantity bits will exist in here,
-// we'll use this when reading items to make sure we only read quantity bits
-// when they exist, or we'll ruin the rest of the bit offsets for the item.
-var QuantityMap = map[ItemCode]bool{
-	// Misc
-	TownPortalBook:      true,
-	IdentifyBook:        true,
-	SkeletonKey:         true,
-	RancidGasPotion:     true,
-	OilPotion:           true,
-	ChokingGasPotion:    true,
-	ExplodingPotion:     true,
-	StranglingGasPotion: true,
-	FulmatingPotion:     true,
-	Arrows:              true,
-	Bolts:               true,
+// HasQuantity returns true if the item has quantity bits
+func (c ItemCode) HasQuantity() bool {
+	// All item types that contain the quantity bits will exist in here,
+	// we'll use this when reading items to make sure we only read quantity bits
+	// when they exist, or we'll ruin the rest of the bit offsets for the item.
+	quantityMap := map[ItemCode]bool{
+		// Misc
+		TownPortalBook:      true,
+		IdentifyBook:        true,
+		SkeletonKey:         true,
+		RancidGasPotion:     true,
+		OilPotion:           true,
+		ChokingGasPotion:    true,
+		ExplodingPotion:     true,
+		StranglingGasPotion: true,
+		FulmatingPotion:     true,
+		Arrows:              true,
+		Bolts:               true,
 
-	// Throwables
-	ThrowingKnife: true,
-	ThrowingAxe:   true,
-	BalancedKnife: true,
-	BalancedAxe:   true,
-	BattleDart:    true,
-	Francisca:     true,
-	WarDart:       true,
-	Hurlbat:       true,
-	FlyingKnife:   true,
-	FlyingAxe:     true,
-	WingedKnife:   true,
-	WingedAxe:     true,
+		// Throwables
+		ThrowingKnife: true,
+		ThrowingAxe:   true,
+		BalancedKnife: true,
+		BalancedAxe:   true,
+		BattleDart:    true,
+		Francisca:     true,
+		WarDart:       true,
+		Hurlbat:       true,
+		FlyingKnife:   true,
+		FlyingAxe:     true,
+		WingedKnife:   true,
+		WingedAxe:     true,
 
-	// Javelins
-	Javelin:            true,
-	Pilum:              true,
-	ShortSpear:         true,
-	Glaive:             true,
-	ThrowingSpear:      true,
-	WarJavelin:         true,
-	GreatPilum:         true,
-	Simbilan:           true,
-	Spiculum:           true,
-	Harpoon:            true,
-	HyperionJavelin:    true,
-	StygianPilum:       true,
-	BalrogSpear:        true,
-	GhostGlaive:        true,
-	WingedHarpoon:      true,
-	MaidenJavelin:      true,
-	CeremonialJavelin:  true,
-	MatriarchalJavelin: true,
+		// Javelins
+		Javelin:            true,
+		Pilum:              true,
+		ShortSpear:         true,
+		Glaive:             true,
+		ThrowingSpear:      true,
+		WarJavelin:         true,
+		GreatPilum:         true,
+		Simbilan:           true,
+		Spiculum:           true,
+		Harpoon:            true,
+		HyperionJavelin:    true,
+		StygianPilum:       true,
+		BalrogSpear:        true,
+		GhostGlaive:        true,
+		WingedHarpoon:      true,
+		MaidenJavelin:      true,
+		CeremonialJavelin:  true,
+		MatriarchalJavelin: true,
+	}
+
+	_, ok := quantityMap[c]
+
+	return ok
 }
 
-// Items that are tomes contain 5 extra bits, so we need to keep track of what
-// items are tomes, and read the bits accordingly.
-var TomeMap = map[ItemCode]bool{
-	TownPortalBook: true,
-	IdentifyBook:   true,
+// IsTome returns true if the item is a tome
+func (c ItemCode) IsTome() bool {
+	// Items that are tomes contain 5 extra bits, so we need to keep track of what
+	// items are tomes, and read the bits accordingly.
+	tomeMap := map[ItemCode]bool{
+		TownPortalBook: true,
+		IdentifyBook:   true,
+	}
+
+	_, ok := tomeMap[c]
+
+	return ok
 }
 
 var MagicalProperties = map[uint16]MagicalProperty{

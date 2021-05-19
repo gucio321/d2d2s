@@ -380,7 +380,7 @@ func (i *Item) loadExtendedFields(sr *datautils.BitMuncher) (err error) {
 		i.Personalization.Name = string(name)
 	}
 
-	if itemdata.TomeMap[i.Type] {
+	if i.Type.IsTome() {
 		i.unknown11 = byte(sr.GetBits(unknown11Len))
 	}
 
@@ -402,7 +402,7 @@ func (i *Item) loadExtendedFields(sr *datautils.BitMuncher) (err error) {
 		}
 	}
 
-	if itemdata.QuantityMap[i.Type] {
+	if i.Type.HasQuantity() {
 		i.ExtraStats.Quantity = uint16(sr.GetBits(quantityLen))
 	}
 
@@ -635,7 +635,7 @@ func (i *Item) encodeExtendedFields(sw *datautils.StreamWriter) (err error) {
 		sw.PushBits(byte(' '), characterLen)
 	}
 
-	if itemdata.TomeMap[i.Type] {
+	if i.Type.IsTome() {
 		sw.PushBits(i.unknown11, unknown11Len)
 	}
 
@@ -657,7 +657,7 @@ func (i *Item) encodeExtendedFields(sw *datautils.StreamWriter) (err error) {
 		}
 	}
 
-	if itemdata.QuantityMap[i.Type] {
+	if i.Type.HasQuantity() {
 		sw.PushBits16(i.ExtraStats.Quantity, quantityLen)
 	}
 
