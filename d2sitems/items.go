@@ -157,7 +157,7 @@ type Item struct {
 		Level byte                    // 7 bits
 		Name  string                  // len(Name) * 7 bits
 	}
-	Type       string
+	Type       itemdata.ItemCode
 	TypeID     itemdata.ItemTypeID
 	TypeName   string
 	BaseDamage struct {
@@ -501,7 +501,7 @@ func (i *Item) loadSimpleFields(sr *datautils.BitMuncher) (err error) {
 		sr.AlignToBytes()
 	} else {
 		t := sr.GetBytes(typeLen)
-		i.Type = strings.Trim(string(t), " ")
+		i.Type = itemdata.ItemCodeFromString(strings.Trim(string(t), " "))
 		i.TypeID = itemdata.GetTypeID(i.Type)
 		switch i.TypeID {
 		case itemdata.ItemTypeIDArmor:
@@ -728,7 +728,7 @@ func (i *Item) encodeSimpleFields(sw *datautils.StreamWriter) {
 		sw.PushBits(0, characterLen)
 		sw.Align()
 	} else {
-		name := []byte(i.Type)
+		name := []byte(i.Type.String())
 		for _, c := range name {
 			sw.PushBits(c, 8)
 		}

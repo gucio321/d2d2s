@@ -10,10 +10,10 @@ workflow:
   - .github/**/*
 
 code:
-  - ./**/*go
+  - "**/*go"
 
 unittests:
-  - ./**/*_test.go
+  - "**/*_test.go"
 
 danger-zone:
   - ./LICENSE
