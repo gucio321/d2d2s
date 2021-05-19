@@ -18,8 +18,7 @@ const (
 
 	itemListID = "JM"
 
-	etheralItemsDamageModifier = 1.5
-	defenseRatingModifier      = 10
+	defenseRatingModifier = 10
 
 	unknown1Len  = 4
 	unknown2Len  = 6
@@ -160,12 +159,7 @@ type Item struct {
 	Type       itemdata.ItemCode
 	TypeID     itemdata.ItemTypeID
 	TypeName   string
-	BaseDamage struct {
-		Min        int
-		Max        int
-		TwoHandMin int
-		TwoHandMax int
-	}
+	BaseDamage *itemdata.WeaponDamage
 
 	NumberOfItemsInSockets byte // 3 bits
 
@@ -189,25 +183,24 @@ type Item struct {
 		// Magically enchanced, Rare, Crafted
 		// in case of magically enchanced items size is 11,
 		// in case of rare/crafted - 12 * len()
-		MagicPrefix []MagicModifier
-		MagicSuffix []MagicModifier
+		MagicPrefix []itemdata.MagicalPrefix
+		MagicSuffix []itemdata.MagicalSuffix
 		// Rare, Crafted only
-		RareNames []MagicModifier // len() * 8 bits
+		RareNames []itemdata.RareName // len() * 8 bits
 
-		SetID         uint16 // 12 bits
+		SetID         itemdata.SetID // 12 bits
 		SetName       string
 		SetListID     byte // 5 bits
-		SetListCount  uint64
+		SetListCount  byte
 		SetAttributes []d2smagicattributes.MagicAttributes
 
-		UniqueID   uint16 // 12 bits
+		UniqueID   itemdata.UniqueID // 12 bits
 		UniqueName string
 	}
 	RuneWord struct {
 		HasRuneWord bool
-		ID          uint16 // 12 bits
-		Name        string
-		unknown     byte // 4 bits (brobably always value 5)
+		ID          itemdata.RunewordID // 12 bits
+		unknown     byte                // 4 bits (brobably always value 5)
 		Attributes  d2smagicattributes.MagicAttributes
 	}
 	Personalization struct {
@@ -277,90 +270,48 @@ func (i *Item) loadExtendedFields(sr *datautils.BitMuncher) (err error) {
 	case d2senums.ItemQualityHigh:
 		i.QualityData.HighQualityData = byte(sr.GetBits(highQualityDataLen))
 	case d2senums.ItemQualityEnchanced:
-		i.QualityData.MagicPrefix = make([]MagicModifier, 1)
+		i.QualityData.MagicPrefix = make([]itemdata.MagicalPrefix, 1)
 		id := uint16(sr.GetBits(magicModifierIDLen)) // helper variable (avoid noise with x.y.z.id ;-)
-		i.QualityData.MagicPrefix[0].ID = id
-		prefixName, ok := itemdata.MagicalPrefixes[id]
+		i.QualityData.MagicPrefix[0] = itemdata.MagicalPrefix(id)
 
-		if ok {
-			i.QualityData.MagicPrefix[0].Name = prefixName
-		}
-
-		i.QualityData.MagicSuffix = make([]MagicModifier, 1)
+		i.QualityData.MagicSuffix = make([]itemdata.MagicalSuffix, 1)
 		id = uint16(sr.GetBits(magicModifierIDLen)) // helper variable (avoid noise with x.y.z.id ;-)
-		i.QualityData.MagicSuffix[0].ID = id
-		suffixName, ok := itemdata.MagicalSuffixes[id]
-
-		if ok {
-			i.QualityData.MagicSuffix[0].Name = suffixName
-		}
+		i.QualityData.MagicSuffix[0] = itemdata.MagicalSuffix(id)
 	case d2senums.ItemQualitySet:
 		id := uint16(sr.GetBits(setIDLen))
-		i.QualityData.SetID = id
-		setName, ok := itemdata.SetNames[id]
-
-		if ok {
-			i.QualityData.SetName = setName
-		}
+		i.QualityData.SetID = itemdata.SetID(id)
 	case d2senums.ItemQualityRare, d2senums.ItemQualityCrafted:
-		i.QualityData.RareNames = make([]MagicModifier, 2)
+		i.QualityData.RareNames = make([]itemdata.RareName, 2)
 
 		for n := 0; n < 2; n++ {
 			id := uint16(sr.GetBits(rareNameIDLen))
-			i.QualityData.RareNames[n].ID = id
-			name, ok := itemdata.RareNames[id]
-
-			if ok {
-				i.QualityData.RareNames[n].Name = name
-			}
+			i.QualityData.RareNames[n] = itemdata.RareName(id)
 		}
 
-		i.QualityData.MagicPrefix = make([]MagicModifier, 0)
-		i.QualityData.MagicSuffix = make([]MagicModifier, 0)
+		i.QualityData.MagicPrefix = make([]itemdata.MagicalPrefix, 0)
+		i.QualityData.MagicSuffix = make([]itemdata.MagicalSuffix, 0)
 
 		for p := 0; p < 3; p++ {
 			prefixExist := sr.GetBit() == 1
 			if prefixExist {
-				i.QualityData.MagicPrefix = append(i.QualityData.MagicPrefix, MagicModifier{})
-				id := uint16(sr.GetBits(magicModifierIDLen))
-				i.QualityData.MagicPrefix[p].ID = id
-				name, ok := itemdata.MagicalPrefixes[id]
-
-				if ok {
-					i.QualityData.MagicPrefix[p].Name = name
-				}
+				id := itemdata.MagicalPrefix(sr.GetBits(magicModifierIDLen))
+				i.QualityData.MagicPrefix = append(i.QualityData.MagicPrefix, id)
 			}
 
 			suffixExist := sr.GetBit() == 1
 			if suffixExist {
-				i.QualityData.MagicSuffix = append(i.QualityData.MagicSuffix, MagicModifier{})
-				id := uint16(sr.GetBits(magicModifierIDLen))
-				i.QualityData.MagicSuffix[p].ID = id
-				name, ok := itemdata.MagicalSuffixes[id]
-
-				if ok {
-					i.QualityData.MagicSuffix[p].Name = name
-				}
+				id := itemdata.MagicalSuffix(sr.GetBits(magicModifierIDLen))
+				i.QualityData.MagicSuffix = append(i.QualityData.MagicSuffix, id)
 			}
 		}
 	case d2senums.ItemQualityUnique:
 		id := uint16(sr.GetBits(uniqueIDLen))
-		i.QualityData.UniqueID = id
-		uniqueName, ok := itemdata.UniqueNames[id]
-
-		if ok {
-			i.QualityData.UniqueName = uniqueName
-		}
+		i.QualityData.UniqueID = itemdata.UniqueID(id)
 	}
 
 	if i.RuneWord.HasRuneWord {
 		id := uint16(sr.GetBits(runeWordIDLen))
-		i.RuneWord.ID = id
-		name, ok := itemdata.RunewordNames[id]
-
-		if ok {
-			i.RuneWord.Name = name
-		}
+		i.RuneWord.ID = itemdata.RunewordID(id)
 
 		i.RuneWord.unknown = byte(sr.GetBits(runeWordUnknownLen))
 	}
@@ -380,7 +331,7 @@ func (i *Item) loadExtendedFields(sr *datautils.BitMuncher) (err error) {
 		i.Personalization.Name = string(name)
 	}
 
-	if itemdata.TomeMap[i.Type] {
+	if i.Type.IsTome() {
 		i.unknown11 = byte(sr.GetBits(unknown11Len))
 	}
 
@@ -402,7 +353,7 @@ func (i *Item) loadExtendedFields(sr *datautils.BitMuncher) (err error) {
 		}
 	}
 
-	if itemdata.QuantityMap[i.Type] {
+	if i.Type.HasQuantity() {
 		i.ExtraStats.Quantity = uint16(sr.GetBits(quantityLen))
 	}
 
@@ -413,12 +364,8 @@ func (i *Item) loadExtendedFields(sr *datautils.BitMuncher) (err error) {
 	var setListValue byte
 	if i.Quality == d2senums.ItemQualitySet {
 		setListValue = byte(sr.GetBits(setListIDLen))
-		listCount, ok := itemdata.SetListMap[setListValue]
+		listCount := itemdata.GetSetAttributesLen(setListValue)
 		i.QualityData.SetListID = setListValue
-
-		if !ok {
-			return fmt.Errorf("unknown set list value %d", setListValue)
-		}
 
 		i.QualityData.SetListCount = listCount
 	}
@@ -502,7 +449,7 @@ func (i *Item) loadSimpleFields(sr *datautils.BitMuncher) (err error) {
 	} else {
 		t := sr.GetBytes(typeLen)
 		i.Type = itemdata.ItemCodeFromString(strings.Trim(string(t), " "))
-		i.TypeID = itemdata.GetTypeID(i.Type)
+		i.TypeID = i.Type.GetTypeID()
 		switch i.TypeID {
 		case itemdata.ItemTypeIDArmor:
 			typeName, ok := itemdata.ArmorCodes[i.Type]
@@ -520,21 +467,15 @@ func (i *Item) loadSimpleFields(sr *datautils.BitMuncher) (err error) {
 				i.TypeName = typeName
 			}
 
-			baseDamage, ok := itemdata.WeaponDamageMap[i.Type]
-			if ok {
+			baseDamage := i.Type.WeaponDamage()
+			if baseDamage != nil {
 				// If the item is ethereal we need to add 50% enhanced
 				// damage to the base damage.
 				if i.Etheral {
-					i.BaseDamage.Min = int((float64(baseDamage.Min) * etheralItemsDamageModifier))
-					i.BaseDamage.Max = int((float64(baseDamage.Max) * etheralItemsDamageModifier))
-					i.BaseDamage.TwoHandMin = int((float64(baseDamage.TwoMin) * etheralItemsDamageModifier))
-					i.BaseDamage.TwoHandMax = int((float64(baseDamage.TwoMax) * etheralItemsDamageModifier))
-				} else {
-					i.BaseDamage.Min = baseDamage.Min
-					i.BaseDamage.Max = baseDamage.Max
-					i.BaseDamage.TwoHandMin = baseDamage.TwoMin
-					i.BaseDamage.TwoHandMax = baseDamage.TwoMax
+					baseDamage.Etheral()
 				}
+
+				i.BaseDamage = baseDamage
 			}
 		case itemdata.ItemTypeIDOther:
 			typeName, ok := itemdata.MiscCodes[i.Type]
@@ -591,13 +532,13 @@ func (i *Item) encodeExtendedFields(sw *datautils.StreamWriter) (err error) {
 	case d2senums.ItemQualityHigh:
 		sw.PushBits(i.QualityData.HighQualityData, highQualityDataLen)
 	case d2senums.ItemQualityEnchanced:
-		sw.PushBits16(i.QualityData.MagicPrefix[0].ID, 11)
-		sw.PushBits16(i.QualityData.MagicSuffix[0].ID, 11)
+		sw.PushBits16(uint16(i.QualityData.MagicPrefix[0]), 11)
+		sw.PushBits16(uint16(i.QualityData.MagicSuffix[0]), 11)
 	case d2senums.ItemQualitySet:
-		sw.PushBits16(i.QualityData.SetID, setIDLen)
+		sw.PushBits16(uint16(i.QualityData.SetID), setIDLen)
 	case d2senums.ItemQualityRare, d2senums.ItemQualityCrafted:
 		for _, name := range i.QualityData.RareNames {
-			sw.PushBits(byte(name.ID), 8)
+			sw.PushBits(byte(name), 8)
 		}
 
 		for n := 0; n < 3; n++ {
@@ -606,7 +547,7 @@ func (i *Item) encodeExtendedFields(sw *datautils.StreamWriter) (err error) {
 			sw.PushBit(hasPrefix)
 
 			if hasPrefix {
-				sw.PushBits16(i.QualityData.MagicPrefix[n].ID, 11)
+				sw.PushBits16(uint16(i.QualityData.MagicPrefix[n]), 11)
 			}
 
 			l = len(i.QualityData.MagicSuffix)
@@ -614,15 +555,15 @@ func (i *Item) encodeExtendedFields(sw *datautils.StreamWriter) (err error) {
 			sw.PushBit(hasSuffix)
 
 			if hasSuffix {
-				sw.PushBits16(i.QualityData.MagicSuffix[n].ID, 11)
+				sw.PushBits16(uint16(i.QualityData.MagicSuffix[n]), 11)
 			}
 		}
 	case d2senums.ItemQualityUnique:
-		sw.PushBits16(i.QualityData.UniqueID, uniqueIDLen)
+		sw.PushBits16(uint16(i.QualityData.UniqueID), uniqueIDLen)
 	}
 
 	if i.RuneWord.HasRuneWord {
-		sw.PushBits16(i.RuneWord.ID, runeWordIDLen)
+		sw.PushBits16(uint16(i.RuneWord.ID), runeWordIDLen)
 		sw.PushBits(i.RuneWord.unknown, runeWordUnknownLen)
 	}
 
@@ -635,7 +576,7 @@ func (i *Item) encodeExtendedFields(sw *datautils.StreamWriter) (err error) {
 		sw.PushBits(byte(' '), characterLen)
 	}
 
-	if itemdata.TomeMap[i.Type] {
+	if i.Type.IsTome() {
 		sw.PushBits(i.unknown11, unknown11Len)
 	}
 
@@ -657,7 +598,7 @@ func (i *Item) encodeExtendedFields(sw *datautils.StreamWriter) (err error) {
 		}
 	}
 
-	if itemdata.QuantityMap[i.Type] {
+	if i.Type.HasQuantity() {
 		sw.PushBits16(i.ExtraStats.Quantity, quantityLen)
 	}
 
