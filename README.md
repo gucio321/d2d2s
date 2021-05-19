@@ -4,8 +4,8 @@
 
 ## Description
 
-This package can be used for loading, modifing and saving Diablo II
-character save files (.D2S).
+This package contains a Diablo II save files (D2S)
+decoder and encoder written in [golang](https://golang.org)
 
 ## Dependencies / Documentation
 
