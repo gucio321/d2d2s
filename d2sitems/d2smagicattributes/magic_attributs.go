@@ -3,7 +3,6 @@ package d2smagicattributes
 import (
 	"errors"
 
-	"github.com/gucio321/d2d2s/d2sitems/itemdata"
 	"github.com/gucio321/d2d2s/datautils"
 )
 
@@ -27,8 +26,8 @@ func (m *MagicAttributes) Load(sr *datautils.BitMuncher) error {
 			break
 		}
 
-		prop, ok := itemdata.MagicalProperties[id]
-		if !ok {
+		prop := GetPropertyData(id)
+		if prop == nil {
 			return errors.New("unexpected magical property")
 		}
 
@@ -60,8 +59,8 @@ func (m *MagicAttributes) Encode(sw *datautils.StreamWriter) (err error) {
 	for _, a := range *m {
 		sw.PushBits16(a.ID, 9)
 
-		prop, ok := itemdata.MagicalProperties[a.ID]
-		if !ok {
+		prop := GetPropertyData(a.ID)
+		if prop == nil {
 			return errors.New("unexpected magical property")
 		}
 
