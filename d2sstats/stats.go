@@ -19,17 +19,17 @@ type Stats struct {
 	Dexterity,
 	Vitality,
 	UnusedStats,
-	UnusedSkillPoints uint64
+	UnusedSkillPoints uint32
 	CurrentHP,
 	MaxHP,
 	CurrentMana,
 	MaxMana,
 	CurrentStamina,
-	MaxStamina float64
+	MaxStamina float32
 	Level,
 	Experience,
 	Gold,
-	StashedGold uint64
+	StashedGold uint32
 }
 
 // New creates a new stats list
@@ -49,8 +49,7 @@ func (s *Stats) Load(sr *datautils.BitMuncher) error {
 	bm := sr.Copy()
 
 	for {
-		i := bm.GetBits(9) // nolint:gomnd // id size
-		id := uint64(i)
+		id := bm.GetBits(9) // nolint:gomnd // id size
 
 		// nolint:gomnd // If all 9 bits are set, we've hit the end of the attributes section
 		//  at 0x1ff and exit the loop.
@@ -66,7 +65,7 @@ func (s *Stats) Load(sr *datautils.BitMuncher) error {
 
 		// The attribute value.
 		// attr := reverseBits(uint64(bm.GetBits(int(length))), length)
-		attr := uint64(bm.GetBits(int(length)))
+		attr := bm.GetBits(int(length))
 
 		switch id {
 		case strength:
@@ -82,17 +81,17 @@ func (s *Stats) Load(sr *datautils.BitMuncher) error {
 		case unusedSkills:
 			s.UnusedSkillPoints = attr
 		case currentHP:
-			s.CurrentHP = float64(attr) / statsModifier
+			s.CurrentHP = float32(attr) / statsModifier
 		case maxHP:
-			s.MaxHP = float64(attr) / statsModifier
+			s.MaxHP = float32(attr) / statsModifier
 		case currentMana:
-			s.CurrentMana = float64(attr) / statsModifier
+			s.CurrentMana = float32(attr) / statsModifier
 		case maxMana:
-			s.MaxMana = float64(attr) / statsModifier
+			s.MaxMana = float32(attr) / statsModifier
 		case currentStamina:
-			s.CurrentStamina = float64(attr) / statsModifier
+			s.CurrentStamina = float32(attr) / statsModifier
 		case maxStamina:
-			s.MaxStamina = float64(attr) / statsModifier
+			s.MaxStamina = float32(attr) / statsModifier
 		case level:
 			s.Level = attr
 		case experience:
@@ -116,25 +115,25 @@ func (s *Stats) Encode() []byte {
 	sw.PushBytes([]byte(statsHeaderID)...)
 
 	sw.PushBits16(strength, 9)
-	sw.PushBits32(uint32(s.Strength), int(attributeBitMap[strength]))
+	sw.PushBits32(s.Strength, int(attributeBitMap[strength]))
 
 	sw.PushBits16(energy, 9)
-	sw.PushBits32(uint32(s.Energy), int(attributeBitMap[energy]))
+	sw.PushBits32(s.Energy, int(attributeBitMap[energy]))
 
 	sw.PushBits16(dexterity, 9)
-	sw.PushBits32(uint32(s.Dexterity), int(attributeBitMap[dexterity]))
+	sw.PushBits32(s.Dexterity, int(attributeBitMap[dexterity]))
 
 	sw.PushBits16(vitality, 9)
-	sw.PushBits32(uint32(s.Vitality), int(attributeBitMap[vitality]))
+	sw.PushBits32(s.Vitality, int(attributeBitMap[vitality]))
 
 	if s.UnusedStats > 0 {
 		sw.PushBits16(unusedStats, 9)
-		sw.PushBits32(uint32(s.UnusedStats), int(attributeBitMap[unusedStats]))
+		sw.PushBits32(s.UnusedStats, int(attributeBitMap[unusedStats]))
 	}
 
 	if s.UnusedSkillPoints > 0 {
 		sw.PushBits16(unusedSkills, 9)
-		sw.PushBits32(uint32(s.UnusedSkillPoints), int(attributeBitMap[unusedSkills]))
+		sw.PushBits32(s.UnusedSkillPoints, int(attributeBitMap[unusedSkills]))
 	}
 
 	// Life
@@ -159,16 +158,16 @@ func (s *Stats) Encode() []byte {
 	sw.PushBits32(uint32(s.MaxStamina*statsModifier), int(attributeBitMap[maxStamina]))
 
 	sw.PushBits16(level, 9)
-	sw.PushBits32(uint32(s.Level), int(attributeBitMap[level]))
+	sw.PushBits32(s.Level, int(attributeBitMap[level]))
 
 	sw.PushBits16(experience, 9)
-	sw.PushBits32(uint32(s.Experience), int(attributeBitMap[experience]))
+	sw.PushBits32(s.Experience, int(attributeBitMap[experience]))
 
 	sw.PushBits16(gold, 9)
-	sw.PushBits32(uint32(s.Gold), int(attributeBitMap[gold]))
+	sw.PushBits32(s.Gold, int(attributeBitMap[gold]))
 
 	sw.PushBits16(stashedGold, 9)
-	sw.PushBits32(uint32(s.StashedGold), int(attributeBitMap[stashedGold]))
+	sw.PushBits32(s.StashedGold, int(attributeBitMap[stashedGold]))
 
 	sw.PushBits16(0x1ff, 9)       // nolint:gomnd // end mark
 	sw.PushBits(0, 8-sw.Offset()) // nolint:gomnd // remaining bits
@@ -177,7 +176,7 @@ func (s *Stats) Encode() []byte {
 }
 
 // nolint:gochecknoglobals,gomnd // data variable
-var attributeBitMap = map[uint64]uint{
+var attributeBitMap = map[uint32]uint{
 	strength:       10,
 	energy:         10,
 	dexterity:      10,
