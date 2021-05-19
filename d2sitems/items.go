@@ -183,8 +183,8 @@ type Item struct {
 		// Magically enchanced, Rare, Crafted
 		// in case of magically enchanced items size is 11,
 		// in case of rare/crafted - 12 * len()
-		MagicPrefix []MagicModifier
-		MagicSuffix []MagicModifier
+		MagicPrefix []itemdata.MagicalPrefix
+		MagicSuffix []itemdata.MagicalSuffix
 		// Rare, Crafted only
 		RareNames []itemdata.RareName // len() * 8 bits
 
@@ -270,23 +270,13 @@ func (i *Item) loadExtendedFields(sr *datautils.BitMuncher) (err error) {
 	case d2senums.ItemQualityHigh:
 		i.QualityData.HighQualityData = byte(sr.GetBits(highQualityDataLen))
 	case d2senums.ItemQualityEnchanced:
-		i.QualityData.MagicPrefix = make([]MagicModifier, 1)
+		i.QualityData.MagicPrefix = make([]itemdata.MagicalPrefix, 1)
 		id := uint16(sr.GetBits(magicModifierIDLen)) // helper variable (avoid noise with x.y.z.id ;-)
-		i.QualityData.MagicPrefix[0].ID = id
-		prefixName, ok := itemdata.MagicalPrefixes[id]
+		i.QualityData.MagicPrefix[0] = itemdata.MagicalPrefix(id)
 
-		if ok {
-			i.QualityData.MagicPrefix[0].Name = prefixName
-		}
-
-		i.QualityData.MagicSuffix = make([]MagicModifier, 1)
+		i.QualityData.MagicSuffix = make([]itemdata.MagicalSuffix, 1)
 		id = uint16(sr.GetBits(magicModifierIDLen)) // helper variable (avoid noise with x.y.z.id ;-)
-		i.QualityData.MagicSuffix[0].ID = id
-		suffixName, ok := itemdata.MagicalSuffixes[id]
-
-		if ok {
-			i.QualityData.MagicSuffix[0].Name = suffixName
-		}
+		i.QualityData.MagicSuffix[0] = itemdata.MagicalSuffix(id)
 	case d2senums.ItemQualitySet:
 		id := uint16(sr.GetBits(setIDLen))
 		i.QualityData.SetID = itemdata.SetID(id)
@@ -298,32 +288,20 @@ func (i *Item) loadExtendedFields(sr *datautils.BitMuncher) (err error) {
 			i.QualityData.RareNames[n] = itemdata.RareName(id)
 		}
 
-		i.QualityData.MagicPrefix = make([]MagicModifier, 0)
-		i.QualityData.MagicSuffix = make([]MagicModifier, 0)
+		i.QualityData.MagicPrefix = make([]itemdata.MagicalPrefix, 0)
+		i.QualityData.MagicSuffix = make([]itemdata.MagicalSuffix, 0)
 
 		for p := 0; p < 3; p++ {
 			prefixExist := sr.GetBit() == 1
 			if prefixExist {
-				i.QualityData.MagicPrefix = append(i.QualityData.MagicPrefix, MagicModifier{})
-				id := uint16(sr.GetBits(magicModifierIDLen))
-				i.QualityData.MagicPrefix[p].ID = id
-				name, ok := itemdata.MagicalPrefixes[id]
-
-				if ok {
-					i.QualityData.MagicPrefix[p].Name = name
-				}
+				id := itemdata.MagicalPrefix(sr.GetBits(magicModifierIDLen))
+				i.QualityData.MagicPrefix = append(i.QualityData.MagicPrefix, id)
 			}
 
 			suffixExist := sr.GetBit() == 1
 			if suffixExist {
-				i.QualityData.MagicSuffix = append(i.QualityData.MagicSuffix, MagicModifier{})
-				id := uint16(sr.GetBits(magicModifierIDLen))
-				i.QualityData.MagicSuffix[p].ID = id
-				name, ok := itemdata.MagicalSuffixes[id]
-
-				if ok {
-					i.QualityData.MagicSuffix[p].Name = name
-				}
+				id := itemdata.MagicalSuffix(sr.GetBits(magicModifierIDLen))
+				i.QualityData.MagicSuffix = append(i.QualityData.MagicSuffix, id)
 			}
 		}
 	case d2senums.ItemQualityUnique:
@@ -554,8 +532,8 @@ func (i *Item) encodeExtendedFields(sw *datautils.StreamWriter) (err error) {
 	case d2senums.ItemQualityHigh:
 		sw.PushBits(i.QualityData.HighQualityData, highQualityDataLen)
 	case d2senums.ItemQualityEnchanced:
-		sw.PushBits16(i.QualityData.MagicPrefix[0].ID, 11)
-		sw.PushBits16(i.QualityData.MagicSuffix[0].ID, 11)
+		sw.PushBits16(uint16(i.QualityData.MagicPrefix[0]), 11)
+		sw.PushBits16(uint16(i.QualityData.MagicSuffix[0]), 11)
 	case d2senums.ItemQualitySet:
 		sw.PushBits16(uint16(i.QualityData.SetID), setIDLen)
 	case d2senums.ItemQualityRare, d2senums.ItemQualityCrafted:
@@ -569,7 +547,7 @@ func (i *Item) encodeExtendedFields(sw *datautils.StreamWriter) (err error) {
 			sw.PushBit(hasPrefix)
 
 			if hasPrefix {
-				sw.PushBits16(i.QualityData.MagicPrefix[n].ID, 11)
+				sw.PushBits16(uint16(i.QualityData.MagicPrefix[n]), 11)
 			}
 
 			l = len(i.QualityData.MagicSuffix)
@@ -577,7 +555,7 @@ func (i *Item) encodeExtendedFields(sw *datautils.StreamWriter) (err error) {
 			sw.PushBit(hasSuffix)
 
 			if hasSuffix {
-				sw.PushBits16(i.QualityData.MagicSuffix[n].ID, 11)
+				sw.PushBits16(uint16(i.QualityData.MagicSuffix[n]), 11)
 			}
 		}
 	case d2senums.ItemQualityUnique:
