@@ -16,7 +16,8 @@ const (
 	byteLen   = 8
 	uint32Len = 4 * byteLen
 
-	itemListID = "JM"
+	itemListID     = "JM"
+	numHeaderBytes = 2
 
 	defenseRatingModifier = 10
 
@@ -64,7 +65,7 @@ type Items []Item
 
 // LoadHeader loads items header and returns items count
 func (i *Items) LoadHeader(sr *datautils.BitMuncher) (numItems uint16, err error) {
-	id := sr.GetBytes(2) // nolint:gomnd // header
+	id := sr.GetBytes(numHeaderBytes)
 	if string(id) != itemListID {
 		return 0, errors.New("unexpected item header")
 	}
@@ -243,25 +244,72 @@ func (i *Item) Load(sr *datautils.BitMuncher) (err error) {
 	return nil
 }
 
-// nolint:funlen,gocognit,gocyclo // will reduce later
 func (i *Item) loadExtendedFields(sr *datautils.BitMuncher) (err error) {
 	i.ID = sr.GetUInt32() // probably 4 * 8 chars
 	i.Level = byte(sr.GetBits(levelLen))
 	i.Quality = d2senums.ItemQuality(sr.GetBits(qualityLen))
 
-	// multiple picture
-	i.MultiplePicture.HasMultiplePicture = sr.GetBit() == 1
-	if i.MultiplePicture.HasMultiplePicture {
-		i.MultiplePicture.ID = byte(sr.GetBits(multiplePictureIDLen))
+	i.loadMultiplePicture(sr)
+
+	i.loadClassSpecific(sr)
+
+	i.loadQualityData(sr)
+
+	i.loadRuneword(sr)
+
+	i.loadPersonalizationData(sr)
+
+	if i.Type.IsTome() {
+		i.unknown11 = byte(sr.GetBits(unknown11Len))
 	}
 
-	// class specific
-	i.ClassSpecific.IsClassSpecific = sr.GetBit() == 1
-	if i.ClassSpecific.IsClassSpecific {
-		// probably class is somewhere here ... ?
-		i.ClassSpecific.Data = uint16(sr.GetBits(classSpecificDataLen))
+	i.Timestamp = sr.GetBit() == 1
+
+	if i.TypeID == itemdata.ItemTypeIDArmor ||
+		i.TypeID == itemdata.ItemTypeIDShield {
+		defRating := uint16(sr.GetBits(defenseRatingLen))
+		i.ExtraStats.DefenseRating = defRating - defenseRatingModifier
 	}
 
+	i.loadDurability(sr)
+
+	if i.Type.HasQuantity() {
+		i.ExtraStats.Quantity = uint16(sr.GetBits(quantityLen))
+	}
+
+	if i.Socketed.IsInSocket {
+		i.Socketed.TotalNumberOfSockets = byte(sr.GetBits(totalNSocketsLen))
+	}
+
+	i.loadSetAttrList(sr)
+
+	if err := i.Attributes.Load(sr); err != nil {
+		return fmt.Errorf("error loading item attributes: %w", err)
+	}
+
+	// nolint:wsl // note at the end of block
+	if c := i.QualityData.SetListCount; c > 0 {
+		for j := 0; j < int(c); j++ {
+			i.QualityData.SetAttributes = append(i.QualityData.SetAttributes, d2smagicattributes.MagicAttributes{})
+			if err := i.QualityData.SetAttributes[len(i.QualityData.SetAttributes)-1].Load(sr); err != nil {
+				return fmt.Errorf("error loading set attributes: %w", err)
+			}
+		}
+
+		// here could be interpretation of above data
+		// however it is optional because doesn't affect stream
+	}
+
+	if i.RuneWord.HasRuneWord {
+		if err := i.RuneWord.Attributes.Load(sr); err != nil {
+			return fmt.Errorf("error loading runeword attributes: %w", err)
+		}
+	}
+
+	return nil
+}
+
+func (i *Item) loadQualityData(sr *datautils.BitMuncher) {
 	switch i.Quality {
 	case d2senums.ItemQualityLow:
 		i.QualityData.LowQualityID = byte(sr.GetBits(lowQualityIDLen))
@@ -308,14 +356,18 @@ func (i *Item) loadExtendedFields(sr *datautils.BitMuncher) (err error) {
 		id := uint16(sr.GetBits(uniqueIDLen))
 		i.QualityData.UniqueID = itemdata.UniqueID(id)
 	}
+}
 
+func (i *Item) loadRuneword(sr *datautils.BitMuncher) {
 	if i.RuneWord.HasRuneWord {
 		id := uint16(sr.GetBits(runeWordIDLen))
 		i.RuneWord.ID = itemdata.RunewordID(id)
 
 		i.RuneWord.unknown = byte(sr.GetBits(runeWordUnknownLen))
 	}
+}
 
+func (i *Item) loadPersonalizationData(sr *datautils.BitMuncher) {
 	if i.Personalization.IsPersonalized {
 		name := make([]byte, 0)
 
@@ -330,19 +382,9 @@ func (i *Item) loadExtendedFields(sr *datautils.BitMuncher) (err error) {
 
 		i.Personalization.Name = string(name)
 	}
+}
 
-	if i.Type.IsTome() {
-		i.unknown11 = byte(sr.GetBits(unknown11Len))
-	}
-
-	i.Timestamp = sr.GetBit() == 1
-
-	if i.TypeID == itemdata.ItemTypeIDArmor ||
-		i.TypeID == itemdata.ItemTypeIDShield {
-		defRating := uint16(sr.GetBits(defenseRatingLen))
-		i.ExtraStats.DefenseRating = defRating - defenseRatingModifier
-	}
-
+func (i *Item) loadDurability(sr *datautils.BitMuncher) {
 	if i.TypeID == itemdata.ItemTypeIDArmor ||
 		i.TypeID == itemdata.ItemTypeIDWeapon ||
 		i.TypeID == itemdata.ItemTypeIDShield {
@@ -352,15 +394,9 @@ func (i *Item) loadExtendedFields(sr *datautils.BitMuncher) (err error) {
 			i.unknown12 = sr.GetBit() == 1
 		}
 	}
+}
 
-	if i.Type.HasQuantity() {
-		i.ExtraStats.Quantity = uint16(sr.GetBits(quantityLen))
-	}
-
-	if i.Socketed.IsInSocket {
-		i.Socketed.TotalNumberOfSockets = byte(sr.GetBits(totalNSocketsLen))
-	}
-
+func (i *Item) loadSetAttrList(sr *datautils.BitMuncher) {
 	var setListValue byte
 	if i.Quality == d2senums.ItemQualitySet {
 		setListValue = byte(sr.GetBits(setListIDLen))
@@ -369,35 +405,25 @@ func (i *Item) loadExtendedFields(sr *datautils.BitMuncher) (err error) {
 
 		i.QualityData.SetListCount = listCount
 	}
+}
 
-	if err := i.Attributes.Load(sr); err != nil {
-		return fmt.Errorf("error loading item attributes: %w", err)
+func (i *Item) loadMultiplePicture(sr *datautils.BitMuncher) {
+	i.MultiplePicture.HasMultiplePicture = sr.GetBit() == 1
+	if i.MultiplePicture.HasMultiplePicture {
+		i.MultiplePicture.ID = byte(sr.GetBits(multiplePictureIDLen))
 	}
+}
 
-	// nolint:wsl // note at the end of block
-	if c := i.QualityData.SetListCount; c > 0 {
-		for j := 0; j < int(c); j++ {
-			i.QualityData.SetAttributes = append(i.QualityData.SetAttributes, d2smagicattributes.MagicAttributes{})
-			if err := i.QualityData.SetAttributes[len(i.QualityData.SetAttributes)-1].Load(sr); err != nil {
-				return fmt.Errorf("error loading set attributes: %w", err)
-			}
-		}
-
-		// here could be interpretation of above data
-		// however it is optional because doesn't affect stream
+func (i *Item) loadClassSpecific(sr *datautils.BitMuncher) {
+	i.ClassSpecific.IsClassSpecific = sr.GetBit() == 1
+	if i.ClassSpecific.IsClassSpecific {
+		// probably class is somewhere here ... ?
+		i.ClassSpecific.Data = uint16(sr.GetBits(classSpecificDataLen))
 	}
-
-	if i.RuneWord.HasRuneWord {
-		if err := i.RuneWord.Attributes.Load(sr); err != nil {
-			return fmt.Errorf("error loading runeword attributes: %w", err)
-		}
-	}
-
-	return nil
 }
 
 func (i *Item) loadSimpleFields(sr *datautils.BitMuncher) (err error) {
-	id := sr.GetBytes(2) // nolint:gomnd // header
+	id := sr.GetBytes(numHeaderBytes)
 	if string(id) != itemListID {
 		return errors.New("unexpected item signature")
 	}
@@ -507,23 +533,113 @@ func (i *Item) Encode() []byte {
 	return sw.GetBytes()
 }
 
-// nolint:funlen,gocognit,gocyclo // will reduce later
 func (i *Item) encodeExtendedFields(sw *datautils.StreamWriter) (err error) {
 	sw.PushBits32(i.ID, uint32Len)
 	sw.PushBits(i.Level, levelLen)
 	sw.PushBits(byte(i.Quality), qualityLen)
 	sw.PushBit(i.MultiplePicture.HasMultiplePicture)
 
-	if i.MultiplePicture.HasMultiplePicture {
-		sw.PushBits(i.MultiplePicture.ID, 3)
-	}
+	i.encodeMultiplePicture(sw)
 
 	sw.PushBit(i.ClassSpecific.IsClassSpecific)
 
+	i.encodeClassSpecific(sw)
+
+	i.encodeQuality(sw)
+
+	i.encodeRuneword(sw)
+
+	i.encodePersonalization(sw)
+
+	if i.Type.IsTome() {
+		sw.PushBits(i.unknown11, unknown11Len)
+	}
+
+	sw.PushBit(i.Timestamp)
+
+	if i.TypeID == itemdata.ItemTypeIDArmor ||
+		i.TypeID == itemdata.ItemTypeIDShield {
+		sw.PushBits16(i.ExtraStats.DefenseRating+defenseRatingModifier, defenseRatingLen)
+	}
+
+	i.encodeDurability(sw)
+
+	if i.Type.HasQuantity() {
+		sw.PushBits16(i.ExtraStats.Quantity, quantityLen)
+	}
+
+	if i.Socketed.IsInSocket {
+		sw.PushBits(i.Socketed.TotalNumberOfSockets, totalNSocketsLen)
+	}
+
+	if i.Quality == d2senums.ItemQualitySet {
+		sw.PushBits(i.QualityData.SetListID, setListIDLen)
+	}
+
+	if err := i.Attributes.Encode(sw); err != nil {
+		return fmt.Errorf("error encoding item attributes: %w", err)
+	}
+
+	// OFC length of set attributes is > 0 for sets only
+	for _, a := range i.QualityData.SetAttributes {
+		if err := a.Encode(sw); err != nil {
+			return fmt.Errorf("error encoding set attributes: %w", err)
+		}
+	}
+
+	if i.RuneWord.HasRuneWord {
+		if err := i.RuneWord.Attributes.Encode(sw); err != nil {
+			return fmt.Errorf("error encoding runeword's attributes: %w", err)
+		}
+	}
+
+	return nil
+}
+
+func (i *Item) encodeMultiplePicture(sw *datautils.StreamWriter) {
+	if i.MultiplePicture.HasMultiplePicture {
+		sw.PushBits(i.MultiplePicture.ID, 3)
+	}
+}
+
+func (i *Item) encodeClassSpecific(sw *datautils.StreamWriter) {
 	if i.ClassSpecific.IsClassSpecific {
 		sw.PushBits16(i.ClassSpecific.Data, classSpecificDataLen)
 	}
+}
 
+func (i *Item) encodeRuneword(sw *datautils.StreamWriter) {
+	if i.RuneWord.HasRuneWord {
+		sw.PushBits16(uint16(i.RuneWord.ID), runeWordIDLen)
+		sw.PushBits(i.RuneWord.unknown, runeWordUnknownLen)
+	}
+}
+
+func (i *Item) encodePersonalization(sw *datautils.StreamWriter) {
+	if i.Personalization.IsPersonalized {
+		name := []byte(i.Personalization.Name)
+		for _, c := range name {
+			sw.PushBits(c, characterLen)
+		}
+
+		sw.PushBits(byte(' '), characterLen)
+	}
+}
+
+func (i *Item) encodeDurability(sw *datautils.StreamWriter) {
+	if i.TypeID == itemdata.ItemTypeIDArmor ||
+		i.TypeID == itemdata.ItemTypeIDWeapon ||
+		i.TypeID == itemdata.ItemTypeIDShield {
+		sw.PushBits(i.ExtraStats.Durability.Max, byteLen)
+
+		if i.ExtraStats.Durability.Max > 0 {
+			sw.PushBits(i.ExtraStats.Durability.Current, byteLen)
+			sw.PushBit(i.unknown12)
+		}
+	}
+}
+
+func (i *Item) encodeQuality(sw *datautils.StreamWriter) {
 	switch i.Quality {
 	case d2senums.ItemQualityLow:
 		sw.PushBits(i.QualityData.LowQualityID, lowQualityIDLen)
@@ -561,73 +677,6 @@ func (i *Item) encodeExtendedFields(sw *datautils.StreamWriter) (err error) {
 	case d2senums.ItemQualityUnique:
 		sw.PushBits16(uint16(i.QualityData.UniqueID), uniqueIDLen)
 	}
-
-	if i.RuneWord.HasRuneWord {
-		sw.PushBits16(uint16(i.RuneWord.ID), runeWordIDLen)
-		sw.PushBits(i.RuneWord.unknown, runeWordUnknownLen)
-	}
-
-	if i.Personalization.IsPersonalized {
-		name := []byte(i.Personalization.Name)
-		for _, c := range name {
-			sw.PushBits(c, characterLen)
-		}
-
-		sw.PushBits(byte(' '), characterLen)
-	}
-
-	if i.Type.IsTome() {
-		sw.PushBits(i.unknown11, unknown11Len)
-	}
-
-	sw.PushBit(i.Timestamp)
-
-	if i.TypeID == itemdata.ItemTypeIDArmor ||
-		i.TypeID == itemdata.ItemTypeIDShield {
-		sw.PushBits16(i.ExtraStats.DefenseRating+defenseRatingModifier, defenseRatingLen)
-	}
-
-	if i.TypeID == itemdata.ItemTypeIDArmor ||
-		i.TypeID == itemdata.ItemTypeIDWeapon ||
-		i.TypeID == itemdata.ItemTypeIDShield {
-		sw.PushBits(i.ExtraStats.Durability.Max, byteLen)
-
-		if i.ExtraStats.Durability.Max > 0 {
-			sw.PushBits(i.ExtraStats.Durability.Current, byteLen)
-			sw.PushBit(i.unknown12)
-		}
-	}
-
-	if i.Type.HasQuantity() {
-		sw.PushBits16(i.ExtraStats.Quantity, quantityLen)
-	}
-
-	if i.Socketed.IsInSocket {
-		sw.PushBits(i.Socketed.TotalNumberOfSockets, totalNSocketsLen)
-	}
-
-	if i.Quality == d2senums.ItemQualitySet {
-		sw.PushBits(i.QualityData.SetListID, setListIDLen)
-	}
-
-	if err := i.Attributes.Encode(sw); err != nil {
-		return fmt.Errorf("error encoding item attributes: %w", err)
-	}
-
-	// OFC length of set attributes is > 0 fo sets
-	for _, a := range i.QualityData.SetAttributes {
-		if err := a.Encode(sw); err != nil {
-			return fmt.Errorf("error encoding set attributes: %w", err)
-		}
-	}
-
-	if i.RuneWord.HasRuneWord {
-		if err := i.RuneWord.Attributes.Encode(sw); err != nil {
-			return fmt.Errorf("error encoding runeword's attributes: %w", err)
-		}
-	}
-
-	return nil
 }
 
 func (i *Item) encodeSimpleFields(sw *datautils.StreamWriter) {

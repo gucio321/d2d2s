@@ -11,6 +11,8 @@ workflow:
 
 code:
   - "**/*go"
+  any:
+    - "**/*_test.go"
 
 unittests:
   - "**/*_test.go"
