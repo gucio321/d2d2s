@@ -109,7 +109,7 @@ func Load(data []byte) (*D2S, error) {
 	}
 
 	status := sr.GetByte()
-	result.Status.Unmarshal(status)
+	result.Status.Load(status)
 
 	/*
 		from: https://user.xmission.com/~trevin/DiabloIIv1.09_File_Format.shtml

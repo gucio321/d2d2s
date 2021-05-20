@@ -14,7 +14,7 @@ type Status struct {
 	Died, // it is true, if you hav died in some point in past
 	Unknown4,
 	Expansion,
-	Ladder,
+	Ladder, // uncertain
 	Unknown7 bool
 }
 
@@ -24,8 +24,8 @@ func New() *Status {
 	return result
 }
 
-// Unmarshal loads data into status structure
-func (s *Status) Unmarshal(data byte) {
+// Load loads data into status structure
+func (s *Status) Load(data byte) {
 	bm := datautils.CreateBitMuncher([]byte{data}, 0)
 	s.Unknown0 = bm.GetBit() == 1
 	s.Unknown1 = bm.GetBit() == 1
