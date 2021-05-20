@@ -177,6 +177,7 @@ const (
 	SkillBarbarianBattleCommands    // battle commands
 )
 
+// Skill IDs - part 2
 const (
 	// common (scrolls/tomes)
 	SkillScrollIdentify    SkillID = 217 + iota // scroll of identify
