@@ -10,11 +10,11 @@ func _() {
 	var x [1]struct{}
 	_ = x[MercRogue-0]
 	_ = x[MercDesert-1]
-	_ = x[MercSorceror-2]
+	_ = x[MercSorcerer-2]
 	_ = x[MercBarbarian-3]
 }
 
-const _MercClass_name = "Rogue ScoutDesert MercenaryEastern SorcerorBarbarian"
+const _MercClass_name = "Rogue ScoutDesert MercenaryEastern SorcererBarbarian"
 
 var _MercClass_index = [...]uint8{0, 11, 27, 43, 52}
 

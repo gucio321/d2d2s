@@ -7,30 +7,29 @@ import (
 )
 
 const (
-	numDifficulties   = 3
-	numMercSkillsAct1 = 2
-	numMercSkillsAct2 = 2
-	numMercSkillsAct3 = 2
-	numMercSkillsAct5 = 2
+	numDifficulties = 3
 )
 
+// MercenaryType represents a mercenary type data
 type MercenaryType struct {
 	Class      MercClass
 	Attribute  MercAttribute
 	Difficulty d2enum.DifficultyType
 }
 
+// Load loads mercenary type data into a structure
 func Load(id uint16) *MercenaryType {
 	result := &MercenaryType{}
 
+	// nolint:gomnd // constant values
 	numAttributes := map[MercClass]int{
 		MercRogue:     2,
 		MercDesert:    3,
-		MercSorceror:  3,
+		MercSorcerer:  3,
 		MercBarbarian: 2,
 	}
 
-	var attribute int = 0
+	var attribute int
 
 search:
 	for class := MercRogue; class <= MercBarbarian; class++ {
@@ -54,11 +53,13 @@ search:
 	return result
 }
 
+// Encode encodes merc type data into an uint16
 func (m *MercenaryType) Encode() (result uint16) {
+	// nolint:gomnd // constant values
 	numAttributes := map[MercClass]int{
 		MercRogue:     2,
 		MercDesert:    3,
-		MercSorceror:  3,
+		MercSorcerer:  3,
 		MercBarbarian: 2,
 	}
 
@@ -81,19 +82,23 @@ func (m *MercenaryType) Encode() (result uint16) {
 
 //go:generate stringer -linecomment -type MercClass -output mercenary_class_string.go
 
+// MercClass represents a merc class (e.g. Rogue Scout or Barbarian)
 type MercClass byte
 
+// mercenary classes
 const (
 	MercRogue     MercClass = iota // Rogue Scout
 	MercDesert                     // Desert Mercenary
-	MercSorceror                   // Eastern Sorceror
+	MercSorcerer                   // Eastern Sorcerer
 	MercBarbarian                  // Barbarian
 )
 
 //go:generate stringer -linecomment -type MercAttribute -output mercenary_attribute_string.go
 
+// MercAttribute represents a mercenary attribute (like fire arrows or defensive auras)
 type MercAttribute byte
 
+// merc attributes
 const (
 	MercAttributeFireArrow MercAttribute = iota // Fire Arrow
 	MercAttributeColdArrow                      // ColdArrow

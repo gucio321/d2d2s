@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"github.com/OpenDiablo2/OpenDiablo2/d2common/d2enum"
+
 	"github.com/stretchr/testify/assert"
 )
 
@@ -15,7 +16,7 @@ func Test_Load(t *testing.T) {
 			Attribute:  MercAttributeDefensive,
 		},
 		23: {
-			Class:      MercSorceror,
+			Class:      MercSorcerer,
 			Difficulty: d2enum.DifficultyHell,
 			Attribute:  MercAttributeLightning,
 		},
@@ -41,7 +42,7 @@ func Test_Encode(t *testing.T) {
 			Attribute:  MercAttributeDefensive,
 		},
 		23: {
-			Class:      MercSorceror,
+			Class:      MercSorcerer,
 			Difficulty: d2enum.DifficultyHell,
 			Attribute:  MercAttributeLightning,
 		},
