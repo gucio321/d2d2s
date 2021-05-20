@@ -2,6 +2,9 @@ package d2senums
 
 import "log"
 
+// NumSkills is a number of skills for particular character class
+const NumSkills = 30
+
 //go:generate stringer -type SkillID -linecomment -output skill_id_string.go
 //go:generate string2enum -samepkg -type SkillID -linecomment -output skill_id_string2enum.go
 
@@ -280,4 +283,14 @@ func GetSkillModifier(class CharacterClass) SkillIDModifier {
 	}
 
 	return m
+}
+
+// GetSkillList returns a list of skills for specified character class
+func GetSkillList(c CharacterClass) (result [NumSkills]SkillID) {
+	mod := GetSkillModifier(c)
+	for i := range result {
+		result[i] = SkillID(int(mod) + i)
+	}
+
+	return result
 }
