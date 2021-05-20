@@ -175,7 +175,9 @@ const (
 	SkillBarbarianNaturalResistance // natural resistance
 	SkillBarbarianWarCry            // war cry
 	SkillBarbarianBattleCommands    // battle commands
+)
 
+const (
 	// common (scrolls/tomes)
 	SkillScrollIdentify    SkillID = 217 + iota // scroll of identify
 	SkillTomeIdentify                           // tome of identify
