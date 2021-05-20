@@ -7,17 +7,16 @@ import (
 	"github.com/OpenDiablo2/OpenDiablo2/d2common/d2datautils"
 
 	"github.com/gucio321/d2d2s/d2sitems"
+	"github.com/gucio321/d2d2s/d2smercenary/d2smercenarytype"
 	"github.com/gucio321/d2d2s/datautils"
 )
 
 // Mercenary stores mercenary data
 type Mercenary struct {
-	Died uint16 // ?
-	ID   uint32
-	Name uint16
-	Type struct {
-		Code uint16
-	}
+	Died       uint16 // ?
+	ID         uint32
+	Name       uint16
+	Type       *d2smercenarytype.MercenaryType
 	Experience uint32
 	Items      *d2sitems.Items
 }
@@ -25,6 +24,7 @@ type Mercenary struct {
 // New creates a new mercenary structure
 func New() *Mercenary {
 	result := &Mercenary{
+		Type:  &d2smercenarytype.MercenaryType{},
 		Items: &d2sitems.Items{},
 	}
 
@@ -38,19 +38,9 @@ func (m *Mercenary) LoadHeader(sr *datautils.BitMuncher) {
 	m.Name = sr.GetUInt16()
 
 	mercType := sr.GetUInt16()
-	m.LoadType(mercType)
+	m.Type = d2smercenarytype.Load(mercType)
 
 	m.Experience = sr.GetUInt32()
-}
-
-// LoadType load merc type: TODO; see: https://user.xmission.com/~trevin/DiabloIIv1.09_Mercenaries.html#code
-func (m *Mercenary) LoadType(data uint16) {
-	m.Type.Code = data
-}
-
-// EncodeType encodes merc type (TODO)
-func (m *Mercenary) EncodeType() (result uint16) {
-	return m.Type.Code
 }
 
 // LoadMercItems loads merc items
@@ -82,7 +72,7 @@ func (m *Mercenary) EncodeHeader(sw *d2datautils.StreamWriter) {
 	sw.PushUint16(m.Died)
 	sw.PushUint32(m.ID)
 	sw.PushUint16(m.Name)
-	sw.PushUint16(m.EncodeType())
+	sw.PushUint16(m.Type.Encode())
 	sw.PushUint32(m.Experience)
 }
 
