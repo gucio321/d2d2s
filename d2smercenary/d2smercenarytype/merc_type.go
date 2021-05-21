@@ -98,7 +98,7 @@ type MercAttribute byte
 // merc attributes
 const (
 	MercAttributeFireArrow MercAttribute = iota // Fire Arrow
-	MercAttributeColdArrow                      // ColdArrow
+	MercAttributeColdArrow                      // Cold Arrow
 
 	MercAttributeCombat    // Combat
 	MercAttributeDefensive // Devensive

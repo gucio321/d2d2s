@@ -20,9 +20,9 @@ func _() {
 	_ = x[MercAttributeBarb2-9]
 }
 
-const _MercAttribute_name = "Fire ArrowColdArrowCombatDevensiveOffensiveFire SpellsCold SpellsLightning Spells"
+const _MercAttribute_name = "Fire ArrowCold ArrowCombatDevensiveOffensiveFire SpellsCold SpellsLightning Spells"
 
-var _MercAttribute_index = [...]uint8{0, 10, 19, 25, 34, 43, 54, 65, 81, 81, 81}
+var _MercAttribute_index = [...]uint8{0, 10, 20, 26, 35, 44, 55, 66, 82, 82, 82}
 
 func (i MercAttribute) String() string {
 	if i >= MercAttribute(len(_MercAttribute_index)-1) {
