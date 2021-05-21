@@ -120,5 +120,11 @@ func GetClassAttributes(class MercClass) []MercAttribute {
 		return nil
 	}
 
-	return attrIdx[int(class) : int(class)+1]
+	result := make([]MercAttribute, 0)
+
+	for i := attrIdx[int(class)]; i < attrIdx[int(class)+1]; i++ {
+		result = append(result, i)
+	}
+
+	return result
 }
