@@ -114,3 +114,14 @@ const (
 	MercAttributeBarb1 //
 	MercAttributeBarb2 //
 )
+
+// GetClassAttributes returns a slice of attributes for specified merc class
+func GetClassAttributes(class MercClass) []MercAttribute {
+	attrIdx := [...]MercAttribute{MercAttributeFireArrow, MercAttributeCombat, MercAttributeFire, MercAttributeBarb1, 12}
+
+	if int(class) > len(attrIdx) {
+		return nil
+	}
+
+	return attrIdx[int(class) : int(class)+1]
+}
