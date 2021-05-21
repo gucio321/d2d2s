@@ -176,5 +176,5 @@ const (
 	_
 	Runeword195 // Zephyr
 
-	Runeword2718 Runeword = 2718 // Delirium
+	Runeword2718 RunewordID = 2718 // Delirium
 )
