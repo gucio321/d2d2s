@@ -10,7 +10,9 @@ import (
 )
 
 const (
-	NumSkillBytes  = d2senums.NumSkills + 2
+	// NumSkillBytes is a total number of encoded skills structure
+	NumSkillBytes = d2senums.NumSkills + 2
+
 	skillsHeaderID = "if"
 )
 

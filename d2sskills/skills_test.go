@@ -14,6 +14,7 @@ type testdata struct {
 
 func getTestdata() map[[NumSkillBytes]byte]testdata {
 	header := []byte(skillsHeaderID)
+
 	return map[[NumSkillBytes]byte]testdata{
 		{
 			header[0], header[1],
@@ -62,7 +63,11 @@ func Test_Load(t *testing.T) {
 
 	for key, value := range td {
 		s := New()
-		s.Load(key, value.class)
+
+		err := s.Load(key, value.class)
+		if err != nil {
+			t.Error(err)
+		}
 
 		assert.Equal(t, value.skills, s, "unexpected skills loaded")
 	}
