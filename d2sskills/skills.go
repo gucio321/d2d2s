@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	numSkills      = 30
+	NumSkillBytes  = d2senums.NumSkills + 2
 	skillsHeaderID = "if"
 )
 
@@ -26,25 +26,39 @@ func New() *Skills {
 }
 
 // Load loads skills from bitmuncher given
-func (s *Skills) Load(sr *datautils.BitMuncher, class d2senums.CharacterClass) error {
+func (s *Skills) Load(data [NumSkillBytes]byte, class d2senums.CharacterClass) error {
+	sr := datautils.CreateBitMuncher(data[:], 0)
+
 	skillsID := sr.GetBytes(2) // nolint:gomnd // skills header
 	if string(skillsID) != skillsHeaderID {
 		return errors.New("unexpected skills section header")
 	}
 
-	for i := 0; i < numSkills; i++ {
+	skills := d2senums.GetSkillList(class)
+
+	for _, skill := range skills {
 		value := sr.GetByte()
-		(*s)[d2senums.SkillID(int(d2senums.GetSkillModifier(class))+i)] = value
+		(*s)[skill] = value
 	}
 
 	return nil
 }
 
 // Encode encodes skills data into stream writer
-func (s *Skills) Encode(sw *d2datautils.StreamWriter, class d2senums.CharacterClass) {
+func (s *Skills) Encode(class d2senums.CharacterClass) (result [NumSkillBytes]byte) {
+	sw := d2datautils.CreateStreamWriter()
+
 	sw.PushBytes([]byte(skillsHeaderID)...)
 
-	for i := 0; i < numSkills; i++ {
-		sw.PushBytes((*s)[d2senums.SkillID(int(d2senums.GetSkillModifier(class))+i)])
+	skills := d2senums.GetSkillList(class)
+
+	for _, skill := range skills {
+		sw.PushBytes((*s)[skill])
 	}
+
+	data := sw.GetBytes()
+
+	copy(result[:], data[:NumSkillBytes])
+
+	return result
 }
