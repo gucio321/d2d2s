@@ -8,8 +8,11 @@ import (
 )
 
 const (
-	statsHeaderID = "gf"
-	statsModifier = 256
+	numHeaderBytes = 2
+	statsHeaderID  = "gf"
+	statsModifier  = 256
+	statIDLen      = 9
+	statEndMark    = 1<<statIDLen - 1 // all 9 bits set
 )
 
 // Stats represents character stats
@@ -39,9 +42,8 @@ func New() *Stats {
 }
 
 // Load loads hero stats
-// nolint:gocyclo // can't reduce (switch-case)
 func (s *Stats) Load(sr *datautils.BitMuncher) error {
-	id := sr.GetBytes(2) // nolint:gomnd // header
+	id := sr.GetBytes(numHeaderBytes)
 	if string(id) != statsHeaderID {
 		return errors.New("unexpected header")
 	}
@@ -49,57 +51,51 @@ func (s *Stats) Load(sr *datautils.BitMuncher) error {
 	bm := sr.Copy()
 
 	for {
-		id := bm.GetBits(9) // nolint:gomnd // id size
+		id := statID(bm.GetBits(statIDLen))
 
-		// nolint:gomnd // If all 9 bits are set, we've hit the end of the attributes section
+		// If all 9 bits are set, we've hit the end of the attributes section
 		//  at 0x1ff and exit the loop.
-		if id == 0x1ff {
+		if id == statEndMark {
 			break
 		}
 
 		// The attribute value bit length, so we'll know how many bits to read next.
-		length, ok := attributeBitMap[id]
-		if !ok {
-			return fmt.Errorf("unknown attribute id: %d", id)
+		length, err := id.getStatLen()
+		if err != nil {
+			return fmt.Errorf("error reading stat id: %w", err)
 		}
 
 		// The attribute value.
-		// attr := reverseBits(uint64(bm.GetBits(int(length))), length)
-		attr := bm.GetBits(int(length))
+		attr := bm.GetBits(length)
 
+		// this map connects statID with appropriate value from stats structure
+		statMap := map[statID]interface{}{
+			strength:       &s.Strength,
+			energy:         &s.Energy,
+			dexterity:      &s.Dexterity,
+			vitality:       &s.Vitality,
+			unusedStats:    &s.UnusedStats,
+			unusedSkills:   &s.UnusedSkillPoints,
+			currentHP:      &s.CurrentHP,
+			maxHP:          &s.MaxHP,
+			currentMana:    &s.CurrentMana,
+			maxMana:        &s.MaxMana,
+			currentStamina: &s.CurrentStamina,
+			maxStamina:     &s.MaxStamina,
+			level:          &s.Level,
+			experience:     &s.Experience,
+			gold:           &s.Gold,
+			stashedGold:    &s.StashedGold,
+		}
+
+		// if id is HP/mana/stamina, make it float, by default uint32
 		switch id {
-		case strength:
-			s.Strength = attr
-		case energy:
-			s.Energy = attr
-		case dexterity:
-			s.Dexterity = attr
-		case vitality:
-			s.Vitality = attr
-		case unusedStats:
-			s.UnusedStats = attr
-		case unusedSkills:
-			s.UnusedSkillPoints = attr
-		case currentHP:
-			s.CurrentHP = float32(attr) / statsModifier
-		case maxHP:
-			s.MaxHP = float32(attr) / statsModifier
-		case currentMana:
-			s.CurrentMana = float32(attr) / statsModifier
-		case maxMana:
-			s.MaxMana = float32(attr) / statsModifier
-		case currentStamina:
-			s.CurrentStamina = float32(attr) / statsModifier
-		case maxStamina:
-			s.MaxStamina = float32(attr) / statsModifier
-		case level:
-			s.Level = attr
-		case experience:
-			s.Experience = attr
-		case gold:
-			s.Gold = attr
-		case stashedGold:
-			s.StashedGold = attr
+		case currentHP, maxHP, currentMana, maxMana, currentStamina, maxStamina:
+			value := statMap[id].(*float32)
+			*value = float32(attr) / statsModifier
+		default:
+			value := statMap[id].(*uint32)
+			*value = attr
 		}
 	}
 
@@ -110,107 +106,100 @@ func (s *Stats) Load(sr *datautils.BitMuncher) error {
 }
 
 // Encode encodes stats back into a bytes slice
-func (s *Stats) Encode() []byte {
+func (s *Stats) Encode() ([]byte, error) {
 	sw := datautils.CreateStreamWriter()
 	sw.PushBytes([]byte(statsHeaderID)...)
 
-	sw.PushBits16(strength, 9)
-	sw.PushBits32(s.Strength, int(attributeBitMap[strength]))
-
-	sw.PushBits16(energy, 9)
-	sw.PushBits32(s.Energy, int(attributeBitMap[energy]))
-
-	sw.PushBits16(dexterity, 9)
-	sw.PushBits32(s.Dexterity, int(attributeBitMap[dexterity]))
-
-	sw.PushBits16(vitality, 9)
-	sw.PushBits32(s.Vitality, int(attributeBitMap[vitality]))
-
-	if s.UnusedStats > 0 {
-		sw.PushBits16(unusedStats, 9)
-		sw.PushBits32(s.UnusedStats, int(attributeBitMap[unusedStats]))
+	statMap := map[statID]uint32{
+		strength:       s.Strength,
+		energy:         s.Energy,
+		dexterity:      s.Dexterity,
+		vitality:       s.Vitality,
+		unusedStats:    s.UnusedStats,
+		unusedSkills:   s.UnusedSkillPoints,
+		currentHP:      uint32(s.CurrentHP * statsModifier),
+		maxHP:          uint32(s.MaxHP * statsModifier),
+		currentMana:    uint32(s.CurrentMana * statsModifier),
+		maxMana:        uint32(s.MaxMana * statsModifier),
+		currentStamina: uint32(s.CurrentStamina * statsModifier),
+		maxStamina:     uint32(s.MaxStamina * statsModifier),
+		level:          s.Level,
+		experience:     s.Experience,
+		gold:           s.Gold,
+		stashedGold:    s.StashedGold,
 	}
 
-	if s.UnusedSkillPoints > 0 {
-		sw.PushBits16(unusedSkills, 9)
-		sw.PushBits32(s.UnusedSkillPoints, int(attributeBitMap[unusedSkills]))
+	for i := strength; i <= stashedGold; i++ {
+		// if unused stats or skill points are 0 - than don't push dhem
+		switch i {
+		case unusedStats, unusedSkills:
+			if statMap[i] == 0 {
+				continue
+			}
+		}
+
+		l, err := i.getStatLen()
+		if err != nil {
+			return nil, err
+		}
+
+		sw.PushBits16(uint16(i), statIDLen)
+		sw.PushBits32(statMap[i], l)
 	}
 
-	// Life
-	sw.PushBits16(currentHP, 9)
-	sw.PushBits32(uint32(s.CurrentHP*statsModifier), int(attributeBitMap[currentHP]))
+	sw.PushBits16(statEndMark, statIDLen)
+	sw.Align()
 
-	sw.PushBits16(maxHP, 9)
-	sw.PushBits32(uint32(s.MaxHP*statsModifier), int(attributeBitMap[maxHP]))
-
-	// Mana
-	sw.PushBits16(currentMana, 9)
-	sw.PushBits32(uint32(s.CurrentMana*statsModifier), int(attributeBitMap[currentMana]))
-
-	sw.PushBits16(maxMana, 9)
-	sw.PushBits32(uint32(s.MaxMana*statsModifier), int(attributeBitMap[maxMana]))
-
-	// Stamina
-	sw.PushBits16(currentStamina, 9)
-	sw.PushBits32(uint32(s.CurrentStamina*statsModifier), int(attributeBitMap[currentStamina]))
-
-	sw.PushBits16(maxStamina, 9)
-	sw.PushBits32(uint32(s.MaxStamina*statsModifier), int(attributeBitMap[maxStamina]))
-
-	sw.PushBits16(level, 9)
-	sw.PushBits32(s.Level, int(attributeBitMap[level]))
-
-	sw.PushBits16(experience, 9)
-	sw.PushBits32(s.Experience, int(attributeBitMap[experience]))
-
-	sw.PushBits16(gold, 9)
-	sw.PushBits32(s.Gold, int(attributeBitMap[gold]))
-
-	sw.PushBits16(stashedGold, 9)
-	sw.PushBits32(s.StashedGold, int(attributeBitMap[stashedGold]))
-
-	sw.PushBits16(0x1ff, 9)       // nolint:gomnd // end mark
-	sw.PushBits(0, 8-sw.Offset()) // nolint:gomnd // remaining bits
-
-	return sw.GetBytes()
+	return sw.GetBytes(), nil
 }
 
-// nolint:gochecknoglobals,gomnd // data variable
-var attributeBitMap = map[uint32]uint{
-	strength:       10,
-	energy:         10,
-	dexterity:      10,
-	vitality:       10,
-	unusedStats:    10,
-	unusedSkills:   8,
-	currentHP:      21,
-	maxHP:          21,
-	currentMana:    21,
-	maxMana:        21,
-	currentStamina: 21,
-	maxStamina:     21,
-	level:          7,
-	experience:     32,
-	gold:           25,
-	stashedGold:    25,
-}
+type statID uint16
 
 // All attribute ids described.
 const (
-	strength       = 0
-	energy         = 1
-	dexterity      = 2
-	vitality       = 3
-	unusedStats    = 4
-	unusedSkills   = 5
-	currentHP      = 6
-	maxHP          = 7
-	currentMana    = 8
-	maxMana        = 9
-	currentStamina = 10
-	maxStamina     = 11
-	level          = 12
-	experience     = 13
-	gold           = 14
-	stashedGold    = 15
+	strength statID = iota
+	energy
+	dexterity
+	vitality
+	unusedStats
+	unusedSkills
+	currentHP
+	maxHP
+	currentMana
+	maxMana
+	currentStamina
+	maxStamina
+	level
+	experience
+	gold
+	stashedGold
 )
+
+func (i statID) getStatLen() (int, error) {
+	// nolint:gomnd // constant values
+	attributeBitMap := map[statID]int{
+		strength:       10,
+		energy:         10,
+		dexterity:      10,
+		vitality:       10,
+		unusedStats:    10,
+		unusedSkills:   8,
+		currentHP:      21,
+		maxHP:          21,
+		currentMana:    21,
+		maxMana:        21,
+		currentStamina: 21,
+		maxStamina:     21,
+		level:          7,
+		experience:     32,
+		gold:           25,
+		stashedGold:    25,
+	}
+
+	s, ok := attributeBitMap[i]
+	if !ok {
+		return 0, errors.New("unexpected attribute ID")
+	}
+
+	return s, nil
+}

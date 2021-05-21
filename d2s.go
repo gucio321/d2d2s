@@ -313,7 +313,12 @@ func (d *D2S) Encode() ([]byte, error) {
 	nd := d.NPC.Encode()
 	sw.PushBytes(nd[:]...)
 
-	sw.PushBytes(d.Stats.Encode()...)
+	sd, err := d.Stats.Encode()
+	if err != nil {
+		return nil, fmt.Errorf("error encoding stats: %w", err)
+	}
+
+	sw.PushBytes(sd...)
 
 	d.Skills.Encode(sw, d.Class)
 
