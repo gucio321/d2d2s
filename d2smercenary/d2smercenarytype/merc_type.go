@@ -1,8 +1,6 @@
 package d2smercenarytype
 
 import (
-	"fmt"
-
 	"github.com/OpenDiablo2/OpenDiablo2/d2common/d2enum"
 )
 
@@ -75,7 +73,6 @@ func (m *MercenaryType) Encode() (result uint16) {
 	}
 
 	result += uint16(int(m.Attribute) - attr)
-	fmt.Println(result)
 
 	return result
 }
