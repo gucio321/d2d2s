@@ -7,143 +7,143 @@ type RunewordID uint16
 
 // runeword IDs TODO: give these constants a bit more descriptive names
 const (
-	Runeword27 RunewordID = iota + 27 // Ancient's Pledge
+	RunewordAncientsPladge RunewordID = iota + 27 // Ancient's Pledge
 	_
 	_
-	Runeword30 // Beast
+	RunewordBeast // Beast
 	_
-	Runeword32 // Black
+	RunewordBlack // Black
 	_
-	Runeword34 // Bone
-	Runeword35 // Bramble
-	Runeword36 // Brand
-	Runeword37 // Breath of the Dying
+	RunewordBone        // Bone
+	RunewordBramble     // Bramble
+	RunewordBrand       // Brand
+	RunewordDyingBreath // Breath of the Dying
 	_
-	Runeword39 // Call to Arms
-	Runeword40 // Chains of Honor
+	RunewordCTA    // Call to Arms
+	RunewordChains // Chains of Honor
 	_
-	Runeword42 // Chaos
-	Runeword43 // Crescent Moon
+	RunewordChaos        // Chaos
+	RunewordCrescentMoon // Crescent Moon
 	_
 	_
-	Runeword46 // Death
+	RunewordDeath // Death
 	_
 	_
 	_
-	Runeword51 // Destruction
-	Runeword52 // Doom
-	Runeword53 // Dragon
+	RunewordDestruction // Destruction
+	RunewordDoom        // Doom
+	RunewordDragon      // Dragon
 	_
-	Runeword55 // Dream
-	Runeword56 // Duress
-	Runeword57 // Edge
+	RunewordDream  // Dream
+	RunewordDuress // Duress
+	RunewordEdge   // Edge
 	_
-	Runeword59 // Enigma
-	Runeword60 // Enlightenment
+	RunewordEnigma        // Enigma
+	RunewordEnlightenment // Enlightenment
 	_
-	Runeword62 // Eternity
-	Runeword63 // Exile
-	Runeword64 // Faith
-	Runeword65 // Famine
+	RunewordEternity // Eternity
+	RunewordExile    // Exile
+	RunewordFaith    // Faith
+	RunewordFamine   // Famine
 	_
-	Runeword67 // Fortitude
+	RunewordFortitude // Fortitude
 	_
 	_
-	Runeword70 // Fury
-	Runeword71 // Gloom
+	RunewordFury  // Fury
+	RunewordGloom // Gloom
 	_
-	Runeword73 // Grief
-	Runeword74 // Hand of Justice
-	Runeword75 // Harmory
+	RunewordGrief       // Grief
+	RunewordJusticeHand // Hand of Justice
+	RunewordHarmory     // Harmory
 	_
-	Runeword77 // Heart of the Oak
+	RunewordHOTO // Heart of the Oak
 	_
 	_
-	Runeword80 // Holy Thunder
-	Runeword81 // Honor
+	RunewordHolyThunder // Holy Thunder
+	RunewordHonor       // Honor
 	_
 	_
 	_
-	Runeword85 // Ice
-	Runeword86 // Infinity
+	RunewordIce      // Ice
+	RunewordInfinity // Infinity
 	_
-	Runeword88 // Insight
+	RunewordInsight // Insight
 	_
 	_
-	Runeword91 // King's Grace
-	Runeword92 // Kingslayer
+	RunewordKingsGrace // King's Grace
+	RunewordKingslayer // Kingslayer
 	_
 	_
-	Runeword95 // Last Wish
+	RunewordLastWish // Last Wish
 	_
-	Runeword97 // Lawbringer
-	Runeword98 // Leaf
+	RunewordLawbringer // Lawbringer
+	RunewordLeaf       // Leaf
 	_
-	Runeword100 // Lionheart
-	Runeword101 // Lore
+	RunewordLionheart // Lionheart
+	RunewordLore      // Lore
 	_
 	_
 	_
 	_
-	Runeword106 // Malice
-	Runeword107 // Melody
-	Runeword108 // Memory
+	RunewordMalice // Malice
+	RunewordMelody // Melody
+	RunewordMemory // Memory
 	_
 	_
 	_
-	Runeword112 // Myth
-	Runeword113 // Nadir
+	RunewordMyth  // Myth
+	RunewordNadir // Nadir
 	_
 	_
-	Runeword116 // Oath
-	Runeword117 // Obedience
+	RunewordOath      // Oath
+	RunewordObedience // Obedience
 	_
 	_
-	Runeword120 // Passion
+	RunewordPassion // Passion
 	_
 	_
-	Runeword123 // Peace
-	Runeword124 // Winter
+	RunewordPeace  // Peace
+	RunewordWinter // Winter
 	_
 	_
 	_
-	Runeword128 // Phoenix
+	RunewordPhoenix // Phoenix
 	_
 	_
-	Runeword131 // Plague
+	RunewordPlague // Plague
 	_
 	_
-	Runeword134 // Pride
-	Runeword135 // Principle
+	RunewordPride     // Pride
+	RunewordPrinciple // Principle
 	_
-	Runeword137 // Prudence
+	RunewordPrudence // Prudence
 	_
 	_
 	_
-	Runeword141 // Radiance
-	Runeword142 // Rain
+	RunewordRadiance // Radiance
+	RunewordRain     // Rain
 	_
 	_
-	Runeword145 // Rhyme
-	Runeword146 // Rift
-	Runeword147 // Sanctuary
+	RunewordRhyme     // Rhyme
+	RunewordRift      // Rift
+	RunewordSanctuary // Sanctuary
 	_
 	_
 	_
-	Runeword151 // Silence
+	RunewordSilence // Silence
 	_
-	Runeword153 // Smoke
+	RunewordSmoke // Smoke
 	_
-	Runeword155 // Spirit
-	Runeword156 // Splendor
+	RunewordSpirit   // Spirit
+	RunewordSplendor // Splendor
 	_
-	Runeword158 // Stealth
-	Runeword159 // Steel
+	RunewordStealth // Stealth
+	RunewordSteel   // Steel
 	_
 	_
-	Runeword162 // Stone
+	RunewordStone // Stone
 	_
-	Runeword164 // Strength
+	RunewordStrength // Strength
 	_
 	_
 	_
@@ -152,29 +152,29 @@ const (
 	_
 	_
 	_
-	Runeword173 // Treachery
+	RunewordTreachery // Treachery
 	_
 	_
 	_
 	_
 	_
-	Runeword179 // Venom
+	RunewordVenom // Venom
 	_
 	_
 	_
 	_
 	_
-	Runeword185 // Wealth
+	RunewordWealth // Wealth
 	_
-	Runeword187 // White
-	Runeword188 // Wind
+	RunewordWhite // White
+	RunewordWind  // Wind
 	_
 	_
 	_
 	_
-	Runeword193 // Wrath
+	RunewordWrath // Wrath
 	_
-	Runeword195 // Zephyr
+	RunewordZephyr // Zephyr
 
-	Runeword2718 RunewordID = 2718 // Delirium
+	RunewordDelirium RunewordID = 2718 // Delirium
 )
