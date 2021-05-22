@@ -4,6 +4,5 @@ go 1.16
 
 require (
 	github.com/OpenDiablo2/OpenDiablo2 v0.0.0-20210419103254-eb470533c42e
-	github.com/nokka/d2s v1.3.0
-	github.com/stretchr/testify v1.7.0 // indirect
+	github.com/stretchr/testify v1.7.0
 )
