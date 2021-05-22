@@ -47,138 +47,138 @@ func SetReqID(id byte) []uint64 {
 	return r
 }
 
-//go:generate stringer -linecomment -type SetID -output set_is_string.go
+//go:generate stringer -linecomment -type SetID -output set_ids_string.go
 
 // SetID represents a set ID
 type SetID uint16
 
-// set IDs - TODO: give these constants some descriptive name
+// set IDs
 const (
-	Set0   SetID = iota //  Civerb's Ward
-	Set1                //  Civerb's Icon
-	Set2                //  Civerb's Cudgel
-	Set3                //  Hsaru's Iron Heel
-	Set4                //  Hsaru's Iron Fist
-	Set5                //  Hsaru's Iron Stay
-	Set6                //  Cleglaw's Tooth
-	Set7                //  Cleglaw's Claw
-	Set8                //  Cleglaw's Pincers
-	Set9                //  Iratha's Collar
-	Set10               // Iratha's Cuff
-	Set11               // Iratha's Coil
-	Set12               // Iratha's Cord
-	Set13               // Isenhart's Lightbrand
-	Set14               // Isenhart's Parry
-	Set15               // Isenhart's Case
-	Set16               // Isenhart's Horns
-	Set17               // Vidala's Barb
-	Set18               // Vidala's Fetlock
-	Set19               // Vidala's Ambush
-	Set20               // Vidala's Snare
-	Set21               // Milabrega's Orb
-	Set22               // Milabrega's Rod
-	Set23               // Milabrega's Diadem
-	Set24               // Mialbrega's Robe
-	Set25               // Cathan's Rule
-	Set26               // Cathan's Mesh
-	Set27               // Cathan's Visage
-	Set28               // Cathan's Sigil
-	Set29               // Cathan's Seal
-	Set30               // Tancred's Crowbill
-	Set31               // Tancred's Spine
-	Set32               // Tancred's Hobnails
-	Set33               // Tancred's Weird
-	Set34               // Tancred's Skull
-	Set35               // Sigon's Gage
-	Set36               // Sigon's Visor
-	Set37               // Sigon's Shelter
-	Set38               // Sigon's Sabot
-	Set39               // Sigon's Wrap
-	Set40               // Sigon's Guard
-	Set41               // Infernal Cranium
-	Set42               // Infernal Torch
-	Set43               // Infernal Sign
-	Set44               // Berserker's Headgear
-	Set45               // Berserker's Hauberk
-	Set46               // Berserker's Hatchet
-	Set47               // Death's Hand
-	Set48               // Death's Guard
-	Set49               // Death's Touch
-	Set50               // Angelic Sickle
-	Set51               // Angelic Mantle
-	Set52               // Angelic Halo
-	Set53               // Angelic Wings
-	Set54               // Arctic Horn
-	Set55               // Arctic Furs
-	Set56               // Arctic Binding
-	Set57               // Arctic Mitts
-	Set58               // Arcanna's Sign
-	Set59               // Arcanna's Deathwand
-	Set60               // Arcanna's Head
-	Set61               // Arcanna's Flesh
-	Set62               // Natalya's Totem
-	Set63               // Natalya's Mark
-	Set64               // Natalya's Shadow
-	Set65               // Natalya's Soul
-	Set66               // Aldur's Stony Gaze
-	Set67               // Aldur's Deception
-	Set68               // Aldur's Rhythm
-	Set69               // Aldur's Advance
-	Set70               // Immortal King's Will
-	Set71               // Immortal King's Soul Cage
-	Set72               // Immortal King's Detail
-	Set73               // Immortal King's Forge
-	Set74               // Immortal King's Pillar
-	Set75               // Immortal King's Stone Crusher
-	Set76               // Tal Rasha's Fine-Spun Cloth
-	Set77               // Tal Rasha's Adjudication
-	Set78               // Tal Rasha's Lidless Eye
-	Set79               // Tal Rasha's Guardianship
-	Set80               // Tal Rasha's Horadric Crest
-	Set81               // Griswold's Valor
-	Set82               // Griswold's Heart
-	Set83               // Griswold's Redemption
-	Set84               // Griswold's Honor
-	Set85               // Trang-Oul's Guise
-	Set86               // Trang-Oul's Scales
-	Set87               // Trang-Oul's Wing
-	Set88               // Trang-Oul's Claws
-	Set89               // Trang-Oul's Girth
-	Set90               // M'avina's True Sight
-	Set91               // M'avina's Embrace
-	Set92               // M'avina's Icy Clutch
-	Set93               // M'avina's Tenet
-	Set94               // M'avina's Caster
-	Set95               // Telling of Beads
-	Set96               // Laying of Hands
-	Set97               // Rite of Passage
-	Set98               // Dark Adherent
-	Set99               // Credendum
-	Set100              // Dangoon's Teaching
-	Set101              // Taebaek's Glory
-	Set102              // Haemosu's Adament
-	Set103              // Ondal's Almighty
-	Set104              // Guillaume's Face
-	Set105              // Wilhelm's Pride
-	Set106              // Magnus' Skin
-	Set107              // Wihtstan's Guard
-	Set108              // Hwanin's Splendor
-	Set109              // Hwanin's Refuge
-	Set110              // Hwanin's Blessing
-	Set111              // Hwanin's Justice
-	Set112              // Sazabi's Cobalt Redeemer
-	Set113              // Sazabi's Ghost Liberator
-	Set114              // Sazabi's Mental Sheath
-	Set115              // Bul-Katho's Sacred Charge
-	Set116              // Bul-Katho's Tribal Guardian
-	Set117              // Cow King's Horns
-	Set118              // Cow King's Hide
-	Set119              // Cow King's Hooves
-	Set120              // Naj's Puzzler
-	Set121              // Naj's Light Plate
-	Set122              // Naj's Circlet
-	Set123              // Sander's Paragon
-	Set124              // Sander's Riprap
-	Set125              // Sander's Taboo
-	Set126              // Sander's Superstition
+	SetCiverbsWard               SetID = iota // Civerb's Ward
+	SetCiverbsIcon                            // Civerbs Icon
+	SetCiverbsCudgel                          // Civerbs Cudgel
+	SetHsarusIronHeel                         // Hsarus Iron Heel
+	SetHsarusIronFist                         // Hsarus Iron Fist
+	SetHsarusIronStay                         // Hsarus Iron Stay
+	SetCleglawsTooth                          // Cleglaws Tooth
+	SetCleglawsClaw                           // Cleglaws Claw
+	SetCleglawsPincers                        // Cleglaws Pincers
+	SetIrathasCollar                          // Irathas Collar
+	SetSetIrathasCuff                         // Irathas Cuff
+	SetSetIrathasCoil                         // Irathas Coil
+	SetSetIrathasCord                         // Irathas Cord
+	SetSetIsenhartsLightbrand                 // Isenharts Lightbrand
+	SetSetIsenhartsParry                      // Isenharts Parry
+	SetSetIsenhartsCase                       // Isenharts Case
+	SetSetIsenhartsHorns                      // Isenharts Horns
+	SetSetVidalasBarb                         // Vidalas Barb
+	SetSetVidalasFetlock                      // Vidalas Fetlock
+	SetSetVidalasAmbush                       // Vidalas Ambush
+	SetSetVidalasSnare                        // Vidalas Snare
+	SetSetMilabregasOrb                       // Milabregas Orb
+	SetSetMilabregasRod                       // Milabregas Rod
+	SetSetMilabregasDiadem                    // Milabregas Diadem
+	SetSetMialbregasRobe                      // Mialbregas Robe
+	SetCathansRule                            // Cathans Rule
+	SetCathansMesh                            // Cathans Mesh
+	SetCathansVisage                          // Cathans Visage
+	SetCathansSigil                           // Cathans Sigil
+	SetCathansSeal                            // Cathans Seal
+	SetTancredsCrowbill                       // Tancreds Crowbill
+	SetTancredsSpine                          // Tancreds Spine
+	SetTancredsHobnails                       // Tancreds Hobnails
+	SetTancredsWeird                          // Tancreds Weird
+	SetTancredsSkull                          // Tancreds Skull
+	SetSigonsGage                             // Sigons Gage
+	SetSigonsVisor                            // Sigons Visor
+	SetSigonsShelter                          // Sigons Shelter
+	SetSigonsSabot                            // Sigons Sabot
+	SetSigonsWrap                             // Sigons Wrap
+	SetSigonsGuard                            // Sigons Guard
+	SetInfernalCranium                        // Infernal Cranium
+	SetInfernalTorch                          // Infernal Torch
+	SetInfernalSign                           // Infernal Sign
+	SetBerserkersHeadgear                     // Berserkers Headgear
+	SetBerserkersHauberk                      // Berserkers Hauberk
+	SetBerserkersHatchet                      // Berserkers Hatchet
+	SetDeathsHand                             // Deaths Hand
+	SetDeathsGuard                            // Deaths Guard
+	SetDeathsTouch                            // Deaths Touch
+	SetAngelicSickle                          // Angelic Sickle
+	SetAngelicMantle                          // Angelic Mantle
+	SetAngelicHalo                            // Angelic Halo
+	SetAngelicWings                           // Angelic Wings
+	SetArcticHorn                             // Arctic Horn
+	SetArcticFurs                             // Arctic Furs
+	SetArcticBinding                          // Arctic Binding
+	SetArcticMitts                            // Arctic Mitts
+	SetArcannasSign                           // Arcannas Sign
+	SetArcannasDeathwand                      // Arcannas Deathwand
+	SetArcannasHead                           // Arcannas Head
+	SetArcannasFlesh                          // Arcannas Flesh
+	SetNatalyasTotem                          // Natalyas Totem
+	SetNatalyasMark                           // Natalyas Mark
+	SetNatalyasShadow                         // Natalyas Shadow
+	SetNatalyasSoul                           // Natalyas Soul
+	SetAldursStonyGaze                        // Aldurs Stony Gaze
+	SetAldursDeception                        // Aldurs Deception
+	SetAldursRhythm                           // Aldurs Rhythm
+	SetAldursAdvance                          // Aldurs Advance
+	SetImmortalKingsWill                      // Immortal Kings Will
+	SetImmortalKingsSoulCage                  // Immortal Kings Soul Cage
+	SetImmortalKingsDetail                    // Immortal Kings Detail
+	SetImmortalKingsForge                     // Immortal Kings Forge
+	SetImmortalKingsPillar                    // Immortal Kings Pillar
+	SetImmortalKingsStoneCrusher              // Immortal Kings Stone Crusher
+	SetTalRashasFineSpunCloth                 // Tal Rashas Fine-Spun Cloth
+	SetTalRashasAdjudication                  // Tal Rashas Adjudication
+	SetTalRashasLidlessEye                    // Tal Rashas Lidless Eye
+	SetTalRashasGuardianship                  // Tal Rashas Guardianship
+	SetTalRashasHoradricCrest                 // Tal Rashas Horadric Crest
+	SetGriswoldsValor                         // Griswolds Valor
+	SetGriswoldsHeart                         // Griswolds Heart
+	SetGriswoldsRedemption                    // Griswolds Redemption
+	SetGriswoldsHonor                         // Griswolds Honor
+	SetTrangOulsGuise                         // Trang-Ouls Guise
+	SetTrangOulsScales                        // Trang-Ouls Scales
+	SetTrangOulsWing                          // Trang-Ouls Wing
+	SetTrangOulsClaws                         // Trang-Ouls Claws
+	SetTrangOulsGirth                         // Trang-Ouls Girth
+	SetMavinasTrueSight                       // Mavinas True Sight
+	SetMavinasEmbrace                         // Mavinas Embrace
+	SetMavinasIcyClutch                       // Mavinas Icy Clutch
+	SetMavinasTenet                           // Mavinas Tenet
+	SetMavinasCaster                          // Mavinas Caster
+	SetTellingofBeads                         // Telling of Beads
+	SetLayingofHands                          // Laying of Hands
+	SetRiteofPassage                          // Rite of Passage
+	SetDarkAdherent                           // Dark Adherent
+	SetCredendum                              // Credendum
+	SetDangoonsTeaching                       // Dangoons Teaching
+	SetTaebaeksGlory                          // Taebaeks Glory
+	SetHaemosusAdament                        // Haemosus Adament
+	SetOndalsAlmighty                         // Ondals Almighty
+	SetGuillaumesFace                         // Guillaumes Face
+	SetWilhelmsPride                          // Wilhelms Pride
+	SetMagnusSkin                             // Magnus Skin
+	SetWihtstansGuard                         // Wihtstans Guard
+	SetHwaninsSplendor                        // Hwanins Splendor
+	SetHwaninsRefuge                          // Hwanins Refuge
+	SetHwaninsBlessing                        // Hwanins Blessing
+	SetHwaninsJustice                         // Hwanins Justice
+	SetSazabisCobaltRedeemer                  // Sazabis Cobalt Redeemer
+	SetSazabisGhostLiberator                  // Sazabis Ghost Liberator
+	SetSazabisMentalSheath                    // Sazabis Mental Sheath
+	SetBulKathosSacredCharge                  // Bul-Kathos Sacred Charge
+	SetBulKathosTribalGuardian                // Bul-Kathos Tribal Guardian
+	SetCowKingsHorns                          // Cow Kings Horns
+	SetCowKingsHide                           // Cow Kings Hide
+	SetCowKingsHooves                         // Cow Kings Hooves
+	SetNajsPuzzler                            // Najs Puzzler
+	SetNajsLightPlate                         // Najs Light Plate
+	SetNajsCirclet                            // Najs Circlet
+	SetSandersParagon                         // Sanders Paragon
+	SetSandersRiprap                          // Sanders Riprap
+	SetSandersTaboo                           // Sanders Taboo
+	SetSandersSuperstition                    // Sanders Superstition
 )
