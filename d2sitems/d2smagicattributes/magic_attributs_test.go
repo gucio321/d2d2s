@@ -24,6 +24,6 @@ func Test_String(t *testing.T) {
 	for key, value := range testdataString() {
 		s := value.String()
 
-		assert.Equal(t, key, s, fmt.Sprintf("unexpected name recived: %s, expected %s", s, key))
+		assert.Equal(t, key, s, fmt.Sprintf("unexpected name received: %s, expected %s", s, key))
 	}
 }
