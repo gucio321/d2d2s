@@ -2,6 +2,8 @@ package d2smagicattributes
 
 import (
 	"errors"
+	"strconv"
+	"strings"
 
 	"github.com/gucio321/d2d2s/datautils"
 )
@@ -16,6 +18,16 @@ type MagicAttribute struct {
 	ID     uint16
 	Name   string
 	Values []int64
+}
+
+func (m *MagicAttribute) String() string {
+	result := m.Name
+
+	for i, a := range m.Values {
+		result = strings.ReplaceAll(result, "{"+strconv.Itoa(i)+"}", strconv.Itoa(int(a)))
+	}
+
+	return result
 }
 
 // Load loads magic attributes for n item
