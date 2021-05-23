@@ -5,7 +5,7 @@ package itemdata
 // RunewordID represents a runeword ID
 type RunewordID uint16
 
-// runeword IDs TODO: give these constants a bit more descriptive names
+// runeword IDs
 const (
 	RunewordAncientsPladge RunewordID = iota + 27 // Ancient's Pledge
 	_
