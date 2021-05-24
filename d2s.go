@@ -150,7 +150,13 @@ func Load(data []byte) (*D2S, error) {
 
 	copy(result.unknown6[:], unknown6[:unknown6BytesCount])
 
-	result.Difficulty.Load(sr)
+	dd := sr.GetBytes(d2sdifficulty.NumDifficultyBytes)
+
+	var difficultyData [d2sdifficulty.NumDifficultyBytes]byte
+
+	copy(difficultyData[:], dd[:d2sdifficulty.NumDifficultyBytes])
+
+	result.Difficulty.Load(difficultyData)
 
 	result.MapID = sr.GetUInt32()
 	result.unknown7 = sr.GetUInt16()
@@ -301,7 +307,8 @@ func (d *D2S) Encode() ([]byte, error) {
 
 	sw.PushBytes(d.unknown6[:]...)
 
-	d.Difficulty.Encode(sw)
+	dd := d.Difficulty.Encode()
+	sw.PushBytes(dd[:]...)
 
 	sw.PushUint32(d.MapID)
 	sw.PushUint16(d.unknown7)
