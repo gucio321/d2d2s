@@ -4,14 +4,15 @@ import (
 	"testing"
 
 	"github.com/OpenDiablo2/OpenDiablo2/d2common/d2enum"
+
 	"github.com/stretchr/testify/assert"
 )
 
 func testdata() map[[NumDifficultyBytes]byte]*Difficulty {
 	return map[[NumDifficultyBytes]byte]*Difficulty{
-		[NumDifficultyBytes]byte{
+		{
 			132, 170, 1,
-		}: &Difficulty{
+		}: {
 			d2enum.DifficultyNormal: &DifficultyLevelStatus{
 				4, false, false, false, false, true,
 			},
@@ -22,9 +23,9 @@ func testdata() map[[NumDifficultyBytes]byte]*Difficulty {
 				1, false, false, false, false, false,
 			},
 		},
-		[NumDifficultyBytes]byte{
+		{
 			173, 227, 164,
-		}: &Difficulty{
+		}: {
 			d2enum.DifficultyNormal: &DifficultyLevelStatus{
 				5, true, false, true, false, true,
 			},

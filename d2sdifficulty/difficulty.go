@@ -6,6 +6,7 @@ import (
 )
 
 const (
+	// NumDifficultyBytes is a length of binary form of `Difficulty` structure
 	NumDifficultyBytes = 3
 
 	actBitsCount = 3
@@ -44,7 +45,9 @@ func (d *Difficulty) Encode() (result [NumDifficultyBytes]byte) {
 	}
 
 	data := sw.GetBytes()
+
 	copy(result[:], data[:NumDifficultyBytes])
+
 	return result
 }
 
