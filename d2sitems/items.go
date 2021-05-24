@@ -81,6 +81,7 @@ func (i *Items) LoadList(sr *datautils.BitMuncher, numItems uint16) error {
 	*i = make([]*Item, numItems)
 	// note: if item has sockets, it is followed by item socketed in!
 	for n := uint16(0); n < numItems; n++ {
+		(*i)[n] = &Item{}
 		if err := (*i)[n].Load(sr); err != nil {
 			return err
 		}
