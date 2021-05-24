@@ -94,7 +94,7 @@ func (i *Items) LoadList(sr *datautils.BitMuncher, numItems uint16) error {
 					return err
 				}
 
-				(*i)[n].SocketedItems = append((*i)[n].SocketedItems, *item)
+				(*i)[n].SocketedItems = append((*i)[n].SocketedItems, item)
 			}
 		}
 	}
@@ -238,7 +238,7 @@ type Item struct {
 	}
 
 	Attributes    d2smagicattributes.MagicAttributes
-	SocketedItems []Item
+	SocketedItems []*Item
 }
 
 // Load loads an item
