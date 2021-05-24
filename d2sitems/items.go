@@ -475,45 +475,48 @@ func (i *Item) loadSimpleFields(sr *datautils.BitMuncher) (err error) {
 	} else {
 		t := sr.GetBytes(typeLen)
 		i.Type = itemdata.ItemCodeFromString(strings.Trim(string(t), " "))
-		i.TypeID = i.Type.GetTypeID()
-		switch i.TypeID {
-		case itemdata.ItemTypeIDArmor:
-			typeName, ok := itemdata.ArmorCodes[i.Type]
-			if ok {
-				i.TypeName = typeName
-			}
-		case itemdata.ItemTypeIDShield:
-			typeName, ok := itemdata.ShieldCodes[i.Type]
-			if ok {
-				i.TypeName = typeName
-			}
-		case itemdata.ItemTypeIDWeapon:
-			typeName, ok := itemdata.WeaponCodes[i.Type]
-			if ok {
-				i.TypeName = typeName
-			}
-
-			baseDamage := i.Type.WeaponDamage()
-			if baseDamage != nil {
-				// If the item is ethereal we need to add 50% enhanced
-				// damage to the base damage.
-				if i.Etheral {
-					baseDamage.Etheral()
-				}
-
-				i.BaseDamage = baseDamage
-			}
-		case itemdata.ItemTypeIDOther:
-			typeName, ok := itemdata.MiscCodes[i.Type]
-			if ok {
-				i.TypeName = typeName
-			}
-		}
-
+		i.loadTypeInfo()
 		i.NumberOfItemsInSockets = byte(sr.GetBits(numItemsInSocketsLen))
 	}
 
 	return nil
+}
+
+func (i *Item) loadTypeInfo() {
+	i.TypeID = i.Type.GetTypeID()
+	switch i.TypeID {
+	case itemdata.ItemTypeIDArmor:
+		typeName, ok := itemdata.ArmorCodes[i.Type]
+		if ok {
+			i.TypeName = typeName
+		}
+	case itemdata.ItemTypeIDShield:
+		typeName, ok := itemdata.ShieldCodes[i.Type]
+		if ok {
+			i.TypeName = typeName
+		}
+	case itemdata.ItemTypeIDWeapon:
+		typeName, ok := itemdata.WeaponCodes[i.Type]
+		if ok {
+			i.TypeName = typeName
+		}
+
+		baseDamage := i.Type.WeaponDamage()
+		if baseDamage != nil {
+			// If the item is ethereal we need to add 50% enhanced
+			// damage to the base damage.
+			if i.Etheral {
+				baseDamage.Etheral()
+			}
+
+			i.BaseDamage = baseDamage
+		}
+	case itemdata.ItemTypeIDOther:
+		typeName, ok := itemdata.MiscCodes[i.Type]
+		if ok {
+			i.TypeName = typeName
+		}
+	}
 }
 
 // Encode encodes an item into a byte slice
