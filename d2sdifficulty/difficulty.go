@@ -31,7 +31,7 @@ func (d *Difficulty) Load(sr *datautils.BitMuncher) {
 	for i := d2enum.DifficultyNormal; i <= d2enum.DifficultyHell; i++ {
 		data := sr.GetByte()
 
-		(*d)[i].Unmarshal(data)
+		(*d)[i].Load(data)
 	}
 }
 
@@ -52,8 +52,8 @@ type DifficultyLevelStatus struct {
 	Active bool
 }
 
-// Unmarshal loads byte into DifficultyLevelStatus structure
-func (d *DifficultyLevelStatus) Unmarshal(data byte) {
+// Load loads byte into DifficultyLevelStatus structure
+func (d *DifficultyLevelStatus) Load(data byte) {
 	bm := d2datautils.CreateBitMuncher([]byte{data}, 0)
 	d.Act = byte(bm.GetBits(actBitsCount))
 	d.unknown3 = bm.GetBit() == 1
