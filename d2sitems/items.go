@@ -123,8 +123,18 @@ func (i *Items) Encode() []byte {
 	return sw.GetBytes()
 }
 
+// Add adds an item / items given
 func (i *Items) Add(items ...*Item) {
 	*i = append(*i, items...)
+}
+
+// DeleteAt deletes an item at given index
+func (i *Items) DeleteAt(idx int) {
+	if idx > len(*i) {
+		return
+	}
+
+	*i = append((*i)[:idx], (*i)[idx+1:]...)
 }
 
 // Item represents an item
