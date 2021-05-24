@@ -61,7 +61,7 @@ const (
 )
 
 // Items represents items list
-type Items []Item
+type Items []*Item
 
 // LoadHeader loads items header and returns items count
 func (i *Items) LoadHeader(sr *datautils.BitMuncher) (numItems uint16, err error) {
@@ -78,7 +78,7 @@ func (i *Items) LoadHeader(sr *datautils.BitMuncher) (numItems uint16, err error
 // LoadList loads items list data into Items structure
 // If not, theis function must be changed
 func (i *Items) LoadList(sr *datautils.BitMuncher, numItems uint16) error {
-	*i = make([]Item, numItems)
+	*i = make([]*Item, numItems)
 	// note: if item has sockets, it is followed by item socketed in!
 	for n := uint16(0); n < numItems; n++ {
 		if err := (*i)[n].Load(sr); err != nil {
@@ -120,6 +120,10 @@ func (i *Items) Encode() []byte {
 	}
 
 	return sw.GetBytes()
+}
+
+func (i *Items) Add(items ...*Item) {
+	*i = append(*i, items...)
 }
 
 // Item represents an item
