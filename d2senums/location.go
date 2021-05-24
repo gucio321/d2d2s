@@ -9,14 +9,14 @@ type ItemLocationType byte
 
 // item locations
 const (
-	ItemLocationStored   ItemLocationType = iota // Stored
-	ItemLocationEquipped                         // Equipped
-	ItemLocationBelt                             // in belt
+	LocationStored   ItemLocationType = iota // Stored
+	LocationEquipped                         // Equipped
+	LocationBelt                             // in belt
 	_
 	// i.e., has been picked up by the mouse
-	ItemLocationMoved // moving
+	LocationMoved // moving
 	_
-	ItemLocationInSocket // in socket
+	LocationInSocket // in socket
 )
 
 // StoragePlace represents a plece, where the item is stored
@@ -37,17 +37,17 @@ type ItemEquippedPlace byte
 
 // item equipped places
 const (
-	ItemEquippedAnywhere    ItemEquippedPlace = iota //
-	ItemEquippedHead                                 // head
-	ItemEquippedNeck                                 // neck
-	ItemEquippedTorse                                // torse
-	ItemEquippedRightHand                            // right hand
-	ItemEquippedLeftHand                             // left hand
-	ItemEquippedRightFinger                          // right finger
-	ItemEquippedLeftFinger                           // left winger
-	ItemEquippedWaist                                // waist
-	ItemEquippedFeet                                 // feet
-	ItemEquippedHands                                // hands
-	ItemEquippedARightHand                           // alternative right hand
-	ItemEquippedALeftHand                            // alternative left hand
+	EquippedAnywhere    ItemEquippedPlace = iota //
+	EquippedHead                                 // head
+	EquippedNeck                                 // neck
+	EquippedTorse                                // torse
+	EquippedRightHand                            // right hand
+	EquippedLeftHand                             // left hand
+	EquippedRightFinger                          // right finger
+	EquippedLeftFinger                           // left winger
+	EquippedWaist                                // waist
+	EquippedFeet                                 // feet
+	EquippedHands                                // hands
+	EquippedARightHand                           // alternative right hand
+	EquippedALeftHand                            // alternative left hand
 )

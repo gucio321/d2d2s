@@ -8,11 +8,11 @@ func _() {
 	// An "invalid array index" compiler error signifies that the constant values have changed.
 	// Re-run the stringer command to generate them again.
 	var x [1]struct{}
-	_ = x[ItemLocationStored-0]
-	_ = x[ItemLocationEquipped-1]
-	_ = x[ItemLocationBelt-2]
-	_ = x[ItemLocationMoved-4]
-	_ = x[ItemLocationInSocket-6]
+	_ = x[LocationStored-0]
+	_ = x[LocationEquipped-1]
+	_ = x[LocationBelt-2]
+	_ = x[LocationMoved-4]
+	_ = x[LocationInSocket-6]
 }
 
 const (
