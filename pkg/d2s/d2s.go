@@ -63,7 +63,7 @@ type D2S struct {
 	unknown8   [unknown8BytesCount]byte
 	Quests     *d2squests.Quests
 	Waypoints  *d2swaypoints.Waypoints
-	NPC        *d2snpc.NPC
+	NPC        *d2snpc.NPCs
 	Stats      *d2sstats.Stats
 	Skills     *d2sskills.Skills
 	Items      *d2sitems.Items
