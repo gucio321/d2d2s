@@ -104,6 +104,7 @@ func (w *Waypoints) Encode() (result [NumWaypointsBytes]byte) {
 				data.PushBit(wp)
 			}
 		}
+
 		data.PushBit(false)
 
 		d := data.GetBytes()
