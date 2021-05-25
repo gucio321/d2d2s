@@ -9,7 +9,7 @@ import (
 
 const (
 	maxCharNameLen = 15
-	NameFilter     = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz_-"
+	nameFilter     = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz_-"
 
 	maxAllowedLevel = 99
 )
@@ -26,7 +26,7 @@ func NewCharacter() *D2S {
 // and 1 "-" or 1 "_"  but it cannot be a first or the last character. the name should
 func (d *D2S) SetName(name string) *D2S {
 	n := name
-	for _, char := range NameFilter {
+	for _, char := range nameFilter {
 		n = strings.ReplaceAll(n, string(char), "")
 	}
 
