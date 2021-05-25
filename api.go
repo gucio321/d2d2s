@@ -25,6 +25,18 @@ func NewCharacter() *D2S {
 // NOTE: maximal allowed name length is 15, the name can contain only lower and upper cases (a-Z)
 // and 1 "-" or 1 "_"  but it cannot be a first or the last character. the name should
 func (d *D2S) SetName(name string) *D2S {
+	n := name
+	for _, char := range NameFilter {
+		n = strings.ReplaceAll(n, string(char), "")
+	}
+
+	if n != "" {
+		for _, illegalChar := range n {
+			log.Printf("D2S: SetName: Exception - name contains illegal character \"%c\". Will be removed.", illegalChar)
+			name = strings.ReplaceAll(name, string(illegalChar), "")
+		}
+	}
+
 cullingCharsAtTheStartOfName:
 	for {
 		switch x := name[0]; x {
@@ -41,7 +53,7 @@ cullingCharsAtTheStartOfName:
 		log.Printf("D2S: SetName: Exception len(%s) > %d: name is too long, cannot set it!\n%s", name, maxCharNameLen,
 			"the length of name was reduced to characters")
 
-		name = name[:maxCharNameLen+1]
+		name = name[:maxCharNameLen]
 	}
 
 	// this loop will continue removing last character, while name will be correct
@@ -58,18 +70,6 @@ cullingCharsAtTheEndOfName:
 
 	if x := strings.Count(name, "-") + strings.Count(name, "_"); x > 1 {
 		log.Printf("D2s: SetName: Exception - name contains more than 1 \"-\" and \"_\" - disallowed")
-	}
-
-	n := name
-	for _, char := range NameFilter {
-		n = strings.ReplaceAll(n, string(char), "")
-	}
-
-	if n != "" {
-		for _, illegalChar := range n {
-			log.Printf("D2S: SetName: Exception - name contains illegal character \"%c\". Will be removed.", illegalChar)
-			name = strings.ReplaceAll(name, string(illegalChar), "")
-		}
 	}
 
 	d.Name = name
