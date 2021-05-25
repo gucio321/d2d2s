@@ -42,7 +42,7 @@ func (d *D2S) SetName(name string) *D2S {
 	switch x := name[len(name)-1]; x {
 	case '_', '-':
 		log.Printf("D2S: SetName: Exception name[len(name)-1] == %v: disallowed", x)
-		name = name[:]
+		name = name[:len(name)-1]
 	}
 
 	if x := strings.Count(name, "-") + strings.Count(name, "_"); x > 1 {
