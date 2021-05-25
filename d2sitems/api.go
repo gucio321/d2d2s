@@ -1,5 +1,18 @@
 package d2sitems
 
+/*
+ * this file contains a methods, which can be used to create a new
+ * items in a character save file
+ *
+ * because of each method returns *Item type, they could
+ * be used in a chain of methods or separately
+ * for example: i := NewItem(...).SetLocation(...).SetIdentified(...).SetQualityNormal()
+ *          or: i := NewItem(...)
+ *              i.SetLocation(...)
+ *              i.SetIdentified(...)
+ *              i.SetQualityNormal()
+ */
+
 import (
 	"log"
 
@@ -7,7 +20,8 @@ import (
 	"github.com/gucio321/d2d2s/d2sitems/itemdata"
 )
 
-// Ear sets ear attributes.
+// NewEar creates a new ear
+// NOTE: any other method than SetLocation() shouldn't be called after NewEar(...)
 // BUG - doesn't want to work with game saves
 func NewEar(
 	class d2senums.CharacterClass,
@@ -40,12 +54,14 @@ func NewItem(
 	return result
 }
 
+// SetIdentified sets if item is identified
 func (i *Item) SetIdentified(idt bool) *Item {
 	i.Identified = idt
 
 	return i
 }
 
+// SetJustPicked sets if item was picket in the last game
 func (i *Item) SetJustPicked(jp bool) *Item {
 	i.JustPicked = jp
 	return i
@@ -70,9 +86,7 @@ func (i *Item) SetLocation(
 
 // PART 2: Extended fields
 
-// NOTE: one of the following method must be used, however using more than one of them
-// will cause overwritting data and only the latest used method will be processed in fact
-
+// SetMultiplePicture sets multiple picture and multiple picture ID
 func (i *Item) SetMultiplePicture(pictureID byte) *Item {
 	i.ensureExtended()
 	i.MultiplePicture.HasMultiplePicture = true
@@ -81,7 +95,11 @@ func (i *Item) SetMultiplePicture(pictureID byte) *Item {
 	return i
 }
 
-func (i *Item) SetLowQuality(id byte) *Item {
+// NOTE: one of the following method must be used, however using more than one of them
+// will cause overwritting data and only the latest used method will be processed in fact
+
+// SetQualityLow sets quality to low and sets LowQualityID
+func (i *Item) SetQualityLow(id byte) *Item {
 	i.ensureExtended()
 	i.Quality = d2senums.ItemQualityLow
 	i.QualityData.LowQualityID = id
@@ -89,14 +107,16 @@ func (i *Item) SetLowQuality(id byte) *Item {
 	return i
 }
 
-func (i *Item) SetNormalQuality() *Item {
+// SetQualityNormal sets normal quality
+func (i *Item) SetQualityNormal() *Item {
 	i.ensureExtended()
 	i.Quality = d2senums.ItemQualityNormal
 
 	return i
 }
 
-func (i *Item) SetHighQuality(data byte) *Item {
+// SetQualityHigh sets high quality and its data
+func (i *Item) SetQualityHigh(data byte) *Item {
 	i.ensureExtended()
 	i.Quality = d2senums.ItemQualityHigh
 	i.QualityData.HighQualityData = data
@@ -104,6 +124,7 @@ func (i *Item) SetHighQuality(data byte) *Item {
 	return i
 }
 
+// SetMagicalyEnchanced sets quality to magicaly enchanced and sets prefix/suffix
 func (i *Item) SetMagicalyEnchanced(p itemdata.MagicalPrefix, s itemdata.MagicalSuffix) *Item {
 	i.ensureExtended()
 	i.Quality = d2senums.ItemQualityEnchanced
@@ -113,12 +134,15 @@ func (i *Item) SetMagicalyEnchanced(p itemdata.MagicalPrefix, s itemdata.Magical
 	return i
 }
 
+// setRareCrafted sets magic modifiers and rare names
 func (i *Item) setRareCrafted(r []itemdata.RareName, p []itemdata.MagicalPrefix, s []itemdata.MagicalSuffix) {
 	i.QualityData.MagicPrefix = p
 	i.QualityData.MagicSuffix = s
 	i.QualityData.RareNames = r
 }
 
+// SetQualityRare sets item's quality to rare
+// and sets rare names and modifiers
 func (i *Item) SetQualityRare(r []itemdata.RareName, p []itemdata.MagicalPrefix, s []itemdata.MagicalSuffix) *Item {
 	i.ensureExtended()
 	i.Quality = d2senums.ItemQualityRare
@@ -127,6 +151,8 @@ func (i *Item) SetQualityRare(r []itemdata.RareName, p []itemdata.MagicalPrefix,
 	return i
 }
 
+// SetQualityCrafted sets item's quality to crafted
+// and sets rare names and modifiers
 func (i *Item) SetQualityCrafted(r []itemdata.RareName, p []itemdata.MagicalPrefix, s []itemdata.MagicalSuffix) *Item {
 	i.ensureExtended()
 	i.Quality = d2senums.ItemQualityCrafted
@@ -135,6 +161,7 @@ func (i *Item) SetQualityCrafted(r []itemdata.RareName, p []itemdata.MagicalPref
 	return i
 }
 
+// SetQualityPartOfSet sets items quality as a part of set and sets its ID
 func (i *Item) SetQualityPartOfSet(id itemdata.SetID, listID byte) *Item {
 	i.ensureExtended()
 	i.Quality = d2senums.ItemQualitySet
@@ -144,6 +171,7 @@ func (i *Item) SetQualityPartOfSet(id itemdata.SetID, listID byte) *Item {
 	return i
 }
 
+// SetQualityUnique sets quality to unique and unique ID
 func (i *Item) SetQualityUnique(id itemdata.UniqueID) *Item {
 	i.ensureExtended()
 	i.Quality = d2senums.ItemQualityUnique
@@ -154,6 +182,7 @@ func (i *Item) SetQualityUnique(id itemdata.UniqueID) *Item {
 
 // runeword methods
 
+// SetRuneword sets a rneword
 func (i *Item) SetRuneword(id itemdata.RunewordID) *Item {
 	i.ensureExtended()
 	i.RuneWord.HasRuneWord = true
@@ -164,6 +193,7 @@ func (i *Item) SetRuneword(id itemdata.RunewordID) *Item {
 	return i
 }
 
+// SetPersonalization sets item's personalization name
 func (i *Item) SetPersonalization(name string) *Item {
 	i.Personalization.IsPersonalized = true
 	i.Personalization.Name = name
@@ -171,6 +201,7 @@ func (i *Item) SetPersonalization(name string) *Item {
 	return i
 }
 
+// AddItemToSocket adds items to the sockets
 func (i *Item) AddItemToSocket(items ...*Item) *Item {
 	for _, item := range items {
 		if item.Location.LocationID != d2senums.LocationInSocket {
