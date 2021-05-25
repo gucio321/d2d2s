@@ -7,8 +7,8 @@ import (
 )
 
 func Test_SetName(t *testing.T) {
-	tested := "_some!toolongnamewith@#!illegalcharacters"
-	expected := "sometoolongname"
+	tested := "_some!toolongnam_ewith@#!illegalcharacters"
+	expected := "sometoolongnam"
 
 	d := NewCharacter()
 	d.SetName(tested)
