@@ -25,11 +25,16 @@ func NewCharacter() *D2S {
 // NOTE: maximal allowed name length is 15, the name can contain only lower and upper cases (a-Z)
 // and 1 "-" or 1 "_"  but it cannot be a first or the last character. the name should
 func (d *D2S) SetName(name string) *D2S {
-	switch x := name[0]; x {
-	case '_', '-':
-		log.Printf("D2S: SetName: Exception name[0] == %v: disallowed", x)
+cullingCharsAtTheStartOfName:
+	for {
+		switch x := name[0]; x {
+		case '_', '-':
+			log.Printf("D2S: SetName: Exception name[0] == %v: disallowed", x)
 
-		name = name[1:]
+			name = name[1:]
+		default:
+			break cullingCharsAtTheStartOfName
+		}
 	}
 
 	if len(name) > maxCharNameLen {
@@ -39,10 +44,16 @@ func (d *D2S) SetName(name string) *D2S {
 		name = name[:maxCharNameLen+1]
 	}
 
-	switch x := name[len(name)-1]; x {
-	case '_', '-':
-		log.Printf("D2S: SetName: Exception name[len(name)-1] == %v: disallowed", x)
-		name = name[:len(name)-1]
+	// this loop will continue removing last character, while name will be correct
+cullingCharsAtTheEndOfName:
+	for {
+		switch x := name[len(name)-1]; x {
+		case '_', '-':
+			log.Printf("D2S: SetName: Exception name[len(name)-1] == %v: disallowed", x)
+			name = name[:len(name)-1]
+		default:
+			break cullingCharsAtTheEndOfName
+		}
 	}
 
 	if x := strings.Count(name, "-") + strings.Count(name, "_"); x > 1 {
