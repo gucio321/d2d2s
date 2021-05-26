@@ -8,7 +8,7 @@ import (
 
 func Test_SetName(t *testing.T) {
 	tested := "_@-some!too_long_na_mewith@#!illegalcharacters"
-	expected := "sometoolongnam"
+	expected := "sometoo_longnam"
 
 	d := NewCharacter()
 	d.SetName(tested)
