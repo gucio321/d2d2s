@@ -13,23 +13,6 @@ const endOfListMark = 0x1ff
 // MagicAttributes represents a list of magic attributes
 type MagicAttributes []MagicAttribute
 
-// MagicAttribute represents magic attributes data
-type MagicAttribute struct {
-	ID     uint16
-	Name   string
-	Values []int64
-}
-
-func (m *MagicAttribute) String() string {
-	result := m.Name
-
-	for i, a := range m.Values {
-		result = strings.ReplaceAll(result, "{"+strconv.Itoa(i)+"}", strconv.Itoa(int(a)))
-	}
-
-	return result
-}
-
 // Load loads magic attributes for n item
 func (m *MagicAttributes) Load(sr *datautils.BitMuncher) error {
 	for {
@@ -89,4 +72,21 @@ func (m *MagicAttributes) Encode(sw *datautils.StreamWriter) (err error) {
 	sw.PushBits16(endOfListMark, 9)
 
 	return nil
+}
+
+// MagicAttribute represents magic attributes data
+type MagicAttribute struct {
+	ID     uint16
+	Name   string
+	Values []int64
+}
+
+func (m *MagicAttribute) String() string {
+	result := m.Name
+
+	for i, a := range m.Values {
+		result = strings.ReplaceAll(result, "{"+strconv.Itoa(i)+"}", strconv.Itoa(int(a)))
+	}
+
+	return result
 }
