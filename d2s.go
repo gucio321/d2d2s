@@ -18,6 +18,7 @@ import (
 	"github.com/gucio321/d2d2s/d2sitems"
 	"github.com/gucio321/d2d2s/d2smercenary"
 	"github.com/gucio321/d2d2s/d2snpc"
+	"github.com/gucio321/d2d2s/d2sprogression"
 	"github.com/gucio321/d2d2s/d2squests"
 	"github.com/gucio321/d2d2s/d2sskills"
 	"github.com/gucio321/d2d2s/d2sstats"
@@ -43,7 +44,7 @@ type D2S struct {
 	unknown1    uint32
 	Name        string
 	Status      *d2sstatus.Status
-	Progression byte
+	Progression *d2sprogression.Progression
 	unknown2    uint16
 	Class       d2senums.CharacterClass
 	unknown3    uint16
@@ -77,19 +78,20 @@ type D2S struct {
 // New creates a new D2S structure
 func New() *D2S {
 	result := &D2S{
-		Version:    d2senums.VersionLODLatest,
-		Status:     d2sstatus.New(),
-		Hotkeys:    d2shotkeys.New(),
-		Difficulty: d2sdifficulty.New(),
-		Mercenary:  d2smercenary.New(),
-		Quests:     d2squests.New(),
-		Waypoints:  d2swaypoints.New(),
-		NPC:        d2snpc.New(),
-		Stats:      d2sstats.New(),
-		Skills:     d2sskills.New(),
-		Items:      &d2sitems.Items{},
-		Corpse:     d2scorpse.New(),
-		IronGolem:  d2sirongolem.New(),
+		Version:     d2senums.VersionLODLatest,
+		Status:      d2sstatus.New(),
+		Progression: d2sprogression.New(),
+		Hotkeys:     d2shotkeys.New(),
+		Difficulty:  d2sdifficulty.New(),
+		Mercenary:   d2smercenary.New(),
+		Quests:      d2squests.New(),
+		Waypoints:   d2swaypoints.New(),
+		NPC:         d2snpc.New(),
+		Stats:       d2sstats.New(),
+		Skills:      d2sskills.New(),
+		Items:       &d2sitems.Items{},
+		Corpse:      d2scorpse.New(),
+		IronGolem:   d2sirongolem.New(),
 	}
 
 	return result
@@ -109,15 +111,7 @@ func Load(data []byte) (*D2S, error) {
 	status := sr.GetByte()
 	result.Status.Load(status)
 
-	/*
-		from: https://user.xmission.com/~trevin/DiabloIIv1.09_File_Format.shtml
-		Character progression.  This number tells (sort of) how many acts you have completed from all
-		difficulty levels.  It appears to be incremented when you kill the final demon in an act -- i.e.,
-		Andarial, Duriel, Mephisto, and Diablo / Baal.  There's a catch to that last one: in an
-		Expansion game, the value is not incremented after killing Diablo, but is incremented by 2 after killing Baal.
-		(The reason is unknown.)  So it skips the values 4, 9, and 14.
-	*/
-	result.Progression = sr.GetByte()
+	result.Progression.Load(sr.GetByte())
 	result.unknown2 = sr.GetUInt16()
 
 	class := sr.GetByte()
@@ -284,7 +278,7 @@ func (d *D2S) Encode() ([]byte, error) {
 	}
 
 	sw.PushBytes(d.Status.Encode())
-	sw.PushBytes(d.Progression)
+	sw.PushBytes(d.Progression.Encode())
 	sw.PushUint16(d.unknown2)
 	sw.PushBytes(byte(d.Class))
 	sw.PushUint16(d.unknown3)
