@@ -19,3 +19,8 @@ unittests:
 
 danger-zone:
   - ./LICENSE
+
+
+items:
+  - "d2sitems/**/*"
+
