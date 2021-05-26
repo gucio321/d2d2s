@@ -60,6 +60,13 @@ const (
 	rareNameIDLen      = 8
 )
 
+func New() *Items {
+	result := &Items{}
+	*result = make([]*Item, 0)
+
+	return result
+}
+
 // Items represents items list
 type Items []*Item
 
@@ -78,13 +85,14 @@ func (i *Items) LoadHeader(sr *datautils.BitMuncher) (numItems uint16, err error
 // LoadList loads items list data into Items structure
 // If not, theis function must be changed
 func (i *Items) LoadList(sr *datautils.BitMuncher, numItems uint16) error {
-	*i = make([]*Item, numItems)
 	// note: if item has sockets, it is followed by item socketed in!
 	for n := uint16(0); n < numItems; n++ {
-		(*i)[n] = &Item{}
-		if err := (*i)[n].Load(sr); err != nil {
+		item := &Item{}
+		if err := item.Load(sr); err != nil {
 			return err
 		}
+
+		*i = append(*i, item)
 
 		// if item is socketed into another item ( last on list) we need to append it
 		if !(*i)[n].IsSimple {
