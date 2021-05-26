@@ -25,18 +25,23 @@ func NewCharacter() *D2S {
 // NOTE: maximal allowed name length is 15, the name can contain only lower and upper cases (a-Z)
 // and 1 "-" or 1 "_"  but it cannot be a first or the last character. the name should
 func (d *D2S) SetName(name string) *D2S {
+	// first remove illegal characters (like numbers or special chars)
+	// copy name, remove all allowed characters from the copy
 	n := name
 	for _, char := range nameFilter {
 		n = strings.ReplaceAll(n, string(char), "")
 	}
 
+	// check if there are some illegal chars
 	if n != "" {
+		// if so, print warning and replace them
 		for _, illegalChar := range n {
-			log.Printf("D2S: SetName: Exception - name contains illegal character \"%c\". Will be removed.", illegalChar)
+			log.Printf("D2S: SetName: string name contains illegal character \"%c\".", illegalChar)
 			name = strings.ReplaceAll(name, string(illegalChar), "")
 		}
 	}
 
+	// remove `_`s and `-`s from the first index
 cullingCharsAtTheStartOfName:
 	for {
 		switch x := name[0]; x {
@@ -49,14 +54,34 @@ cullingCharsAtTheStartOfName:
 		}
 	}
 
+	// if the name has more than one `_` and `-`, it should be cleanded
+	if x := strings.Count(name, "-") + strings.Count(name, "_"); x > 1 {
+		log.Printf("D2s: SetName: Exception - name contains more than 1 \"-\" and \"_\" - disallowed")
+
+		n1 := strings.SplitAfter(name, "-")
+		n := make([]string, 0)
+		for i := range n1 {
+			n = append(n, strings.SplitAfter(n1[i], "_")...)
+		}
+
+		for i := 1; i < len(n); i++ {
+			s := strings.ReplaceAll(n[i], "-", "")
+			s = strings.ReplaceAll(s, "_", "")
+			n[i] = s
+		}
+
+		name = strings.Join(n, "")
+	}
+
+	// cut name
 	if len(name) > maxCharNameLen {
-		log.Printf("D2S: SetName: Exception len(%s) > %d: name is too long, cannot set it!\n%s", name, maxCharNameLen,
+		log.Printf("D2S: SetName: Assertion: len(%s) > %d: name is too long, cannot set it!\n%s", name, maxCharNameLen,
 			"the length of name was reduced to characters")
 
 		name = name[:maxCharNameLen]
 	}
 
-	// this loop will continue removing last character, while name will be correct
+	// replace al `_`s and `-`s frome the last position
 cullingCharsAtTheEndOfName:
 	for {
 		switch x := name[len(name)-1]; x {
@@ -68,10 +93,6 @@ cullingCharsAtTheEndOfName:
 		}
 	}
 
-	if x := strings.Count(name, "-") + strings.Count(name, "_"); x > 1 {
-		log.Printf("D2s: SetName: Exception - name contains more than 1 \"-\" and \"_\" - disallowed")
-	}
-
 	d.Name = name
 
 	return d
@@ -80,7 +101,7 @@ cullingCharsAtTheEndOfName:
 // SetLevel sets character's level
 func (d *D2S) SetLevel(level byte) *D2S {
 	if level > maxAllowedLevel {
-		log.Printf("D2S: SetLevel: exception - level is too large (%d); it must be in range 0-%d", level, maxAllowedLevel)
+		log.Printf("D2S: SetLevel: assertion: %d > %d:  level is too large; it must be in range 0-%d", level, maxAllowedLevel, maxAllowedLevel)
 		level = maxAllowedLevel
 	}
 
