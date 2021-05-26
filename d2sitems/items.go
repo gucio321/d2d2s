@@ -60,6 +60,7 @@ const (
 	rareNameIDLen      = 8
 )
 
+// New creates a new Items list
 func New() *Items {
 	result := &Items{}
 	*result = make([]*Item, 0)
