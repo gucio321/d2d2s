@@ -92,7 +92,7 @@ func (i *Items) LoadList(sr *datautils.BitMuncher, numItems uint16) error {
 			return err
 		}
 
-		*i = append(*i, item)
+		i.Add(item)
 
 		// if item is socketed into another item ( last on list) we need to append it
 		if !(*i)[n].IsSimple {
