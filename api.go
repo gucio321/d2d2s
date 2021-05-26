@@ -59,6 +59,7 @@ cullingCharsAtTheStartOfName:
 		log.Printf("D2s: SetName: Exception - name contains more than 1 \"-\" and \"_\" - disallowed")
 
 		n1 := strings.SplitAfter(name, "-")
+
 		n := make([]string, 0)
 		for i := range n1 {
 			n = append(n, strings.SplitAfter(n1[i], "_")...)
@@ -81,7 +82,7 @@ cullingCharsAtTheStartOfName:
 		name = name[:maxCharNameLen]
 	}
 
-	// replace al `_`s and `-`s frome the last position
+	// replace al `_`s and `-`s from the last position
 cullingCharsAtTheEndOfName:
 	for {
 		switch x := name[len(name)-1]; x {
