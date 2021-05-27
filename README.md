@@ -75,4 +75,4 @@ for more examples, see [here](./examples)
 
 ## Goals of the project
 
-this programm should be able to decode and encode D2S files
+this programm should be able to decode, encode and create a new D2S files
