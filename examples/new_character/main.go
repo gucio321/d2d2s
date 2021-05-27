@@ -13,8 +13,7 @@ import (
 
 func main() {
 	// create a new character
-	char := d2d2s.New()
-	char.Name = "example"
+	char := d2d2s.New().SetName("example")
 
 	// encode
 	data, err := char.Encode()
