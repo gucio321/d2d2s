@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/gucio321/d2d2s/d2senums"
+	"github.com/gucio321/d2d2s/d2sitems"
 )
 
 const (
@@ -15,8 +16,11 @@ const (
 )
 
 // NewCharacter creates a new character (for now, wrapps New)
-func NewCharacter() *D2S {
-	result := New()
+func NewCharacter(
+	name string,
+	class d2senums.CharacterClass,
+) *D2S {
+	result := New().SetName(name).SetClass(class)
 
 	return result
 }
@@ -121,5 +125,11 @@ func (d *D2S) SetIsHardcore(b bool) *D2S {
 // SetClass sets character class (default is 0 - amazon)
 func (d *D2S) SetClass(c d2senums.CharacterClass) *D2S {
 	d.Class = c
+	return d
+}
+
+// PushItems adds items to item list
+func (d *D2S) PushItems(items ...*d2sitems.Item) *D2S {
+	d.Items.Add(items...)
 	return d
 }

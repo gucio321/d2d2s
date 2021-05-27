@@ -1,7 +1,3 @@
-// Package main:
-// example - new_character
-// description:
-//	create a new character save file
 package main
 
 import (
@@ -9,18 +5,31 @@ import (
 	"log"
 
 	"github.com/gucio321/d2d2s"
+	"github.com/gucio321/d2d2s/d2senums"
+	"github.com/gucio321/d2d2s/d2sitems"
+	"github.com/gucio321/d2d2s/d2sitems/itemdata"
 )
 
 func main() {
-	// create a new character
-	char := d2d2s.New().SetName("example")
+	d2s := d2d2s.NewCharacter(
+		"Example_Char",
+		d2senums.CharacterClassBarbarian,
+	).SetLevel(27).PushItems(
+		d2sitems.NewItem(itemdata.BerRune).
+			SetLocation(
+				d2senums.LocationStored,
+				d2senums.EquippedAnywhere,
+				1, 1,
+				d2senums.StorageInventory,
+			),
+	)
 
-	// encode
-	data, err := char.Encode()
+	data, err := d2s.Encode()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	// save to file
-	ioutil.WriteFile("./example.d2s", data, 0o600)
+	if err := ioutil.WriteFile("Example_Char.d2s", data, 0o644); err != nil {
+		log.Fatal(err)
+	}
 }

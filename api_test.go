@@ -10,7 +10,7 @@ func Test_SetName(t *testing.T) {
 	tested := "_@-some!too_long_na_mewith@#!illegalcharacters"
 	expected := "sometoo_longnam"
 
-	d := NewCharacter()
+	d := New()
 	d.SetName(tested)
 
 	assert.Equal(t, expected, d.Name, "unexpected name set")
@@ -19,7 +19,7 @@ func Test_SetName(t *testing.T) {
 func Test_SetLevel(t *testing.T) {
 	a := assert.New(t)
 
-	d := NewCharacter()
+	d := New()
 
 	level := byte(89)
 	d.SetLevel(level)
