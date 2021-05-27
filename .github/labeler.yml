@@ -11,7 +11,7 @@ workflow:
 
 code:
   - "**/*go"
-  any:
+  - any:
     - "**/*_test.go"
 
 unittests:
@@ -19,3 +19,8 @@ unittests:
 
 danger-zone:
   - ./LICENSE
+
+
+items:
+  - "d2sitems/**/*"
+

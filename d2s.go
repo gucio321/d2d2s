@@ -13,10 +13,12 @@ import (
 	"github.com/gucio321/d2d2s/d2scorpse"
 	"github.com/gucio321/d2d2s/d2sdifficulty"
 	"github.com/gucio321/d2d2s/d2senums"
+	"github.com/gucio321/d2d2s/d2shotkeys"
 	"github.com/gucio321/d2d2s/d2sirongolem"
 	"github.com/gucio321/d2d2s/d2sitems"
 	"github.com/gucio321/d2d2s/d2smercenary"
 	"github.com/gucio321/d2d2s/d2snpc"
+	"github.com/gucio321/d2d2s/d2sprogression"
 	"github.com/gucio321/d2d2s/d2squests"
 	"github.com/gucio321/d2d2s/d2sskills"
 	"github.com/gucio321/d2d2s/d2sstats"
@@ -28,7 +30,6 @@ import (
 const (
 	saveFileSignature  = 0xaa55aa55
 	characterNameSize  = 16
-	skillHotKeys       = 16
 	unknown6BytesCount = 32
 	unknown8BytesCount = 144
 	int32Size          = 4
@@ -37,15 +38,13 @@ const (
 	checksumPosition   = 12
 )
 
-type hotkeys map[byte]d2senums.SkillID
-
 // D2S represents a Diablo II character save file structure
 type D2S struct {
 	Version     d2senums.Version
 	unknown1    uint32
 	Name        string
 	Status      *d2sstatus.Status
-	Progression byte
+	Progression *d2sprogression.Progression
 	unknown2    uint16
 	Class       d2senums.CharacterClass
 	unknown3    uint16
@@ -53,7 +52,7 @@ type D2S struct {
 	unknown4    uint32
 	Time        uint32
 	unknown5    uint32
-	Hotkeys     hotkeys
+	Hotkeys     *d2shotkeys.Hotkeys
 	LeftSkill,
 	RightSkill,
 	LeftSkillSwitch,
@@ -79,19 +78,20 @@ type D2S struct {
 // New creates a new D2S structure
 func New() *D2S {
 	result := &D2S{
-		Version:    d2senums.VersionLODLatest,
-		Status:     d2sstatus.New(),
-		Hotkeys:    make(hotkeys),
-		Difficulty: d2sdifficulty.New(),
-		Mercenary:  d2smercenary.New(),
-		Quests:     d2squests.New(),
-		Waypoints:  d2swaypoints.New(),
-		NPC:        d2snpc.New(),
-		Stats:      d2sstats.New(),
-		Skills:     d2sskills.New(),
-		Items:      &d2sitems.Items{},
-		Corpse:     d2scorpse.New(),
-		IronGolem:  d2sirongolem.New(),
+		Version:     d2senums.VersionLODLatest,
+		Status:      d2sstatus.New(),
+		Progression: d2sprogression.New(),
+		Hotkeys:     d2shotkeys.New(),
+		Difficulty:  d2sdifficulty.New(),
+		Mercenary:   d2smercenary.New(),
+		Quests:      d2squests.New(),
+		Waypoints:   d2swaypoints.New(),
+		NPC:         d2snpc.New(),
+		Stats:       d2sstats.New(),
+		Skills:      d2sskills.New(),
+		Items:       &d2sitems.Items{},
+		Corpse:      d2scorpse.New(),
+		IronGolem:   d2sirongolem.New(),
 	}
 
 	return result
@@ -111,15 +111,7 @@ func Load(data []byte) (*D2S, error) {
 	status := sr.GetByte()
 	result.Status.Load(status)
 
-	/*
-		from: https://user.xmission.com/~trevin/DiabloIIv1.09_File_Format.shtml
-		Character progression.  This number tells (sort of) how many acts you have completed from all
-		difficulty levels.  It appears to be incremented when you kill the final demon in an act -- i.e.,
-		Andarial, Duriel, Mephisto, and Diablo / Baal.  There's a catch to that last one: in an
-		Expansion game, the value is not incremented after killing Diablo, but is incremented by 2 after killing Baal.
-		(The reason is unknown.)  So it skips the values 4, 9, and 14.
-	*/
-	result.Progression = sr.GetByte()
+	result.Progression.Load(sr.GetByte())
 	result.unknown2 = sr.GetUInt16()
 
 	class := sr.GetByte()
@@ -130,7 +122,14 @@ func Load(data []byte) (*D2S, error) {
 	result.unknown4 = sr.GetUInt32()
 	result.Time = sr.GetUInt32()
 	result.unknown5 = sr.GetUInt32()
-	result.loadHotkeys(sr)
+
+	hd := sr.GetBytes(d2shotkeys.NumHotkeysBytes)
+
+	var hotkeysData [d2shotkeys.NumHotkeysBytes]byte
+
+	copy(hotkeysData[:], hd[:d2shotkeys.NumHotkeysBytes])
+
+	result.Hotkeys.Load(hotkeysData)
 
 	lsk := sr.GetUInt32()
 	result.LeftSkill = d2senums.SkillID(lsk)
@@ -270,13 +269,6 @@ func (d *D2S) loadHeader(sr *datautils.BitMuncher) error {
 	return nil
 }
 
-func (d *D2S) loadHotkeys(sr *datautils.BitMuncher) {
-	for i := byte(0); i < skillHotKeys; i++ {
-		id := sr.GetUInt32()
-		d.Hotkeys[i] = d2senums.SkillID(id)
-	}
-}
-
 // Encode encodes character save back into a byte slice (WIP)
 func (d *D2S) Encode() ([]byte, error) {
 	sw := d2datautils.CreateStreamWriter()
@@ -286,7 +278,7 @@ func (d *D2S) Encode() ([]byte, error) {
 	}
 
 	sw.PushBytes(d.Status.Encode())
-	sw.PushBytes(d.Progression)
+	sw.PushBytes(d.Progression.Encode())
 	sw.PushUint16(d.unknown2)
 	sw.PushBytes(byte(d.Class))
 	sw.PushUint16(d.unknown3)
@@ -295,7 +287,8 @@ func (d *D2S) Encode() ([]byte, error) {
 	sw.PushUint32(d.Time)
 	sw.PushUint32(d.unknown5)
 
-	d.encodeHotkeys(sw)
+	hd := d.Hotkeys.Encode()
+	sw.PushBytes(hd[:]...)
 
 	sw.PushUint32(uint32(d.LeftSkill))
 	sw.PushUint32(uint32(d.RightSkill))
@@ -378,12 +371,6 @@ func (d *D2S) encodeHeader(sw *d2datautils.StreamWriter) error {
 	}
 
 	return nil
-}
-
-func (d *D2S) encodeHotkeys(sw *d2datautils.StreamWriter) {
-	for i := byte(0); i < skillHotKeys; i++ {
-		sw.PushUint32(uint32(d.Hotkeys[i]))
-	}
 }
 
 // CalculateChecksum calculates a checksum and saves in a byte slice
