@@ -46,7 +46,7 @@ func (i *IronGolem) Load(sr *datautils.BitMuncher) error {
 		return fmt.Errorf("error lading golem item: %w", err)
 	}
 
-	i.Item = &(*item)[0]
+	i.Item = (*item)[0]
 
 	return nil
 }

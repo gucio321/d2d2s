@@ -60,8 +60,16 @@ const (
 	rareNameIDLen      = 8
 )
 
+// New creates a new Items list
+func New() *Items {
+	result := &Items{}
+	*result = make([]*Item, 0)
+
+	return result
+}
+
 // Items represents items list
-type Items []Item
+type Items []*Item
 
 // LoadHeader loads items header and returns items count
 func (i *Items) LoadHeader(sr *datautils.BitMuncher) (numItems uint16, err error) {
@@ -78,12 +86,14 @@ func (i *Items) LoadHeader(sr *datautils.BitMuncher) (numItems uint16, err error
 // LoadList loads items list data into Items structure
 // If not, theis function must be changed
 func (i *Items) LoadList(sr *datautils.BitMuncher, numItems uint16) error {
-	*i = make([]Item, numItems)
 	// note: if item has sockets, it is followed by item socketed in!
 	for n := uint16(0); n < numItems; n++ {
-		if err := (*i)[n].Load(sr); err != nil {
+		item := &Item{}
+		if err := item.Load(sr); err != nil {
 			return err
 		}
+
+		i.Add(item)
 
 		// if item is socketed into another item ( last on list) we need to append it
 		if !(*i)[n].IsSimple {
@@ -93,7 +103,7 @@ func (i *Items) LoadList(sr *datautils.BitMuncher, numItems uint16) error {
 					return err
 				}
 
-				(*i)[n].SocketedItems = append((*i)[n].SocketedItems, *item)
+				(*i)[n].SocketedItems = append((*i)[n].SocketedItems, item)
 			}
 		}
 	}
@@ -120,6 +130,20 @@ func (i *Items) Encode() []byte {
 	}
 
 	return sw.GetBytes()
+}
+
+// Add adds an item / items given
+func (i *Items) Add(items ...*Item) {
+	*i = append(*i, items...)
+}
+
+// DeleteAt deletes an item at given index
+func (i *Items) DeleteAt(idx int) {
+	if idx > len(*i) {
+		return
+	}
+
+	*i = append((*i)[:idx], (*i)[idx+1:]...)
 }
 
 // Item represents an item
@@ -223,7 +247,7 @@ type Item struct {
 	}
 
 	Attributes    d2smagicattributes.MagicAttributes
-	SocketedItems []Item
+	SocketedItems []*Item
 }
 
 // Load loads an item
@@ -475,45 +499,48 @@ func (i *Item) loadSimpleFields(sr *datautils.BitMuncher) (err error) {
 	} else {
 		t := sr.GetBytes(typeLen)
 		i.Type = itemdata.ItemCodeFromString(strings.Trim(string(t), " "))
-		i.TypeID = i.Type.GetTypeID()
-		switch i.TypeID {
-		case itemdata.ItemTypeIDArmor:
-			typeName, ok := itemdata.ArmorCodes[i.Type]
-			if ok {
-				i.TypeName = typeName
-			}
-		case itemdata.ItemTypeIDShield:
-			typeName, ok := itemdata.ShieldCodes[i.Type]
-			if ok {
-				i.TypeName = typeName
-			}
-		case itemdata.ItemTypeIDWeapon:
-			typeName, ok := itemdata.WeaponCodes[i.Type]
-			if ok {
-				i.TypeName = typeName
-			}
-
-			baseDamage := i.Type.WeaponDamage()
-			if baseDamage != nil {
-				// If the item is ethereal we need to add 50% enhanced
-				// damage to the base damage.
-				if i.Etheral {
-					baseDamage.Etheral()
-				}
-
-				i.BaseDamage = baseDamage
-			}
-		case itemdata.ItemTypeIDOther:
-			typeName, ok := itemdata.MiscCodes[i.Type]
-			if ok {
-				i.TypeName = typeName
-			}
-		}
-
+		i.loadTypeInfo()
 		i.NumberOfItemsInSockets = byte(sr.GetBits(numItemsInSocketsLen))
 	}
 
 	return nil
+}
+
+func (i *Item) loadTypeInfo() {
+	i.TypeID = i.Type.GetTypeID()
+	switch i.TypeID {
+	case itemdata.ItemTypeIDArmor:
+		typeName, ok := itemdata.ArmorCodes[i.Type]
+		if ok {
+			i.TypeName = typeName
+		}
+	case itemdata.ItemTypeIDShield:
+		typeName, ok := itemdata.ShieldCodes[i.Type]
+		if ok {
+			i.TypeName = typeName
+		}
+	case itemdata.ItemTypeIDWeapon:
+		typeName, ok := itemdata.WeaponCodes[i.Type]
+		if ok {
+			i.TypeName = typeName
+		}
+
+		baseDamage := i.Type.WeaponDamage()
+		if baseDamage != nil {
+			// If the item is ethereal we need to add 50% enhanced
+			// damage to the base damage.
+			if i.Etheral {
+				baseDamage.Etheral()
+			}
+
+			i.BaseDamage = baseDamage
+		}
+	case itemdata.ItemTypeIDOther:
+		typeName, ok := itemdata.MiscCodes[i.Type]
+		if ok {
+			i.TypeName = typeName
+		}
+	}
 }
 
 // Encode encodes an item into a byte slice

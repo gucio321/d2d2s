@@ -89,7 +89,7 @@ func New() *D2S {
 		NPC:         d2snpc.New(),
 		Stats:       d2sstats.New(),
 		Skills:      d2sskills.New(),
-		Items:       &d2sitems.Items{},
+		Items:       d2sitems.New(),
 		Corpse:      d2scorpse.New(),
 		IronGolem:   d2sirongolem.New(),
 	}

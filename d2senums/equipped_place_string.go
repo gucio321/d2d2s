@@ -8,19 +8,19 @@ func _() {
 	// An "invalid array index" compiler error signifies that the constant values have changed.
 	// Re-run the stringer command to generate them again.
 	var x [1]struct{}
-	_ = x[ItemEquippedAnywhere-0]
-	_ = x[ItemEquippedHead-1]
-	_ = x[ItemEquippedNeck-2]
-	_ = x[ItemEquippedTorse-3]
-	_ = x[ItemEquippedRightHand-4]
-	_ = x[ItemEquippedLeftHand-5]
-	_ = x[ItemEquippedRightFinger-6]
-	_ = x[ItemEquippedLeftFinger-7]
-	_ = x[ItemEquippedWaist-8]
-	_ = x[ItemEquippedFeet-9]
-	_ = x[ItemEquippedHands-10]
-	_ = x[ItemEquippedARightHand-11]
-	_ = x[ItemEquippedALeftHand-12]
+	_ = x[EquippedAnywhere-0]
+	_ = x[EquippedHead-1]
+	_ = x[EquippedNeck-2]
+	_ = x[EquippedTorse-3]
+	_ = x[EquippedRightHand-4]
+	_ = x[EquippedLeftHand-5]
+	_ = x[EquippedRightFinger-6]
+	_ = x[EquippedLeftFinger-7]
+	_ = x[EquippedWaist-8]
+	_ = x[EquippedFeet-9]
+	_ = x[EquippedHands-10]
+	_ = x[EquippedARightHand-11]
+	_ = x[EquippedALeftHand-12]
 }
 
 const _ItemEquippedPlace_name = "headnecktorseright handleft handright fingerleft wingerwaistfeethandsalternative right handalternative left hand"
