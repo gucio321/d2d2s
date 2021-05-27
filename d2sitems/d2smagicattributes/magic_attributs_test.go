@@ -44,7 +44,10 @@ func Test_Load(t *testing.T) {
 	for key, value := range testdata() {
 		sr := datautils.CreateBitMuncher(value, 0)
 		m := &MagicAttributes{}
-		m.Load(sr)
+
+		if err := m.Load(sr); err != nil {
+			t.Error(err)
+		}
 
 		assert.Equal(t, key, m, "unexpected magicall attributes recceived")
 	}
@@ -53,7 +56,11 @@ func Test_Load(t *testing.T) {
 func Test_Encode(t *testing.T) {
 	for key, value := range testdata() {
 		sw := datautils.CreateStreamWriter()
-		key.Encode(sw)
+
+		if err := key.Encode(sw); err != nil {
+			t.Error(err)
+		}
+
 		sw.Align()
 
 		assert.Equal(t, value, sw.GetBytes(), "Unexpected data encoded")
