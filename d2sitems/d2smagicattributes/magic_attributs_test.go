@@ -34,7 +34,9 @@ func testdata() map[*MagicAttributes][]byte {
 		{
 			{333, "-{0}% To Enemy Fire Resistance", []int64{20}},
 			{20, "+{0}% Increased chance of blocking", []int64{60}},
-		}: {0},
+		}: {
+			77, 41, 40, 240, 255, 1,
+		},
 	}
 }
 
@@ -48,15 +50,12 @@ func Test_Load(t *testing.T) {
 	}
 }
 
-func Test_x(t *testing.T) {
-	m := MagicAttributes{
-		{333, "-{0}% To Enemy Fire Resistance", []int64{20}},
-		{20, "+{0}% Increased chance of blocking", []int64{60}},
-	}
-	sw := datautils.CreateStreamWriter()
+func Test_Encode(t *testing.T) {
+	for key, value := range testdata() {
+		sw := datautils.CreateStreamWriter()
+		key.Encode(sw)
+		sw.Align()
 
-	sw.Align()
-	m.Encode(sw)
-	fmt.Println(sw.GetBytes())
-	t.Fail()
+		assert.Equal(t, value, sw.GetBytes(), "Unexpected data encoded")
+	}
 }
