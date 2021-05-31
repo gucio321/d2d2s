@@ -11,6 +11,8 @@ import (
 	"github.com/gucio321/d2d2s/datautils"
 )
 
+const headerLen = 2
+
 // Mercenary stores mercenary data
 type Mercenary struct {
 	Died       uint16 // ?
@@ -45,8 +47,7 @@ func (m *Mercenary) LoadHeader(sr *datautils.BitMuncher) {
 
 // LoadMercItems loads merc items
 func (m *Mercenary) LoadMercItems(sr *datautils.BitMuncher) error {
-	id := sr.GetBytes(2) // nolint:gomnd // header size
-	if string(id) != "jf" {
+	if id := sr.GetBytes(headerLen); string(id) != "jf" {
 		return errors.New("unexpected merc header")
 	}
 
