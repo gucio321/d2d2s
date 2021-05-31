@@ -172,8 +172,7 @@ func Load(data []byte) (*D2S, error) {
 
 	copy(questsData[:], qd[:d2squests.NumQuestsBytes])
 
-	err := result.Quests.Unmarshal(&questsData)
-	if err != nil {
+	if err := result.Quests.Unmarshal(&questsData); err != nil {
 		return nil, fmt.Errorf("error loading quests: %w", err)
 	}
 
@@ -183,7 +182,7 @@ func Load(data []byte) (*D2S, error) {
 
 	copy(waypointsData[:], wd[:d2swaypoints.NumWaypointsBytes])
 
-	if err := result.Waypoints.Load(&waypointsData); err != nil { // nolint:govet // it is ok
+	if err := result.Waypoints.Load(&waypointsData); err != nil {
 		return nil, fmt.Errorf("error loading waypoints data: %w", err)
 	}
 
@@ -193,11 +192,11 @@ func Load(data []byte) (*D2S, error) {
 
 	copy(npcData[:], nd[:d2snpc.NumNPCBytes])
 
-	if err := result.NPC.Load(npcData); err != nil { // nolint:govet // it is og
+	if err := result.NPC.Load(npcData); err != nil {
 		return nil, fmt.Errorf("error loading npcs data: %w", err)
 	}
 
-	if err := result.Stats.Load(sr); err != nil { // nolint:govet // it is ok
+	if err := result.Stats.Load(sr); err != nil {
 		return nil, fmt.Errorf("error loading character stats: %w", err)
 	}
 
