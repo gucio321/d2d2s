@@ -8,7 +8,10 @@ import (
 	"github.com/gucio321/d2d2s/datautils"
 )
 
-const endOfListMark = 0x1ff
+const (
+	idLen         = 9
+	endOfListMark = 1<<idLen - 1
+)
 
 // MagicAttributes represents a list of magic attributes
 type MagicAttributes []MagicAttribute
@@ -16,7 +19,7 @@ type MagicAttributes []MagicAttribute
 // Load loads magic attributes for n item
 func (m *MagicAttributes) Load(sr *datautils.BitMuncher) error {
 	for {
-		id := uint16(sr.GetBits(9)) // nolint:gomnd // id size (bitfield)
+		id := uint16(sr.GetBits(idLen))
 		if id == endOfListMark {
 			break
 		}
@@ -52,7 +55,7 @@ func (m *MagicAttributes) Load(sr *datautils.BitMuncher) error {
 // Encode encodes magical attributes back into byte slice
 func (m *MagicAttributes) Encode(sw *datautils.StreamWriter) (err error) {
 	for _, a := range *m {
-		sw.PushBits16(a.ID, 9)
+		sw.PushBits16(a.ID, idLen)
 
 		prop := GetPropertyData(a.ID)
 		if prop == nil {
@@ -69,7 +72,7 @@ func (m *MagicAttributes) Encode(sw *datautils.StreamWriter) (err error) {
 		}
 	}
 
-	sw.PushBits16(endOfListMark, 9)
+	sw.PushBits16(endOfListMark, idLen)
 
 	return nil
 }
