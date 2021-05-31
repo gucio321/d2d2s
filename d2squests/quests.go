@@ -15,11 +15,15 @@ const (
 	NumQuestsBytes = 298
 
 	expectedQuestHeaderID        = "Woo!"
+	questHeaderIDLen             = 4
 	questHeaderUnknownBytesCount = 6
 	defaultQuestsCount           = 6
 	act4QuestsCount              = 3
 	act4                         = 4
 	act5                         = 5
+	act4UnknownBytesCount        = 3
+	act5Unknown1BytesCount       = 2
+	act5Unknown2BytesCount       = 7
 )
 
 // Quests represents quests status structure
@@ -35,7 +39,7 @@ func New() *Quests {
 
 		for act := 1; act <= d2senums.NumActs; act++ {
 			var l int
-			if act == 4 { // nolint:gomnd // act 4
+			if act == act4 {
 				l = act4QuestsCount
 			} else {
 				l = defaultQuestsCount
@@ -71,7 +75,7 @@ func unknownQuestsHeaderBytes() [questHeaderUnknownBytesCount]byte {
 func (q *Quests) Unmarshal(data *[NumQuestsBytes]byte) error {
 	sr := datautils.CreateBitMuncher((*data)[:], 0)
 
-	questHeaderID := sr.GetBytes(4) // nolint:gomnd // header
+	questHeaderID := sr.GetBytes(questHeaderIDLen)
 
 	if string(questHeaderID) != expectedQuestHeaderID {
 		return errors.New("unexpected quest header")
@@ -130,7 +134,7 @@ func (q *QuestsSet) Unmarshal(sr *datautils.BitMuncher, act int) (err error) {
 	loadQuests := func(sr *datautils.BitMuncher) {
 		for qst := range q.Quests {
 			q.Quests[qst] = &Quest{}
-			data := sr.GetBytes(2) // nolint:gomnd // quest data size
+			data := sr.GetBytes(2) // nolint:gomnd // quest bytes. TODO: https://github.com/gucio321/d2d2s/issues/11
 			copy(q.Quests[qst].Data[:], data[:2])
 			q.Quests[qst].Load()
 		}
@@ -143,16 +147,16 @@ func (q *QuestsSet) Unmarshal(sr *datautils.BitMuncher, act int) (err error) {
 		loadQuests(sr)
 
 		q.ActEnd = sr.GetUInt16() == 1
-		q.unknown1 = sr.GetBytes(3) // nolint:gomnd // 3 unknown bytes
+		q.unknown1 = sr.GetBytes(act4UnknownBytesCount)
 	case act5:
 		q.Introduced = sr.GetUInt16() == 1
-		q.unknown1 = sr.GetBytes(2) // nolint:gomnd // 2 unknown bytes
+		q.unknown1 = sr.GetBytes(act5Unknown1BytesCount)
 
 		loadQuests(sr)
 
 		q.ActEnd = sr.GetUInt16() == 1
 
-		q.unknown2 = sr.GetBytes(7) // nolint:gomnd // 7 unknown bytes
+		q.unknown2 = sr.GetBytes(act5Unknown2BytesCount)
 	default:
 		q.Introduced = sr.GetUInt16() == 1
 
