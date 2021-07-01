@@ -4,7 +4,13 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    reviewers:
+      - gucio321
+  - package-ecosystem: "gomod"
   - package-ecosystem: "gomod"
     directory: "/"
     schedule:
       interval: "weekly"
+    reviewers:
+      - gucio321
+  - package-ecosystem: "gomod"
