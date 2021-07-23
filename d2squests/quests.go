@@ -56,10 +56,10 @@ func New() *Quests {
 
 			switch act {
 			case act4:
-				(*result)[i][act-1].unknown1 = make([]byte, 3)
+				(*result)[i][act-1].unknown1 = make([]byte, act4UnknownBytesCount)
 			case act5:
-				(*result)[i][act-1].unknown1 = make([]byte, 2)
-				(*result)[i][act-1].unknown2 = make([]byte, 7)
+				(*result)[i][act-1].unknown1 = make([]byte, act5Unknown1BytesCount)
+				(*result)[i][act-1].unknown2 = make([]byte, act5Unknown2BytesCount)
 			}
 		}
 	}

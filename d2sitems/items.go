@@ -58,6 +58,8 @@ const (
 	characterLen       = 7
 	magicModifierIDLen = 11
 	rareNameIDLen      = 8
+
+	rareNamesCount = 2
 )
 
 // New creates a new Items list
@@ -353,9 +355,9 @@ func (i *Item) loadQualityData(sr *datautils.BitMuncher) {
 		id := uint16(sr.GetBits(setIDLen))
 		i.QualityData.SetID = itemdata.SetID(id)
 	case d2senums.ItemQualityRare, d2senums.ItemQualityCrafted:
-		i.QualityData.RareNames = make([]itemdata.RareName, 2)
+		i.QualityData.RareNames = make([]itemdata.RareName, rareNamesCount)
 
-		for n := 0; n < 2; n++ {
+		for n := 0; n < rareNamesCount; n++ {
 			id := uint16(sr.GetBits(rareNameIDLen))
 			i.QualityData.RareNames[n] = itemdata.RareName(id)
 		}
@@ -625,7 +627,7 @@ func (i *Item) encodeExtendedFields(sw *datautils.StreamWriter) (err error) {
 
 func (i *Item) encodeMultiplePicture(sw *datautils.StreamWriter) {
 	if i.MultiplePicture.HasMultiplePicture {
-		sw.PushBits(i.MultiplePicture.ID, 3)
+		sw.PushBits(i.MultiplePicture.ID, multiplePictureIDLen)
 	}
 }
 
@@ -675,13 +677,13 @@ func (i *Item) encodeQuality(sw *datautils.StreamWriter) {
 	case d2senums.ItemQualityHigh:
 		sw.PushBits(i.QualityData.HighQualityData, highQualityDataLen)
 	case d2senums.ItemQualityEnchanced:
-		sw.PushBits16(uint16(i.QualityData.MagicPrefix[0]), 11)
-		sw.PushBits16(uint16(i.QualityData.MagicSuffix[0]), 11)
+		sw.PushBits16(uint16(i.QualityData.MagicPrefix[0]), magicModifierIDLen)
+		sw.PushBits16(uint16(i.QualityData.MagicSuffix[0]), magicModifierIDLen)
 	case d2senums.ItemQualitySet:
 		sw.PushBits16(uint16(i.QualityData.SetID), setIDLen)
 	case d2senums.ItemQualityRare, d2senums.ItemQualityCrafted:
 		for _, name := range i.QualityData.RareNames {
-			sw.PushBits(byte(name), 8)
+			sw.PushBits(byte(name), byteLen)
 		}
 
 		for n := 0; n < 3; n++ {
@@ -690,7 +692,7 @@ func (i *Item) encodeQuality(sw *datautils.StreamWriter) {
 			sw.PushBit(hasPrefix)
 
 			if hasPrefix {
-				sw.PushBits16(uint16(i.QualityData.MagicPrefix[n]), 11)
+				sw.PushBits16(uint16(i.QualityData.MagicPrefix[n]), magicModifierIDLen)
 			}
 
 			l = len(i.QualityData.MagicSuffix)
@@ -698,7 +700,7 @@ func (i *Item) encodeQuality(sw *datautils.StreamWriter) {
 			sw.PushBit(hasSuffix)
 
 			if hasSuffix {
-				sw.PushBits16(uint16(i.QualityData.MagicSuffix[n]), 11)
+				sw.PushBits16(uint16(i.QualityData.MagicSuffix[n]), magicModifierIDLen)
 			}
 		}
 	case d2senums.ItemQualityUnique:
@@ -747,9 +749,9 @@ func (i *Item) encodeSimpleFields(sw *datautils.StreamWriter) {
 	} else {
 		name := []byte(i.Type.String())
 		for _, c := range name {
-			sw.PushBits(c, 8)
+			sw.PushBits(c, byteLen)
 		}
-		sw.PushBits(byte(' '), 8)
+		sw.PushBits(byte(' '), byteLen)
 		sw.PushBits(i.NumberOfItemsInSockets, numItemsInSocketsLen)
 	}
 }

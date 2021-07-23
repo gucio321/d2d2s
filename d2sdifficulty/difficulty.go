@@ -75,7 +75,7 @@ func (d *DifficultyLevelStatus) Load(data byte) {
 // Encode encodes a difficulty level status back into byte data
 func (d *DifficultyLevelStatus) Encode() (result byte) {
 	sw := d2datautils.CreateStreamWriter()
-	sw.PushBits(d.Act, 3)
+	sw.PushBits(d.Act, actBitsCount)
 	sw.PushBit(d.unknown3)
 	sw.PushBit(d.unknown4)
 	sw.PushBit(d.unknown5)
