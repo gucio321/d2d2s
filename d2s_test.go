@@ -1,31 +1,17 @@
 package d2d2s
 
 import (
-	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+
+	"github.com/gucio321/d2d2s/internal/testdata"
 )
 
 func Test_Load(t *testing.T) {
-	testFile, fileErr := os.Open("testdata/example.d2s")
-
-	if fileErr != nil {
-		t.Error("cannot open test data file")
-		return
-	}
-
-	data := make([]byte, 0)
-	buf := make([]byte, 16)
-
-	for {
-		numRead, err := testFile.Read(buf)
-
-		data = append(data, buf[:numRead]...)
-
-		if err != nil {
-			break
-		}
+	data, err := testdata.Testdata.ReadFile("example.d2s")
+	if err != nil {
+		t.Fatal(err)
 	}
 
 	x, err := Load(data)
@@ -37,24 +23,9 @@ func Test_Load(t *testing.T) {
 }
 
 func Test_LoadEncode(t *testing.T) {
-	testFile, fileErr := os.Open("testdata/example.d2s")
-
-	if fileErr != nil {
-		t.Error("cannot open test data file")
-		return
-	}
-
-	data := make([]byte, 0)
-	buf := make([]byte, 16)
-
-	for {
-		numRead, err := testFile.Read(buf)
-
-		data = append(data, buf[:numRead]...)
-
-		if err != nil {
-			break
-		}
+	data, err := testdata.Testdata.ReadFile("example.d2s")
+	if err != nil {
+		t.Fatal(err)
 	}
 
 	x, err := Load(data)
