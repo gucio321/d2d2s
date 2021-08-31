@@ -1,8 +1,6 @@
 package d2smercenarytype
 
-import (
-	"github.com/OpenDiablo2/OpenDiablo2/d2common/d2enum"
-)
+import "github.com/gucio321/d2d2s/pkg/d2s/d2senums"
 
 const (
 	numDifficulties = 3
@@ -12,7 +10,7 @@ const (
 type MercenaryType struct {
 	Class      MercClass
 	Attribute  MercAttribute
-	Difficulty d2enum.DifficultyType
+	Difficulty d2senums.DifficultyType
 }
 
 // Load loads mercenary type data into a structure
@@ -32,7 +30,7 @@ func Load(id uint16) *MercenaryType {
 search:
 	for class := MercRogue; class <= MercBarbarian; class++ {
 		n := numAttributes[class]
-		for d := d2enum.DifficultyNormal; d <= d2enum.DifficultyHell; d++ {
+		for d := d2senums.DifficultyNormal; d <= d2senums.DifficultyHell; d++ {
 			for a := 0; a < n; a++ {
 				if id == 0 {
 					result.Class = class
@@ -68,7 +66,7 @@ func (m *MercenaryType) Encode() (result uint16) {
 		result += uint16(numAttributes[class] * numDifficulties)
 	}
 
-	for d := d2enum.DifficultyNormal; d < m.Difficulty; d++ {
+	for d := d2senums.DifficultyNormal; d < m.Difficulty; d++ {
 		result += uint16(numAttributes[m.Class])
 	}
 

@@ -2,8 +2,7 @@ package d2sdifficulty
 
 import (
 	"github.com/gucio321/d2d2s/internal/datautils"
-
-	"github.com/OpenDiablo2/OpenDiablo2/d2common/d2enum"
+	"github.com/gucio321/d2d2s/pkg/d2s/d2senums"
 )
 
 const (
@@ -18,7 +17,7 @@ func New() *Difficulty {
 	result := &Difficulty{}
 	*result = make(Difficulty)
 
-	for i := d2enum.DifficultyNormal; i <= d2enum.DifficultyHell; i++ {
+	for i := d2senums.DifficultyNormal; i <= d2senums.DifficultyHell; i++ {
 		(*result)[i] = &DifficultyLevelStatus{}
 	}
 
@@ -26,12 +25,12 @@ func New() *Difficulty {
 }
 
 // Difficulty represents a status of all difficulty levels
-type Difficulty map[d2enum.DifficultyType]*DifficultyLevelStatus
+type Difficulty map[d2senums.DifficultyType]*DifficultyLevelStatus
 
 // Load loads difficulty status
 func (d *Difficulty) Load(data [NumDifficultyBytes]byte) {
 	sr := datautils.CreateBitMuncher(data[:], 0)
-	for i := d2enum.DifficultyNormal; i <= d2enum.DifficultyHell; i++ {
+	for i := d2senums.DifficultyNormal; i <= d2senums.DifficultyHell; i++ {
 		data := sr.GetByte()
 
 		(*d)[i].Load(data)
@@ -41,7 +40,7 @@ func (d *Difficulty) Load(data [NumDifficultyBytes]byte) {
 // Encode encodes difficulty status back into a byte slice
 func (d *Difficulty) Encode() (result [NumDifficultyBytes]byte) {
 	sw := datautils.CreateStreamWriter()
-	for i := d2enum.DifficultyNormal; i <= d2enum.DifficultyHell; i++ {
+	for i := d2senums.DifficultyNormal; i <= d2senums.DifficultyHell; i++ {
 		sw.PushBytes((*d)[i].Encode())
 	}
 

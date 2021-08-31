@@ -3,8 +3,7 @@ package d2sdifficulty
 import (
 	"testing"
 
-	"github.com/OpenDiablo2/OpenDiablo2/d2common/d2enum"
-
+	"github.com/gucio321/d2d2s/pkg/d2s/d2senums"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -13,26 +12,26 @@ func testdata() map[[NumDifficultyBytes]byte]*Difficulty {
 		{
 			132, 170, 1,
 		}: {
-			d2enum.DifficultyNormal: &DifficultyLevelStatus{
+			d2senums.DifficultyNormal: &DifficultyLevelStatus{
 				4, false, false, false, false, true,
 			},
-			d2enum.DifficultyNightmare: &DifficultyLevelStatus{
+			d2senums.DifficultyNightmare: &DifficultyLevelStatus{
 				2, true, false, true, false, true,
 			},
-			d2enum.DifficultyHell: &DifficultyLevelStatus{
+			d2senums.DifficultyHell: &DifficultyLevelStatus{
 				1, false, false, false, false, false,
 			},
 		},
 		{
 			173, 227, 164,
 		}: {
-			d2enum.DifficultyNormal: &DifficultyLevelStatus{
+			d2senums.DifficultyNormal: &DifficultyLevelStatus{
 				5, true, false, true, false, true,
 			},
-			d2enum.DifficultyNightmare: &DifficultyLevelStatus{
+			d2senums.DifficultyNightmare: &DifficultyLevelStatus{
 				3, false, false, true, true, true,
 			},
-			d2enum.DifficultyHell: &DifficultyLevelStatus{
+			d2senums.DifficultyHell: &DifficultyLevelStatus{
 				4, false, false, true, false, true,
 			},
 		},

@@ -1,13 +1,13 @@
 package d2sprogression
 
-import "github.com/OpenDiablo2/OpenDiablo2/d2common/d2enum"
+import "github.com/gucio321/d2d2s/pkg/d2s/d2senums"
 
 const numActs = 5
 
 // New creates a new Progression structure
 func New() *Progression {
 	result := &Progression{
-		DifficultyLevel: d2enum.DifficultyNormal,
+		DifficultyLevel: d2senums.DifficultyNormal,
 		Act:             1,
 	}
 
@@ -28,7 +28,7 @@ Expansion game, the value is not incremented after killing Diablo, but is increm
 (The reason is unknown.)  So it skips the values 4, 9, and 14.
 */
 type Progression struct {
-	DifficultyLevel d2enum.DifficultyType
+	DifficultyLevel d2senums.DifficultyType
 	Act             int
 }
 
@@ -41,7 +41,7 @@ func (p *Progression) Load(data byte) {
 		d++
 	}
 
-	p.DifficultyLevel = d2enum.DifficultyType(d)
+	p.DifficultyLevel = d2senums.DifficultyType(d)
 
 	p.Act = int(data)
 }

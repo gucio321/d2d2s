@@ -5,8 +5,6 @@ import (
 
 	"github.com/gucio321/d2d2s/internal/datautils"
 
-	"github.com/OpenDiablo2/OpenDiablo2/d2common/d2enum"
-
 	"github.com/gucio321/d2d2s/pkg/d2s/d2senums"
 )
 
@@ -27,14 +25,14 @@ func unknownWaypointsHeaderBytes() [numUnknownWaypointsHeaderBytes]byte {
 }
 
 // Waypoints contains state (active = true / inactive = false) of any waypoint in game (difficulty level / act)
-type Waypoints map[d2enum.DifficultyType]*[d2senums.NumActs][]bool
+type Waypoints map[d2senums.DifficultyType]*[d2senums.NumActs][]bool
 
 // New creates a new waypoints structure
 func New() *Waypoints {
 	result := &Waypoints{}
 	*result = make(Waypoints)
 
-	for i := d2enum.DifficultyNormal; i <= d2enum.DifficultyHell; i++ {
+	for i := d2senums.DifficultyNormal; i <= d2senums.DifficultyHell; i++ {
 		(*result)[i] = &[d2senums.NumActs][]bool{}
 
 		for act := 1; act <= d2senums.NumActs; act++ {
@@ -64,7 +62,7 @@ func (w *Waypoints) Load(data *[NumWaypointsBytes]byte) error {
 	// unknownwaypointsheaderbytes
 	sr.SkipBytes(numUnknownWaypointsHeaderBytes)
 
-	for i := d2enum.DifficultyNormal; i <= d2enum.DifficultyHell; i++ {
+	for i := d2senums.DifficultyNormal; i <= d2senums.DifficultyHell; i++ {
 		sr.SkipBytes(2) // nolint:gomnd // unknown
 
 		d := sr.GetBytes(waypointDataBytesCount)
@@ -92,7 +90,7 @@ func (w *Waypoints) Encode() (result [NumWaypointsBytes]byte) {
 	unknown := unknownWaypointsHeaderBytes()
 	sw.PushBytes(unknown[:]...)
 
-	for i := d2enum.DifficultyNormal; i <= d2enum.DifficultyHell; i++ {
+	for i := d2senums.DifficultyNormal; i <= d2senums.DifficultyHell; i++ {
 		// https://user.xmission.com/~trevin/DiabloIIv1.09_File_Format.shtml
 		//	 	unknown; I always see the values { 2, 1 } here.
 		sw.PushBytes([]byte{2, 1}...)
