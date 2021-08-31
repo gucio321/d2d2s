@@ -7,6 +7,7 @@
 This package contains a Diablo II save files (D2S)
 decoder and encoder written in [golang](https://golang.org)
 
+
 ## Dependencies / Documentation
 
 ### D2S structure documentation:
@@ -76,3 +77,7 @@ for more examples, see [here](./examples)
 ## Goals of the project
 
 this programm should be able to decode, encode and create a new D2S files
+
+## Notes
+
+Diablo 2 and its content is ©2000 Blizzard Entertainment, Inc. All rights reserved. Diablo and Blizzard Entertainment are trademarks or registered trademarks of Blizzard Entertainment, Inc. in the U.S. and/or other countries.

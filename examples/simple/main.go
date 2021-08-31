@@ -8,12 +8,12 @@ import (
 	"io/ioutil"
 	"log"
 
-	"github.com/gucio321/d2d2s"
+	"github.com/gucio321/d2d2s/pkg/d2s"
 )
 
 func main() {
 	// create a new character
-	char := d2d2s.New()
+	char := d2s.New()
 	char.Name = "example"
 
 	// encode

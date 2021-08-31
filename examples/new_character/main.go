@@ -4,10 +4,10 @@ import (
 	"io/ioutil"
 	"log"
 
-	"github.com/gucio321/d2d2s"
-	"github.com/gucio321/d2d2s/d2senums"
-	"github.com/gucio321/d2d2s/d2sitems"
-	"github.com/gucio321/d2d2s/d2sitems/itemdata"
+	d2d2s "github.com/gucio321/d2d2s/pkg/d2s"
+	"github.com/gucio321/d2d2s/pkg/d2s/d2senums"
+	"github.com/gucio321/d2d2s/pkg/d2s/d2sitems"
+	"github.com/gucio321/d2d2s/pkg/d2s/d2sitems/itemdata"
 )
 
 func main() {
