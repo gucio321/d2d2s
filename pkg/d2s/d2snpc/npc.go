@@ -3,8 +3,6 @@ package d2snpc
 import (
 	"errors"
 
-	"github.com/OpenDiablo2/OpenDiablo2/d2common/d2datautils"
-
 	"github.com/gucio321/d2d2s/internal/datautils"
 )
 
@@ -43,7 +41,7 @@ func (n *NPC) Load(data [NumNPCBytes]byte) error {
 
 // Encode encodes NPC data back into byte array
 func (n *NPC) Encode() (result [NumNPCBytes]byte) {
-	sw := d2datautils.CreateStreamWriter()
+	sw := datautils.CreateStreamWriter()
 
 	sw.PushBytes([]byte(npcHeaderID)...)
 	sw.PushBytes(n.Data...)

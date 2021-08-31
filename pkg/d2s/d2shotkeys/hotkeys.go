@@ -1,8 +1,7 @@
 package d2shotkeys
 
 import (
-	"github.com/OpenDiablo2/OpenDiablo2/d2common/d2datautils"
-
+	"github.com/gucio321/d2d2s/internal/datautils"
 	"github.com/gucio321/d2d2s/pkg/d2s/d2senums"
 )
 
@@ -26,7 +25,7 @@ func New() *Hotkeys {
 
 // Load loads hotkeys
 func (h *Hotkeys) Load(data [NumHotkeysBytes]byte) {
-	sr := d2datautils.CreateBitMuncher(data[:], 0)
+	sr := datautils.CreateBitMuncher(data[:], 0)
 	for i := byte(0); i < numHotKeys; i++ {
 		id := sr.GetUInt32()
 		(*h)[i] = d2senums.SkillID(id)
@@ -35,7 +34,7 @@ func (h *Hotkeys) Load(data [NumHotkeysBytes]byte) {
 
 // Encode encodes hotkeys back into binary form
 func (h *Hotkeys) Encode() (result [NumHotkeysBytes]byte) {
-	sw := d2datautils.CreateStreamWriter()
+	sw := datautils.CreateStreamWriter()
 
 	for i := byte(0); i < numHotKeys; i++ {
 		sw.PushUint32(uint32((*h)[i]))

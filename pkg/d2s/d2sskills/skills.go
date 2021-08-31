@@ -3,8 +3,6 @@ package d2sskills
 import (
 	"errors"
 
-	"github.com/OpenDiablo2/OpenDiablo2/d2common/d2datautils"
-
 	"github.com/gucio321/d2d2s/internal/datautils"
 	"github.com/gucio321/d2d2s/pkg/d2s/d2senums"
 )
@@ -48,7 +46,7 @@ func (s *Skills) Load(data [NumSkillBytes]byte, class d2senums.CharacterClass) e
 
 // Encode encodes skills data into stream writer
 func (s *Skills) Encode(class d2senums.CharacterClass) (result [NumSkillBytes]byte) {
-	sw := d2datautils.CreateStreamWriter()
+	sw := datautils.CreateStreamWriter()
 
 	sw.PushBytes([]byte(skillsHeaderID)...)
 

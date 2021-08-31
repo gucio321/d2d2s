@@ -4,8 +4,6 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/OpenDiablo2/OpenDiablo2/d2common/d2datautils"
-
 	"github.com/gucio321/d2d2s/internal/datautils"
 	"github.com/gucio321/d2d2s/pkg/d2s/d2sitems"
 )
@@ -52,7 +50,7 @@ func (i *IronGolem) Load(sr *datautils.BitMuncher) error {
 }
 
 // Encode encodes iron golem data into a byte slice
-func (i *IronGolem) Encode(sw *d2datautils.StreamWriter) {
+func (i *IronGolem) Encode(sw *datautils.StreamWriter) {
 	sw.PushBytes([]byte(golemHeaderID)...)
 
 	if !i.HasGolem {

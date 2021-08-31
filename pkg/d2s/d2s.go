@@ -8,8 +8,6 @@ import (
 	"math"
 	"strings"
 
-	"github.com/OpenDiablo2/OpenDiablo2/d2common/d2datautils"
-
 	"github.com/gucio321/d2d2s/internal/datautils"
 	"github.com/gucio321/d2d2s/pkg/d2s/d2scorpse"
 	"github.com/gucio321/d2d2s/pkg/d2s/d2sdifficulty"
@@ -270,7 +268,7 @@ func (d *D2S) loadHeader(sr *datautils.BitMuncher) error {
 
 // Encode encodes character save back into a byte slice (WIP)
 func (d *D2S) Encode() ([]byte, error) {
-	sw := d2datautils.CreateStreamWriter()
+	sw := datautils.CreateStreamWriter()
 
 	if err := d.encodeHeader(sw); err != nil {
 		return nil, err
@@ -348,7 +346,7 @@ func (d *D2S) Encode() ([]byte, error) {
 	return data, nil
 }
 
-func (d *D2S) encodeHeader(sw *d2datautils.StreamWriter) error {
+func (d *D2S) encodeHeader(sw *datautils.StreamWriter) error {
 	sw.PushUint32(saveFileSignature)
 	sw.PushUint32(uint32(d.Version))
 	// file size, 0 for now

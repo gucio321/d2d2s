@@ -1,8 +1,6 @@
 package d2sstatus
 
 import (
-	"github.com/OpenDiablo2/OpenDiablo2/d2common/d2datautils"
-
 	"github.com/gucio321/d2d2s/internal/datautils"
 )
 
@@ -39,7 +37,7 @@ func (s *Status) Load(data byte) {
 
 // Encode encodes status back into a byte data
 func (s *Status) Encode() (result byte) {
-	sw := d2datautils.CreateStreamWriter()
+	sw := datautils.CreateStreamWriter()
 	sw.PushBit(s.Unknown0)
 	sw.PushBit(s.Unknown1)
 	sw.PushBit(s.Hardcore)

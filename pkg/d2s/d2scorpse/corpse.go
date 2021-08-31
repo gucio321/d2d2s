@@ -4,8 +4,6 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/OpenDiablo2/OpenDiablo2/d2common/d2datautils"
-
 	"github.com/gucio321/d2d2s/internal/datautils"
 	"github.com/gucio321/d2d2s/pkg/d2s/d2sitems"
 )
@@ -56,7 +54,7 @@ func (c *Corpse) Load(sr *datautils.BitMuncher) error {
 }
 
 // Encode encodes corpse data into a byte slice
-func (c *Corpse) Encode(sw *d2datautils.StreamWriter) (err error) {
+func (c *Corpse) Encode(sw *datautils.StreamWriter) (err error) {
 	sw.PushBytes([]byte("JM")...)
 
 	isDead := c.Items != nil

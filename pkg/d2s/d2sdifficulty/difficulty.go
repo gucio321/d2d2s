@@ -1,7 +1,8 @@
 package d2sdifficulty
 
 import (
-	"github.com/OpenDiablo2/OpenDiablo2/d2common/d2datautils"
+	"github.com/gucio321/d2d2s/internal/datautils"
+
 	"github.com/OpenDiablo2/OpenDiablo2/d2common/d2enum"
 )
 
@@ -29,7 +30,7 @@ type Difficulty map[d2enum.DifficultyType]*DifficultyLevelStatus
 
 // Load loads difficulty status
 func (d *Difficulty) Load(data [NumDifficultyBytes]byte) {
-	sr := d2datautils.CreateBitMuncher(data[:], 0)
+	sr := datautils.CreateBitMuncher(data[:], 0)
 	for i := d2enum.DifficultyNormal; i <= d2enum.DifficultyHell; i++ {
 		data := sr.GetByte()
 
@@ -39,7 +40,7 @@ func (d *Difficulty) Load(data [NumDifficultyBytes]byte) {
 
 // Encode encodes difficulty status back into a byte slice
 func (d *Difficulty) Encode() (result [NumDifficultyBytes]byte) {
-	sw := d2datautils.CreateStreamWriter()
+	sw := datautils.CreateStreamWriter()
 	for i := d2enum.DifficultyNormal; i <= d2enum.DifficultyHell; i++ {
 		sw.PushBytes((*d)[i].Encode())
 	}
@@ -63,7 +64,7 @@ type DifficultyLevelStatus struct {
 
 // Load loads byte into DifficultyLevelStatus structure
 func (d *DifficultyLevelStatus) Load(data byte) {
-	bm := d2datautils.CreateBitMuncher([]byte{data}, 0)
+	bm := datautils.CreateBitMuncher([]byte{data}, 0)
 	d.Act = byte(bm.GetBits(actBitsCount))
 	d.unknown3 = bm.GetBit() == 1
 	d.unknown4 = bm.GetBit() == 1
@@ -74,7 +75,7 @@ func (d *DifficultyLevelStatus) Load(data byte) {
 
 // Encode encodes a difficulty level status back into byte data
 func (d *DifficultyLevelStatus) Encode() (result byte) {
-	sw := d2datautils.CreateStreamWriter()
+	sw := datautils.CreateStreamWriter()
 	sw.PushBits(d.Act, actBitsCount)
 	sw.PushBit(d.unknown3)
 	sw.PushBit(d.unknown4)

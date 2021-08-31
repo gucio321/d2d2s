@@ -4,8 +4,6 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/OpenDiablo2/OpenDiablo2/d2common/d2datautils"
-
 	"github.com/gucio321/d2d2s/internal/datautils"
 	"github.com/gucio321/d2d2s/pkg/d2s/d2sitems"
 	"github.com/gucio321/d2d2s/pkg/d2s/d2smercenary/d2smercenarytype"
@@ -69,7 +67,7 @@ func (m *Mercenary) LoadMercItems(sr *datautils.BitMuncher) error {
 }
 
 // EncodeHeader encodes merc header into a byte slice
-func (m *Mercenary) EncodeHeader(sw *d2datautils.StreamWriter) {
+func (m *Mercenary) EncodeHeader(sw *datautils.StreamWriter) {
 	sw.PushUint16(m.Died)
 	sw.PushUint32(m.ID)
 	sw.PushUint16(m.Name)
@@ -78,7 +76,7 @@ func (m *Mercenary) EncodeHeader(sw *d2datautils.StreamWriter) {
 }
 
 // EncodeItems encodes merc items data back into byte slice
-func (m *Mercenary) EncodeItems(sw *d2datautils.StreamWriter) {
+func (m *Mercenary) EncodeItems(sw *datautils.StreamWriter) {
 	sw.PushBytes([]byte("jf")...)
 
 	if m.ID == 0 {

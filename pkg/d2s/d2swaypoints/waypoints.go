@@ -3,10 +3,10 @@ package d2swaypoints
 import (
 	"errors"
 
-	"github.com/OpenDiablo2/OpenDiablo2/d2common/d2datautils"
+	"github.com/gucio321/d2d2s/internal/datautils"
+
 	"github.com/OpenDiablo2/OpenDiablo2/d2common/d2enum"
 
-	"github.com/gucio321/d2d2s/internal/datautils"
 	"github.com/gucio321/d2d2s/pkg/d2s/d2senums"
 )
 
@@ -85,7 +85,7 @@ func (w *Waypoints) Load(data *[NumWaypointsBytes]byte) error {
 
 // Encode encodes waypoints data back into byte array
 func (w *Waypoints) Encode() (result [NumWaypointsBytes]byte) {
-	sw := d2datautils.CreateStreamWriter()
+	sw := datautils.CreateStreamWriter()
 
 	sw.PushBytes([]byte(waypointHeaderID)...)
 
@@ -97,7 +97,7 @@ func (w *Waypoints) Encode() (result [NumWaypointsBytes]byte) {
 		//	 	unknown; I always see the values { 2, 1 } here.
 		sw.PushBytes([]byte{2, 1}...)
 
-		data := d2datautils.CreateStreamWriter()
+		data := datautils.CreateStreamWriter()
 		// here 5 bytes
 		for act := 0; act < d2senums.NumActs; act++ {
 			for _, wp := range (*w)[i][act] {

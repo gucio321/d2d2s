@@ -3,7 +3,6 @@ package d2squests
 import (
 	"errors"
 
-	"github.com/OpenDiablo2/OpenDiablo2/d2common/d2datautils"
 	"github.com/OpenDiablo2/OpenDiablo2/d2common/d2enum"
 
 	"github.com/gucio321/d2d2s/internal/datautils"
@@ -97,7 +96,7 @@ func (q *Quests) Unmarshal(data *[NumQuestsBytes]byte) error {
 
 // Encode encodes quests back into byte array
 func (q *Quests) Encode() (result [NumQuestsBytes]byte) {
-	sw := d2datautils.CreateStreamWriter()
+	sw := datautils.CreateStreamWriter()
 
 	sw.PushBytes([]byte(expectedQuestHeaderID)...)
 
@@ -170,7 +169,7 @@ func (q *QuestsSet) Unmarshal(sr *datautils.BitMuncher, act int) (err error) {
 
 // Encode encodes quests set into a byte slice
 func (q *QuestsSet) Encode() []byte {
-	sw := d2datautils.CreateStreamWriter()
+	sw := datautils.CreateStreamWriter()
 
 	switch q.Act {
 	case act4:
