@@ -7,6 +7,7 @@ import (
 	"github.com/AllenDang/giu"
 
 	"github.com/gucio321/d2d2s/pkg/d2s"
+	"github.com/gucio321/d2d2s/pkg/d2s/d2senums"
 )
 
 var _ giu.Widget = &D2SWidget{}
@@ -33,6 +34,7 @@ func (w *D2SWidget) Build() {
 			giu.InputText(&w.d2s.Name),
 		),
 		giu.TreeNode("Status").Layout(w.status()),
+		giu.TreeNode("Progression").Layout(w.progression()),
 	}.Build()
 }
 
@@ -44,4 +46,35 @@ func (w *D2SWidget) status() giu.Layout {
 		giu.Checkbox("Character from Expansion set", &w.d2s.Status.Expansion),
 		giu.Checkbox("Ladder", &w.d2s.Status.Ladder),
 	}
+}
+
+func (w *D2SWidget) progression() giu.Layout {
+	act := int32(w.d2s.Progression.Act)
+	return giu.Layout{
+		giu.Row(
+			giu.Label("Difficulty: "),
+			difficultyCombo(&w.d2s.Progression.DifficultyLevel),
+		),
+		giu.Row(
+			giu.Label("Act"),
+			giu.InputInt(&act).OnChange(func() {
+				if act > 0 && act <= d2senums.NumActs {
+					w.d2s.Progression.Act = int(act)
+				}
+			}),
+		),
+	}
+}
+
+func difficultyCombo(value *d2senums.DifficultyType) giu.Widget {
+	list := make([]string, 0)
+	for d := d2senums.DifficultyNormal; d <= d2senums.DifficultyHell; d++ {
+		list = append(list, d.String())
+	}
+
+	v := int32(*value)
+
+	return giu.Combo(giu.GenAutoID("difficultyCombo"), list[v], list, &v).OnChange(func() {
+		*value = d2senums.DifficultyType(v)
+	})
 }
