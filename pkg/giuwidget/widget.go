@@ -13,11 +13,13 @@ var _ giu.Widget = &D2SWidget{}
 
 type D2SWidget struct {
 	d2s *d2s.D2S
+	id  string
 }
 
 func D2S(d2s *d2s.D2S) *D2SWidget {
 	result := &D2SWidget{
 		d2s: d2s,
+		id:  giu.GenAutoID("D2SWidget"),
 	}
 
 	return result
