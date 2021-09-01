@@ -30,5 +30,16 @@ func (w *D2SWidget) Build() {
 			giu.Label("Name: "),
 			giu.InputText(&w.d2s.Name),
 		),
+		giu.TreeNode("Status").Layout(w.status()),
 	}.Build()
+}
+
+func (w *D2SWidget) status() giu.Layout {
+	return giu.Layout{
+		giu.Checkbox("Hardcore", &w.d2s.Status.Hardcore),
+		giu.Checkbox("has ever died", &w.d2s.Status.Died),
+		giu.Tooltip("it is checked, if you hav died in some point in past"),
+		giu.Checkbox("Character from Expansion set", &w.d2s.Status.Expansion),
+		giu.Checkbox("Ladder", &w.d2s.Status.Ladder),
+	}
 }
