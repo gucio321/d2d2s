@@ -29,6 +29,16 @@ func main() {
 	wnd.Run(func() {
 		giu.SingleWindow().Layout(
 			d2swidget.D2S(d2s),
+			giu.Button("Save").OnClick(func() {
+				d2sdata, err := d2s.Encode()
+				if err != nil {
+					log.Fatalf("error encoding d2s file: %v", err)
+				}
+
+				if err := ioutil.WriteFile(*d2spath, d2sdata, 0o644); err != nil {
+					log.Fatalf("error writting d2s file: %v", err)
+				}
+			}),
 		)
 	})
 }
