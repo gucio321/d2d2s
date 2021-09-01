@@ -1,5 +1,5 @@
-// Package giuwidget contains a simple d2s editor written with giu.
-package giuwidget
+// Package d2swidget contains a simple d2s editor written with giu.
+package d2swidget
 
 import (
 	"fmt"

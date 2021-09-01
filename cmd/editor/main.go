@@ -8,7 +8,7 @@ import (
 	"github.com/AllenDang/giu"
 
 	"github.com/gucio321/d2d2s/pkg/d2s"
-	"github.com/gucio321/d2d2s/pkg/giuwidget"
+	"github.com/gucio321/d2d2s/pkg/d2swidget"
 )
 
 func main() {
@@ -28,7 +28,7 @@ func main() {
 	wnd := giu.NewMasterWindow("d2s editor", 640, 480, 0)
 	wnd.Run(func() {
 		giu.SingleWindow().Layout(
-			giuwidget.D2S(d2s),
+			d2swidget.D2S(d2s),
 		)
 	})
 }

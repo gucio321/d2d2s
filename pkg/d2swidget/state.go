@@ -1,4 +1,4 @@
-package giuwidget
+package d2swidget
 
 import (
 	"fmt"
