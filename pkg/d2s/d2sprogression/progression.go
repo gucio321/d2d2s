@@ -2,8 +2,6 @@ package d2sprogression
 
 import "github.com/gucio321/d2d2s/pkg/d2s/d2senums"
 
-const numActs = 5
-
 // New creates a new Progression structure
 func New() *Progression {
 	result := &Progression{
@@ -36,8 +34,8 @@ type Progression struct {
 func (p *Progression) Load(data byte) {
 	d := 0
 
-	for data > numActs {
-		data -= numActs
+	for data > d2senums.NumActs {
+		data -= d2senums.NumActs
 		d++
 	}
 
@@ -48,7 +46,7 @@ func (p *Progression) Load(data byte) {
 
 // Encode encodes progression int a binary form
 func (p *Progression) Encode() (data byte) {
-	data += byte(p.DifficultyLevel * numActs)
+	data += byte(p.DifficultyLevel * d2senums.NumActs)
 	data += byte(p.Act)
 
 	return data
