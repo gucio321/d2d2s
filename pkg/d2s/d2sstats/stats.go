@@ -51,7 +51,7 @@ func (s *Stats) Load(sr *datautils.BitMuncher) error {
 	bm := sr.Copy()
 
 	for {
-		id := statID(bm.GetBits(statIDLen))
+		id := StatID(bm.GetBits(statIDLen))
 
 		// If all 9 bits are set, we've hit the end of the attributes section
 		//  at 0x1ff and exit the loop.
@@ -60,7 +60,7 @@ func (s *Stats) Load(sr *datautils.BitMuncher) error {
 		}
 
 		// The attribute value bit length, so we'll know how many bits to read next.
-		length, err := id.getStatLen()
+		length, err := id.GetStatLen()
 		if err != nil {
 			return fmt.Errorf("error reading stat id: %w", err)
 		}
@@ -68,29 +68,29 @@ func (s *Stats) Load(sr *datautils.BitMuncher) error {
 		// The attribute value.
 		attr := bm.GetBits(length)
 
-		// this map connects statID with appropriate value from stats structure
-		statMap := map[statID]interface{}{
-			strength:       &s.Strength,
-			energy:         &s.Energy,
-			dexterity:      &s.Dexterity,
-			vitality:       &s.Vitality,
-			unusedStats:    &s.UnusedStats,
-			unusedSkills:   &s.UnusedSkillPoints,
-			currentHP:      &s.CurrentHP,
-			maxHP:          &s.MaxHP,
-			currentMana:    &s.CurrentMana,
-			maxMana:        &s.MaxMana,
-			currentStamina: &s.CurrentStamina,
-			maxStamina:     &s.MaxStamina,
-			level:          &s.Level,
-			experience:     &s.Experience,
-			gold:           &s.Gold,
-			stashedGold:    &s.StashedGold,
+		// this map connects StatID with appropriate value from stats structure
+		statMap := map[StatID]interface{}{
+			Strength:       &s.Strength,
+			Energy:         &s.Energy,
+			Dexterity:      &s.Dexterity,
+			Vitality:       &s.Vitality,
+			UnusedStats:    &s.UnusedStats,
+			UnusedSkills:   &s.UnusedSkillPoints,
+			CurrentHP:      &s.CurrentHP,
+			MaxHP:          &s.MaxHP,
+			CurrentMana:    &s.CurrentMana,
+			MaxMana:        &s.MaxMana,
+			CurrentStamina: &s.CurrentStamina,
+			MaxStamina:     &s.MaxStamina,
+			Level:          &s.Level,
+			Experience:     &s.Experience,
+			Gold:           &s.Gold,
+			StashedGold:    &s.StashedGold,
 		}
 
 		// if id is HP/mana/stamina, make it float, by default uint32
 		switch id {
-		case currentHP, maxHP, currentMana, maxMana, currentStamina, maxStamina:
+		case CurrentHP, MaxHP, CurrentMana, MaxMana, CurrentStamina, MaxStamina:
 			value := statMap[id].(*float32)
 			*value = float32(attr) / statsModifier
 		default:
@@ -110,35 +110,35 @@ func (s *Stats) Encode() ([]byte, error) {
 	sw := datautils.CreateStreamWriter()
 	sw.PushBytes([]byte(statsHeaderID)...)
 
-	statMap := map[statID]uint32{
-		strength:       s.Strength,
-		energy:         s.Energy,
-		dexterity:      s.Dexterity,
-		vitality:       s.Vitality,
-		unusedStats:    s.UnusedStats,
-		unusedSkills:   s.UnusedSkillPoints,
-		currentHP:      uint32(s.CurrentHP * statsModifier),
-		maxHP:          uint32(s.MaxHP * statsModifier),
-		currentMana:    uint32(s.CurrentMana * statsModifier),
-		maxMana:        uint32(s.MaxMana * statsModifier),
-		currentStamina: uint32(s.CurrentStamina * statsModifier),
-		maxStamina:     uint32(s.MaxStamina * statsModifier),
-		level:          s.Level,
-		experience:     s.Experience,
-		gold:           s.Gold,
-		stashedGold:    s.StashedGold,
+	statMap := map[StatID]uint32{
+		Strength:       s.Strength,
+		Energy:         s.Energy,
+		Dexterity:      s.Dexterity,
+		Vitality:       s.Vitality,
+		UnusedStats:    s.UnusedStats,
+		UnusedSkills:   s.UnusedSkillPoints,
+		CurrentHP:      uint32(s.CurrentHP * statsModifier),
+		MaxHP:          uint32(s.MaxHP * statsModifier),
+		CurrentMana:    uint32(s.CurrentMana * statsModifier),
+		MaxMana:        uint32(s.MaxMana * statsModifier),
+		CurrentStamina: uint32(s.CurrentStamina * statsModifier),
+		MaxStamina:     uint32(s.MaxStamina * statsModifier),
+		Level:          s.Level,
+		Experience:     s.Experience,
+		Gold:           s.Gold,
+		StashedGold:    s.StashedGold,
 	}
 
-	for i := strength; i <= stashedGold; i++ {
+	for i := Strength; i <= StashedGold; i++ {
 		// if unused stats or skill points are 0 - than don't push dhem
 		switch i {
-		case unusedStats, unusedSkills:
+		case UnusedStats, UnusedSkills:
 			if statMap[i] == 0 {
 				continue
 			}
 		}
 
-		l, err := i.getStatLen()
+		l, err := i.GetStatLen()
 		if err != nil {
 			return nil, err
 		}
@@ -153,47 +153,49 @@ func (s *Stats) Encode() ([]byte, error) {
 	return sw.GetBytes(), nil
 }
 
-type statID uint16
+// StatID represents a stat id
+type StatID uint16
 
 // All attribute ids described.
 const (
-	strength statID = iota
-	energy
-	dexterity
-	vitality
-	unusedStats
-	unusedSkills
-	currentHP
-	maxHP
-	currentMana
-	maxMana
-	currentStamina
-	maxStamina
-	level
-	experience
-	gold
-	stashedGold
+	Strength StatID = iota
+	Energy
+	Dexterity
+	Vitality
+	UnusedStats
+	UnusedSkills
+	CurrentHP
+	MaxHP
+	CurrentMana
+	MaxMana
+	CurrentStamina
+	MaxStamina
+	Level
+	Experience
+	Gold
+	StashedGold
 )
 
-func (i statID) getStatLen() (int, error) {
-	// nolint:gomnd // constant values
-	attributeBitMap := map[statID]int{
-		strength:       10,
-		energy:         10,
-		dexterity:      10,
-		vitality:       10,
-		unusedStats:    10,
-		unusedSkills:   8,
-		currentHP:      21,
-		maxHP:          21,
-		currentMana:    21,
-		maxMana:        21,
-		currentStamina: 21,
-		maxStamina:     21,
-		level:          7,
-		experience:     32,
-		gold:           25,
-		stashedGold:    25,
+// GetStatLen returns length of stat id data
+func (i StatID) GetStatLen() (int, error) {
+	// nolint:gomnd // data function
+	attributeBitMap := map[StatID]int{
+		Strength:       10,
+		Energy:         10,
+		Dexterity:      10,
+		Vitality:       10,
+		UnusedStats:    10,
+		UnusedSkills:   8,
+		CurrentHP:      21,
+		MaxHP:          21,
+		CurrentMana:    21,
+		MaxMana:        21,
+		CurrentStamina: 21,
+		MaxStamina:     21,
+		Level:          7,
+		Experience:     32,
+		Gold:           25,
+		StashedGold:    25,
 	}
 
 	s, ok := attributeBitMap[i]

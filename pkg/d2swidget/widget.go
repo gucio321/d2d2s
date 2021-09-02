@@ -4,12 +4,14 @@ package d2swidget
 import (
 	"fmt"
 	"math"
+	"strconv"
 
 	"github.com/AllenDang/giu"
 
 	"github.com/gucio321/d2d2s/pkg/d2s"
 	"github.com/gucio321/d2d2s/pkg/d2s/d2senums"
 	"github.com/gucio321/d2d2s/pkg/d2s/d2sitems"
+	"github.com/gucio321/d2d2s/pkg/d2s/d2sstats"
 )
 
 var _ giu.Widget = &D2SWidget{}
@@ -62,6 +64,8 @@ func (w *D2SWidget) Build() {
 		giu.TreeNode("Mercenary").Layout(w.mercenary()),
 		giu.TreeNode("Quests").Layout(w.quests()),
 		giu.TreeNode("Waypoints").Layout(w.waypoints()),
+		giu.TreeNode("NPC").Layout(w.npc()),
+		giu.TreeNode("Stats").Layout(w.stats()),
 	}.Build()
 }
 
@@ -175,6 +179,48 @@ func (w *D2SWidget) waypoints() giu.Layout {
 				giu.Checkbox(fmt.Sprintf("waypoint %d", i), &(*w.d2s.Waypoints)[state.waypointDifficulty][state.waypointAct][i]).Build()
 			}
 		}),
+	}
+}
+
+func (w *D2SWidget) npc() giu.Layout {
+	return giu.Layout{giu.Label("TODO")}
+}
+
+func (w *D2SWidget) stats() giu.Layout {
+	const decimal = 10
+
+	strength := strconv.Itoa(int(w.d2s.Stats.Strength))
+	strengthLen, _ := d2sstats.Strength.GetStatLen()
+	energy := strconv.Itoa(int(w.d2s.Stats.Energy))
+	energyLen, _ := d2sstats.Energy.GetStatLen()
+	dexterity := strconv.Itoa(int(w.d2s.Stats.Dexterity))
+	dexterityLen, _ := d2sstats.Dexterity.GetStatLen()
+
+	return giu.Layout{
+		giu.Row(
+			giu.Label("Strength: "),
+			giu.InputText(&strength).
+				Flags(giu.InputTextFlagsCharsDecimal).OnChange(func() {
+				s, _ := strconv.ParseUint(strength, decimal, strengthLen)
+				w.d2s.Stats.Strength = uint32(s)
+			}),
+		),
+		giu.Row(
+			giu.Label("Energy: "),
+			giu.InputText(&energy).
+				Flags(giu.InputTextFlagsCharsDecimal).OnChange(func() {
+				e, _ := strconv.ParseUint(energy, decimal, energyLen)
+				w.d2s.Stats.Energy = uint32(e)
+			}),
+		),
+		giu.Row(
+			giu.Label("Dexterity: "),
+			giu.InputText(&dexterity).
+				Flags(giu.InputTextFlagsCharsDecimal).OnChange(func() {
+				d, _ := strconv.ParseUint(dexterity, decimal, dexterityLen)
+				w.d2s.Stats.Dexterity = uint32(d)
+			}),
+		),
 	}
 }
 
