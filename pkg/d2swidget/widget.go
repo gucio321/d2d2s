@@ -27,14 +27,28 @@ func D2S(d2s *d2s.D2S) *D2SWidget {
 }
 
 func (w *D2SWidget) Build() {
+	lvl := int32(w.d2s.Level)
+	name := w.d2s.Name
+
 	giu.Layout{
 		giu.Label(fmt.Sprintf("Version: %s (%d)", w.d2s.Version, w.d2s.Version)),
 		giu.Row(
 			giu.Label("Name: "),
-			giu.InputText(&w.d2s.Name),
+			giu.InputText(&name).OnChange(func() {
+				w.d2s.SetName(name)
+			}),
+		),
+		giu.Row(
+			giu.Label("Class: "),
+			charClassCombo(&w.d2s.Class),
+		),
+		giu.Row(
+			giu.Label("Level: "),
+			giu.InputInt(&lvl).OnChange(func() { w.d2s.SetLevel(byte(lvl)) }),
 		),
 		giu.TreeNode("Status").Layout(w.status()),
 		giu.TreeNode("Progression").Layout(w.progression()),
+		giu.TreeNode("Hotkeys").Layout(w.hotkeys()),
 	}.Build()
 }
 
@@ -66,6 +80,10 @@ func (w *D2SWidget) progression() giu.Layout {
 	}
 }
 
+func (w *D2SWidget) hotkeys() giu.Layout {
+	return giu.Layout{}
+}
+
 func difficultyCombo(value *d2senums.DifficultyType) giu.Widget {
 	list := make([]string, 0)
 	for d := d2senums.DifficultyNormal; d <= d2senums.DifficultyHell; d++ {
@@ -76,5 +94,18 @@ func difficultyCombo(value *d2senums.DifficultyType) giu.Widget {
 
 	return giu.Combo(giu.GenAutoID("difficultyCombo"), list[v], list, &v).OnChange(func() {
 		*value = d2senums.DifficultyType(v)
+	})
+}
+
+func charClassCombo(value *d2senums.CharacterClass) giu.Widget {
+	list := make([]string, 0)
+	for d := d2senums.CharacterClassAmazon; d <= d2senums.CharacterClassAssassin; d++ {
+		list = append(list, d.String())
+	}
+
+	v := int32(*value)
+
+	return giu.Combo(giu.GenAutoID("charClassCombo"), list[v], list, &v).OnChange(func() {
+		*value = d2senums.CharacterClass(v)
 	})
 }
