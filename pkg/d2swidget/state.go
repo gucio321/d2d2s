@@ -9,6 +9,8 @@ import (
 
 type widgetState struct {
 	difficultyDifficulty d2senums.DifficultyType
+	waypointDifficulty   d2senums.DifficultyType
+	waypointAct          int32
 }
 
 // DIspose implements giu.Disposable

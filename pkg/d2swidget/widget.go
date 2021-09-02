@@ -60,6 +60,8 @@ func (w *D2SWidget) Build() {
 			giu.Label(fmt.Sprintf("ID: %v", w.d2s.MapID)),
 		),
 		giu.TreeNode("Mercenary").Layout(w.mercenary()),
+		giu.TreeNode("Quests").Layout(w.quests()),
+		giu.TreeNode("Waypoints").Layout(w.waypoints()),
 	}.Build()
 }
 
@@ -155,6 +157,24 @@ func (w *D2SWidget) mercenary() giu.Layout {
 		giu.TreeNode("Items").Layout(
 			items(w.d2s.Mercenary.Items),
 		),
+	}
+}
+
+func (w *D2SWidget) quests() giu.Layout {
+	return giu.Layout{giu.Label("TODO")}
+}
+
+func (w *D2SWidget) waypoints() giu.Layout {
+	state := w.getState()
+
+	return giu.Layout{
+		difficultySlider(&state.waypointDifficulty),
+		giu.SliderInt(giu.GenAutoID("##waypointsAct"), &state.waypointAct, 1, d2senums.NumActs).Format("Act: %d"),
+		giu.Custom(func() {
+			for i := range (*w.d2s.Waypoints)[state.waypointDifficulty][state.waypointAct] {
+				giu.Checkbox(fmt.Sprintf("waypoint %d", i), &(*w.d2s.Waypoints)[state.waypointDifficulty][state.waypointAct][i]).Build()
+			}
+		}),
 	}
 }
 
