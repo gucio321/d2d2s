@@ -49,7 +49,8 @@ func (w *D2SWidget) Build() {
 		giu.TreeNode("Status").Layout(w.status()),
 		giu.TreeNode("Progression").Layout(w.progression()),
 		giu.TreeNode("Hotkeys").Layout(w.hotkeys()),
-		giu.TreeNode("Skills: ").Layout(w.skills()),
+		giu.TreeNode("Skills").Layout(w.skills()),
+		giu.TreeNode("Difficulty").Layout(w.difficulties()),
 	}.Build()
 }
 
@@ -106,6 +107,22 @@ func (w *D2SWidget) skills() giu.Layout {
 	}
 }
 
+func (w *D2SWidget) difficulties() giu.Layout {
+	state := w.getState()
+	diffStatus := (*w.d2s.Difficulty)[state.difficultyDifficulty]
+	act := int32(diffStatus.Act)
+	return giu.Layout{
+		difficultySlider(&state.difficultyDifficulty),
+		giu.Checkbox("Active: ", &diffStatus.Active),
+		giu.Row(
+			giu.Label("Act: "),
+			giu.InputInt(&act).OnChange(func() {
+				diffStatus.SetAct(int(act))
+			}),
+		),
+	}
+}
+
 func difficultyCombo(value *d2senums.DifficultyType) giu.Widget {
 	list := make([]string, 0)
 	for d := d2senums.DifficultyNormal; d <= d2senums.DifficultyHell; d++ {
@@ -146,5 +163,13 @@ func skillCombo(value *d2senums.SkillID) giu.Widget {
 
 	return giu.Combo(giu.GenAutoID("##skillCombo"), list[v], list, &v).OnChange(func() {
 		*value = d2senums.SkillID(v)
+	})
+}
+
+func difficultySlider(value *d2senums.DifficultyType) giu.Widget {
+	v := int32(*value)
+	return giu.SliderInt("##difficultySlider", &v, int32(d2senums.DifficultyNormal), int32(d2senums.DifficultyHell)).
+		Format(fmt.Sprintf("%s", *value)).OnChange(func() {
+		*value = d2senums.DifficultyType(v)
 	})
 }

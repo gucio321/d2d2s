@@ -84,3 +84,9 @@ func (d *DifficultyLevelStatus) Encode() (result byte) {
 
 	return sw.GetBytes()[0]
 }
+
+func (d *DifficultyLevelStatus) SetAct(act int) {
+	if act > 0 && act < d2senums.NumActs {
+		d.Act = byte(act)
+	}
+}

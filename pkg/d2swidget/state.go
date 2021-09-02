@@ -4,9 +4,12 @@ import (
 	"fmt"
 
 	"github.com/AllenDang/giu"
+	"github.com/gucio321/d2d2s/pkg/d2s/d2senums"
 )
 
-type widgetState struct{}
+type widgetState struct {
+	difficultyDifficulty d2senums.DifficultyType
+}
 
 // DIspose implements giu.Disposable
 func (s *widgetState) Dispose() {
