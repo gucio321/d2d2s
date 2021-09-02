@@ -1,6 +1,10 @@
 package d2smercenarytype
 
-import "github.com/gucio321/d2d2s/pkg/d2s/d2senums"
+import (
+	"fmt"
+
+	"github.com/gucio321/d2d2s/pkg/d2s/d2senums"
+)
 
 const (
 	numDifficulties = 3
@@ -125,4 +129,8 @@ func GetClassAttributes(class MercClass) []MercAttribute {
 	}
 
 	return result
+}
+
+func (m *MercenaryType) String() string {
+	return fmt.Sprintf("%s - %s (%s)", m.Class, m.Attribute, m.Difficulty)
 }

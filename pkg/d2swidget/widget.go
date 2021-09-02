@@ -3,11 +3,13 @@ package d2swidget
 
 import (
 	"fmt"
+	"math"
 
 	"github.com/AllenDang/giu"
 
 	"github.com/gucio321/d2d2s/pkg/d2s"
 	"github.com/gucio321/d2d2s/pkg/d2s/d2senums"
+	"github.com/gucio321/d2d2s/pkg/d2s/d2sitems"
 )
 
 var _ giu.Widget = &D2SWidget{}
@@ -51,6 +53,10 @@ func (w *D2SWidget) Build() {
 		giu.TreeNode("Hotkeys").Layout(w.hotkeys()),
 		giu.TreeNode("Skills").Layout(w.skills()),
 		giu.TreeNode("Difficulty").Layout(w.difficulties()),
+		giu.TreeNode("Map").Layout(
+			giu.Label(fmt.Sprintf("ID: %v", w.d2s.MapID)),
+		),
+		giu.TreeNode("Mercenary").Layout(w.mercenary()),
 	}.Build()
 }
 
@@ -121,6 +127,33 @@ func (w *D2SWidget) difficulties() giu.Layout {
 			}),
 		),
 	}
+}
+
+func (w *D2SWidget) mercenary() giu.Layout {
+	died := int32(w.d2s.Mercenary.Died)
+	return giu.Layout{
+		giu.Row(
+			giu.Label("Died: "),
+			giu.InputInt(&died).OnChange(func() {
+				if died < 0 || died > math.MaxUint16 {
+					return
+				}
+
+				w.d2s.Mercenary.Died = uint16(died)
+			}),
+		),
+		giu.Label(fmt.Sprintf("ID: %v", w.d2s.Mercenary.ID)),                 // TODO: add editor for this
+		giu.Label(fmt.Sprintf("Name ID: %v", w.d2s.Mercenary.Name)),          // TODO: add editor for this
+		giu.Label(fmt.Sprintf("Type: %s", w.d2s.Mercenary.Type)),             // TODO: add editor for this
+		giu.Label(fmt.Sprintf("Experience: %v", w.d2s.Mercenary.Experience)), // TODO: add editor for this
+		giu.TreeNode("Items").Layout(
+			items(w.d2s.Mercenary.Items),
+		),
+	}
+}
+
+func items(items *d2sitems.Items) giu.Layout {
+	return giu.Layout{giu.Label("TODO")}
 }
 
 func difficultyCombo(value *d2senums.DifficultyType) giu.Widget {
