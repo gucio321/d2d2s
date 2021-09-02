@@ -99,7 +99,7 @@ func difficultyCombo(value *d2senums.DifficultyType) giu.Widget {
 
 func charClassCombo(value *d2senums.CharacterClass) giu.Widget {
 	list := make([]string, 0)
-	for d := d2senums.CharacterClassAmazon; d <= d2senums.CharacterClassAssassin; d++ {
+	for d := d2senums.CharacterAmazon; d <= d2senums.CharacterAssassin; d++ {
 		list = append(list, d.String())
 	}
 

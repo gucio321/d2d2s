@@ -271,13 +271,13 @@ const (
 // GetSkillModifier returns a skill id modifier basing on character class
 func GetSkillModifier(class CharacterClass) SkillIDModifier {
 	lookup := map[CharacterClass]SkillIDModifier{
-		CharacterClassAmazon:      SkillIDAmazon,
-		CharacterClassSorceress:   SkillIDSorceress,
-		CharacterClassNecromancer: SkillIDNecromancer,
-		CharacterClassPaladin:     SkillIDPaladin,
-		CharacterClassBarbarian:   SkillIDBarbarian,
-		CharacterClassDruid:       SkillIDDruid,
-		CharacterClassAssassin:    SkillIDAssasin,
+		CharacterAmazon:      SkillIDAmazon,
+		CharacterSorceress:   SkillIDSorceress,
+		CharacterNecromancer: SkillIDNecromancer,
+		CharacterPaladin:     SkillIDPaladin,
+		CharacterBarbarian:   SkillIDBarbarian,
+		CharacterDruid:       SkillIDDruid,
+		CharacterAssassin:    SkillIDAssasin,
 	}
 
 	m, ok := lookup[class]

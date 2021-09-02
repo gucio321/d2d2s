@@ -229,7 +229,7 @@ func Load(data []byte) (*D2S, error) {
 	}
 
 	// iron golem for necromancer
-	if result.Class == d2senums.CharacterClassNecromancer && result.Status.Expansion {
+	if result.Class == d2senums.CharacterNecromancer && result.Status.Expansion {
 		if err := result.IronGolem.Load(sr); err != nil {
 			return nil, fmt.Errorf("error loading iron golem: %w", err)
 		}
@@ -334,7 +334,7 @@ func (d *D2S) Encode() ([]byte, error) {
 
 	d.Mercenary.EncodeItems(sw)
 
-	if d.Class == d2senums.CharacterClassNecromancer && d.Status.Expansion {
+	if d.Class == d2senums.CharacterNecromancer && d.Status.Expansion {
 		d.IronGolem.Encode(sw)
 	}
 
