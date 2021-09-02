@@ -49,6 +49,7 @@ func (w *D2SWidget) Build() {
 		giu.TreeNode("Status").Layout(w.status()),
 		giu.TreeNode("Progression").Layout(w.progression()),
 		giu.TreeNode("Hotkeys").Layout(w.hotkeys()),
+		giu.TreeNode("Skills: ").Layout(w.skills()),
 	}.Build()
 }
 
@@ -81,7 +82,28 @@ func (w *D2SWidget) progression() giu.Layout {
 }
 
 func (w *D2SWidget) hotkeys() giu.Layout {
-	return giu.Layout{}
+	return giu.Layout{giu.Label("TODO")}
+}
+
+func (w *D2SWidget) skills() giu.Layout {
+	return giu.Layout{
+		giu.Row(
+			giu.Label("Left Skill: "),
+			skillCombo(&w.d2s.LeftSkill),
+		),
+		giu.Row(
+			giu.Label("Right Skill: "),
+			skillCombo(&w.d2s.RightSkill),
+		),
+		giu.Row(
+			giu.Label("Left Skill (switch): "),
+			skillCombo(&w.d2s.LeftSkillSwitch),
+		),
+		giu.Row(
+			giu.Label("Right Skill (switch): "),
+			skillCombo(&w.d2s.RightSkillSwitch),
+		),
+	}
 }
 
 func difficultyCombo(value *d2senums.DifficultyType) giu.Widget {
@@ -92,7 +114,7 @@ func difficultyCombo(value *d2senums.DifficultyType) giu.Widget {
 
 	v := int32(*value)
 
-	return giu.Combo(giu.GenAutoID("difficultyCombo"), list[v], list, &v).OnChange(func() {
+	return giu.Combo(giu.GenAutoID("##difficultyCombo"), list[v], list, &v).OnChange(func() {
 		*value = d2senums.DifficultyType(v)
 	})
 }
@@ -105,7 +127,24 @@ func charClassCombo(value *d2senums.CharacterClass) giu.Widget {
 
 	v := int32(*value)
 
-	return giu.Combo(giu.GenAutoID("charClassCombo"), list[v], list, &v).OnChange(func() {
+	return giu.Combo(giu.GenAutoID("##charClassCombo"), list[v], list, &v).OnChange(func() {
 		*value = d2senums.CharacterClass(v)
+	})
+}
+
+func skillCombo(value *d2senums.SkillID) giu.Widget {
+	list := make([]string, 0)
+	for d := d2senums.SkillAttack; d <= d2senums.SkillBarbarianBattleCommands; d++ {
+		list = append(list, d.String())
+	}
+
+	for d := d2senums.SkillScrollIdentify; d <= d2senums.SkillAssasinRoyalStrike; d++ {
+		list = append(list, d.String())
+	}
+
+	v := int32(*value)
+
+	return giu.Combo(giu.GenAutoID("##skillCombo"), list[v], list, &v).OnChange(func() {
+		*value = d2senums.SkillID(v)
 	})
 }
