@@ -21,7 +21,7 @@ func getTestdata() map[[NumSkillBytes]byte]testdata {
 			8, 16, 2, 4, 15, 7, 8, 5, 4, 20, 18, 4, 3, 9, 13, 8, 1, 0,
 			19, 8, 2, 0, 4, 3, 6, 1, 16, 15, 14, 7,
 		}: {
-			d2senums.CharacterClassNecromancer,
+			d2senums.CharacterNecromancer,
 			&Skills{
 				d2senums.SkillNecromancerAmplifyDamage:    8,
 				d2senums.SkillNecromancerTeeth:            16,

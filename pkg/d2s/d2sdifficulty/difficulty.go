@@ -85,6 +85,7 @@ func (d *DifficultyLevelStatus) Encode() (result byte) {
 	return sw.GetBytes()[0]
 }
 
+// SetAct sets valid difficultyLevelStatus.Act value
 func (d *DifficultyLevelStatus) SetAct(act int) {
 	if act > 0 && act < d2senums.NumActs {
 		d.Act = byte(act)

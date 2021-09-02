@@ -14,20 +14,23 @@ import (
 
 var _ giu.Widget = &D2SWidget{}
 
+// D2SWidget represents d2s widget
 type D2SWidget struct {
 	d2s *d2s.D2S
 	id  string
 }
 
-func D2S(d2s *d2s.D2S) *D2SWidget {
+// D2S creates d2s widget
+func D2S(d2sData *d2s.D2S) *D2SWidget {
 	result := &D2SWidget{
-		d2s: d2s,
+		d2s: d2sData,
 		id:  giu.GenAutoID("D2SWidget"),
 	}
 
 	return result
 }
 
+// Build implements giu.Widget
 func (w *D2SWidget) Build() {
 	lvl := int32(w.d2s.Level)
 	name := w.d2s.Name
@@ -72,6 +75,7 @@ func (w *D2SWidget) status() giu.Layout {
 
 func (w *D2SWidget) progression() giu.Layout {
 	act := int32(w.d2s.Progression.Act)
+
 	return giu.Layout{
 		giu.Row(
 			giu.Label("Difficulty: "),
@@ -117,6 +121,7 @@ func (w *D2SWidget) difficulties() giu.Layout {
 	state := w.getState()
 	diffStatus := (*w.d2s.Difficulty)[state.difficultyDifficulty]
 	act := int32(diffStatus.Act)
+
 	return giu.Layout{
 		difficultySlider(&state.difficultyDifficulty),
 		giu.Checkbox("Active: ", &diffStatus.Active),
@@ -131,6 +136,7 @@ func (w *D2SWidget) difficulties() giu.Layout {
 
 func (w *D2SWidget) mercenary() giu.Layout {
 	died := int32(w.d2s.Mercenary.Died)
+
 	return giu.Layout{
 		giu.Row(
 			giu.Label("Died: "),
@@ -152,6 +158,7 @@ func (w *D2SWidget) mercenary() giu.Layout {
 	}
 }
 
+// nolint:unparam // TODO: write items method
 func items(items *d2sitems.Items) giu.Layout {
 	return giu.Layout{giu.Label("TODO")}
 }
@@ -201,8 +208,9 @@ func skillCombo(value *d2senums.SkillID) giu.Widget {
 
 func difficultySlider(value *d2senums.DifficultyType) giu.Widget {
 	v := int32(*value)
+
 	return giu.SliderInt("##difficultySlider", &v, int32(d2senums.DifficultyNormal), int32(d2senums.DifficultyHell)).
-		Format(fmt.Sprintf("%s", *value)).OnChange(func() {
+		Format(value.String()).OnChange(func() {
 		*value = d2senums.DifficultyType(v)
 	})
 }
