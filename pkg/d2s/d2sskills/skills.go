@@ -29,7 +29,7 @@ func New() *Skills {
 func (s *Skills) Load(data [NumSkillBytes]byte, class d2senums.CharacterClass) error {
 	sr := datautils.CreateBitMuncher(data[:], 0)
 
-	skillsID := sr.GetBytes(2) // nolint:gomnd // skills header
+	skillsID := sr.GetBytes(len(skillsHeaderID))
 	if string(skillsID) != skillsHeaderID {
 		return errors.New("unexpected skills section header")
 	}
