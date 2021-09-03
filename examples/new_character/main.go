@@ -4,16 +4,16 @@ import (
 	"io/ioutil"
 	"log"
 
-	d2d2s "github.com/gucio321/d2d2s/pkg/d2s"
+	"github.com/gucio321/d2d2s/pkg/d2s"
 	"github.com/gucio321/d2d2s/pkg/d2s/d2senums"
 	"github.com/gucio321/d2d2s/pkg/d2s/d2sitems"
 	"github.com/gucio321/d2d2s/pkg/d2s/d2sitems/itemdata"
 )
 
 func main() {
-	d2s := d2d2s.NewCharacter(
+	d2s := d2s.NewCharacter(
 		"Example_Char",
-		d2senums.CharacterClassBarbarian,
+		d2senums.CharacterBarbarian,
 	).SetLevel(27).PushItems(
 		d2sitems.NewItem(itemdata.BerRune).
 			SetLocation(
