@@ -102,7 +102,7 @@ func Load(data []byte) (*D2S, error) {
 	sr := datautils.CreateBitMuncher(data, 0)
 
 	if err := result.loadHeader(sr); err != nil {
-		return nil, fmt.Errorf("error loading header: %w", err)
+		return nil, fmt.Errorf("loading header: %w", err)
 	}
 
 	result.loadCharDetails(sr)
@@ -218,7 +218,7 @@ func (d *D2S) loadMapDetails(sr *datautils.BitMuncher) error {
 	copy(questsData[:], qd[:d2squests.NumQuestsBytes])
 
 	if err := d.Quests.Unmarshal(&questsData); err != nil {
-		return fmt.Errorf("error loading quests: %w", err)
+		return fmt.Errorf("loading quests: %w", err)
 	}
 
 	wd := sr.GetBytes(d2swaypoints.NumWaypointsBytes)
@@ -228,7 +228,7 @@ func (d *D2S) loadMapDetails(sr *datautils.BitMuncher) error {
 	copy(waypointsData[:], wd[:d2swaypoints.NumWaypointsBytes])
 
 	if err := d.Waypoints.Load(&waypointsData); err != nil {
-		return fmt.Errorf("error loading waypoints data: %w", err)
+		return fmt.Errorf("loading waypoints data: %w", err)
 	}
 
 	nd := sr.GetBytes(d2snpc.NumNPCBytes)
@@ -238,7 +238,7 @@ func (d *D2S) loadMapDetails(sr *datautils.BitMuncher) error {
 	copy(npcData[:], nd[:d2snpc.NumNPCBytes])
 
 	if err := d.NPC.Load(npcData); err != nil {
-		return fmt.Errorf("error loading npcs data: %w", err)
+		return fmt.Errorf("loading npcs data: %w", err)
 	}
 
 	return nil
@@ -246,7 +246,7 @@ func (d *D2S) loadMapDetails(sr *datautils.BitMuncher) error {
 
 func (d *D2S) loadCharacterDetails(sr *datautils.BitMuncher) error {
 	if err := d.Stats.Load(sr); err != nil {
-		return fmt.Errorf("error loading character stats: %w", err)
+		return fmt.Errorf("loading character stats: %w", err)
 	}
 
 	var skillData [d2sskills.NumSkillBytes]byte
@@ -256,33 +256,33 @@ func (d *D2S) loadCharacterDetails(sr *datautils.BitMuncher) error {
 	copy(skillData[:], sd[:d2sskills.NumSkillBytes])
 
 	if skillErr := d.Skills.Load(skillData, d.Class); skillErr != nil {
-		return fmt.Errorf("error loading skills: %w", skillErr)
+		return fmt.Errorf("loading skills: %w", skillErr)
 	}
 
 	numItems, err := d.Items.LoadHeader(sr)
 	if err != nil {
-		return fmt.Errorf("error loading items header: %w", err)
+		return fmt.Errorf("loading items header: %w", err)
 	}
 
 	if err := d.Items.LoadList(sr, numItems); err != nil {
-		return fmt.Errorf("error loading items list: %w", err)
+		return fmt.Errorf("loading items list: %w", err)
 	}
 
 	// thanks to @nokka <https://github.com/nokka/d2s> for figuring out these fields!
 	if err := d.Corpse.Load(sr); err != nil {
-		return fmt.Errorf("error loading corpse: %w", err)
+		return fmt.Errorf("loading corpse: %w", err)
 	}
 
 	if d.Status.Expansion {
 		if err := d.Mercenary.LoadMercItems(sr); err != nil {
-			return fmt.Errorf("error loading merc items: %w", err)
+			return fmt.Errorf("loading merc items: %w", err)
 		}
 	}
 
 	// iron golem for necromancer
 	if d.Class == d2senums.CharacterNecromancer && d.Status.Expansion {
 		if err := d.IronGolem.Load(sr); err != nil {
-			return fmt.Errorf("error loading iron golem: %w", err)
+			return fmt.Errorf("loading iron golem: %w", err)
 		}
 	}
 
@@ -341,7 +341,7 @@ func (d *D2S) Encode() ([]byte, error) {
 
 	sd, err := d.Stats.Encode()
 	if err != nil {
-		return nil, fmt.Errorf("error encoding stats: %w", err)
+		return nil, fmt.Errorf("encoding stats: %w", err)
 	}
 
 	sw.PushBytes(sd...)
@@ -352,7 +352,7 @@ func (d *D2S) Encode() ([]byte, error) {
 	sw.PushBytes(d.Items.Encode()...)
 
 	if err := d.Corpse.Encode(sw); err != nil {
-		return nil, fmt.Errorf("error encoding corpse: %w", err)
+		return nil, fmt.Errorf("encoding corpse: %w", err)
 	}
 
 	d.Mercenary.EncodeItems(sw)
