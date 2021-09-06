@@ -12,7 +12,7 @@ type MagicalProperty struct {
 // GetPropertyData returns data for specified property id
 // nolint:funlen // data function - can't reduce
 func GetPropertyData(id uint16) *MagicalProperty {
-	// nolint:gomnd // TODO
+	// nolint:gomnd // TODO: give these properties some descriptive names
 	lookup := map[uint16]MagicalProperty{
 		0:  {Bits: []uint{8}, Bias: 32, Name: "+{0} to Strength"},
 		1:  {Bits: []uint{7}, Bias: 32, Name: "+{0} to Energy"},
