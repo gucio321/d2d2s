@@ -99,8 +99,9 @@ func (s *Stats) Load(sr *datautils.BitMuncher) error {
 		}
 	}
 
-	// nolint:gomnd // need to equalize offset
-	sr.SkipBits((8 * (bm.BitsRead() / 8)) + 8)
+	// need to equalize offsets
+	const byteSize = 8
+	sr.SkipBits((byteSize * (bm.BitsRead() / byteSize)) + byteSize)
 
 	return nil
 }
