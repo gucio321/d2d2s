@@ -187,10 +187,13 @@ func (w *D2SWidget) npc() giu.Layout {
 	return giu.Layout{giu.Label("TODO")}
 }
 
+// nolint:funlen // will fix later
 func (w *D2SWidget) stats() giu.Layout {
-	const decimal = 10
-	const floatSize = 32
-	const progressBarSize = 50
+	const (
+		decimal         = 10
+		floatSize       = 32
+		progressBarSize = 50
+	)
 
 	strength := strconv.Itoa(int(w.d2s.Stats.Strength))
 	strengthLen, _ := d2sstats.Strength.GetStatLen()
