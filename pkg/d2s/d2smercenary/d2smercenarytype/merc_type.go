@@ -21,19 +21,11 @@ type MercenaryType struct {
 func Load(id uint16) *MercenaryType {
 	result := &MercenaryType{}
 
-	// nolint:gomnd // constant values
-	numAttributes := map[MercClass]int{
-		MercRogue:     2,
-		MercDesert:    3,
-		MercSorcerer:  3,
-		MercBarbarian: 2,
-	}
-
 	var attribute int
 
 search:
 	for class := MercRogue; class <= MercBarbarian; class++ {
-		n := numAttributes[class]
+		n := class.numAttributes()
 		for d := d2senums.DifficultyNormal; d <= d2senums.DifficultyHell; d++ {
 			for a := 0; a < n; a++ {
 				if id == 0 {
@@ -55,23 +47,16 @@ search:
 
 // Encode encodes merc type data into an uint16
 func (m *MercenaryType) Encode() (result uint16) {
-	// nolint:gomnd // constant values
-	numAttributes := map[MercClass]int{
-		MercRogue:     2,
-		MercDesert:    3,
-		MercSorcerer:  3,
-		MercBarbarian: 2,
-	}
-
 	attr := 0
 
 	for class := MercRogue; class < m.Class; class++ {
-		attr += numAttributes[class]
-		result += uint16(numAttributes[class] * numDifficulties)
+		n := class.numAttributes()
+		attr += n
+		result += uint16(n * numDifficulties)
 	}
 
 	for d := d2senums.DifficultyNormal; d < m.Difficulty; d++ {
-		result += uint16(numAttributes[m.Class])
+		result += uint16(m.Class.numAttributes())
 	}
 
 	result += uint16(int(m.Attribute) - attr)
@@ -91,6 +76,23 @@ const (
 	MercSorcerer                   // Eastern Sorcerer
 	MercBarbarian                  // Barbarian
 )
+
+func (m MercClass) numAttributes() int {
+	// nolint:gomnd // data function
+	lookup := map[MercClass]int{
+		MercRogue:     2,
+		MercDesert:    3,
+		MercSorcerer:  3,
+		MercBarbarian: 2,
+	}
+
+	result, ok := lookup[m]
+	if !ok {
+		panic("d2d2s: d2smercenarytype.(MercType).numAttributes() (internal): unexpected input value")
+	}
+
+	return result
+}
 
 //go:generate stringer -linecomment -type MercAttribute -output mercenary_attribute_string.go
 

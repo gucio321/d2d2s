@@ -101,6 +101,7 @@ func (s *Stats) Load(sr *datautils.BitMuncher) error {
 
 	// need to equalize offsets
 	const byteSize = 8
+
 	sr.SkipBits((byteSize * (bm.BitsRead() / byteSize)) + byteSize)
 
 	return nil
