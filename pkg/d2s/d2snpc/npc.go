@@ -29,7 +29,7 @@ type NPC struct {
 func (n *NPC) Load(data [NumNPCBytes]byte) error {
 	sr := datautils.CreateBitMuncher(data[:], 0)
 
-	id := sr.GetBytes(2) // nolint:gomnd // header
+	id := sr.GetBytes(len(npcHeaderID))
 	if string(id) != npcHeaderID {
 		return errors.New("unexpected header ID")
 	}
