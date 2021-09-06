@@ -37,7 +37,10 @@ func New() *Waypoints {
 
 		for act := 1; act <= d2senums.NumActs; act++ {
 			var l byte
-			if act == 4 { // nolint:gomnd // for act 4
+
+			const act4 = 4
+
+			if act == act4 {
 				l = act4WPCount
 			} else {
 				l = defaultWPCound
@@ -54,7 +57,7 @@ func New() *Waypoints {
 func (w *Waypoints) Load(data *[NumWaypointsBytes]byte) error {
 	sr := datautils.CreateBitMuncher((*data)[:], 0)
 
-	id := sr.GetBytes(2) // nolint:gomnd // header
+	id := sr.GetBytes(len(waypointHeaderID))
 	if string(id) != waypointHeaderID {
 		return errors.New("unexpected header identifier")
 	}
@@ -63,7 +66,9 @@ func (w *Waypoints) Load(data *[NumWaypointsBytes]byte) error {
 	sr.SkipBytes(numUnknownWaypointsHeaderBytes)
 
 	for i := d2senums.DifficultyNormal; i <= d2senums.DifficultyHell; i++ {
-		sr.SkipBytes(2) // nolint:gomnd // unknown
+		const unknownWPBytesCount = 2
+
+		sr.SkipBytes(unknownWPBytesCount)
 
 		d := sr.GetBytes(waypointDataBytesCount)
 
