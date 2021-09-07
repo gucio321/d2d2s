@@ -756,6 +756,12 @@ func (i *Item) encodeSimpleFields(sw *datautils.StreamWriter) {
 	}
 }
 
+var _ fmt.Stringer = &Item{}
+
+func (i *Item) String() string {
+	return i.TypeName
+}
+
 // MagicModifier represents a magic modifier
 type MagicModifier struct {
 	ID   uint16
