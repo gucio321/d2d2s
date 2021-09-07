@@ -28,7 +28,7 @@ type IronGolem struct {
 
 // Load loads a golem's data
 func (i *IronGolem) Load(sr *datautils.BitMuncher) error {
-	id := sr.GetBytes(2) // nolint:gomnd // header
+	id := sr.GetBytes(len(golemHeaderID))
 	if string(id) != golemHeaderID {
 		return errors.New("unexpected golem header")
 	}
