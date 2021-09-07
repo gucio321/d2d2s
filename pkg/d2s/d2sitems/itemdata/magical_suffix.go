@@ -5,753 +5,1080 @@ package itemdata
 // MagicalSuffix represents a magical suffix
 type MagicalSuffix uint16
 
-// magical suffixes - TODO: constant names
 const (
-	MagicalSuffix1   MagicalSuffix = iota + 1 //   Health
-	MagicalSuffix2                            //   Protection
-	MagicalSuffix3                            //   Absorption
-	MagicalSuffix4                            //   Life
-	MagicalSuffix5                            //   (nothing?)
-	MagicalSuffix6                            //   Warding
-	MagicalSuffix7                            //   the Sentinel
-	MagicalSuffix8                            //   Guarding
-	MagicalSuffix9                            //   Negation
-	MagicalSuffix10                           //  (nothing?)
-	MagicalSuffix11                           //  Piercing
-	MagicalSuffix12                           //  Bashing
-	MagicalSuffix13                           //  Puncturing
-	MagicalSuffix14                           //  Thorns
-	MagicalSuffix15                           //  Spikes
-	MagicalSuffix16                           //  Fleadiness
-	MagicalSuffix17                           //  Alacrity
-	MagicalSuffix18                           //  Swiitness
-	MagicalSuffix19                           //  Quickness
-	MagicalSuffix20                           //  Blocking
-	MagicalSuffix21                           //  Deilecting
-	MagicalSuffix22                           //  the Apprentice
-	MagicalSuffix23                           //  the Magus
-	MagicalSuffix24                           //  Frost
-	MagicalSuffix25                           //  the Glacier
-	MagicalSuffix26                           //  Frost
-	MagicalSuffix27                           //  Warmth
-	MagicalSuffix28                           //  Flame
-	MagicalSuffix29                           //  Fire
-	MagicalSuffix30                           //  Burning
-	MagicalSuffix31                           //  Flame
-	MagicalSuffix32                           //  Shook
-	MagicalSuffix33                           //  Lightning
-	MagicalSuffix34                           //  Thunder
-	MagicalSuffix35                           //  Shock
-	MagicalSuffix36                           //  Craftsmanship
-	MagicalSuffix37                           //  Quality
-	MagicalSuffix38                           //  Maiming
-	MagicalSuffix39                           //  Slaying
-	MagicalSuffix40                           //  Gore
-	MagicalSuffix41                           //  Carnage
-	MagicalSuffix42                           //  Slaughter
-	MagicalSuffix43                           //  Maiming
-	MagicalSuffix44                           //  Worth
-	MagicalSuffix45                           //  Measure
-	MagicalSuffix46                           //  Excellence
-	MagicalSuffix47                           //  Petlctmance
-	MagicalSuffix48                           //  Measure
-	MagicalSuffix49                           //  Blight
-	MagicalSuffix50                           //  Venom
-	MagicalSuffix51                           //  Pestilence
-	MagicalSuffix52                           //  Blight
-	MagicalSuffix53                           //  Dextetity
-	MagicalSuffix54                           //  Dextetity
-	MagicalSuffix55                           //  Skill
-	MagicalSuffix56                           //  Skill
-	MagicalSuffix57                           //  Accuracy
-	MagicalSuffix58                           //  Precision
-	MagicalSuffix59                           //  Precision
-	MagicalSuffix60                           //  Petlection
-	MagicalSuffix61                           //  Balance
-	MagicalSuffix62                           //  Stability
-	MagicalSuffix63                           //  (nothing?)
-	MagicalSuffix64                           //  Regenetation
-	MagicalSuffix65                           //  Regenetation
-	MagicalSuffix66                           //  Regenetation
-	MagicalSuffix67                           //  Regrowth
-	MagicalSuffix68                           //  Regrowth
-	MagicalSuffix69                           //  Vileness
-	MagicalSuffix70                           //  (nothing?)
-	MagicalSuffix71                           //  Greed
-	MagicalSuffix72                           //  Wealth
-	MagicalSuffix73                           //  Chance
-	MagicalSuffix74                           //  Fortune
-	MagicalSuffix75                           //  Energy
-	MagicalSuffix76                           //  Energy
-	MagicalSuffix77                           //  the Mind
-	MagicalSuffix78                           //  Brilliance
-	MagicalSuffix79                           //  Sorcery
-	MagicalSuffix80                           //  Wizardry
-	MagicalSuffix81                           //  the Beat
-	MagicalSuffix82                           //  Light
-	MagicalSuffix83                           //  Radiance
-	MagicalSuffix84                           //  the Sun
-	MagicalSuffix85                           //  Life
-	MagicalSuffix86                           //  the Jackal
-	MagicalSuffix87                           //  the Fox
-	MagicalSuffix88                           //  the Wolf
-	MagicalSuffix89                           //  the Wolf
-	MagicalSuffix90                           //  the Tiget
-	MagicalSuffix91                           //  the Mammoth
-	MagicalSuffix92                           //  the Mammoth
-	MagicalSuffix93                           //  the Colosuss
-	MagicalSuffix94                           //  the Leech
-	MagicalSuffix95                           //  the Locust
-	MagicalSuffix96                           //  the Bat
-	MagicalSuffix97                           //  the Vampire
-	MagicalSuffix98                           //  Defiance
-	MagicalSuffix99                           //  Amelioration
-	MagicalSuffix100                          // Remedy
-	MagicalSuffix101                          // (nothing?)
-	MagicalSuffix102                          // Simplicity
-	MagicalSuffix103                          // Ease
-	MagicalSuffix104                          // (nothing?)
-	MagicalSuffix105                          // Strength
-	MagicalSuffix106                          // Might
-	MagicalSuffix107                          // the Ox
-	MagicalSuffix108                          // the Ox
-	MagicalSuffix109                          // the Giant
-	MagicalSuffix110                          // the Giant
-	MagicalSuffix111                          // the Titan
-	MagicalSuffix112                          // Pacing
-	MagicalSuffix113                          // Haste
-	MagicalSuffix114                          // Speed
-	MagicalSuffix115                          // Health
-	MagicalSuffix116                          // Protection
-	MagicalSuffix117                          // Absorption
-	MagicalSuffix118                          // Life
-	MagicalSuffix119                          // Life Everlasting
-	MagicalSuffix120                          // Protection
-	MagicalSuffix121                          // Absorption
-	MagicalSuffix122                          // Life
-	MagicalSuffix123                          // Anima
-	MagicalSuffix124                          // Warding
-	MagicalSuffix125                          // the Sentinel
-	MagicalSuffix126                          // Guarding
-	MagicalSuffix127                          // Negation
-	MagicalSuffix128                          // the Sentinel
-	MagicalSuffix129                          // Guarding
-	MagicalSuffix130                          // Negation
-	MagicalSuffix131                          // Coolness
-	MagicalSuffix132                          // Incombustibility
-	MagicalSuffix133                          // Amianthus
-	MagicalSuffix134                          // Fire Quenching
-	MagicalSuffix135                          // Coolness
-	MagicalSuffix136                          // Incombustibility
-	MagicalSuffix137                          // Amianthus
-	MagicalSuffix138                          // Fire Quenching
-	MagicalSuffix139                          // Faith
-	MagicalSuffix140                          // Resistance
-	MagicalSuffix141                          // Insulation
-	MagicalSuffix142                          // Grounding
-	MagicalSuffix143                          // the Dynamo
-	MagicalSuffix144                          // Resistance
-	MagicalSuffix145                          // Insulation
-	MagicalSuffix146                          // Grounding
-	MagicalSuffix147                          // the Dynamo
-	MagicalSuffix148                          // Stoicism
-	MagicalSuffix149                          // Warming
-	MagicalSuffix150                          // Thawing
-	MagicalSuffix151                          // the Dunes
-	MagicalSuffix152                          // the Sirocco
-	MagicalSuffix153                          // Warming
-	MagicalSuffix154                          // Thawing
-	MagicalSuffix155                          // the Dunes
-	MagicalSuffix156                          // the Sirocco
-	MagicalSuffix157                          // Desire
-	MagicalSuffix158                          // Piercing
-	MagicalSuffix159                          // Bashing
-	MagicalSuffix160                          // Puncturing
-	MagicalSuffix161                          // Thorns
-	MagicalSuffix162                          // Spikes
-	MagicalSuffix163                          // Razors
-	MagicalSuffix164                          // Swords
-	MagicalSuffix165                          // Malice
-	MagicalSuffix166                          // Readiness
-	MagicalSuffix167                          // Alacrity
-	MagicalSuffix168                          // Swiftness
-	MagicalSuffix169                          // Quickness
-	MagicalSuffix170                          // Alacrity
-	MagicalSuffix171                          // Fewer
-	MagicalSuffix172                          // Blocking
-	MagicalSuffix173                          // Deflecting
-	MagicalSuffix174                          // the Apprentice
-	MagicalSuffix175                          // the Magus
-	MagicalSuffix176                          // Frost
-	MagicalSuffix177                          // the Icicle
-	MagicalSuffix178                          // the Glacier
-	MagicalSuffix179                          // Winter
-	MagicalSuffix180                          // Frost
-	MagicalSuffix181                          // Frigidity
-	MagicalSuffix182                          // Warmth
-	MagicalSuffix183                          // Flame
-	MagicalSuffix184                          // Fire
-	MagicalSuffix185                          // Burning
-	MagicalSuffix186                          // Incineration
-	MagicalSuffix187                          // Flame
-	MagicalSuffix188                          // Passion
-	MagicalSuffix189                          // Shock
-	MagicalSuffix190                          // Lightning
-	MagicalSuffix191                          // Thunder
-	MagicalSuffix192                          // Storms
-	MagicalSuffix193                          // Shock
-	MagicalSuffix194                          // Ennui
-	MagicalSuffix195                          // Craftsmanship
-	MagicalSuffix196                          // Quality
-	MagicalSuffix197                          // Maiming
-	MagicalSuffix198                          // Slaying
-	MagicalSuffix199                          // Gore
-	MagicalSuffix200                          // Damage
-	MagicalSuffix201                          // Slaughter
-	MagicalSuffix202                          // Butchery
-	MagicalSuffix203                          // Evisceration
-	MagicalSuffix204                          // Maiming
-	MagicalSuffix205                          // Craftsmanship
-	MagicalSuffix206                          // Craftsmanship
-	MagicalSuffix207                          // Craftsmanship
-	MagicalSuffix208                          // Quality
-	MagicalSuffix209                          // Quality
-	MagicalSuffix210                          // Maiming
-	MagicalSuffix211                          // Maiming
-	MagicalSuffix212                          // Craftsmanship
-	MagicalSuffix213                          // Craftsmanship
-	MagicalSuffix214                          // Quality
-	MagicalSuffix215                          // Quality
-	MagicalSuffix216                          // Maiming
-	MagicalSuffix217                          // Craftsmanship
-	MagicalSuffix218                          // Quality
-	MagicalSuffix219                          // Maiming
-	MagicalSuffix220                          // Ire
-	MagicalSuffix221                          // Wrath
-	MagicalSuffix222                          // Damage
-	MagicalSuffix223                          // Worth
-	MagicalSuffix224                          // Measure
-	MagicalSuffix225                          // Excellence
-	MagicalSuffix226                          // Performance
-	MagicalSuffix227                          // Transcendence
-	MagicalSuffix228                          // Worth
-	MagicalSuffix229                          // Measure
-	MagicalSuffix230                          // Excellence
-	MagicalSuffix231                          // Performance
-	MagicalSuffix232                          // Joyfulness
-	MagicalSuffix233                          // Bliss
-	MagicalSuffix234                          // Blight
-	MagicalSuffix235                          // Venom
-	MagicalSuffix236                          // Pestilence
-	MagicalSuffix237                          // Anthrax
-	MagicalSuffix238                          // Blight
-	MagicalSuffix239                          // Envy
-	MagicalSuffix240                          // Dexterity
-	MagicalSuffix241                          // Skill
-	MagicalSuffix242                          // Accuracy
-	MagicalSuffix243                          // Precision
-	MagicalSuffix244                          // Perfection
-	MagicalSuffix245                          // Nirvana
-	MagicalSuffix246                          // Dexterity
-	MagicalSuffix247                          // Skill
-	MagicalSuffix248                          // Accuracy
-	MagicalSuffix249                          // Precision
-	MagicalSuffix250                          // Perfection
-	MagicalSuffix251                          // Dexterity
-	MagicalSuffix252                          // Skill
-	MagicalSuffix253                          // Accuracy
-	MagicalSuffix254                          // Precision
-	MagicalSuffix255                          // Dexterity
-	MagicalSuffix256                          // Dexterity
-	MagicalSuffix257                          // Dexterity
-	MagicalSuffix258                          // Dexterity
-	MagicalSuffix259                          // Dexterity
-	MagicalSuffix260                          // Dexterity
-	MagicalSuffix261                          // Daring
-	MagicalSuffix262                          // Balance
-	MagicalSuffix263                          // Equilibrium
-	MagicalSuffix264                          // Stability
-	MagicalSuffix265                          // Balance
-	MagicalSuffix266                          // Balance
-	MagicalSuffix267                          // Balance
-	MagicalSuffix268                          // Truth
-	MagicalSuffix269                          // Regeneration
-	MagicalSuffix270                          // Regeneration
-	MagicalSuffix271                          // Regeneration
-	MagicalSuffix272                          // Regrowth
-	MagicalSuffix273                          // Regrowth
-	MagicalSuffix274                          // Revivification
-	MagicalSuffix275                          // Honor
-	MagicalSuffix276                          // Vileness
-	MagicalSuffix277                          // Greed
-	MagicalSuffix278                          // Wealth
-	MagicalSuffix279                          // Greed
-	MagicalSuffix280                          // Greed
-	MagicalSuffix281                          // Greed
-	MagicalSuffix282                          // Greed
-	MagicalSuffix283                          // Greed
-	MagicalSuffix284                          // Greed
-	MagicalSuffix285                          // Avarice
-	MagicalSuffix286                          // Chance
-	MagicalSuffix287                          // Fortune
-	MagicalSuffix288                          // Fortune
-	MagicalSuffix289                          // Luck
-	MagicalSuffix290                          // Fortune
-	MagicalSuffix291                          // Good Luck
-	MagicalSuffix292                          // Prosperity
-	MagicalSuffix293                          // Energy
-	MagicalSuffix294                          // the Mind
-	MagicalSuffix295                          // Brilliance
-	MagicalSuffix296                          // Sorcery
-	MagicalSuffix297                          // Wizardry
-	MagicalSuffix298                          // Enlightenment
-	MagicalSuffix299                          // Energy
-	MagicalSuffix300                          // the Mind
-	MagicalSuffix301                          // Brilliance
-	MagicalSuffix302                          // Sorcery
-	MagicalSuffix303                          // Wizardry
-	MagicalSuffix304                          // Energy
-	MagicalSuffix305                          // the Mind
-	MagicalSuffix306                          // Brilliance
-	MagicalSuffix307                          // Sorcery
-	MagicalSuffix308                          // Knowledge
-	MagicalSuffix309                          // the Bear
-	MagicalSuffix310                          // Light
-	MagicalSuffix311                          // Radiance
-	MagicalSuffix312                          // the Sun
-	MagicalSuffix313                          // the Jackal
-	MagicalSuffix314                          // the Fox
-	MagicalSuffix315                          // the Wolf
-	MagicalSuffix316                          // the Tiger
-	MagicalSuffix317                          // the Mammoth
-	MagicalSuffix318                          // the Colosuss
-	MagicalSuffix319                          // the Squid
-	MagicalSuffix320                          // the Whale
-	MagicalSuffix321                          // the Jackal
-	MagicalSuffix322                          // the Fox
-	MagicalSuffix323                          // the Wolf
-	MagicalSuffix324                          // the Tiger
-	MagicalSuffix325                          // the Mammoth
-	MagicalSuffix326                          // the Colosuss
-	MagicalSuffix327                          // the Jackal
-	MagicalSuffix328                          // the Fox
-	MagicalSuffix329                          // the Wolf
-	MagicalSuffix330                          // the Tiger
-	MagicalSuffix331                          // the Mammoth
-	MagicalSuffix332                          // Life
-	MagicalSuffix333                          // Life
-	MagicalSuffix334                          // Life
-	MagicalSuffix335                          // Substinence
-	MagicalSuffix336                          // Substinence
-	MagicalSuffix337                          // Substinence
-	MagicalSuffix338                          // Vita
-	MagicalSuffix339                          // Vita
-	MagicalSuffix340                          // Vita
-	MagicalSuffix341                          // Life
-	MagicalSuffix342                          // Life
-	MagicalSuffix343                          // Substinence
-	MagicalSuffix344                          // Substinence
-	MagicalSuffix345                          // Vita
-	MagicalSuffix346                          // Vita
-	MagicalSuffix347                          // Life
-	MagicalSuffix348                          // Substinence
-	MagicalSuffix349                          // Vita
-	MagicalSuffix350                          // Spirit
-	MagicalSuffix351                          // Hope
-	MagicalSuffix352                          // the Leech
-	MagicalSuffix353                          // the Locust
-	MagicalSuffix354                          // the Lamprey
-	MagicalSuffix355                          // the Leech
-	MagicalSuffix356                          // the Locust
-	MagicalSuffix357                          // the Lamprey
-	MagicalSuffix358                          // the Leech
-	MagicalSuffix359                          // the Bat
-	MagicalSuffix360                          // the Wraith
-	MagicalSuffix361                          // the Vampire
-	MagicalSuffix362                          // the Bat
-	MagicalSuffix363                          // the Wraith
-	MagicalSuffix364                          // the Vampire
-	MagicalSuffix365                          // the Bat
-	MagicalSuffix366                          // Defiance
-	MagicalSuffix367                          // Amelioration
-	MagicalSuffix368                          // Remedy
-	MagicalSuffix369                          // Simplicity
-	MagicalSuffix370                          // Ease
-	MagicalSuffix371                          // Freedom
-	MagicalSuffix372                          // Strength
-	MagicalSuffix373                          // Might
-	MagicalSuffix374                          // the Ox
-	MagicalSuffix375                          // the Giant
-	MagicalSuffix376                          // the Titan
-	MagicalSuffix377                          // Atlus
-	MagicalSuffix378                          // Strength
-	MagicalSuffix379                          // Might
-	MagicalSuffix380                          // the Us
-	MagicalSuffix381                          // the Giant
-	MagicalSuffix382                          // the Titan
-	MagicalSuffix383                          // Strength
-	MagicalSuffix384                          // Might
-	MagicalSuffix385                          // the Us
-	MagicalSuffix386                          // the Giant
-	MagicalSuffix387                          // Strength
-	MagicalSuffix388                          // Strength
-	MagicalSuffix389                          // Strength
-	MagicalSuffix390                          // Strength
-	MagicalSuffix391                          // Strength
-	MagicalSuffix392                          // Strength
-	MagicalSuffix393                          // Virility
-	MagicalSuffix394                          // Pacing
-	MagicalSuffix395                          // Haste
-	MagicalSuffix396                          // Speed
-	MagicalSuffix397                          // Traveling
-	MagicalSuffix398                          // Acceleration
-	MagicalSuffix399                          // Inertia
-	MagicalSuffix400                          // Inertia
-	MagicalSuffix401                          // Inertia
-	MagicalSuffix402                          // Self-Repair
-	MagicalSuffix403                          // Fast Repair
-	MagicalSuffix404                          // Ages
-	MagicalSuffix405                          // Heplenishing
-	MagicalSuffix406                          // Propagation
-	MagicalSuffix407                          // the Kraken
-	MagicalSuffix408                          // Memory
-	MagicalSuffix409                          // the Elephant
-	MagicalSuffix410                          // Power
-	MagicalSuffix411                          // Grace
-	MagicalSuffix412                          // Grace and Power
-	MagicalSuffix413                          // the Yeti
-	MagicalSuffix414                          // the Phoenix
-	MagicalSuffix415                          // the Efreeti
-	MagicalSuffix416                          // the Cobra
-	MagicalSuffix417                          // the Elements
-	MagicalSuffix418                          // Firebolts
-	MagicalSuffix419                          // Firebolts
-	MagicalSuffix420                          // Firebolts
-	MagicalSuffix421                          // Charged Shield
-	MagicalSuffix422                          // Charged Shield
-	MagicalSuffix423                          // Charged Shield
-	MagicalSuffix424                          // Icebolt
-	MagicalSuffix425                          // Frozen Armor
-	MagicalSuffix426                          // Static Field
-	MagicalSuffix427                          // Telekinesis
-	MagicalSuffix428                          // Frost Shield
-	MagicalSuffix429                          // Ice Blast
-	MagicalSuffix430                          // Blaze
-	MagicalSuffix431                          // Fire Ball
-	MagicalSuffix432                          // Nova
-	MagicalSuffix433                          // Nova
-	MagicalSuffix434                          // Nova Shield
-	MagicalSuffix435                          // Nova Shield
-	MagicalSuffix436                          // Nova Shield
-	MagicalSuffix437                          // Lightning
-	MagicalSuffix438                          // Lightning
-	MagicalSuffix439                          // Shiver Armor
-	MagicalSuffix440                          // Fire Wall
-	MagicalSuffix441                          // Enchant
-	MagicalSuffix442                          // Chain Lightning
-	MagicalSuffix443                          // Chain Lightning
-	MagicalSuffix444                          // Chain Lightning
-	MagicalSuffix445                          // Teleport Shield
-	MagicalSuffix446                          // Teleport Shield
-	MagicalSuffix447                          // Teleport Shield
-	MagicalSuffix448                          // Glacial Spike
-	MagicalSuffix449                          // Meteor
-	MagicalSuffix450                          // Thunder Storm
-	MagicalSuffix451                          // Energy Shield
-	MagicalSuffix452                          // Blizzard
-	MagicalSuffix453                          // Chilling Armor
-	MagicalSuffix454                          // Hydra Shield
-	MagicalSuffix455                          // Frozen ler
-	MagicalSuffix456                          // Dawn
-	MagicalSuffix457                          // Sunlight
-	MagicalSuffix458                          // Magic Arrows
-	MagicalSuffix459                          // Magic Arrows
-	MagicalSuffix460                          // Fire Arrows
-	MagicalSuffix461                          // Fire Arrows
-	MagicalSuffix462                          // lnner Sight
-	MagicalSuffix463                          // Inner Sight
-	MagicalSuffix464                          // Jabbing
-	MagicalSuffix465                          // Jabbing
-	MagicalSuffix466                          // Cold Arrows
-	MagicalSuffix467                          // Cold Arrows
-	MagicalSuffix468                          // Multiple Shot
-	MagicalSuffix469                          // Multiple Shot
-	MagicalSuffix470                          // Power Strike
-	MagicalSuffix471                          // Power Strike
-	MagicalSuffix472                          // Poison Jab
-	MagicalSuffix473                          // Poison Jab
-	MagicalSuffix474                          // Exploding Arrows
-	MagicalSuffix475                          // Exploding Arrows
-	MagicalSuffix476                          // Slow Missiles
-	MagicalSuffix477                          // Slow Missiles
-	MagicalSuffix478                          // lmpaling Strike
-	MagicalSuffix479                          // lmpaling Strike
-	MagicalSuffix480                          // Lightning Javelin
-	MagicalSuffix481                          // Lightning Javelin
-	MagicalSuffix482                          // Ice Arrows
-	MagicalSuffix483                          // Ice Arrows
-	MagicalSuffix484                          // Guided Arrows
-	MagicalSuffix485                          // Guided Arrows
-	MagicalSuffix486                          // Charged Strike
-	MagicalSuffix487                          // Charged Strike
-	MagicalSuffix488                          // Plague Jab
-	MagicalSuffix489                          // Plague Jab
-	MagicalSuffix490                          // lmmolating Arrows
-	MagicalSuffix491                          // lmmolating Arrows
-	MagicalSuffix492                          // Fending
-	MagicalSuffix493                          // Fending
-	MagicalSuffix494                          // Freezing Arrows
-	MagicalSuffix495                          // Freezing Arrows
-	MagicalSuffix496                          // Lightning Strike
-	MagicalSuffix497                          // Lightning Strike
-	MagicalSuffix498                          // Lightning Fury
-	MagicalSuffix499                          // Lightning Fury
-	MagicalSuffix500                          // Fire Bolts
-	MagicalSuffix501                          // Fire Bolts
-	MagicalSuffix502                          // Charged Bolts
-	MagicalSuffix503                          // Charged Bolts
-	MagicalSuffix504                          // Ice Bolts
-	MagicalSuffix505                          // Ice Bolts
-	MagicalSuffix506                          // Frozen Armor
-	MagicalSuffix507                          // Frozen Armor
-	MagicalSuffix508                          // Static Field
-	MagicalSuffix509                          // Static Field
-	MagicalSuffix510                          // Telekinesis
-	MagicalSuffix511                          // Telekinesis
-	MagicalSuffix512                          // Frost Novas
-	MagicalSuffix513                          // Frost Novas
-	MagicalSuffix514                          // Ice Blasts
-	MagicalSuffix515                          // Ice Blasts
-	MagicalSuffix516                          // Blazing
-	MagicalSuffix517                          // Blazing
-	MagicalSuffix518                          // Fire Balls
-	MagicalSuffix519                          // Fire Balls
-	MagicalSuffix520                          // Novas
-	MagicalSuffix521                          // Novas
-	MagicalSuffix522                          // Lightning
-	MagicalSuffix523                          // Lightning
-	MagicalSuffix524                          // Shiver Armor
-	MagicalSuffix525                          // Shiver Armor
-	MagicalSuffix526                          // Fire Walls
-	MagicalSuffix527                          // Fire Walls
-	MagicalSuffix528                          // Enchantment
-	MagicalSuffix529                          // Enchantment
-	MagicalSuffix530                          // Chain Lightning
-	MagicalSuffix531                          // Chain Lightning
-	MagicalSuffix532                          // Teleportation
-	MagicalSuffix533                          // Teleportation
-	MagicalSuffix534                          // Glacial Spikes
-	MagicalSuffix535                          // Glacial Spikes
-	MagicalSuffix536                          // Meteors
-	MagicalSuffix537                          // Meteors
-	MagicalSuffix538                          // Thunder Storm
-	MagicalSuffix539                          // Thunder Storm
-	MagicalSuffix540                          // Energy Shield
-	MagicalSuffix541                          // Energy Shield
-	MagicalSuffix542                          // Blizzards
-	MagicalSuffix543                          // Blizzards
-	MagicalSuffix544                          // Chilling Armor
-	MagicalSuffix545                          // Chilling Armor
-	MagicalSuffix546                          // Hydras
-	MagicalSuffix547                          // Hydras
-	MagicalSuffix548                          // Frozen Orbs
-	MagicalSuffix549                          // Frozen Orbs
-	MagicalSuffix550                          // Amplify Damage
-	MagicalSuffix551                          // Amplify Damage
-	MagicalSuffix552                          // Teeth
-	MagicalSuffix553                          // Teeth
-	MagicalSuffix554                          // Bone Armor
-	MagicalSuffix555                          // Bone Armor
-	MagicalSuffix556                          // Raise Skeletons
-	MagicalSuffix557                          // Raise Skeletons
-	MagicalSuffix558                          // Dim Vision
-	MagicalSuffix559                          // Dim Vision
-	MagicalSuffix560                          // Weaken
-	MagicalSuffix561                          // Weaken
-	MagicalSuffix562                          // Poison Dagger
-	MagicalSuffix563                          // Poison Dagger
-	MagicalSuffix564                          // Corpse Explosions
-	MagicalSuffix565                          // Corpse Explosions
-	MagicalSuffix566                          // Clay Golem Summoning
-	MagicalSuffix567                          // Clay Golem Summoning
-	MagicalSuffix568                          // Iron Maiden
-	MagicalSuffix569                          // Iron Maiden
-	MagicalSuffix570                          // Terror
-	MagicalSuffix571                          // Terror
-	MagicalSuffix572                          // Bone Walls
-	MagicalSuffix573                          // Bone Walls
-	MagicalSuffix574                          // Raise Skeletal Mages
-	MagicalSuffix575                          // Raise Skeletal Mages
-	MagicalSuffix576                          // Confusion
-	MagicalSuffix577                          // Confusion
-	MagicalSuffix578                          // Life Tap
-	MagicalSuffix579                          // Life Tap
-	MagicalSuffix580                          // Poison Explosion
-	MagicalSuffix581                          // Poison Explosion
-	MagicalSuffix582                          // Bone Spears
-	MagicalSuffix583                          // Bone Spears
-	MagicalSuffix584                          // Blood Golem Summoning
-	MagicalSuffix585                          // Blood Golem Summoning
-	MagicalSuffix586                          // Attraction
-	MagicalSuffix587                          // Attraction
-	MagicalSuffix588                          // Decrepification
-	MagicalSuffix589                          // Decrepification
-	MagicalSuffix590                          // Bone Imprisonment
-	MagicalSuffix591                          // Bone Imprisonment
-	MagicalSuffix592                          // Iron Golem Creation
-	MagicalSuffix593                          // Iron Golem Creation
-	MagicalSuffix594                          // Lower Resistance
-	MagicalSuffix595                          // Lower Flesistance
-	MagicalSuffix596                          // Poison Novas
-	MagicalSuffix597                          // Poison Novas
-	MagicalSuffix598                          // Bone Spirits
-	MagicalSuffix599                          // Bone Spirits
-	MagicalSuffix600                          // Fire Golem Summoning
-	MagicalSuffix601                          // Fire Golem Summoning
-	MagicalSuffix602                          // Revivification
-	MagicalSuffix603                          // Revivification
-	MagicalSuffix604                          // Sacrifice
-	MagicalSuffix605                          // Sacrifice
-	MagicalSuffix606                          // Holy Bolts
-	MagicalSuffix607                          // Holy Bolts
-	MagicalSuffix608                          // Zeal
-	MagicalSuffix609                          // Zeal
-	MagicalSuffix610                          // Vengeance
-	MagicalSuffix611                          // Vengeance
-	MagicalSuffix612                          // Blessed Hammers
-	MagicalSuffix613                          // Blessed Hammers
-	MagicalSuffix614                          // Conversion
-	MagicalSuffix615                          // Conversion
-	MagicalSuffix616                          // Fist of the Heavens
-	MagicalSuffix617                          // Fist of the Heavens
-	MagicalSuffix618                          // Bashing
-	MagicalSuffix619                          // Bashing
-	MagicalSuffix620                          // Howling
-	MagicalSuffix621                          // Howling
-	MagicalSuffix622                          // Potion Finding
-	MagicalSuffix623                          // Potion Finding
-	MagicalSuffix624                          // Taunting
-	MagicalSuffix625                          // Taunting
-	MagicalSuffix626                          // Shouting
-	MagicalSuffix627                          // Shouting
-	MagicalSuffix628                          // Stunning
-	MagicalSuffix629                          // Stunning
-	MagicalSuffix630                          // Item Finding
-	MagicalSuffix631                          // Item Finding
-	MagicalSuffix632                          // Concentration
-	MagicalSuffix633                          // Concentration
-	MagicalSuffix634                          // Battle Cry
-	MagicalSuffix635                          // Battle Cry
-	MagicalSuffix636                          // Battle Orders
-	MagicalSuffix637                          // Battle Orders
-	MagicalSuffix638                          // Grim Ward
-	MagicalSuffix639                          // Grim Ward
-	MagicalSuffix640                          // War Cry
-	MagicalSuffix641                          // War Cry
-	MagicalSuffix642                          // Battle Command
-	MagicalSuffix643                          // Battle Command
-	MagicalSuffix644                          // Firestorms
-	MagicalSuffix645                          // Firestorms
-	MagicalSuffix646                          // Molten Boulders
-	MagicalSuffix647                          // Molten Boulders
-	MagicalSuffix648                          // Eruption
-	MagicalSuffix649                          // Eruption
-	MagicalSuffix650                          // Cyclone Armor
-	MagicalSuffix651                          // Cyclone Armor
-	MagicalSuffix652                          // Twister
-	MagicalSuffix653                          // Twister
-	MagicalSuffix654                          // Volcano
-	MagicalSuffix655                          // Volcano
-	MagicalSuffix656                          // Tornado
-	MagicalSuffix657                          // Tornado
-	MagicalSuffix658                          // Armageddon
-	MagicalSuffix659                          // Armageddon
-	MagicalSuffix660                          // Hurricane
-	MagicalSuffix661                          // Hurricane
-	MagicalSuffix662                          // Damage Amplification
-	MagicalSuffix663                          // the Icicle
-	MagicalSuffix664                          // the Glacier
-	MagicalSuffix665                          // Fire
-	MagicalSuffix666                          // Burning
-	MagicalSuffix667                          // Lightning
-	MagicalSuffix668                          // Thunder
-	MagicalSuffix669                          // Daring
-	MagicalSuffix670                          // Daring
-	MagicalSuffix671                          // Knowledge
-	MagicalSuffix672                          // Knowledge
-	MagicalSuffix673                          // Virility
-	MagicalSuffix674                          // Virility
-	MagicalSuffix675                          // Readiness
-	MagicalSuffix676                          // Craftsmanship
-	MagicalSuffix677                          // Quality
-	MagicalSuffix678                          // Maiming
-	MagicalSuffix679                          // Craftsmanship
-	MagicalSuffix680                          // Quality
-	MagicalSuffix681                          // Craftsmanship
-	MagicalSuffix682                          // Blight
-	MagicalSuffix683                          // Venom
-	MagicalSuffix684                          // Pestilence
-	MagicalSuffix685                          // Anthrax
-	MagicalSuffix686                          // Blight
-	MagicalSuffix687                          // Venom
-	MagicalSuffix688                          // Pestilence
-	MagicalSuffix689                          // Anthrax
-	MagicalSuffix690                          // Blight
-	MagicalSuffix691                          // Venom
-	MagicalSuffix692                          // Pestilence
-	MagicalSuffix693                          // Anthrax
-	MagicalSuffix694                          // Frost
-	MagicalSuffix695                          // the Icicle
-	MagicalSuffix696                          // the Glacier
-	MagicalSuffix697                          // Winter
-	MagicalSuffix698                          // Frost
-	MagicalSuffix699                          // the Icicle
-	MagicalSuffix700                          // the Glacier
-	MagicalSuffix701                          // Winter
-	MagicalSuffix702                          // Frost
-	MagicalSuffix703                          // the Icicle
-	MagicalSuffix704                          // the Glacier
-	MagicalSuffix705                          // Winter
-	MagicalSuffix706                          // Flame
-	MagicalSuffix707                          // Fire
-	MagicalSuffix708                          // Burning
-	MagicalSuffix709                          // Incineration
-	MagicalSuffix710                          // Flame
-	MagicalSuffix711                          // Fire
-	MagicalSuffix712                          // Burning
-	MagicalSuffix713                          // Incineration
-	MagicalSuffix714                          // Flame
-	MagicalSuffix715                          // Fire
-	MagicalSuffix716                          // Burning
-	MagicalSuffix717                          // Incineration
-	MagicalSuffix718                          // Shock
-	MagicalSuffix719                          // Lightning
-	MagicalSuffix720                          // Thunder
-	MagicalSuffix721                          // Storms
-	MagicalSuffix722                          // Shock
-	MagicalSuffix723                          // Lightning
-	MagicalSuffix724                          // Thunder
-	MagicalSuffix725                          // Storms
-	MagicalSuffix726                          // Shock
-	MagicalSuffix727                          // Lightning
-	MagicalSuffix728                          // Thunder
-	MagicalSuffix729                          // Storms
-	MagicalSuffix730                          // Dexterity
-	MagicalSuffix731                          // Dexterity
-	MagicalSuffix732                          // Strength
-	MagicalSuffix733                          // Strength
-	MagicalSuffix734                          // Thorns
-	MagicalSuffix735                          // Frost
-	MagicalSuffix736                          // Flame
-	MagicalSuffix737                          // Blight
-	MagicalSuffix738                          // Shock
-	MagicalSuffix739                          // Regeneration
-	MagicalSuffix740                          // Energy
-	MagicalSuffix741                          // Light
-	MagicalSuffix742                          // the Leech
-	MagicalSuffix743                          // the Locust
-	MagicalSuffix744                          // the Lamprey
-	MagicalSuffix745                          // the Bat
-	MagicalSuffix746                          // the Wraith
-	MagicalSuffix747                          // the Vampire
+	MagicalSuffixProtection          MagicalSuffix = iota // Protection
+	MagicalSuffixAbsorption                               // Absorption
+	MagicalSuffixLife                                     // Life
+	MagicalSuffixEmpty                                    // Empty(nothing?)
+	MagicalSuffixWarding                                  // Warding
+	MagicalSuffixtheSentinel                              // theSentinel
+	MagicalSuffixGuarding                                 // Guarding
+	MagicalSuffixNegation                                 // Negation
+	MagicalSuffixPiercing                                 // Piercing
+	MagicalSuffixBashing                                  // Bashing
+	MagicalSuffixPuncturing                               // Puncturing
+	MagicalSuffixThorns                                   // Thorns
+	MagicalSuffixSpikes                                   // Spikes
+	MagicalSuffixFleadiness                               // Fleadiness
+	MagicalSuffixAlacrity                                 // Alacrity
+	MagicalSuffixSwiitness                                // Swiitness
+	MagicalSuffixQuickness                                // Quickness
+	MagicalSuffixBlocking                                 // Blocking
+	MagicalSuffixDeilecting                               // Deilecting
+	MagicalSuffixtheApprentice                            // theApprentice
+	MagicalSuffixtheMagus                                 // theMagus
+	MagicalSuffixFrost                                    // Frost
+	MagicalSuffixtheGlacier                               // theGlacier
+	MagicalSuffixWarmth                                   // Warmth
+	MagicalSuffixFlame                                    // Flame
+	MagicalSuffixFire                                     // Fire
+	MagicalSuffixBurning                                  // Burning
+	MagicalSuffixShook                                    // Shook
+	MagicalSuffixLightning                                // Lightning
+	MagicalSuffixThunder                                  // Thunder
+	MagicalSuffixShock                                    // Shock
+	MagicalSuffixCraftsmanship                            // Craftsmanship
+	MagicalSuffixQuality                                  // Quality
+	MagicalSuffixMaiming                                  // Maiming
+	MagicalSuffixSlaying                                  // Slaying
+	MagicalSuffixGore                                     // Gore
+	MagicalSuffixCarnage                                  // Carnage
+	MagicalSuffixSlaughter                                // Slaughter
+	MagicalSuffixWorth                                    // Worth
+	MagicalSuffixMeasure                                  // Measure
+	MagicalSuffixExcellence                               // Excellence
+	MagicalSuffixPetlctmance                              // Petlctmance
+	MagicalSuffixBlight                                   // Blight
+	MagicalSuffixVenom                                    // Venom
+	MagicalSuffixPestilence                               // Pestilence
+	MagicalSuffixDextetity                                // Dextetity
+	MagicalSuffixSkill                                    // Skill
+	MagicalSuffixAccuracy                                 // Accuracy
+	MagicalSuffixPrecision                                // Precision
+	MagicalSuffixPetlection                               // Petlection
+	MagicalSuffixBalance                                  // Balance
+	MagicalSuffixStability                                // Stability
+	MagicalSuffixRegenetation                             // Regenetation
+	MagicalSuffixRegrowth                                 // Regrowth
+	MagicalSuffixVileness                                 // Vileness
+	MagicalSuffixGreed                                    // Greed
+	MagicalSuffixWealth                                   // Wealth
+	MagicalSuffixChance                                   // Chance
+	MagicalSuffixFortune                                  // Fortune
+	MagicalSuffixEnergy                                   // Energy
+	MagicalSuffixtheMind                                  // theMind
+	MagicalSuffixBrilliance                               // Brilliance
+	MagicalSuffixSorcery                                  // Sorcery
+	MagicalSuffixWizardry                                 // Wizardry
+	MagicalSuffixtheBeat                                  // theBeat
+	MagicalSuffixLight                                    // Light
+	MagicalSuffixRadiance                                 // Radiance
+	MagicalSuffixtheSun                                   // theSun
+	MagicalSuffixtheJackal                                // theJackal
+	MagicalSuffixtheFox                                   // theFox
+	MagicalSuffixtheWolf                                  // theWolf
+	MagicalSuffixtheTiget                                 // theTiget
+	MagicalSuffixtheMammoth                               // theMammoth
+	MagicalSuffixtheColosuss                              // theColosuss
+	MagicalSuffixtheLeech                                 // theLeech
+	MagicalSuffixtheLocust                                // theLocust
+	MagicalSuffixtheBat                                   // theBat
+	MagicalSuffixtheVampire                               // theVampire
+	MagicalSuffixDefiance                                 // Defiance
+	MagicalSuffixAmelioration                             // Amelioration
+	MagicalSuffixRemedy                                   // Remedy
+	MagicalSuffixSimplicity                               // Simplicity
+	MagicalSuffixEase                                     // Ease
+	MagicalSuffixStrength                                 // Strength
+	MagicalSuffixMight                                    // Might
+	MagicalSuffixtheOx                                    // theOx
+	MagicalSuffixtheGiant                                 // theGiant
+	MagicalSuffixtheTitan                                 // theTitan
+	MagicalSuffixPacing                                   // Pacing
+	MagicalSuffixHaste                                    // Haste
+	MagicalSuffixSpeed                                    // Speed
+	MagicalSuffixHealth                                   // Health
+	MagicalSuffixLifeEverlasting                          // LifeEverlasting
+	MagicalSuffixAnima                                    // Anima
+	MagicalSuffixCoolness                                 // Coolness
+	MagicalSuffixIncombustibility                         // Incombustibility
+	MagicalSuffixAmianthus                                // Amianthus
+	MagicalSuffixFireQuenching                            // FireQuenching
+	MagicalSuffixFaith                                    // Faith
+	MagicalSuffixResistance                               // Resistance
+	MagicalSuffixInsulation                               // Insulation
+	MagicalSuffixGrounding                                // Grounding
+	MagicalSuffixtheDynamo                                // theDynamo
+	MagicalSuffixStoicism                                 // Stoicism
+	MagicalSuffixWarming                                  // Warming
+	MagicalSuffixThawing                                  // Thawing
+	MagicalSuffixtheDunes                                 // theDunes
+	MagicalSuffixtheSirocco                               // theSirocco
+	MagicalSuffixDesire                                   // Desire
+	MagicalSuffixRazors                                   // Razors
+	MagicalSuffixSwords                                   // Swords
+	MagicalSuffixMalice                                   // Malice
+	MagicalSuffixReadiness                                // Readiness
+	MagicalSuffixSwiftness                                // Swiftness
+	MagicalSuffixFewer                                    // Fewer
+	MagicalSuffixDeflecting                               // Deflecting
+	MagicalSuffixtheIcicle                                // theIcicle
+	MagicalSuffixWinter                                   // Winter
+	MagicalSuffixFrigidity                                // Frigidity
+	MagicalSuffixIncineration                             // Incineration
+	MagicalSuffixPassion                                  // Passion
+	MagicalSuffixStorms                                   // Storms
+	MagicalSuffixEnnui                                    // Ennui
+	MagicalSuffixDamage                                   // Damage
+	MagicalSuffixButchery                                 // Butchery
+	MagicalSuffixEvisceration                             // Evisceration
+	MagicalSuffixIre                                      // Ire
+	MagicalSuffixWrath                                    // Wrath
+	MagicalSuffixPerformance                              // Performance
+	MagicalSuffixTranscendence                            // Transcendence
+	MagicalSuffixJoyfulness                               // Joyfulness
+	MagicalSuffixBliss                                    // Bliss
+	MagicalSuffixAnthrax                                  // Anthrax
+	MagicalSuffixEnvy                                     // Envy
+	MagicalSuffixDexterity                                // Dexterity
+	MagicalSuffixPerfection                               // Perfection
+	MagicalSuffixNirvana                                  // Nirvana
+	MagicalSuffixDaring                                   // Daring
+	MagicalSuffixEquilibrium                              // Equilibrium
+	MagicalSuffixTruth                                    // Truth
+	MagicalSuffixRegeneration                             // Regeneration
+	MagicalSuffixRevivification                           // Revivification
+	MagicalSuffixHonor                                    // Honor
+	MagicalSuffixAvarice                                  // Avarice
+	MagicalSuffixLuck                                     // Luck
+	MagicalSuffixGoodLuck                                 // GoodLuck
+	MagicalSuffixProsperity                               // Prosperity
+	MagicalSuffixEnlightenment                            // Enlightenment
+	MagicalSuffixKnowledge                                // Knowledge
+	MagicalSuffixtheBear                                  // theBear
+	MagicalSuffixtheTiger                                 // theTiger
+	MagicalSuffixtheSquid                                 // theSquid
+	MagicalSuffixtheWhale                                 // theWhale
+	MagicalSuffixSubstinence                              // Substinence
+	MagicalSuffixVita                                     // Vita
+	MagicalSuffixSpirit                                   // Spirit
+	MagicalSuffixHope                                     // Hope
+	MagicalSuffixtheLamprey                               // theLamprey
+	MagicalSuffixtheWraith                                // theWraith
+	MagicalSuffixFreedom                                  // Freedom
+	MagicalSuffixAtlus                                    // Atlus
+	MagicalSuffixtheUs                                    // theUs
+	MagicalSuffixVirility                                 // Virility
+	MagicalSuffixTraveling                                // Traveling
+	MagicalSuffixAcceleration                             // Acceleration
+	MagicalSuffixInertia                                  // Inertia
+	MagicalSuffixSelfRepair                               // Self-Repair
+	MagicalSuffixFastRepair                               // FastRepair
+	MagicalSuffixAges                                     // Ages
+	MagicalSuffixHeplenishing                             // Heplenishing
+	MagicalSuffixPropagation                              // Propagation
+	MagicalSuffixtheKraken                                // theKraken
+	MagicalSuffixMemory                                   // Memory
+	MagicalSuffixtheElephant                              // theElephant
+	MagicalSuffixPower                                    // Power
+	MagicalSuffixGrace                                    // Grace
+	MagicalSuffixGraceAndPower                            // GraceandPower
+	MagicalSuffixtheYeti                                  // theYeti
+	MagicalSuffixthePhoenix                               // thePhoenix
+	MagicalSuffixtheEfreeti                               // theEfreeti
+	MagicalSuffixtheCobra                                 // theCobra
+	MagicalSuffixtheElements                              // theElements
+	MagicalSuffixFirebolts                                // Firebolts
+	MagicalSuffixChargedShield                            // ChargedShield
+	MagicalSuffixIcebolt                                  // Icebolt
+	MagicalSuffixFrozenArmor                              // FrozenArmor
+	MagicalSuffixStaticField                              // StaticField
+	MagicalSuffixTelekinesis                              // Telekinesis
+	MagicalSuffixFrostShield                              // FrostShield
+	MagicalSuffixIceBlast                                 // IceBlast
+	MagicalSuffixBlaze                                    // Blaze
+	MagicalSuffixFireBall                                 // FireBall
+	MagicalSuffixNova                                     // Nova
+	MagicalSuffixNovaShield                               // NovaShield
+	MagicalSuffixShiverArmor                              // ShiverArmor
+	MagicalSuffixFireWall                                 // FireWall
+	MagicalSuffixEnchant                                  // Enchant
+	MagicalSuffixChainLightning                           // ChainLightning
+	MagicalSuffixTeleportShield                           // TeleportShield
+	MagicalSuffixGlacialSpike                             // GlacialSpike
+	MagicalSuffixMeteor                                   // Meteor
+	MagicalSuffixThunderStorm                             // ThunderStorm
+	MagicalSuffixEnergyShield                             // EnergyShield
+	MagicalSuffixBlizzard                                 // Blizzard
+	MagicalSuffixChillingArmor                            // ChillingArmor
+	MagicalSuffixHydraShield                              // HydraShield
+	MagicalSuffixFrozenler                                // Frozenler
+	MagicalSuffixDawn                                     // Dawn
+	MagicalSuffixSunlight                                 // Sunlight
+	MagicalSuffixMagicArrows                              // MagicArrows
+	MagicalSuffixFireArrows                               // FireArrows
+	MagicalSuffixlnnerSight                               // lnnerSight
+	MagicalSuffixInnerSight                               // InnerSight
+	MagicalSuffixJabbing                                  // Jabbing
+	MagicalSuffixColdArrows                               // ColdArrows
+	MagicalSuffixMultipleShot                             // MultipleShot
+	MagicalSuffixPowerStrike                              // PowerStrike
+	MagicalSuffixPoisonJab                                // PoisonJab
+	MagicalSuffixExplodingArrows                          // ExplodingArrows
+	MagicalSuffixSlowMissiles                             // SlowMissiles
+	MagicalSuffixlmpalingStrike                           // lmpalingStrike
+	MagicalSuffixLightningJavelin                         // LightningJavelin
+	MagicalSuffixIceArrows                                // IceArrows
+	MagicalSuffixGuidedArrows                             // GuidedArrows
+	MagicalSuffixChargedStrike                            // ChargedStrike
+	MagicalSuffixPlagueJab                                // PlagueJab
+	MagicalSuffixlmmolatingArrows                         // lmmolatingArrows
+	MagicalSuffixFending                                  // Fending
+	MagicalSuffixFreezingArrows                           // FreezingArrows
+	MagicalSuffixLightningStrike                          // LightningStrike
+	MagicalSuffixLightningFury                            // LightningFury
+	MagicalSuffixFireBolts                                // FireBolts
+	MagicalSuffixChargedBolts                             // ChargedBolts
+	MagicalSuffixIceBolts                                 // IceBolts
+	MagicalSuffixFrostNovas                               // FrostNovas
+	MagicalSuffixIceBlasts                                // IceBlasts
+	MagicalSuffixBlazing                                  // Blazing
+	MagicalSuffixFireBalls                                // FireBalls
+	MagicalSuffixNovas                                    // Novas
+	MagicalSuffixFireWalls                                // FireWalls
+	MagicalSuffixEnchantment                              // Enchantment
+	MagicalSuffixTeleportation                            // Teleportation
+	MagicalSuffixGlacialSpikes                            // GlacialSpikes
+	MagicalSuffixMeteors                                  // Meteors
+	MagicalSuffixBlizzards                                // Blizzards
+	MagicalSuffixHydras                                   // Hydras
+	MagicalSuffixFrozenOrbs                               // FrozenOrbs
+	MagicalSuffixAmplifyDamage                            // AmplifyDamage
+	MagicalSuffixTeeth                                    // Teeth
+	MagicalSuffixBoneArmor                                // BoneArmor
+	MagicalSuffixRaiseSkeletons                           // RaiseSkeletons
+	MagicalSuffixDimVision                                // DimVision
+	MagicalSuffixWeaken                                   // Weaken
+	MagicalSuffixPoisonDagger                             // PoisonDagger
+	MagicalSuffixCorpseExplosions                         // CorpseExplosions
+	MagicalSuffixClayGolemSummoning                       // ClayGolemSummoning
+	MagicalSuffixIronMaiden                               // IronMaiden
+	MagicalSuffixTerror                                   // Terror
+	MagicalSuffixBoneWalls                                // BoneWalls
+	MagicalSuffixRaiseSkeletalMages                       // RaiseSkeletalMages
+	MagicalSuffixConfusion                                // Confusion
+	MagicalSuffixLifeTap                                  // LifeTap
+	MagicalSuffixPoisonExplosion                          // PoisonExplosion
+	MagicalSuffixBoneSpears                               // BoneSpears
+	MagicalSuffixBloodGolemSummoning                      // BloodGolemSummoning
+	MagicalSuffixAttraction                               // Attraction
+	MagicalSuffixDecrepification                          // Decrepification
+	MagicalSuffixBoneImprisonment                         // BoneImprisonment
+	MagicalSuffixIronGolemCreation                        // IronGolemCreation
+	MagicalSuffixLowerResistance                          // LowerResistance
+	MagicalSuffixLowerFlesistance                         // LowerFlesistance
+	MagicalSuffixPoisonNovas                              // PoisonNovas
+	MagicalSuffixBoneSpirits                              // BoneSpirits
+	MagicalSuffixFireGolemSummoning                       // FireGolemSummoning
+	MagicalSuffixSacrifice                                // Sacrifice
+	MagicalSuffixHolyBolts                                // HolyBolts
+	MagicalSuffixZeal                                     // Zeal
+	MagicalSuffixVengeance                                // Vengeance
+	MagicalSuffixBlessedHammers                           // BlessedHammers
+	MagicalSuffixConversion                               // Conversion
+	MagicalSuffixFistOfTheHeavens                         // FistoftheHeavens
+	MagicalSuffixHowling                                  // Howling
+	MagicalSuffixPotionFinding                            // PotionFinding
+	MagicalSuffixTaunting                                 // Taunting
+	MagicalSuffixShouting                                 // Shouting
+	MagicalSuffixStunning                                 // Stunning
+	MagicalSuffixItemFinding                              // ItemFinding
+	MagicalSuffixConcentration                            // Concentration
+	MagicalSuffixBattleCry                                // BattleCry
+	MagicalSuffixBattleOrders                             // BattleOrders
+	MagicalSuffixGrimWard                                 // GrimWard
+	MagicalSuffixWarCry                                   // WarCry
+	MagicalSuffixBattleCommand                            // BattleCommand
+	MagicalSuffixFirestorms                               // Firestorms
+	MagicalSuffixMoltenBoulders                           // MoltenBoulders
+	MagicalSuffixEruption                                 // Eruption
+	MagicalSuffixCycloneArmor                             // CycloneArmor
+	MagicalSuffixTwister                                  // Twister
+	MagicalSuffixVolcano                                  // Volcano
+	MagicalSuffixTornado                                  // Tornado
+	MagicalSuffixArmageddon                               // Armageddon
+	MagicalSuffixHurricane                                // Hurricane
+	MagicalSuffixDamageAmplification                      // DamageAmplification
 )
+
+// magical suffixes - TODO: constant names
+func getSuffixMap() map[uint16]MagicalSuffix {
+	return map[uint16]MagicalSuffix{
+		1:   MagicalSuffixHealth,              //   Health
+		2:   MagicalSuffixProtection,          // Protection
+		3:   MagicalSuffixAbsorption,          // Absorption
+		4:   MagicalSuffixLife,                // Life
+		5:   MagicalSuffixEmpty,               // Empty (nothing?)
+		6:   MagicalSuffixWarding,             // Warding
+		7:   MagicalSuffixtheSentinel,         // the Sentinel
+		8:   MagicalSuffixGuarding,            // Guarding
+		9:   MagicalSuffixNegation,            // Negation
+		10:  MagicalSuffixEmpty,               // Empty (nothing?)
+		11:  MagicalSuffixPiercing,            // Piercing
+		12:  MagicalSuffixBashing,             // Bashing
+		13:  MagicalSuffixPuncturing,          // Puncturing
+		14:  MagicalSuffixThorns,              // Thorns
+		15:  MagicalSuffixSpikes,              // Spikes
+		16:  MagicalSuffixFleadiness,          // Fleadiness
+		17:  MagicalSuffixAlacrity,            // Alacrity
+		18:  MagicalSuffixSwiitness,           // Swiitness
+		19:  MagicalSuffixQuickness,           // Quickness
+		20:  MagicalSuffixBlocking,            // Blocking
+		21:  MagicalSuffixDeilecting,          // Deilecting
+		22:  MagicalSuffixtheApprentice,       // the Apprentice
+		23:  MagicalSuffixtheMagus,            // the Magus
+		24:  MagicalSuffixFrost,               // Frost
+		25:  MagicalSuffixtheGlacier,          // the Glacier
+		26:  MagicalSuffixFrost,               // Frost
+		27:  MagicalSuffixWarmth,              // Warmth
+		28:  MagicalSuffixFlame,               // Flame
+		29:  MagicalSuffixFire,                // Fire
+		30:  MagicalSuffixBurning,             // Burning
+		31:  MagicalSuffixFlame,               // Flame
+		32:  MagicalSuffixShook,               // Shook
+		33:  MagicalSuffixLightning,           // Lightning
+		34:  MagicalSuffixThunder,             // Thunder
+		35:  MagicalSuffixShock,               // Shock
+		36:  MagicalSuffixCraftsmanship,       // Craftsmanship
+		37:  MagicalSuffixQuality,             // Quality
+		38:  MagicalSuffixMaiming,             // Maiming
+		39:  MagicalSuffixSlaying,             // Slaying
+		40:  MagicalSuffixGore,                // Gore
+		41:  MagicalSuffixCarnage,             // Carnage
+		42:  MagicalSuffixSlaughter,           // Slaughter
+		43:  MagicalSuffixMaiming,             // Maiming
+		44:  MagicalSuffixWorth,               // Worth
+		45:  MagicalSuffixMeasure,             // Measure
+		46:  MagicalSuffixExcellence,          // Excellence
+		47:  MagicalSuffixPetlctmance,         // Petlctmance
+		48:  MagicalSuffixMeasure,             // Measure
+		49:  MagicalSuffixBlight,              // Blight
+		50:  MagicalSuffixVenom,               // Venom
+		51:  MagicalSuffixPestilence,          // Pestilence
+		52:  MagicalSuffixBlight,              // Blight
+		53:  MagicalSuffixDextetity,           // Dextetity
+		54:  MagicalSuffixDextetity,           // Dextetity
+		55:  MagicalSuffixSkill,               // Skill
+		56:  MagicalSuffixSkill,               // Skill
+		57:  MagicalSuffixAccuracy,            // Accuracy
+		58:  MagicalSuffixPrecision,           // Precision
+		59:  MagicalSuffixPrecision,           // Precision
+		60:  MagicalSuffixPetlection,          // Petlection
+		61:  MagicalSuffixBalance,             // Balance
+		62:  MagicalSuffixStability,           // Stability
+		63:  MagicalSuffixEmpty,               // Empty (nothing?)
+		64:  MagicalSuffixRegenetation,        // Regenetation
+		65:  MagicalSuffixRegenetation,        // Regenetation
+		66:  MagicalSuffixRegenetation,        // Regenetation
+		67:  MagicalSuffixRegrowth,            // Regrowth
+		68:  MagicalSuffixRegrowth,            // Regrowth
+		69:  MagicalSuffixVileness,            // Vileness
+		70:  MagicalSuffixEmpty,               // Empty (nothing?)
+		71:  MagicalSuffixGreed,               // Greed
+		72:  MagicalSuffixWealth,              // Wealth
+		73:  MagicalSuffixChance,              // Chance
+		74:  MagicalSuffixFortune,             // Fortune
+		75:  MagicalSuffixEnergy,              // Energy
+		76:  MagicalSuffixEnergy,              // Energy
+		77:  MagicalSuffixtheMind,             // the Mind
+		78:  MagicalSuffixBrilliance,          // Brilliance
+		79:  MagicalSuffixSorcery,             // Sorcery
+		80:  MagicalSuffixWizardry,            // Wizardry
+		81:  MagicalSuffixtheBeat,             // the Beat
+		82:  MagicalSuffixLight,               // Light
+		83:  MagicalSuffixRadiance,            // Radiance
+		84:  MagicalSuffixtheSun,              // the Sun
+		85:  MagicalSuffixLife,                // Life
+		86:  MagicalSuffixtheJackal,           // the Jackal
+		87:  MagicalSuffixtheFox,              // the Fox
+		88:  MagicalSuffixtheWolf,             // the Wolf
+		89:  MagicalSuffixtheWolf,             // the Wolf
+		90:  MagicalSuffixtheTiget,            // the Tiget
+		91:  MagicalSuffixtheMammoth,          // the Mammoth
+		92:  MagicalSuffixtheMammoth,          // the Mammoth
+		93:  MagicalSuffixtheColosuss,         // the Colosuss
+		94:  MagicalSuffixtheLeech,            // the Leech
+		95:  MagicalSuffixtheLocust,           // the Locust
+		96:  MagicalSuffixtheBat,              // the Bat
+		97:  MagicalSuffixtheVampire,          // the Vampire
+		98:  MagicalSuffixDefiance,            // Defiance
+		99:  MagicalSuffixAmelioration,        // Amelioration
+		100: MagicalSuffixRemedy,              // Remedy
+		101: MagicalSuffixEmpty,               // Empty (nothing?)
+		102: MagicalSuffixSimplicity,          // Simplicity
+		103: MagicalSuffixEase,                // Ease
+		104: MagicalSuffixEmpty,               // Empty (nothing?)
+		105: MagicalSuffixStrength,            // Strength
+		106: MagicalSuffixMight,               // Might
+		107: MagicalSuffixtheOx,               // the Ox
+		108: MagicalSuffixtheOx,               // the Ox
+		109: MagicalSuffixtheGiant,            // the Giant
+		110: MagicalSuffixtheGiant,            // the Giant
+		111: MagicalSuffixtheTitan,            // the Titan
+		112: MagicalSuffixPacing,              // Pacing
+		113: MagicalSuffixHaste,               // Haste
+		114: MagicalSuffixSpeed,               // Speed
+		115: MagicalSuffixHealth,              // Health
+		116: MagicalSuffixProtection,          // Protection
+		117: MagicalSuffixAbsorption,          // Absorption
+		118: MagicalSuffixLife,                // Life
+		119: MagicalSuffixLifeEverlasting,     // Life Everlasting
+		120: MagicalSuffixProtection,          // Protection
+		121: MagicalSuffixAbsorption,          // Absorption
+		122: MagicalSuffixLife,                // Life
+		123: MagicalSuffixAnima,               // Anima
+		124: MagicalSuffixWarding,             // Warding
+		125: MagicalSuffixtheSentinel,         // the Sentinel
+		126: MagicalSuffixGuarding,            // Guarding
+		127: MagicalSuffixNegation,            // Negation
+		128: MagicalSuffixtheSentinel,         // the Sentinel
+		129: MagicalSuffixGuarding,            // Guarding
+		130: MagicalSuffixNegation,            // Negation
+		131: MagicalSuffixCoolness,            // Coolness
+		132: MagicalSuffixIncombustibility,    // Incombustibility
+		133: MagicalSuffixAmianthus,           // Amianthus
+		134: MagicalSuffixFireQuenching,       // Fire Quenching
+		135: MagicalSuffixCoolness,            // Coolness
+		136: MagicalSuffixIncombustibility,    // Incombustibility
+		137: MagicalSuffixAmianthus,           // Amianthus
+		138: MagicalSuffixFireQuenching,       // Fire Quenching
+		139: MagicalSuffixFaith,               // Faith
+		140: MagicalSuffixResistance,          // Resistance
+		141: MagicalSuffixInsulation,          // Insulation
+		142: MagicalSuffixGrounding,           // Grounding
+		143: MagicalSuffixtheDynamo,           // the Dynamo
+		144: MagicalSuffixResistance,          // Resistance
+		145: MagicalSuffixInsulation,          // Insulation
+		146: MagicalSuffixGrounding,           // Grounding
+		147: MagicalSuffixtheDynamo,           // the Dynamo
+		148: MagicalSuffixStoicism,            // Stoicism
+		149: MagicalSuffixWarming,             // Warming
+		150: MagicalSuffixThawing,             // Thawing
+		151: MagicalSuffixtheDunes,            // the Dunes
+		152: MagicalSuffixtheSirocco,          // the Sirocco
+		153: MagicalSuffixWarming,             // Warming
+		154: MagicalSuffixThawing,             // Thawing
+		155: MagicalSuffixtheDunes,            // the Dunes
+		156: MagicalSuffixtheSirocco,          // the Sirocco
+		157: MagicalSuffixDesire,              // Desire
+		158: MagicalSuffixPiercing,            // Piercing
+		159: MagicalSuffixBashing,             // Bashing
+		160: MagicalSuffixPuncturing,          // Puncturing
+		161: MagicalSuffixThorns,              // Thorns
+		162: MagicalSuffixSpikes,              // Spikes
+		163: MagicalSuffixRazors,              // Razors
+		164: MagicalSuffixSwords,              // Swords
+		165: MagicalSuffixMalice,              // Malice
+		166: MagicalSuffixReadiness,           // Readiness
+		167: MagicalSuffixAlacrity,            // Alacrity
+		168: MagicalSuffixSwiftness,           // Swiftness
+		169: MagicalSuffixQuickness,           // Quickness
+		170: MagicalSuffixAlacrity,            // Alacrity
+		171: MagicalSuffixFewer,               // Fewer
+		172: MagicalSuffixBlocking,            // Blocking
+		173: MagicalSuffixDeflecting,          // Deflecting
+		174: MagicalSuffixtheApprentice,       // the Apprentice
+		175: MagicalSuffixtheMagus,            // the Magus
+		176: MagicalSuffixFrost,               // Frost
+		177: MagicalSuffixtheIcicle,           // the Icicle
+		178: MagicalSuffixtheGlacier,          // the Glacier
+		179: MagicalSuffixWinter,              // Winter
+		180: MagicalSuffixFrost,               // Frost
+		181: MagicalSuffixFrigidity,           // Frigidity
+		182: MagicalSuffixWarmth,              // Warmth
+		183: MagicalSuffixFlame,               // Flame
+		184: MagicalSuffixFire,                // Fire
+		185: MagicalSuffixBurning,             // Burning
+		186: MagicalSuffixIncineration,        // Incineration
+		187: MagicalSuffixFlame,               // Flame
+		188: MagicalSuffixPassion,             // Passion
+		189: MagicalSuffixShock,               // Shock
+		190: MagicalSuffixLightning,           // Lightning
+		191: MagicalSuffixThunder,             // Thunder
+		192: MagicalSuffixStorms,              // Storms
+		193: MagicalSuffixShock,               // Shock
+		194: MagicalSuffixEnnui,               // Ennui
+		195: MagicalSuffixCraftsmanship,       // Craftsmanship
+		196: MagicalSuffixQuality,             // Quality
+		197: MagicalSuffixMaiming,             // Maiming
+		198: MagicalSuffixSlaying,             // Slaying
+		199: MagicalSuffixGore,                // Gore
+		200: MagicalSuffixDamage,              // Damage
+		201: MagicalSuffixSlaughter,           // Slaughter
+		202: MagicalSuffixButchery,            // Butchery
+		203: MagicalSuffixEvisceration,        // Evisceration
+		204: MagicalSuffixMaiming,             // Maiming
+		205: MagicalSuffixCraftsmanship,       // Craftsmanship
+		206: MagicalSuffixCraftsmanship,       // Craftsmanship
+		207: MagicalSuffixCraftsmanship,       // Craftsmanship
+		208: MagicalSuffixQuality,             // Quality
+		209: MagicalSuffixQuality,             // Quality
+		210: MagicalSuffixMaiming,             // Maiming
+		211: MagicalSuffixMaiming,             // Maiming
+		212: MagicalSuffixCraftsmanship,       // Craftsmanship
+		213: MagicalSuffixCraftsmanship,       // Craftsmanship
+		214: MagicalSuffixQuality,             // Quality
+		215: MagicalSuffixQuality,             // Quality
+		216: MagicalSuffixMaiming,             // Maiming
+		217: MagicalSuffixCraftsmanship,       // Craftsmanship
+		218: MagicalSuffixQuality,             // Quality
+		219: MagicalSuffixMaiming,             // Maiming
+		220: MagicalSuffixIre,                 // Ire
+		221: MagicalSuffixWrath,               // Wrath
+		222: MagicalSuffixDamage,              // Damage
+		223: MagicalSuffixWorth,               // Worth
+		224: MagicalSuffixMeasure,             // Measure
+		225: MagicalSuffixExcellence,          // Excellence
+		226: MagicalSuffixPerformance,         // Performance
+		227: MagicalSuffixTranscendence,       // Transcendence
+		228: MagicalSuffixWorth,               // Worth
+		229: MagicalSuffixMeasure,             // Measure
+		230: MagicalSuffixExcellence,          // Excellence
+		231: MagicalSuffixPerformance,         // Performance
+		232: MagicalSuffixJoyfulness,          // Joyfulness
+		233: MagicalSuffixBliss,               // Bliss
+		234: MagicalSuffixBlight,              // Blight
+		235: MagicalSuffixVenom,               // Venom
+		236: MagicalSuffixPestilence,          // Pestilence
+		237: MagicalSuffixAnthrax,             // Anthrax
+		238: MagicalSuffixBlight,              // Blight
+		239: MagicalSuffixEnvy,                // Envy
+		240: MagicalSuffixDexterity,           // Dexterity
+		241: MagicalSuffixSkill,               // Skill
+		242: MagicalSuffixAccuracy,            // Accuracy
+		243: MagicalSuffixPrecision,           // Precision
+		244: MagicalSuffixPerfection,          // Perfection
+		245: MagicalSuffixNirvana,             // Nirvana
+		246: MagicalSuffixDexterity,           // Dexterity
+		247: MagicalSuffixSkill,               // Skill
+		248: MagicalSuffixAccuracy,            // Accuracy
+		249: MagicalSuffixPrecision,           // Precision
+		250: MagicalSuffixPerfection,          // Perfection
+		251: MagicalSuffixDexterity,           // Dexterity
+		252: MagicalSuffixSkill,               // Skill
+		253: MagicalSuffixAccuracy,            // Accuracy
+		254: MagicalSuffixPrecision,           // Precision
+		255: MagicalSuffixDexterity,           // Dexterity
+		256: MagicalSuffixDexterity,           // Dexterity
+		257: MagicalSuffixDexterity,           // Dexterity
+		258: MagicalSuffixDexterity,           // Dexterity
+		259: MagicalSuffixDexterity,           // Dexterity
+		260: MagicalSuffixDexterity,           // Dexterity
+		261: MagicalSuffixDaring,              // Daring
+		262: MagicalSuffixBalance,             // Balance
+		263: MagicalSuffixEquilibrium,         // Equilibrium
+		264: MagicalSuffixStability,           // Stability
+		265: MagicalSuffixBalance,             // Balance
+		266: MagicalSuffixBalance,             // Balance
+		267: MagicalSuffixBalance,             // Balance
+		268: MagicalSuffixTruth,               // Truth
+		269: MagicalSuffixRegeneration,        // Regeneration
+		270: MagicalSuffixRegeneration,        // Regeneration
+		271: MagicalSuffixRegeneration,        // Regeneration
+		272: MagicalSuffixRegrowth,            // Regrowth
+		273: MagicalSuffixRegrowth,            // Regrowth
+		274: MagicalSuffixRevivification,      // Revivification
+		275: MagicalSuffixHonor,               // Honor
+		276: MagicalSuffixVileness,            // Vileness
+		277: MagicalSuffixGreed,               // Greed
+		278: MagicalSuffixWealth,              // Wealth
+		279: MagicalSuffixGreed,               // Greed
+		280: MagicalSuffixGreed,               // Greed
+		281: MagicalSuffixGreed,               // Greed
+		282: MagicalSuffixGreed,               // Greed
+		283: MagicalSuffixGreed,               // Greed
+		284: MagicalSuffixGreed,               // Greed
+		285: MagicalSuffixAvarice,             // Avarice
+		286: MagicalSuffixChance,              // Chance
+		287: MagicalSuffixFortune,             // Fortune
+		288: MagicalSuffixFortune,             // Fortune
+		289: MagicalSuffixLuck,                // Luck
+		290: MagicalSuffixFortune,             // Fortune
+		291: MagicalSuffixGoodLuck,            // Good Luck
+		292: MagicalSuffixProsperity,          // Prosperity
+		293: MagicalSuffixEnergy,              // Energy
+		294: MagicalSuffixtheMind,             // the Mind
+		295: MagicalSuffixBrilliance,          // Brilliance
+		296: MagicalSuffixSorcery,             // Sorcery
+		297: MagicalSuffixWizardry,            // Wizardry
+		298: MagicalSuffixEnlightenment,       // Enlightenment
+		299: MagicalSuffixEnergy,              // Energy
+		300: MagicalSuffixtheMind,             // the Mind
+		301: MagicalSuffixBrilliance,          // Brilliance
+		302: MagicalSuffixSorcery,             // Sorcery
+		303: MagicalSuffixWizardry,            // Wizardry
+		304: MagicalSuffixEnergy,              // Energy
+		305: MagicalSuffixtheMind,             // the Mind
+		306: MagicalSuffixBrilliance,          // Brilliance
+		307: MagicalSuffixSorcery,             // Sorcery
+		308: MagicalSuffixKnowledge,           // Knowledge
+		309: MagicalSuffixtheBear,             // the Bear
+		310: MagicalSuffixLight,               // Light
+		311: MagicalSuffixRadiance,            // Radiance
+		312: MagicalSuffixtheSun,              // the Sun
+		313: MagicalSuffixtheJackal,           // the Jackal
+		314: MagicalSuffixtheFox,              // the Fox
+		315: MagicalSuffixtheWolf,             // the Wolf
+		316: MagicalSuffixtheTiger,            // the Tiger
+		317: MagicalSuffixtheMammoth,          // the Mammoth
+		318: MagicalSuffixtheColosuss,         // the Colosuss
+		319: MagicalSuffixtheSquid,            // the Squid
+		320: MagicalSuffixtheWhale,            // the Whale
+		321: MagicalSuffixtheJackal,           // the Jackal
+		322: MagicalSuffixtheFox,              // the Fox
+		323: MagicalSuffixtheWolf,             // the Wolf
+		324: MagicalSuffixtheTiger,            // the Tiger
+		325: MagicalSuffixtheMammoth,          // the Mammoth
+		326: MagicalSuffixtheColosuss,         // the Colosuss
+		327: MagicalSuffixtheJackal,           // the Jackal
+		328: MagicalSuffixtheFox,              // the Fox
+		329: MagicalSuffixtheWolf,             // the Wolf
+		330: MagicalSuffixtheTiger,            // the Tiger
+		331: MagicalSuffixtheMammoth,          // the Mammoth
+		332: MagicalSuffixLife,                // Life
+		333: MagicalSuffixLife,                // Life
+		334: MagicalSuffixLife,                // Life
+		335: MagicalSuffixSubstinence,         // Substinence
+		336: MagicalSuffixSubstinence,         // Substinence
+		337: MagicalSuffixSubstinence,         // Substinence
+		338: MagicalSuffixVita,                // Vita
+		339: MagicalSuffixVita,                // Vita
+		340: MagicalSuffixVita,                // Vita
+		341: MagicalSuffixLife,                // Life
+		342: MagicalSuffixLife,                // Life
+		343: MagicalSuffixSubstinence,         // Substinence
+		344: MagicalSuffixSubstinence,         // Substinence
+		345: MagicalSuffixVita,                // Vita
+		346: MagicalSuffixVita,                // Vita
+		347: MagicalSuffixLife,                // Life
+		348: MagicalSuffixSubstinence,         // Substinence
+		349: MagicalSuffixVita,                // Vita
+		350: MagicalSuffixSpirit,              // Spirit
+		351: MagicalSuffixHope,                // Hope
+		352: MagicalSuffixtheLeech,            // the Leech
+		353: MagicalSuffixtheLocust,           // the Locust
+		354: MagicalSuffixtheLamprey,          // the Lamprey
+		355: MagicalSuffixtheLeech,            // the Leech
+		356: MagicalSuffixtheLocust,           // the Locust
+		357: MagicalSuffixtheLamprey,          // the Lamprey
+		358: MagicalSuffixtheLeech,            // the Leech
+		359: MagicalSuffixtheBat,              // the Bat
+		360: MagicalSuffixtheWraith,           // the Wraith
+		361: MagicalSuffixtheVampire,          // the Vampire
+		362: MagicalSuffixtheBat,              // the Bat
+		363: MagicalSuffixtheWraith,           // the Wraith
+		364: MagicalSuffixtheVampire,          // the Vampire
+		365: MagicalSuffixtheBat,              // the Bat
+		366: MagicalSuffixDefiance,            // Defiance
+		367: MagicalSuffixAmelioration,        // Amelioration
+		368: MagicalSuffixRemedy,              // Remedy
+		369: MagicalSuffixSimplicity,          // Simplicity
+		370: MagicalSuffixEase,                // Ease
+		371: MagicalSuffixFreedom,             // Freedom
+		372: MagicalSuffixStrength,            // Strength
+		373: MagicalSuffixMight,               // Might
+		374: MagicalSuffixtheOx,               // the Ox
+		375: MagicalSuffixtheGiant,            // the Giant
+		376: MagicalSuffixtheTitan,            // the Titan
+		377: MagicalSuffixAtlus,               // Atlus
+		378: MagicalSuffixStrength,            // Strength
+		379: MagicalSuffixMight,               // Might
+		380: MagicalSuffixtheUs,               // the Us
+		381: MagicalSuffixtheGiant,            // the Giant
+		382: MagicalSuffixtheTitan,            // the Titan
+		383: MagicalSuffixStrength,            // Strength
+		384: MagicalSuffixMight,               // Might
+		385: MagicalSuffixtheUs,               // the Us
+		386: MagicalSuffixtheGiant,            // the Giant
+		387: MagicalSuffixStrength,            // Strength
+		388: MagicalSuffixStrength,            // Strength
+		389: MagicalSuffixStrength,            // Strength
+		390: MagicalSuffixStrength,            // Strength
+		391: MagicalSuffixStrength,            // Strength
+		392: MagicalSuffixStrength,            // Strength
+		393: MagicalSuffixVirility,            // Virility
+		394: MagicalSuffixPacing,              // Pacing
+		395: MagicalSuffixHaste,               // Haste
+		396: MagicalSuffixSpeed,               // Speed
+		397: MagicalSuffixTraveling,           // Traveling
+		398: MagicalSuffixAcceleration,        // Acceleration
+		399: MagicalSuffixInertia,             // Inertia
+		400: MagicalSuffixInertia,             // Inertia
+		401: MagicalSuffixInertia,             // Inertia
+		402: MagicalSuffixSelfRepair,          // Self-Repair
+		403: MagicalSuffixFastRepair,          // Fast Repair
+		404: MagicalSuffixAges,                // Ages
+		405: MagicalSuffixHeplenishing,        // Heplenishing
+		406: MagicalSuffixPropagation,         // Propagation
+		407: MagicalSuffixtheKraken,           // the Kraken
+		408: MagicalSuffixMemory,              // Memory
+		409: MagicalSuffixtheElephant,         // the Elephant
+		410: MagicalSuffixPower,               // Power
+		411: MagicalSuffixGrace,               // Grace
+		412: MagicalSuffixGraceAndPower,       // Grace and Power
+		413: MagicalSuffixtheYeti,             // the Yeti
+		414: MagicalSuffixthePhoenix,          // the Phoenix
+		415: MagicalSuffixtheEfreeti,          // the Efreeti
+		416: MagicalSuffixtheCobra,            // the Cobra
+		417: MagicalSuffixtheElements,         // the Elements
+		418: MagicalSuffixFirebolts,           // Firebolts
+		419: MagicalSuffixFirebolts,           // Firebolts
+		420: MagicalSuffixFirebolts,           // Firebolts
+		421: MagicalSuffixChargedShield,       // Charged Shield
+		422: MagicalSuffixChargedShield,       // Charged Shield
+		423: MagicalSuffixChargedShield,       // Charged Shield
+		424: MagicalSuffixIcebolt,             // Icebolt
+		425: MagicalSuffixFrozenArmor,         // Frozen Armor
+		426: MagicalSuffixStaticField,         // Static Field
+		427: MagicalSuffixTelekinesis,         // Telekinesis
+		428: MagicalSuffixFrostShield,         // Frost Shield
+		429: MagicalSuffixIceBlast,            // Ice Blast
+		430: MagicalSuffixBlaze,               // Blaze
+		431: MagicalSuffixFireBall,            // Fire Ball
+		432: MagicalSuffixNova,                // Nova
+		433: MagicalSuffixNova,                // Nova
+		434: MagicalSuffixNovaShield,          // Nova Shield
+		435: MagicalSuffixNovaShield,          // Nova Shield
+		436: MagicalSuffixNovaShield,          // Nova Shield
+		437: MagicalSuffixLightning,           // Lightning
+		438: MagicalSuffixLightning,           // Lightning
+		439: MagicalSuffixShiverArmor,         // Shiver Armor
+		440: MagicalSuffixFireWall,            // Fire Wall
+		441: MagicalSuffixEnchant,             // Enchant
+		442: MagicalSuffixChainLightning,      // Chain Lightning
+		443: MagicalSuffixChainLightning,      // Chain Lightning
+		444: MagicalSuffixChainLightning,      // Chain Lightning
+		445: MagicalSuffixTeleportShield,      // Teleport Shield
+		446: MagicalSuffixTeleportShield,      // Teleport Shield
+		447: MagicalSuffixTeleportShield,      // Teleport Shield
+		448: MagicalSuffixGlacialSpike,        // Glacial Spike
+		449: MagicalSuffixMeteor,              // Meteor
+		450: MagicalSuffixThunderStorm,        // Thunder Storm
+		451: MagicalSuffixEnergyShield,        // Energy Shield
+		452: MagicalSuffixBlizzard,            // Blizzard
+		453: MagicalSuffixChillingArmor,       // Chilling Armor
+		454: MagicalSuffixHydraShield,         // Hydra Shield
+		455: MagicalSuffixFrozenler,           // Frozen ler
+		456: MagicalSuffixDawn,                // Dawn
+		457: MagicalSuffixSunlight,            // Sunlight
+		458: MagicalSuffixMagicArrows,         // Magic Arrows
+		459: MagicalSuffixMagicArrows,         // Magic Arrows
+		460: MagicalSuffixFireArrows,          // Fire Arrows
+		461: MagicalSuffixFireArrows,          // Fire Arrows
+		462: MagicalSuffixlnnerSight,          // lnner Sight
+		463: MagicalSuffixInnerSight,          // Inner Sight
+		464: MagicalSuffixJabbing,             // Jabbing
+		465: MagicalSuffixJabbing,             // Jabbing
+		466: MagicalSuffixColdArrows,          // Cold Arrows
+		467: MagicalSuffixColdArrows,          // Cold Arrows
+		468: MagicalSuffixMultipleShot,        // Multiple Shot
+		469: MagicalSuffixMultipleShot,        // Multiple Shot
+		470: MagicalSuffixPowerStrike,         // Power Strike
+		471: MagicalSuffixPowerStrike,         // Power Strike
+		472: MagicalSuffixPoisonJab,           // Poison Jab
+		473: MagicalSuffixPoisonJab,           // Poison Jab
+		474: MagicalSuffixExplodingArrows,     // Exploding Arrows
+		475: MagicalSuffixExplodingArrows,     // Exploding Arrows
+		476: MagicalSuffixSlowMissiles,        // Slow Missiles
+		477: MagicalSuffixSlowMissiles,        // Slow Missiles
+		478: MagicalSuffixlmpalingStrike,      // lmpaling Strike
+		479: MagicalSuffixlmpalingStrike,      // lmpaling Strike
+		480: MagicalSuffixLightningJavelin,    // Lightning Javelin
+		481: MagicalSuffixLightningJavelin,    // Lightning Javelin
+		482: MagicalSuffixIceArrows,           // Ice Arrows
+		483: MagicalSuffixIceArrows,           // Ice Arrows
+		484: MagicalSuffixGuidedArrows,        // Guided Arrows
+		485: MagicalSuffixGuidedArrows,        // Guided Arrows
+		486: MagicalSuffixChargedStrike,       // Charged Strike
+		487: MagicalSuffixChargedStrike,       // Charged Strike
+		488: MagicalSuffixPlagueJab,           // Plague Jab
+		489: MagicalSuffixPlagueJab,           // Plague Jab
+		490: MagicalSuffixlmmolatingArrows,    // lmmolating Arrows
+		491: MagicalSuffixlmmolatingArrows,    // lmmolating Arrows
+		492: MagicalSuffixFending,             // Fending
+		493: MagicalSuffixFending,             // Fending
+		494: MagicalSuffixFreezingArrows,      // Freezing Arrows
+		495: MagicalSuffixFreezingArrows,      // Freezing Arrows
+		496: MagicalSuffixLightningStrike,     // Lightning Strike
+		497: MagicalSuffixLightningStrike,     // Lightning Strike
+		498: MagicalSuffixLightningFury,       // Lightning Fury
+		499: MagicalSuffixLightningFury,       // Lightning Fury
+		500: MagicalSuffixFireBolts,           // Fire Bolts
+		501: MagicalSuffixFireBolts,           // Fire Bolts
+		502: MagicalSuffixChargedBolts,        // Charged Bolts
+		503: MagicalSuffixChargedBolts,        // Charged Bolts
+		504: MagicalSuffixIceBolts,            // Ice Bolts
+		505: MagicalSuffixIceBolts,            // Ice Bolts
+		506: MagicalSuffixFrozenArmor,         // Frozen Armor
+		507: MagicalSuffixFrozenArmor,         // Frozen Armor
+		508: MagicalSuffixStaticField,         // Static Field
+		509: MagicalSuffixStaticField,         // Static Field
+		510: MagicalSuffixTelekinesis,         // Telekinesis
+		511: MagicalSuffixTelekinesis,         // Telekinesis
+		512: MagicalSuffixFrostNovas,          // Frost Novas
+		513: MagicalSuffixFrostNovas,          // Frost Novas
+		514: MagicalSuffixIceBlasts,           // Ice Blasts
+		515: MagicalSuffixIceBlasts,           // Ice Blasts
+		516: MagicalSuffixBlazing,             // Blazing
+		517: MagicalSuffixBlazing,             // Blazing
+		518: MagicalSuffixFireBalls,           // Fire Balls
+		519: MagicalSuffixFireBalls,           // Fire Balls
+		520: MagicalSuffixNovas,               // Novas
+		521: MagicalSuffixNovas,               // Novas
+		522: MagicalSuffixLightning,           // Lightning
+		523: MagicalSuffixLightning,           // Lightning
+		524: MagicalSuffixShiverArmor,         // Shiver Armor
+		525: MagicalSuffixShiverArmor,         // Shiver Armor
+		526: MagicalSuffixFireWalls,           // Fire Walls
+		527: MagicalSuffixFireWalls,           // Fire Walls
+		528: MagicalSuffixEnchantment,         // Enchantment
+		529: MagicalSuffixEnchantment,         // Enchantment
+		530: MagicalSuffixChainLightning,      // Chain Lightning
+		531: MagicalSuffixChainLightning,      // Chain Lightning
+		532: MagicalSuffixTeleportation,       // Teleportation
+		533: MagicalSuffixTeleportation,       // Teleportation
+		534: MagicalSuffixGlacialSpikes,       // Glacial Spikes
+		535: MagicalSuffixGlacialSpikes,       // Glacial Spikes
+		536: MagicalSuffixMeteors,             // Meteors
+		537: MagicalSuffixMeteors,             // Meteors
+		538: MagicalSuffixThunderStorm,        // Thunder Storm
+		539: MagicalSuffixThunderStorm,        // Thunder Storm
+		540: MagicalSuffixEnergyShield,        // Energy Shield
+		541: MagicalSuffixEnergyShield,        // Energy Shield
+		542: MagicalSuffixBlizzards,           // Blizzards
+		543: MagicalSuffixBlizzards,           // Blizzards
+		544: MagicalSuffixChillingArmor,       // Chilling Armor
+		545: MagicalSuffixChillingArmor,       // Chilling Armor
+		546: MagicalSuffixHydras,              // Hydras
+		547: MagicalSuffixHydras,              // Hydras
+		548: MagicalSuffixFrozenOrbs,          // Frozen Orbs
+		549: MagicalSuffixFrozenOrbs,          // Frozen Orbs
+		550: MagicalSuffixAmplifyDamage,       // Amplify Damage
+		551: MagicalSuffixAmplifyDamage,       // Amplify Damage
+		552: MagicalSuffixTeeth,               // Teeth
+		553: MagicalSuffixTeeth,               // Teeth
+		554: MagicalSuffixBoneArmor,           // Bone Armor
+		555: MagicalSuffixBoneArmor,           // Bone Armor
+		556: MagicalSuffixRaiseSkeletons,      // Raise Skeletons
+		557: MagicalSuffixRaiseSkeletons,      // Raise Skeletons
+		558: MagicalSuffixDimVision,           // Dim Vision
+		559: MagicalSuffixDimVision,           // Dim Vision
+		560: MagicalSuffixWeaken,              // Weaken
+		561: MagicalSuffixWeaken,              // Weaken
+		562: MagicalSuffixPoisonDagger,        // Poison Dagger
+		563: MagicalSuffixPoisonDagger,        // Poison Dagger
+		564: MagicalSuffixCorpseExplosions,    // Corpse Explosions
+		565: MagicalSuffixCorpseExplosions,    // Corpse Explosions
+		566: MagicalSuffixClayGolemSummoning,  // Clay Golem Summoning
+		567: MagicalSuffixClayGolemSummoning,  // Clay Golem Summoning
+		568: MagicalSuffixIronMaiden,          // Iron Maiden
+		569: MagicalSuffixIronMaiden,          // Iron Maiden
+		570: MagicalSuffixTerror,              // Terror
+		571: MagicalSuffixTerror,              // Terror
+		572: MagicalSuffixBoneWalls,           // Bone Walls
+		573: MagicalSuffixBoneWalls,           // Bone Walls
+		574: MagicalSuffixRaiseSkeletalMages,  // Raise Skeletal Mages
+		575: MagicalSuffixRaiseSkeletalMages,  // Raise Skeletal Mages
+		576: MagicalSuffixConfusion,           // Confusion
+		577: MagicalSuffixConfusion,           // Confusion
+		578: MagicalSuffixLifeTap,             // Life Tap
+		579: MagicalSuffixLifeTap,             // Life Tap
+		580: MagicalSuffixPoisonExplosion,     // Poison Explosion
+		581: MagicalSuffixPoisonExplosion,     // Poison Explosion
+		582: MagicalSuffixBoneSpears,          // Bone Spears
+		583: MagicalSuffixBoneSpears,          // Bone Spears
+		584: MagicalSuffixBloodGolemSummoning, // Blood Golem Summoning
+		585: MagicalSuffixBloodGolemSummoning, // Blood Golem Summoning
+		586: MagicalSuffixAttraction,          // Attraction
+		587: MagicalSuffixAttraction,          // Attraction
+		588: MagicalSuffixDecrepification,     // Decrepification
+		589: MagicalSuffixDecrepification,     // Decrepification
+		590: MagicalSuffixBoneImprisonment,    // Bone Imprisonment
+		591: MagicalSuffixBoneImprisonment,    // Bone Imprisonment
+		592: MagicalSuffixIronGolemCreation,   // Iron Golem Creation
+		593: MagicalSuffixIronGolemCreation,   // Iron Golem Creation
+		594: MagicalSuffixLowerResistance,     // Lower Resistance
+		595: MagicalSuffixLowerFlesistance,    // Lower Flesistance
+		596: MagicalSuffixPoisonNovas,         // Poison Novas
+		597: MagicalSuffixPoisonNovas,         // Poison Novas
+		598: MagicalSuffixBoneSpirits,         // Bone Spirits
+		599: MagicalSuffixBoneSpirits,         // Bone Spirits
+		600: MagicalSuffixFireGolemSummoning,  // Fire Golem Summoning
+		601: MagicalSuffixFireGolemSummoning,  // Fire Golem Summoning
+		602: MagicalSuffixRevivification,      // Revivification
+		603: MagicalSuffixRevivification,      // Revivification
+		604: MagicalSuffixSacrifice,           // Sacrifice
+		605: MagicalSuffixSacrifice,           // Sacrifice
+		606: MagicalSuffixHolyBolts,           // Holy Bolts
+		607: MagicalSuffixHolyBolts,           // Holy Bolts
+		608: MagicalSuffixZeal,                // Zeal
+		609: MagicalSuffixZeal,                // Zeal
+		610: MagicalSuffixVengeance,           // Vengeance
+		611: MagicalSuffixVengeance,           // Vengeance
+		612: MagicalSuffixBlessedHammers,      // Blessed Hammers
+		613: MagicalSuffixBlessedHammers,      // Blessed Hammers
+		614: MagicalSuffixConversion,          // Conversion
+		615: MagicalSuffixConversion,          // Conversion
+		616: MagicalSuffixFistOfTheHeavens,    // Fist of the Heavens
+		617: MagicalSuffixFistOfTheHeavens,    // Fist of the Heavens
+		618: MagicalSuffixBashing,             // Bashing
+		619: MagicalSuffixBashing,             // Bashing
+		620: MagicalSuffixHowling,             // Howling
+		621: MagicalSuffixHowling,             // Howling
+		622: MagicalSuffixPotionFinding,       // Potion Finding
+		623: MagicalSuffixPotionFinding,       // Potion Finding
+		624: MagicalSuffixTaunting,            // Taunting
+		625: MagicalSuffixTaunting,            // Taunting
+		626: MagicalSuffixShouting,            // Shouting
+		627: MagicalSuffixShouting,            // Shouting
+		628: MagicalSuffixStunning,            // Stunning
+		629: MagicalSuffixStunning,            // Stunning
+		630: MagicalSuffixItemFinding,         // Item Finding
+		631: MagicalSuffixItemFinding,         // Item Finding
+		632: MagicalSuffixConcentration,       // Concentration
+		633: MagicalSuffixConcentration,       // Concentration
+		634: MagicalSuffixBattleCry,           // Battle Cry
+		635: MagicalSuffixBattleCry,           // Battle Cry
+		636: MagicalSuffixBattleOrders,        // Battle Orders
+		637: MagicalSuffixBattleOrders,        // Battle Orders
+		638: MagicalSuffixGrimWard,            // Grim Ward
+		639: MagicalSuffixGrimWard,            // Grim Ward
+		640: MagicalSuffixWarCry,              // War Cry
+		641: MagicalSuffixWarCry,              // War Cry
+		642: MagicalSuffixBattleCommand,       // Battle Command
+		643: MagicalSuffixBattleCommand,       // Battle Command
+		644: MagicalSuffixFirestorms,          // Firestorms
+		645: MagicalSuffixFirestorms,          // Firestorms
+		646: MagicalSuffixMoltenBoulders,      // Molten Boulders
+		647: MagicalSuffixMoltenBoulders,      // Molten Boulders
+		648: MagicalSuffixEruption,            // Eruption
+		649: MagicalSuffixEruption,            // Eruption
+		650: MagicalSuffixCycloneArmor,        // Cyclone Armor
+		651: MagicalSuffixCycloneArmor,        // Cyclone Armor
+		652: MagicalSuffixTwister,             // Twister
+		653: MagicalSuffixTwister,             // Twister
+		654: MagicalSuffixVolcano,             // Volcano
+		655: MagicalSuffixVolcano,             // Volcano
+		656: MagicalSuffixTornado,             // Tornado
+		657: MagicalSuffixTornado,             // Tornado
+		658: MagicalSuffixArmageddon,          // Armageddon
+		659: MagicalSuffixArmageddon,          // Armageddon
+		660: MagicalSuffixHurricane,           // Hurricane
+		661: MagicalSuffixHurricane,           // Hurricane
+		662: MagicalSuffixDamageAmplification, // Damage Amplification
+		663: MagicalSuffixtheIcicle,           // the Icicle
+		664: MagicalSuffixtheGlacier,          // the Glacier
+		665: MagicalSuffixFire,                // Fire
+		666: MagicalSuffixBurning,             // Burning
+		667: MagicalSuffixLightning,           // Lightning
+		668: MagicalSuffixThunder,             // Thunder
+		669: MagicalSuffixDaring,              // Daring
+		670: MagicalSuffixDaring,              // Daring
+		671: MagicalSuffixKnowledge,           // Knowledge
+		672: MagicalSuffixKnowledge,           // Knowledge
+		673: MagicalSuffixVirility,            // Virility
+		674: MagicalSuffixVirility,            // Virility
+		675: MagicalSuffixReadiness,           // Readiness
+		676: MagicalSuffixCraftsmanship,       // Craftsmanship
+		677: MagicalSuffixQuality,             // Quality
+		678: MagicalSuffixMaiming,             // Maiming
+		679: MagicalSuffixCraftsmanship,       // Craftsmanship
+		680: MagicalSuffixQuality,             // Quality
+		681: MagicalSuffixCraftsmanship,       // Craftsmanship
+		682: MagicalSuffixBlight,              // Blight
+		683: MagicalSuffixVenom,               // Venom
+		684: MagicalSuffixPestilence,          // Pestilence
+		685: MagicalSuffixAnthrax,             // Anthrax
+		686: MagicalSuffixBlight,              // Blight
+		687: MagicalSuffixVenom,               // Venom
+		688: MagicalSuffixPestilence,          // Pestilence
+		689: MagicalSuffixAnthrax,             // Anthrax
+		690: MagicalSuffixBlight,              // Blight
+		691: MagicalSuffixVenom,               // Venom
+		692: MagicalSuffixPestilence,          // Pestilence
+		693: MagicalSuffixAnthrax,             // Anthrax
+		694: MagicalSuffixFrost,               // Frost
+		695: MagicalSuffixtheIcicle,           // the Icicle
+		696: MagicalSuffixtheGlacier,          // the Glacier
+		697: MagicalSuffixWinter,              // Winter
+		698: MagicalSuffixFrost,               // Frost
+		699: MagicalSuffixtheIcicle,           // the Icicle
+		700: MagicalSuffixtheGlacier,          // the Glacier
+		701: MagicalSuffixWinter,              // Winter
+		702: MagicalSuffixFrost,               // Frost
+		703: MagicalSuffixtheIcicle,           // the Icicle
+		704: MagicalSuffixtheGlacier,          // the Glacier
+		705: MagicalSuffixWinter,              // Winter
+		706: MagicalSuffixFlame,               // Flame
+		707: MagicalSuffixFire,                // Fire
+		708: MagicalSuffixBurning,             // Burning
+		709: MagicalSuffixIncineration,        // Incineration
+		710: MagicalSuffixFlame,               // Flame
+		711: MagicalSuffixFire,                // Fire
+		712: MagicalSuffixBurning,             // Burning
+		713: MagicalSuffixIncineration,        // Incineration
+		714: MagicalSuffixFlame,               // Flame
+		715: MagicalSuffixFire,                // Fire
+		716: MagicalSuffixBurning,             // Burning
+		717: MagicalSuffixIncineration,        // Incineration
+		718: MagicalSuffixShock,               // Shock
+		719: MagicalSuffixLightning,           // Lightning
+		720: MagicalSuffixThunder,             // Thunder
+		721: MagicalSuffixStorms,              // Storms
+		722: MagicalSuffixShock,               // Shock
+		723: MagicalSuffixLightning,           // Lightning
+		724: MagicalSuffixThunder,             // Thunder
+		725: MagicalSuffixStorms,              // Storms
+		726: MagicalSuffixShock,               // Shock
+		727: MagicalSuffixLightning,           // Lightning
+		728: MagicalSuffixThunder,             // Thunder
+		729: MagicalSuffixStorms,              // Storms
+		730: MagicalSuffixDexterity,           // Dexterity
+		731: MagicalSuffixDexterity,           // Dexterity
+		732: MagicalSuffixStrength,            // Strength
+		733: MagicalSuffixStrength,            // Strength
+		734: MagicalSuffixThorns,              // Thorns
+		735: MagicalSuffixFrost,               // Frost
+		736: MagicalSuffixFlame,               // Flame
+		737: MagicalSuffixBlight,              // Blight
+		738: MagicalSuffixShock,               // Shock
+		739: MagicalSuffixRegeneration,        // Regeneration
+		740: MagicalSuffixEnergy,              // Energy
+		741: MagicalSuffixLight,               // Light
+		742: MagicalSuffixtheLeech,            // the Leech
+		743: MagicalSuffixtheLocust,           // the Locust
+		744: MagicalSuffixtheLamprey,          // the Lamprey
+		745: MagicalSuffixtheBat,              // the Bat
+		746: MagicalSuffixtheWraith,           // the Wraith
+		747: MagicalSuffixtheVampire,          // the Vampire
+	}
+}
+
+func GetMagicalSuffix(id uint16) (result MagicalSuffix, found bool) {
+	lookup := getSuffixMap()
+	result, found = lookup[id]
+	return result, found
+}
+
+func (m MagicalSuffix) GetID() uint16 {
+	lookup := getSuffixMap()
+
+	for key, value := range lookup {
+		if value == m {
+			return key
+		}
+	}
+
+	// should not be reached
+	panic("d2d2s: (MagicalSuffix).GetID: unknown id")
+}
