@@ -8,7 +8,10 @@ import (
 	"github.com/gucio321/d2d2s/pkg/d2s/d2sitems"
 )
 
-const corpseUnknownBytesCount = 12
+const (
+	corpseUnknownBytesCount = 12
+	corpseHeaderID          = "JM"
+)
 
 // New creates a new corpse data
 func New() *Corpse {
@@ -25,9 +28,9 @@ type Corpse struct {
 
 // Load loads corpse
 func (c *Corpse) Load(sr *datautils.BitMuncher) error {
-	id := sr.GetBytes(2) // nolint:gomnd // header
+	id := sr.GetBytes(len(corpseHeaderID))
 
-	if string(id) != "JM" {
+	if string(id) != corpseHeaderID {
 		return errors.New("unexpected header")
 	}
 
