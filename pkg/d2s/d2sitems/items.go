@@ -335,7 +335,7 @@ func (i *Item) loadExtendedFields(sr *datautils.BitMuncher) (err error) {
 	return nil
 }
 
-func (i *Item) loadQualityData(sr *datautils.BitMuncher) {
+func (i *Item) loadQualityData(sr *datautils.BitMuncher) error {
 	switch i.Quality {
 	case d2senums.ItemQualityLow:
 		i.QualityData.LowQualityID = byte(sr.GetBits(lowQualityIDLen))
@@ -346,7 +346,12 @@ func (i *Item) loadQualityData(sr *datautils.BitMuncher) {
 	case d2senums.ItemQualityEnchanced:
 		i.QualityData.MagicPrefix = make([]itemdata.MagicalPrefix, 1)
 		id := uint16(sr.GetBits(magicModifierIDLen)) // helper variable (avoid noise with x.y.z.id ;-)
-		i.QualityData.MagicPrefix[0] = itemdata.MagicalPrefix(id)
+
+		var found bool
+
+		if i.QualityData.MagicPrefix[0], found = itemdata.GetMagicalPrefix(id); !found {
+			return errors.New("loading item prefix: unknown id")
+		}
 
 		i.QualityData.MagicSuffix = make([]itemdata.MagicalSuffix, 1)
 		id = uint16(sr.GetBits(magicModifierIDLen)) // helper variable (avoid noise with x.y.z.id ;-)
@@ -368,8 +373,13 @@ func (i *Item) loadQualityData(sr *datautils.BitMuncher) {
 		for p := 0; p < 3; p++ {
 			prefixExist := sr.GetBit() == 1
 			if prefixExist {
-				id := itemdata.MagicalPrefix(sr.GetBits(magicModifierIDLen))
-				i.QualityData.MagicPrefix = append(i.QualityData.MagicPrefix, id)
+				id := uint16(sr.GetBits(magicModifierIDLen))
+				prefix, found := itemdata.GetMagicalPrefix(id)
+				if !found {
+					return errors.New("loading item prefix: unknown id")
+				}
+
+				i.QualityData.MagicPrefix = append(i.QualityData.MagicPrefix, prefix)
 			}
 
 			suffixExist := sr.GetBit() == 1
@@ -382,6 +392,8 @@ func (i *Item) loadQualityData(sr *datautils.BitMuncher) {
 		id := uint16(sr.GetBits(uniqueIDLen))
 		i.QualityData.UniqueID = itemdata.UniqueID(id)
 	}
+
+	return nil
 }
 
 func (i *Item) loadRuneword(sr *datautils.BitMuncher) {
@@ -677,7 +689,7 @@ func (i *Item) encodeQuality(sw *datautils.StreamWriter) {
 	case d2senums.ItemQualityHigh:
 		sw.PushBits(i.QualityData.HighQualityData, highQualityDataLen)
 	case d2senums.ItemQualityEnchanced:
-		sw.PushBits16(uint16(i.QualityData.MagicPrefix[0]), magicModifierIDLen)
+		sw.PushBits16(i.QualityData.MagicPrefix[0].GetID(), magicModifierIDLen)
 		sw.PushBits16(uint16(i.QualityData.MagicSuffix[0]), magicModifierIDLen)
 	case d2senums.ItemQualitySet:
 		sw.PushBits16(uint16(i.QualityData.SetID), setIDLen)
@@ -692,7 +704,7 @@ func (i *Item) encodeQuality(sw *datautils.StreamWriter) {
 			sw.PushBit(hasPrefix)
 
 			if hasPrefix {
-				sw.PushBits16(uint16(i.QualityData.MagicPrefix[n]), magicModifierIDLen)
+				sw.PushBits16(i.QualityData.MagicPrefix[n].GetID(), magicModifierIDLen)
 			}
 
 			l = len(i.QualityData.MagicSuffix)

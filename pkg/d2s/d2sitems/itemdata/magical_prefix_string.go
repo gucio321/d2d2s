@@ -8,1290 +8,266 @@ func _() {
 	// An "invalid array index" compiler error signifies that the constant values have changed.
 	// Re-run the stringer command to generate them again.
 	var x [1]struct{}
-	_ = x[MagicalPrefix2-2]
-	_ = x[MagicalPrefix3-3]
-	_ = x[MagicalPrefix4-4]
-	_ = x[MagicalPrefix5-5]
-	_ = x[MagicalPrefix6-6]
-	_ = x[MagicalPrefix7-7]
-	_ = x[MagicalPrefix8-8]
-	_ = x[MagicalPrefix9-9]
-	_ = x[MagicalPrefix13-13]
-	_ = x[MagicalPrefix14-14]
-	_ = x[MagicalPrefix15-15]
-	_ = x[MagicalPrefix16-16]
-	_ = x[MagicalPrefix17-17]
-	_ = x[MagicalPrefix18-18]
-	_ = x[MagicalPrefix19-19]
-	_ = x[MagicalPrefix20-20]
-	_ = x[MagicalPrefix25-25]
-	_ = x[MagicalPrefix26-26]
-	_ = x[MagicalPrefix27-27]
-	_ = x[MagicalPrefix28-28]
-	_ = x[MagicalPrefix29-29]
-	_ = x[MagicalPrefix30-30]
-	_ = x[MagicalPrefix32-32]
-	_ = x[MagicalPrefix33-33]
-	_ = x[MagicalPrefix34-34]
-	_ = x[MagicalPrefix35-35]
-	_ = x[MagicalPrefix36-36]
-	_ = x[MagicalPrefix37-37]
-	_ = x[MagicalPrefix38-38]
-	_ = x[MagicalPrefix39-39]
-	_ = x[MagicalPrefix40-40]
-	_ = x[MagicalPrefix41-41]
-	_ = x[MagicalPrefix42-42]
-	_ = x[MagicalPrefix43-43]
-	_ = x[MagicalPrefix49-49]
-	_ = x[MagicalPrefix50-50]
-	_ = x[MagicalPrefix53-53]
-	_ = x[MagicalPrefix55-55]
-	_ = x[MagicalPrefix56-56]
-	_ = x[MagicalPrefix57-57]
-	_ = x[MagicalPrefix58-58]
-	_ = x[MagicalPrefix59-59]
-	_ = x[MagicalPrefix60-60]
-	_ = x[MagicalPrefix61-61]
-	_ = x[MagicalPrefix64-64]
-	_ = x[MagicalPrefix65-65]
-	_ = x[MagicalPrefix66-66]
-	_ = x[MagicalPrefix67-67]
-	_ = x[MagicalPrefix68-68]
-	_ = x[MagicalPrefix69-69]
-	_ = x[MagicalPrefix70-70]
-	_ = x[MagicalPrefix72-72]
-	_ = x[MagicalPrefix75-75]
-	_ = x[MagicalPrefix76-76]
-	_ = x[MagicalPrefix77-77]
-	_ = x[MagicalPrefix78-78]
-	_ = x[MagicalPrefix79-79]
-	_ = x[MagicalPrefix81-81]
-	_ = x[MagicalPrefix84-84]
-	_ = x[MagicalPrefix85-85]
-	_ = x[MagicalPrefix86-86]
-	_ = x[MagicalPrefix87-87]
-	_ = x[MagicalPrefix88-88]
-	_ = x[MagicalPrefix90-90]
-	_ = x[MagicalPrefix93-93]
-	_ = x[MagicalPrefix94-94]
-	_ = x[MagicalPrefix95-95]
-	_ = x[MagicalPrefix96-96]
-	_ = x[MagicalPrefix97-97]
-	_ = x[MagicalPrefix99-99]
-	_ = x[MagicalPrefix101-101]
-	_ = x[MagicalPrefix102-102]
-	_ = x[MagicalPrefix103-103]
-	_ = x[MagicalPrefix104-104]
-	_ = x[MagicalPrefix105-105]
-	_ = x[MagicalPrefix106-106]
-	_ = x[MagicalPrefix107-107]
-	_ = x[MagicalPrefix108-108]
-	_ = x[MagicalPrefix109-109]
-	_ = x[MagicalPrefix110-110]
-	_ = x[MagicalPrefix111-111]
-	_ = x[MagicalPrefix112-112]
-	_ = x[MagicalPrefix113-113]
-	_ = x[MagicalPrefix114-114]
-	_ = x[MagicalPrefix115-115]
-	_ = x[MagicalPrefix118-118]
-	_ = x[MagicalPrefix119-119]
-	_ = x[MagicalPrefix120-120]
-	_ = x[MagicalPrefix121-121]
-	_ = x[MagicalPrefix122-122]
-	_ = x[MagicalPrefix123-123]
-	_ = x[MagicalPrefix124-124]
-	_ = x[MagicalPrefix125-125]
-	_ = x[MagicalPrefix126-126]
-	_ = x[MagicalPrefix127-127]
-	_ = x[MagicalPrefix128-128]
-	_ = x[MagicalPrefix129-129]
-	_ = x[MagicalPrefix130-130]
-	_ = x[MagicalPrefix131-131]
-	_ = x[MagicalPrefix132-132]
-	_ = x[MagicalPrefix133-133]
-	_ = x[MagicalPrefix134-134]
-	_ = x[MagicalPrefix135-135]
-	_ = x[MagicalPrefix136-136]
-	_ = x[MagicalPrefix137-137]
-	_ = x[MagicalPrefix138-138]
-	_ = x[MagicalPrefix139-139]
-	_ = x[MagicalPrefix140-140]
-	_ = x[MagicalPrefix141-141]
-	_ = x[MagicalPrefix142-142]
-	_ = x[MagicalPrefix143-143]
-	_ = x[MagicalPrefix144-144]
-	_ = x[MagicalPrefix145-145]
-	_ = x[MagicalPrefix146-146]
-	_ = x[MagicalPrefix147-147]
-	_ = x[MagicalPrefix148-148]
-	_ = x[MagicalPrefix149-149]
-	_ = x[MagicalPrefix150-150]
-	_ = x[MagicalPrefix151-151]
-	_ = x[MagicalPrefix152-152]
-	_ = x[MagicalPrefix153-153]
-	_ = x[MagicalPrefix154-154]
-	_ = x[MagicalPrefix155-155]
-	_ = x[MagicalPrefix156-156]
-	_ = x[MagicalPrefix157-157]
-	_ = x[MagicalPrefix158-158]
-	_ = x[MagicalPrefix159-159]
-	_ = x[MagicalPrefix160-160]
-	_ = x[MagicalPrefix161-161]
-	_ = x[MagicalPrefix162-162]
-	_ = x[MagicalPrefix163-163]
-	_ = x[MagicalPrefix164-164]
-	_ = x[MagicalPrefix165-165]
-	_ = x[MagicalPrefix166-166]
-	_ = x[MagicalPrefix167-167]
-	_ = x[MagicalPrefix168-168]
-	_ = x[MagicalPrefix169-169]
-	_ = x[MagicalPrefix170-170]
-	_ = x[MagicalPrefix171-171]
-	_ = x[MagicalPrefix172-172]
-	_ = x[MagicalPrefix173-173]
-	_ = x[MagicalPrefix174-174]
-	_ = x[MagicalPrefix175-175]
-	_ = x[MagicalPrefix176-176]
-	_ = x[MagicalPrefix177-177]
-	_ = x[MagicalPrefix178-178]
-	_ = x[MagicalPrefix179-179]
-	_ = x[MagicalPrefix180-180]
-	_ = x[MagicalPrefix181-181]
-	_ = x[MagicalPrefix182-182]
-	_ = x[MagicalPrefix183-183]
-	_ = x[MagicalPrefix184-184]
-	_ = x[MagicalPrefix185-185]
-	_ = x[MagicalPrefix186-186]
-	_ = x[MagicalPrefix187-187]
-	_ = x[MagicalPrefix188-188]
-	_ = x[MagicalPrefix189-189]
-	_ = x[MagicalPrefix190-190]
-	_ = x[MagicalPrefix191-191]
-	_ = x[MagicalPrefix192-192]
-	_ = x[MagicalPrefix193-193]
-	_ = x[MagicalPrefix194-194]
-	_ = x[MagicalPrefix195-195]
-	_ = x[MagicalPrefix196-196]
-	_ = x[MagicalPrefix197-197]
-	_ = x[MagicalPrefix198-198]
-	_ = x[MagicalPrefix199-199]
-	_ = x[MagicalPrefix200-200]
-	_ = x[MagicalPrefix201-201]
-	_ = x[MagicalPrefix202-202]
-	_ = x[MagicalPrefix203-203]
-	_ = x[MagicalPrefix204-204]
-	_ = x[MagicalPrefix205-205]
-	_ = x[MagicalPrefix206-206]
-	_ = x[MagicalPrefix207-207]
-	_ = x[MagicalPrefix208-208]
-	_ = x[MagicalPrefix209-209]
-	_ = x[MagicalPrefix210-210]
-	_ = x[MagicalPrefix211-211]
-	_ = x[MagicalPrefix212-212]
-	_ = x[MagicalPrefix213-213]
-	_ = x[MagicalPrefix214-214]
-	_ = x[MagicalPrefix215-215]
-	_ = x[MagicalPrefix216-216]
-	_ = x[MagicalPrefix217-217]
-	_ = x[MagicalPrefix218-218]
-	_ = x[MagicalPrefix219-219]
-	_ = x[MagicalPrefix220-220]
-	_ = x[MagicalPrefix221-221]
-	_ = x[MagicalPrefix222-222]
-	_ = x[MagicalPrefix223-223]
-	_ = x[MagicalPrefix224-224]
-	_ = x[MagicalPrefix225-225]
-	_ = x[MagicalPrefix226-226]
-	_ = x[MagicalPrefix227-227]
-	_ = x[MagicalPrefix228-228]
-	_ = x[MagicalPrefix229-229]
-	_ = x[MagicalPrefix230-230]
-	_ = x[MagicalPrefix231-231]
-	_ = x[MagicalPrefix232-232]
-	_ = x[MagicalPrefix233-233]
-	_ = x[MagicalPrefix234-234]
-	_ = x[MagicalPrefix235-235]
-	_ = x[MagicalPrefix236-236]
-	_ = x[MagicalPrefix237-237]
-	_ = x[MagicalPrefix238-238]
-	_ = x[MagicalPrefix239-239]
-	_ = x[MagicalPrefix240-240]
-	_ = x[MagicalPrefix241-241]
-	_ = x[MagicalPrefix242-242]
-	_ = x[MagicalPrefix243-243]
-	_ = x[MagicalPrefix244-244]
-	_ = x[MagicalPrefix245-245]
-	_ = x[MagicalPrefix246-246]
-	_ = x[MagicalPrefix247-247]
-	_ = x[MagicalPrefix248-248]
-	_ = x[MagicalPrefix249-249]
-	_ = x[MagicalPrefix250-250]
-	_ = x[MagicalPrefix251-251]
-	_ = x[MagicalPrefix252-252]
-	_ = x[MagicalPrefix253-253]
-	_ = x[MagicalPrefix254-254]
-	_ = x[MagicalPrefix255-255]
-	_ = x[MagicalPrefix256-256]
-	_ = x[MagicalPrefix257-257]
-	_ = x[MagicalPrefix258-258]
-	_ = x[MagicalPrefix259-259]
-	_ = x[MagicalPrefix260-260]
-	_ = x[MagicalPrefix261-261]
-	_ = x[MagicalPrefix262-262]
-	_ = x[MagicalPrefix263-263]
-	_ = x[MagicalPrefix264-264]
-	_ = x[MagicalPrefix265-265]
-	_ = x[MagicalPrefix266-266]
-	_ = x[MagicalPrefix267-267]
-	_ = x[MagicalPrefix268-268]
-	_ = x[MagicalPrefix269-269]
-	_ = x[MagicalPrefix270-270]
-	_ = x[MagicalPrefix271-271]
-	_ = x[MagicalPrefix272-272]
-	_ = x[MagicalPrefix273-273]
-	_ = x[MagicalPrefix274-274]
-	_ = x[MagicalPrefix275-275]
-	_ = x[MagicalPrefix276-276]
-	_ = x[MagicalPrefix277-277]
-	_ = x[MagicalPrefix278-278]
-	_ = x[MagicalPrefix279-279]
-	_ = x[MagicalPrefix280-280]
-	_ = x[MagicalPrefix281-281]
-	_ = x[MagicalPrefix282-282]
-	_ = x[MagicalPrefix283-283]
-	_ = x[MagicalPrefix284-284]
-	_ = x[MagicalPrefix285-285]
-	_ = x[MagicalPrefix286-286]
-	_ = x[MagicalPrefix287-287]
-	_ = x[MagicalPrefix288-288]
-	_ = x[MagicalPrefix289-289]
-	_ = x[MagicalPrefix290-290]
-	_ = x[MagicalPrefix291-291]
-	_ = x[MagicalPrefix292-292]
-	_ = x[MagicalPrefix293-293]
-	_ = x[MagicalPrefix294-294]
-	_ = x[MagicalPrefix295-295]
-	_ = x[MagicalPrefix296-296]
-	_ = x[MagicalPrefix297-297]
-	_ = x[MagicalPrefix298-298]
-	_ = x[MagicalPrefix299-299]
-	_ = x[MagicalPrefix300-300]
-	_ = x[MagicalPrefix301-301]
-	_ = x[MagicalPrefix302-302]
-	_ = x[MagicalPrefix303-303]
-	_ = x[MagicalPrefix304-304]
-	_ = x[MagicalPrefix305-305]
-	_ = x[MagicalPrefix306-306]
-	_ = x[MagicalPrefix307-307]
-	_ = x[MagicalPrefix308-308]
-	_ = x[MagicalPrefix309-309]
-	_ = x[MagicalPrefix310-310]
-	_ = x[MagicalPrefix311-311]
-	_ = x[MagicalPrefix312-312]
-	_ = x[MagicalPrefix313-313]
-	_ = x[MagicalPrefix314-314]
-	_ = x[MagicalPrefix315-315]
-	_ = x[MagicalPrefix316-316]
-	_ = x[MagicalPrefix317-317]
-	_ = x[MagicalPrefix318-318]
-	_ = x[MagicalPrefix319-319]
-	_ = x[MagicalPrefix320-320]
-	_ = x[MagicalPrefix321-321]
-	_ = x[MagicalPrefix322-322]
-	_ = x[MagicalPrefix323-323]
-	_ = x[MagicalPrefix324-324]
-	_ = x[MagicalPrefix325-325]
-	_ = x[MagicalPrefix326-326]
-	_ = x[MagicalPrefix327-327]
-	_ = x[MagicalPrefix328-328]
-	_ = x[MagicalPrefix329-329]
-	_ = x[MagicalPrefix330-330]
-	_ = x[MagicalPrefix331-331]
-	_ = x[MagicalPrefix332-332]
-	_ = x[MagicalPrefix333-333]
-	_ = x[MagicalPrefix334-334]
-	_ = x[MagicalPrefix335-335]
-	_ = x[MagicalPrefix336-336]
-	_ = x[MagicalPrefix337-337]
-	_ = x[MagicalPrefix338-338]
-	_ = x[MagicalPrefix339-339]
-	_ = x[MagicalPrefix340-340]
-	_ = x[MagicalPrefix341-341]
-	_ = x[MagicalPrefix342-342]
-	_ = x[MagicalPrefix343-343]
-	_ = x[MagicalPrefix344-344]
-	_ = x[MagicalPrefix345-345]
-	_ = x[MagicalPrefix346-346]
-	_ = x[MagicalPrefix347-347]
-	_ = x[MagicalPrefix348-348]
-	_ = x[MagicalPrefix349-349]
-	_ = x[MagicalPrefix350-350]
-	_ = x[MagicalPrefix351-351]
-	_ = x[MagicalPrefix352-352]
-	_ = x[MagicalPrefix353-353]
-	_ = x[MagicalPrefix354-354]
-	_ = x[MagicalPrefix355-355]
-	_ = x[MagicalPrefix356-356]
-	_ = x[MagicalPrefix357-357]
-	_ = x[MagicalPrefix358-358]
-	_ = x[MagicalPrefix359-359]
-	_ = x[MagicalPrefix360-360]
-	_ = x[MagicalPrefix361-361]
-	_ = x[MagicalPrefix362-362]
-	_ = x[MagicalPrefix363-363]
-	_ = x[MagicalPrefix364-364]
-	_ = x[MagicalPrefix365-365]
-	_ = x[MagicalPrefix366-366]
-	_ = x[MagicalPrefix367-367]
-	_ = x[MagicalPrefix368-368]
-	_ = x[MagicalPrefix369-369]
-	_ = x[MagicalPrefix370-370]
-	_ = x[MagicalPrefix371-371]
-	_ = x[MagicalPrefix372-372]
-	_ = x[MagicalPrefix373-373]
-	_ = x[MagicalPrefix374-374]
-	_ = x[MagicalPrefix375-375]
-	_ = x[MagicalPrefix376-376]
-	_ = x[MagicalPrefix377-377]
-	_ = x[MagicalPrefix378-378]
-	_ = x[MagicalPrefix379-379]
-	_ = x[MagicalPrefix380-380]
-	_ = x[MagicalPrefix381-381]
-	_ = x[MagicalPrefix382-382]
-	_ = x[MagicalPrefix383-383]
-	_ = x[MagicalPrefix384-384]
-	_ = x[MagicalPrefix385-385]
-	_ = x[MagicalPrefix386-386]
-	_ = x[MagicalPrefix387-387]
-	_ = x[MagicalPrefix388-388]
-	_ = x[MagicalPrefix389-389]
-	_ = x[MagicalPrefix390-390]
-	_ = x[MagicalPrefix391-391]
-	_ = x[MagicalPrefix392-392]
-	_ = x[MagicalPrefix393-393]
-	_ = x[MagicalPrefix394-394]
-	_ = x[MagicalPrefix395-395]
-	_ = x[MagicalPrefix396-396]
-	_ = x[MagicalPrefix397-397]
-	_ = x[MagicalPrefix398-398]
-	_ = x[MagicalPrefix399-399]
-	_ = x[MagicalPrefix400-400]
-	_ = x[MagicalPrefix401-401]
-	_ = x[MagicalPrefix402-402]
-	_ = x[MagicalPrefix403-403]
-	_ = x[MagicalPrefix404-404]
-	_ = x[MagicalPrefix405-405]
-	_ = x[MagicalPrefix406-406]
-	_ = x[MagicalPrefix407-407]
-	_ = x[MagicalPrefix408-408]
-	_ = x[MagicalPrefix409-409]
-	_ = x[MagicalPrefix410-410]
-	_ = x[MagicalPrefix411-411]
-	_ = x[MagicalPrefix412-412]
-	_ = x[MagicalPrefix413-413]
-	_ = x[MagicalPrefix414-414]
-	_ = x[MagicalPrefix415-415]
-	_ = x[MagicalPrefix416-416]
-	_ = x[MagicalPrefix417-417]
-	_ = x[MagicalPrefix418-418]
-	_ = x[MagicalPrefix419-419]
-	_ = x[MagicalPrefix420-420]
-	_ = x[MagicalPrefix421-421]
-	_ = x[MagicalPrefix422-422]
-	_ = x[MagicalPrefix423-423]
-	_ = x[MagicalPrefix424-424]
-	_ = x[MagicalPrefix425-425]
-	_ = x[MagicalPrefix426-426]
-	_ = x[MagicalPrefix427-427]
-	_ = x[MagicalPrefix428-428]
-	_ = x[MagicalPrefix429-429]
-	_ = x[MagicalPrefix430-430]
-	_ = x[MagicalPrefix431-431]
-	_ = x[MagicalPrefix432-432]
-	_ = x[MagicalPrefix433-433]
-	_ = x[MagicalPrefix434-434]
-	_ = x[MagicalPrefix435-435]
-	_ = x[MagicalPrefix436-436]
-	_ = x[MagicalPrefix437-437]
-	_ = x[MagicalPrefix438-438]
-	_ = x[MagicalPrefix439-439]
-	_ = x[MagicalPrefix440-440]
-	_ = x[MagicalPrefix441-441]
-	_ = x[MagicalPrefix442-442]
-	_ = x[MagicalPrefix443-443]
-	_ = x[MagicalPrefix444-444]
-	_ = x[MagicalPrefix445-445]
-	_ = x[MagicalPrefix446-446]
-	_ = x[MagicalPrefix447-447]
-	_ = x[MagicalPrefix448-448]
-	_ = x[MagicalPrefix449-449]
-	_ = x[MagicalPrefix450-450]
-	_ = x[MagicalPrefix451-451]
-	_ = x[MagicalPrefix452-452]
-	_ = x[MagicalPrefix453-453]
-	_ = x[MagicalPrefix454-454]
-	_ = x[MagicalPrefix455-455]
-	_ = x[MagicalPrefix456-456]
-	_ = x[MagicalPrefix457-457]
-	_ = x[MagicalPrefix458-458]
-	_ = x[MagicalPrefix459-459]
-	_ = x[MagicalPrefix460-460]
-	_ = x[MagicalPrefix461-461]
-	_ = x[MagicalPrefix462-462]
-	_ = x[MagicalPrefix463-463]
-	_ = x[MagicalPrefix464-464]
-	_ = x[MagicalPrefix465-465]
-	_ = x[MagicalPrefix466-466]
-	_ = x[MagicalPrefix467-467]
-	_ = x[MagicalPrefix468-468]
-	_ = x[MagicalPrefix469-469]
-	_ = x[MagicalPrefix470-470]
-	_ = x[MagicalPrefix471-471]
-	_ = x[MagicalPrefix472-472]
-	_ = x[MagicalPrefix473-473]
-	_ = x[MagicalPrefix474-474]
-	_ = x[MagicalPrefix475-475]
-	_ = x[MagicalPrefix476-476]
-	_ = x[MagicalPrefix477-477]
-	_ = x[MagicalPrefix478-478]
-	_ = x[MagicalPrefix479-479]
-	_ = x[MagicalPrefix480-480]
-	_ = x[MagicalPrefix481-481]
-	_ = x[MagicalPrefix482-482]
-	_ = x[MagicalPrefix483-483]
-	_ = x[MagicalPrefix484-484]
-	_ = x[MagicalPrefix485-485]
-	_ = x[MagicalPrefix486-486]
-	_ = x[MagicalPrefix487-487]
-	_ = x[MagicalPrefix488-488]
-	_ = x[MagicalPrefix489-489]
-	_ = x[MagicalPrefix490-490]
-	_ = x[MagicalPrefix491-491]
-	_ = x[MagicalPrefix492-492]
-	_ = x[MagicalPrefix493-493]
-	_ = x[MagicalPrefix494-494]
-	_ = x[MagicalPrefix495-495]
-	_ = x[MagicalPrefix496-496]
-	_ = x[MagicalPrefix497-497]
-	_ = x[MagicalPrefix498-498]
-	_ = x[MagicalPrefix499-499]
-	_ = x[MagicalPrefix500-500]
-	_ = x[MagicalPrefix501-501]
-	_ = x[MagicalPrefix502-502]
-	_ = x[MagicalPrefix503-503]
-	_ = x[MagicalPrefix504-504]
-	_ = x[MagicalPrefix505-505]
-	_ = x[MagicalPrefix506-506]
-	_ = x[MagicalPrefix507-507]
-	_ = x[MagicalPrefix508-508]
-	_ = x[MagicalPrefix509-509]
-	_ = x[MagicalPrefix510-510]
-	_ = x[MagicalPrefix511-511]
-	_ = x[MagicalPrefix512-512]
-	_ = x[MagicalPrefix513-513]
-	_ = x[MagicalPrefix514-514]
-	_ = x[MagicalPrefix515-515]
-	_ = x[MagicalPrefix516-516]
-	_ = x[MagicalPrefix517-517]
-	_ = x[MagicalPrefix518-518]
-	_ = x[MagicalPrefix519-519]
-	_ = x[MagicalPrefix520-520]
-	_ = x[MagicalPrefix521-521]
-	_ = x[MagicalPrefix522-522]
-	_ = x[MagicalPrefix523-523]
-	_ = x[MagicalPrefix524-524]
-	_ = x[MagicalPrefix525-525]
-	_ = x[MagicalPrefix526-526]
-	_ = x[MagicalPrefix527-527]
-	_ = x[MagicalPrefix528-528]
-	_ = x[MagicalPrefix529-529]
-	_ = x[MagicalPrefix530-530]
-	_ = x[MagicalPrefix531-531]
-	_ = x[MagicalPrefix532-532]
-	_ = x[MagicalPrefix533-533]
-	_ = x[MagicalPrefix534-534]
-	_ = x[MagicalPrefix535-535]
-	_ = x[MagicalPrefix536-536]
-	_ = x[MagicalPrefix537-537]
-	_ = x[MagicalPrefix538-538]
-	_ = x[MagicalPrefix539-539]
-	_ = x[MagicalPrefix540-540]
-	_ = x[MagicalPrefix541-541]
-	_ = x[MagicalPrefix542-542]
-	_ = x[MagicalPrefix543-543]
-	_ = x[MagicalPrefix544-544]
-	_ = x[MagicalPrefix545-545]
-	_ = x[MagicalPrefix546-546]
-	_ = x[MagicalPrefix547-547]
-	_ = x[MagicalPrefix548-548]
-	_ = x[MagicalPrefix549-549]
-	_ = x[MagicalPrefix550-550]
-	_ = x[MagicalPrefix551-551]
-	_ = x[MagicalPrefix552-552]
-	_ = x[MagicalPrefix553-553]
-	_ = x[MagicalPrefix554-554]
-	_ = x[MagicalPrefix555-555]
-	_ = x[MagicalPrefix556-556]
-	_ = x[MagicalPrefix557-557]
-	_ = x[MagicalPrefix558-558]
-	_ = x[MagicalPrefix559-559]
-	_ = x[MagicalPrefix560-560]
-	_ = x[MagicalPrefix561-561]
-	_ = x[MagicalPrefix562-562]
-	_ = x[MagicalPrefix563-563]
-	_ = x[MagicalPrefix564-564]
-	_ = x[MagicalPrefix565-565]
-	_ = x[MagicalPrefix566-566]
-	_ = x[MagicalPrefix567-567]
-	_ = x[MagicalPrefix568-568]
-	_ = x[MagicalPrefix569-569]
-	_ = x[MagicalPrefix570-570]
-	_ = x[MagicalPrefix571-571]
-	_ = x[MagicalPrefix572-572]
-	_ = x[MagicalPrefix573-573]
-	_ = x[MagicalPrefix574-574]
-	_ = x[MagicalPrefix575-575]
-	_ = x[MagicalPrefix576-576]
-	_ = x[MagicalPrefix577-577]
-	_ = x[MagicalPrefix578-578]
-	_ = x[MagicalPrefix579-579]
-	_ = x[MagicalPrefix580-580]
-	_ = x[MagicalPrefix581-581]
-	_ = x[MagicalPrefix582-582]
-	_ = x[MagicalPrefix583-583]
-	_ = x[MagicalPrefix584-584]
-	_ = x[MagicalPrefix585-585]
-	_ = x[MagicalPrefix586-586]
-	_ = x[MagicalPrefix587-587]
-	_ = x[MagicalPrefix588-588]
-	_ = x[MagicalPrefix589-589]
-	_ = x[MagicalPrefix590-590]
-	_ = x[MagicalPrefix591-591]
-	_ = x[MagicalPrefix592-592]
-	_ = x[MagicalPrefix593-593]
-	_ = x[MagicalPrefix594-594]
-	_ = x[MagicalPrefix595-595]
-	_ = x[MagicalPrefix596-596]
-	_ = x[MagicalPrefix597-597]
-	_ = x[MagicalPrefix598-598]
-	_ = x[MagicalPrefix599-599]
-	_ = x[MagicalPrefix600-600]
-	_ = x[MagicalPrefix601-601]
-	_ = x[MagicalPrefix602-602]
-	_ = x[MagicalPrefix603-603]
-	_ = x[MagicalPrefix604-604]
-	_ = x[MagicalPrefix605-605]
-	_ = x[MagicalPrefix606-606]
-	_ = x[MagicalPrefix607-607]
-	_ = x[MagicalPrefix608-608]
-	_ = x[MagicalPrefix609-609]
-	_ = x[MagicalPrefix610-610]
-	_ = x[MagicalPrefix611-611]
-	_ = x[MagicalPrefix612-612]
-	_ = x[MagicalPrefix613-613]
-	_ = x[MagicalPrefix614-614]
-	_ = x[MagicalPrefix615-615]
-	_ = x[MagicalPrefix616-616]
-	_ = x[MagicalPrefix617-617]
-	_ = x[MagicalPrefix618-618]
-	_ = x[MagicalPrefix619-619]
-	_ = x[MagicalPrefix620-620]
-	_ = x[MagicalPrefix621-621]
-	_ = x[MagicalPrefix622-622]
-	_ = x[MagicalPrefix623-623]
-	_ = x[MagicalPrefix624-624]
-	_ = x[MagicalPrefix625-625]
-	_ = x[MagicalPrefix626-626]
-	_ = x[MagicalPrefix627-627]
-	_ = x[MagicalPrefix628-628]
-	_ = x[MagicalPrefix629-629]
-	_ = x[MagicalPrefix630-630]
-	_ = x[MagicalPrefix631-631]
-	_ = x[MagicalPrefix632-632]
-	_ = x[MagicalPrefix633-633]
-	_ = x[MagicalPrefix634-634]
-	_ = x[MagicalPrefix635-635]
-	_ = x[MagicalPrefix636-636]
-	_ = x[MagicalPrefix637-637]
-	_ = x[MagicalPrefix638-638]
-	_ = x[MagicalPrefix639-639]
-	_ = x[MagicalPrefix640-640]
-	_ = x[MagicalPrefix641-641]
-	_ = x[MagicalPrefix642-642]
-	_ = x[MagicalPrefix643-643]
-	_ = x[MagicalPrefix644-644]
-	_ = x[MagicalPrefix645-645]
-	_ = x[MagicalPrefix646-646]
-	_ = x[MagicalPrefix647-647]
-	_ = x[MagicalPrefix648-648]
-	_ = x[MagicalPrefix649-649]
-	_ = x[MagicalPrefix650-650]
-	_ = x[MagicalPrefix651-651]
-	_ = x[MagicalPrefix652-652]
-	_ = x[MagicalPrefix653-653]
-	_ = x[MagicalPrefix654-654]
-	_ = x[MagicalPrefix655-655]
-	_ = x[MagicalPrefix656-656]
-	_ = x[MagicalPrefix657-657]
-	_ = x[MagicalPrefix658-658]
-	_ = x[MagicalPrefix659-659]
-	_ = x[MagicalPrefix660-660]
-	_ = x[MagicalPrefix661-661]
-	_ = x[MagicalPrefix662-662]
-	_ = x[MagicalPrefix663-663]
-	_ = x[MagicalPrefix664-664]
-	_ = x[MagicalPrefix665-665]
-	_ = x[MagicalPrefix666-666]
-	_ = x[MagicalPrefix667-667]
-	_ = x[MagicalPrefix668-668]
-	_ = x[MagicalPrefix669-669]
+	_ = x[MagicalPrefixStrong-0]
+	_ = x[MagicalPrefixGlorious-1]
+	_ = x[MagicalPrefixBlessed-2]
+	_ = x[MagicalPrefixSaintly-3]
+	_ = x[MagicalPrefixHoly-4]
+	_ = x[MagicalPrefixDevious-5]
+	_ = x[MagicalPrefixFortified-6]
+	_ = x[MagicalPrefixJagged-7]
+	_ = x[MagicalPrefixDeadly-8]
+	_ = x[MagicalPrefixVicious-9]
+	_ = x[MagicalPrefixBrutal-10]
+	_ = x[MagicalPrefixMassive-11]
+	_ = x[MagicalPrefixSavage-12]
+	_ = x[MagicalPrefixMerciless-13]
+	_ = x[MagicalPrefixVulpine-14]
+	_ = x[MagicalPrefixTireless-15]
+	_ = x[MagicalPrefixRugged-16]
+	_ = x[MagicalPrefixBronze-17]
+	_ = x[MagicalPrefixIron-18]
+	_ = x[MagicalPrefixSteel-19]
+	_ = x[MagicalPrefixSilver-20]
+	_ = x[MagicalPrefixGold-21]
+	_ = x[MagicalPrefixPlatinum-22]
+	_ = x[MagicalPrefixMeteoric-23]
+	_ = x[MagicalPrefixSharp-24]
+	_ = x[MagicalPrefixFine-25]
+	_ = x[MagicalPrefixWarriors-26]
+	_ = x[MagicalPrefixSoldiers-27]
+	_ = x[MagicalPrefixKnights-28]
+	_ = x[MagicalPrefixLords-29]
+	_ = x[MagicalPrefixKings-30]
+	_ = x[MagicalPrefixHowling-31]
+	_ = x[MagicalPrefixFortuitous-32]
+	_ = x[MagicalPrefixGlimmering-33]
+	_ = x[MagicalPrefixGlowing-34]
+	_ = x[MagicalPrefixLizards-35]
+	_ = x[MagicalPrefixSnakes-36]
+	_ = x[MagicalPrefixSerpents-37]
+	_ = x[MagicalPrefixDrakes-38]
+	_ = x[MagicalPrefixDragons-39]
+	_ = x[MagicalPrefixWyrms-40]
+	_ = x[MagicalPrefixPrismatic-41]
+	_ = x[MagicalPrefixAzure-42]
+	_ = x[MagicalPrefixLapis-43]
+	_ = x[MagicalPrefixCobalt-44]
+	_ = x[MagicalPrefixSapphire-45]
+	_ = x[MagicalPrefixCrimson-46]
+	_ = x[MagicalPrefixBurgundy-47]
+	_ = x[MagicalPrefixGarnet-48]
+	_ = x[MagicalPrefixRuby-49]
+	_ = x[MagicalPrefixOcher-50]
+	_ = x[MagicalPrefixTangerine-51]
+	_ = x[MagicalPrefixCoral-52]
+	_ = x[MagicalPrefixAmber-53]
+	_ = x[MagicalPrefixBeryl-54]
+	_ = x[MagicalPrefixJade-55]
+	_ = x[MagicalPrefixViridian-56]
+	_ = x[MagicalPrefixEmerald-57]
+	_ = x[MagicalPrefixFletchers-58]
+	_ = x[MagicalPrefixArchers-59]
+	_ = x[MagicalPrefixMonks-60]
+	_ = x[MagicalPrefixPriests-61]
+	_ = x[MagicalPrefixSummoners-62]
+	_ = x[MagicalPrefixNecromancers-63]
+	_ = x[MagicalPrefixAngels-64]
+	_ = x[MagicalPrefixArchAngels-65]
+	_ = x[MagicalPrefixSlayers-66]
+	_ = x[MagicalPrefixBerserkers-67]
+	_ = x[MagicalPrefixTriumphant-68]
+	_ = x[MagicalPrefixStout-69]
+	_ = x[MagicalPrefixBurly-70]
+	_ = x[MagicalPrefixStalwart-71]
+	_ = x[MagicalPrefixBlanched-72]
+	_ = x[MagicalPrefixEburin-73]
+	_ = x[MagicalPrefixBone-74]
+	_ = x[MagicalPrefixIvory-75]
+	_ = x[MagicalPrefixSturdy-76]
+	_ = x[MagicalPrefixGodly-77]
+	_ = x[MagicalPrefixBlank-78]
+	_ = x[MagicalPrefixNull-79]
+	_ = x[MagicalPrefixAntimagic-80]
+	_ = x[MagicalPrefixRed-81]
+	_ = x[MagicalPrefixSanguinary-82]
+	_ = x[MagicalPrefixBloody-83]
+	_ = x[MagicalPrefixScarlet-84]
+	_ = x[MagicalPrefixForked-85]
+	_ = x[MagicalPrefixSerrated-86]
+	_ = x[MagicalPrefixCarbuncle-87]
+	_ = x[MagicalPrefixCarmine-88]
+	_ = x[MagicalPrefixVermillion-89]
+	_ = x[MagicalPrefixFerocious-90]
+	_ = x[MagicalPrefixCruel-91]
+	_ = x[MagicalPrefixCinnabar-92]
+	_ = x[MagicalPrefixRusty-93]
+	_ = x[MagicalPrefixRealgar-94]
+	_ = x[MagicalPrefixDun-95]
+	_ = x[MagicalPrefixBrown-96]
+	_ = x[MagicalPrefixVigorous-97]
+	_ = x[MagicalPrefixChestnut-98]
+	_ = x[MagicalPrefixMaroon-99]
+	_ = x[MagicalPrefixStrange-100]
+	_ = x[MagicalPrefixWeird-101]
+	_ = x[MagicalPrefixNickel-102]
+	_ = x[MagicalPrefixTin-103]
+	_ = x[MagicalPrefixArgent-104]
+	_ = x[MagicalPrefixMasters-105]
+	_ = x[MagicalPrefixGrandmasters-106]
+	_ = x[MagicalPrefixBright-107]
+	_ = x[MagicalPrefixScreaming-108]
+	_ = x[MagicalPrefixWailing-109]
+	_ = x[MagicalPrefixLucky-110]
+	_ = x[MagicalPrefixFelicitous-111]
+	_ = x[MagicalPrefixGreatWyrms-112]
+	_ = x[MagicalPrefixBahamuts-113]
+	_ = x[MagicalPrefixZircon-114]
+	_ = x[MagicalPrefixJacinth-115]
+	_ = x[MagicalPrefixTurquoise-116]
+	_ = x[MagicalPrefixShimmering-117]
+	_ = x[MagicalPrefixRainbow-118]
+	_ = x[MagicalPrefixScintillating-119]
+	_ = x[MagicalPrefixChromatic-120]
+	_ = x[MagicalPrefixLapisLazuli-121]
+	_ = x[MagicalPrefixRusset-122]
+	_ = x[MagicalPrefixCamphor-123]
+	_ = x[MagicalPrefixAmbergris-124]
+	_ = x[MagicalPrefixVictorious-125]
+	_ = x[MagicalPrefixAureolin-126]
+	_ = x[MagicalPrefixMechanists-127]
+	_ = x[MagicalPrefixArtificers-128]
+	_ = x[MagicalPrefixJewelers-129]
+	_ = x[MagicalPrefixAssamic-130]
+	_ = x[MagicalPrefixArcadian-131]
+	_ = x[MagicalPrefixUnearthly-132]
+	_ = x[MagicalPrefixAstral-133]
+	_ = x[MagicalPrefixElysian-134]
+	_ = x[MagicalPrefixCelestial-135]
+	_ = x[MagicalPrefixDiamond-136]
+	_ = x[MagicalPrefixAcrobats-137]
+	_ = x[MagicalPrefixHarpoonists-138]
+	_ = x[MagicalPrefixBowyers-139]
+	_ = x[MagicalPrefixGymnasts-140]
+	_ = x[MagicalPrefixAthletes-141]
+	_ = x[MagicalPrefixSpearmaidens-142]
+	_ = x[MagicalPrefixLancers-143]
+	_ = x[MagicalPrefixBurning-144]
+	_ = x[MagicalPrefixSparking-145]
+	_ = x[MagicalPrefixChilling-146]
+	_ = x[MagicalPrefixBlazing-147]
+	_ = x[MagicalPrefixVolcanic-148]
+	_ = x[MagicalPrefixCharged-149]
+	_ = x[MagicalPrefixPowered-150]
+	_ = x[MagicalPrefixFreezing-151]
+	_ = x[MagicalPrefixGlacial-152]
+	_ = x[MagicalPrefixHexing-153]
+	_ = x[MagicalPrefixFungal-154]
+	_ = x[MagicalPrefixGraverobbers-155]
+	_ = x[MagicalPrefixBlighting-156]
+	_ = x[MagicalPrefixAccursed-157]
+	_ = x[MagicalPrefixNoxious-158]
+	_ = x[MagicalPrefixVenomous-159]
+	_ = x[MagicalPrefixVodoun-160]
+	_ = x[MagicalPrefixGolemlords-161]
+	_ = x[MagicalPrefixLionBranded-162]
+	_ = x[MagicalPrefixCaptains-163]
+	_ = x[MagicalPrefixPreservers-164]
+	_ = x[MagicalPrefixHawkBranded-165]
+	_ = x[MagicalPrefixRoseBranded-166]
+	_ = x[MagicalPrefixCommanders-167]
+	_ = x[MagicalPrefixMarshals-168]
+	_ = x[MagicalPrefixWarders-169]
+	_ = x[MagicalPrefixGuardians-170]
+	_ = x[MagicalPrefixExperts-171]
+	_ = x[MagicalPrefixFanatic-172]
+	_ = x[MagicalPrefixSounding-173]
+	_ = x[MagicalPrefixVeterans-174]
+	_ = x[MagicalPrefixRaging-175]
+	_ = x[MagicalPrefixFurious-176]
+	_ = x[MagicalPrefixResonant-177]
+	_ = x[MagicalPrefixEchoing-178]
+	_ = x[MagicalPrefixTrainers-179]
+	_ = x[MagicalPrefixSpiritual-180]
+	_ = x[MagicalPrefixNatures-181]
+	_ = x[MagicalPrefixCaretakers-182]
+	_ = x[MagicalPrefixKeepers-183]
+	_ = x[MagicalPrefixFeral-184]
+	_ = x[MagicalPrefixCommunal-185]
+	_ = x[MagicalPrefixTerras-186]
+	_ = x[MagicalPrefixGaeas-187]
+	_ = x[MagicalPrefixEntrapping-188]
+	_ = x[MagicalPrefixMentalists-189]
+	_ = x[MagicalPrefixShogukushas-190]
+	_ = x[MagicalPrefixTricksters-191]
+	_ = x[MagicalPrefixCunning-192]
+	_ = x[MagicalPrefixPsychic-193]
+	_ = x[MagicalPrefixShadow-194]
+	_ = x[MagicalPrefixSenseis-195]
+	_ = x[MagicalPrefixKenshis-196]
+	_ = x[MagicalPrefixMiocene-197]
+	_ = x[MagicalPrefixOligocene-198]
+	_ = x[MagicalPrefixEocene-199]
+	_ = x[MagicalPrefixPaleocene-200]
+	_ = x[MagicalPrefixKnaves-201]
+	_ = x[MagicalPrefixJacks-202]
+	_ = x[MagicalPrefixJesters-203]
+	_ = x[MagicalPrefixJokers-204]
+	_ = x[MagicalPrefixTrump-205]
+	_ = x[MagicalPrefixLoud-206]
+	_ = x[MagicalPrefixCalling-207]
+	_ = x[MagicalPrefixYelling-208]
+	_ = x[MagicalPrefixShouting-209]
+	_ = x[MagicalPrefixParadox-210]
+	_ = x[MagicalPrefixRobineye-211]
+	_ = x[MagicalPrefixSparroweye-212]
+	_ = x[MagicalPrefixFalconeye-213]
+	_ = x[MagicalPrefixHawkeye-214]
+	_ = x[MagicalPrefixEagleeye-215]
+	_ = x[MagicalPrefixVisionary-216]
+	_ = x[MagicalPrefixMnemonic-217]
+	_ = x[MagicalPrefixSnowflake-218]
+	_ = x[MagicalPrefixShivering-219]
+	_ = x[MagicalPrefixBoreal-220]
+	_ = x[MagicalPrefixHibernal-221]
+	_ = x[MagicalPrefixEmber-222]
+	_ = x[MagicalPrefixSmoldering-223]
+	_ = x[MagicalPrefixSmoking-224]
+	_ = x[MagicalPrefixFlaming-225]
+	_ = x[MagicalPrefixScorching-226]
+	_ = x[MagicalPrefixStatic-227]
+	_ = x[MagicalPrefixBuzzing-228]
+	_ = x[MagicalPrefixArcing-229]
+	_ = x[MagicalPrefixShocking-230]
+	_ = x[MagicalPrefixSeptic-231]
+	_ = x[MagicalPrefixEnvenomed-232]
+	_ = x[MagicalPrefixCorosive-233]
+	_ = x[MagicalPrefixToxic-234]
+	_ = x[MagicalPrefixPestilent-235]
+	_ = x[MagicalPrefixMaidens-236]
+	_ = x[MagicalPrefixValkyries-237]
+	_ = x[MagicalPrefixShamans-238]
+	_ = x[MagicalPrefixHierophants-239]
+	_ = x[MagicalPrefixMagekillers-240]
+	_ = x[MagicalPrefixWitchHunters-241]
+	_ = x[MagicalPrefixCompact-242]
+	_ = x[MagicalPrefixThin-243]
+	_ = x[MagicalPrefixDense-244]
+	_ = x[MagicalPrefixConsecrated-245]
+	_ = x[MagicalPrefixPure-246]
+	_ = x[MagicalPrefixSacred-247]
+	_ = x[MagicalPrefixHallowed-248]
+	_ = x[MagicalPrefixDivine-249]
+	_ = x[MagicalPrefixPearl-250]
 }
 
-const _MagicalPrefix_name = "SturdyStrongGloriousBlessedSaintlyHolyDeviousFortifiedJaggedDeadlyViciousBrutalMassiveSavageMercilessVulpineTirelessRuggedBronzeIronSteelSilverGoldPlatinumMeteoricSharpFineWarrior'sSoldier'sKnight'sLord'sKing'sHowlingFortuitousGlimmeringGlowingLizard'sSnake'sSerpent'sSerpent'sDrake'sDragon'sDragon'sWyrm'sPrismaticPrismaticAzureLapisLapisCobaltCobaltSapphireCrimsonBurgundyBurgundyGarnetGarnetRubyOcherTangerineTangerineCoralCoralAmberBerylJadeJadeViridianViridianEmeraldFletcher'sArcher'sArcher'sMonk'sPriest'sPriest'sSummoner'sNecromancer'sNecromancer'sAngel'sArch-Angel'sArch-Angel'sSlayer'sBerserker'sBerserker'sTriumphantStoutStoutStoutBurlyBurlyBurlyStalwartStalwartStalwartStoutStoutStoutBurlyBurlyStalwartStalwartStoutStoutBurlyStalwartBlanchedEburinBoneIvorySturdySturdyStrongGloriousBlessedSaintlyHolyGodlyDeviousBlankNullAntimagicRedRedSanguinarySanguinaryBloodyRedSanguinaryBloodyRedSanguinaryBloodyScarletCrimsonJaggedJaggedJaggedForkedForkedSerratedSerratedJaggedJaggedForkedForkedSerratedJaggedForkedSerratedCarbuncleCarmineVermillionJaggedDeadlyViciousBrutalMassiveSavageMercilessFerociousCruelCinnabarRustyRealgarRubyVulpineDunTirelessTirelessBrownRuggedRuggedRuggedRuggedRuggedRuggedRuggedRuggedRuggedRuggedRuggedVigorousChestnutMaroonBronzeBronzeBronzeIronIronIronSteelSteelSteelBronzeBronzeBronzeIronIronSteelSteelBronzeBronzeIronSteelBronzeIronSteelSilverGoldPlatinumMeteoricStrangeWeirdNickelTinSilverArgentFineFineSharpFineSharpFineSharpFineWarrior'sSoldier'sKnight'sLord'sKing'sMaster'sGrandmaster'sGlimmeringGlowingBrightScreamingHowlingWailingScreamingHowlingWailingLuckyLuckyLuckyLuckyLuckyLuckyFelicitousFortuitousEmeraldLizard'sLizard'sLizard'sSnake'sSnake'sSnake'sSerpent'sSerpent'sSerpent'sLizard'sLizard'sLizard'sSnake'sSnake'sSerpent'sSerpent'sLizard'sLizard'sSnake'sSerpent'sLizard'sSnake'sSerpent'sSerpent'sDrake'sDragon'sDragon'sWyrm'sGreat Wyrm'sBahamut'sZirconJacinthTurquoiseShimmeringShimmeringShimmeringShimmeringShimmeringShimmeringShimmeringRainbowScintillatingPrismaticChromaticShimmeringRainbowScintillatingPrismaticChromaticShimmeringRainbowScintillatingShimmeringScintillatingAzureLapisCobaltSapphireAzureLapisCobaltSapphireAzureLapisCobaltSapphireAzureLapisLapisCobaltCobaltSapphireLapis LazuliSapphireCrimsonRussetGarnetRubyCrimsonRussetGarnetRubyCrimsonRussetGarnetRubyRussetRussetGarnetGarnetRubyGarnetRubyTangerineOcherCoralAmberTangerineOcherCoralAmberTangerineOcherCoralAmberTangerineOcherOcherCoralCoralAmberCamphorAmbergrisBerylViridianJadeEmeraldBerylViridianJadeEmeraldBerylViridianJadeEmeraldBerylViridianViridianJadeJadeEmeraldBerylJadeTriumphantVictoriousAureolinMechanist'sArtificer'sJeweler'sAssamicArcadianUnearthlyAstralElysianCelestialDiamondFletcher'sAcrobat'sHarpoonist'sFletcher'sBowyer'sArcher'sAcrobat'sGymnast'sAthlete'sHarpoonist'sSpearmaiden'sLancer'sBurningSparkingChillingBurningBlazingVolcanicSparkingChargedPoweredChillingFreezingGlacialHexingFungalGraverobber'sHexingBlightingAccursedFungalNoxiousVenomousGraverobber'sVodounGolemlord'sLion BrandedCaptain'sPreserver'sLion BrandedHawk BrandedRose BrandedCaptain'sCommander'sMarshal'sPreserver'sWarder'sGuardian'sExpert'sFanaticSoundingExpert'sVeteran'sMaster'sFanaticRagingFuriousSoundingResonantEchoingTrainer'sSpiritualNature'sTrainer'sCaretaker'sKeeper'sSpiritualFeralCommunalNature'sTerra'sGaea'sEntrappingMentalist'sShogukusha'sEntrappingTrickster'sCunningMentalist'sPsychicShadowShogukusha'sSensei'sKenshi'sMioceneMioceneOligoceneOligoceneEoceneEocenePaleocenePaleoceneKnave'sJack'sJester'sJoker'sTrumpLoudCallingYellingShoutingScreamingParadoxParadoxRobineyeSparroweyeFalconeyeHawkeyeEagleeyeVisionaryMnemonicSnowflakeShiveringBorealHibernalEmberSmolderingSmokingFlamingScorchingStaticGlowingBuzzingArcingShockingSepticEnvenomedCorosiveToxicPestilentMaiden'sValkyrie'sMaiden'sValkyrie'sMonk'sPriest'sMonk'sPriest'sMonk'sPriest'sSummoner'sNecromancer'sSummoner'sNecromancer'sAngel'sArch-Angel'sAngel'sArch-Angel'sSlayer'sBerserker'sSlayer'sBerserker'sSlayer'sBerserker'sShaman'sHierophant'sShaman'sHierophant'sMagekiller'sWitch-hunter'sMagekiller'sWitch-hunter'sCompactThinDenseConsecratedPureSacredHallowedDivinePearlCrimsonRedSanguinaryBloodyRedSanguinaryRedJaggedForkedSerratedJaggedForkedJaggedSnowflakeShiveringBorealHibernalSnowflakeShiveringBorealHibernalSnowflakeShiveringBorealHibernalEmberSmolderingSmokingFlamingEmberSmolderingSmokingFlamingEmberSmolderingSmokingFlamingStaticGlowingArcingShockingStaticGlowingArcingShockingStaticGlowingArcingShockingSepticEnvenomedToxicPestilentSepticEnvenomedToxicPestilentSepticEnvenomedToxicPestilentTirelessLizard'sAzureCrimsonTangerineBerylGodlyCruel"
+const _MagicalPrefix_name = "StrongGloriousBlessedSaintlyHolyDeviousFortifiedJaggedDeadlyViciousBrutalMassiveSavageMercilessVulpineTirelessRuggedBronzeIronSteelSilverGoldPlatinumMeteoricSharpFineWarrior'sSoldier'sKnight'sLord'sKing'sHowlingFortuitousGlimmeringGlowingLizard'sSnake'sSerpent'sDrake'sDragon'sWyrm'sPrismaticAzureLapisCobaltSapphireCrimsonBurgundyGarnetRubyOcherTangerineCoralAmberBerylJadeViridianEmeraldFletcher'sArcher'sMonk'sPriest'sSummoner'sNecromancer'sAngel'sArch-Angel'sSlayer'sBerserker'sTriumphantStoutBurlyStalwartBlanchedEburinBoneIvorySturdyGodlyBlankNullAntimagicRedSanguinaryBloodyScarletForkedSerratedCarbuncleCarmineVermillionFerociousCruelCinnabarRustyRealgarDunBrownVigorousChestnutMaroonStrangeWeirdNickelTinArgentMaster'sGrandmaster'sBrightScreamingWailingLuckyFelicitousGreatWyrm'sBahamut'sZirconJacinthTurquoiseShimmeringRainbowScintillatingChromaticLapisLazuliRussetCamphorAmbergrisVictoriousAureolinMechanist'sArtificer'sJeweler'sAssamicArcadianUnearthlyAstralElysianCelestialDiamondAcrobat'sHarpoonist'sBowyer'sGymnast'sAthlete'sSpearmaiden'sLancer'sBurningSparkingChillingBlazingVolcanicChargedPoweredFreezingGlacialHexingFungalGraverobber'sBlightingAccursedNoxiousVenomousVodounGolemlord'sLionBrandedCaptain'sPreserver'sHawkBrandedRoseBrandedCommander'sMarshal'sWarder'sGuardian'sExpert'sFanaticSoundingVeteran'sRagingFuriousResonantEchoingTrainer'sSpiritualNature'sCaretaker'sKeeper'sFeralCommunalTerra'sGaea'sEntrappingMentalist'sShogukusha'sTrickster'sCunningPsychicShadowSensei'sKenshi'sMioceneOligoceneEocenePaleoceneKnave'sJack'sJester'sJoker'sTrumpLoudCallingYellingShoutingParadoxRobineyeSparroweyeFalconeyeHawkeyeEagleeyeVisionaryMnemonicSnowflakeShiveringBorealHibernalEmberSmolderingSmokingFlamingScorchingStaticBuzzingArcingShockingSepticEnvenomedCorosiveToxicPestilentMaiden'sValkyrie'sShaman'sHierophant'sMagekiller'sWitch-hunter'sCompactThinDenseConsecratedPureSacredHallowedDivinePearl"
 
-var _MagicalPrefix_map = map[MagicalPrefix]string{
-	2:   _MagicalPrefix_name[0:6],
-	3:   _MagicalPrefix_name[6:12],
-	4:   _MagicalPrefix_name[12:20],
-	5:   _MagicalPrefix_name[20:27],
-	6:   _MagicalPrefix_name[27:34],
-	7:   _MagicalPrefix_name[34:38],
-	8:   _MagicalPrefix_name[38:45],
-	9:   _MagicalPrefix_name[45:54],
-	13:  _MagicalPrefix_name[54:60],
-	14:  _MagicalPrefix_name[60:66],
-	15:  _MagicalPrefix_name[66:73],
-	16:  _MagicalPrefix_name[73:79],
-	17:  _MagicalPrefix_name[79:86],
-	18:  _MagicalPrefix_name[86:92],
-	19:  _MagicalPrefix_name[92:101],
-	20:  _MagicalPrefix_name[101:108],
-	25:  _MagicalPrefix_name[108:116],
-	26:  _MagicalPrefix_name[116:122],
-	27:  _MagicalPrefix_name[122:128],
-	28:  _MagicalPrefix_name[128:132],
-	29:  _MagicalPrefix_name[132:137],
-	30:  _MagicalPrefix_name[137:143],
-	32:  _MagicalPrefix_name[143:147],
-	33:  _MagicalPrefix_name[147:155],
-	34:  _MagicalPrefix_name[155:163],
-	35:  _MagicalPrefix_name[163:168],
-	36:  _MagicalPrefix_name[168:172],
-	37:  _MagicalPrefix_name[172:181],
-	38:  _MagicalPrefix_name[181:190],
-	39:  _MagicalPrefix_name[190:198],
-	40:  _MagicalPrefix_name[198:204],
-	41:  _MagicalPrefix_name[204:210],
-	42:  _MagicalPrefix_name[210:217],
-	43:  _MagicalPrefix_name[217:227],
-	49:  _MagicalPrefix_name[227:237],
-	50:  _MagicalPrefix_name[237:244],
-	53:  _MagicalPrefix_name[244:252],
-	55:  _MagicalPrefix_name[252:259],
-	56:  _MagicalPrefix_name[259:268],
-	57:  _MagicalPrefix_name[268:277],
-	58:  _MagicalPrefix_name[277:284],
-	59:  _MagicalPrefix_name[284:292],
-	60:  _MagicalPrefix_name[292:300],
-	61:  _MagicalPrefix_name[300:306],
-	64:  _MagicalPrefix_name[306:315],
-	65:  _MagicalPrefix_name[315:324],
-	66:  _MagicalPrefix_name[324:329],
-	67:  _MagicalPrefix_name[329:334],
-	68:  _MagicalPrefix_name[334:339],
-	69:  _MagicalPrefix_name[339:345],
-	70:  _MagicalPrefix_name[345:351],
-	72:  _MagicalPrefix_name[351:359],
-	75:  _MagicalPrefix_name[359:366],
-	76:  _MagicalPrefix_name[366:374],
-	77:  _MagicalPrefix_name[374:382],
-	78:  _MagicalPrefix_name[382:388],
-	79:  _MagicalPrefix_name[388:394],
-	81:  _MagicalPrefix_name[394:398],
-	84:  _MagicalPrefix_name[398:403],
-	85:  _MagicalPrefix_name[403:412],
-	86:  _MagicalPrefix_name[412:421],
-	87:  _MagicalPrefix_name[421:426],
-	88:  _MagicalPrefix_name[426:431],
-	90:  _MagicalPrefix_name[431:436],
-	93:  _MagicalPrefix_name[436:441],
-	94:  _MagicalPrefix_name[441:445],
-	95:  _MagicalPrefix_name[445:449],
-	96:  _MagicalPrefix_name[449:457],
-	97:  _MagicalPrefix_name[457:465],
-	99:  _MagicalPrefix_name[465:472],
-	101: _MagicalPrefix_name[472:482],
-	102: _MagicalPrefix_name[482:490],
-	103: _MagicalPrefix_name[490:498],
-	104: _MagicalPrefix_name[498:504],
-	105: _MagicalPrefix_name[504:512],
-	106: _MagicalPrefix_name[512:520],
-	107: _MagicalPrefix_name[520:530],
-	108: _MagicalPrefix_name[530:543],
-	109: _MagicalPrefix_name[543:556],
-	110: _MagicalPrefix_name[556:563],
-	111: _MagicalPrefix_name[563:575],
-	112: _MagicalPrefix_name[575:587],
-	113: _MagicalPrefix_name[587:595],
-	114: _MagicalPrefix_name[595:606],
-	115: _MagicalPrefix_name[606:617],
-	118: _MagicalPrefix_name[617:627],
-	119: _MagicalPrefix_name[627:632],
-	120: _MagicalPrefix_name[632:637],
-	121: _MagicalPrefix_name[637:642],
-	122: _MagicalPrefix_name[642:647],
-	123: _MagicalPrefix_name[647:652],
-	124: _MagicalPrefix_name[652:657],
-	125: _MagicalPrefix_name[657:665],
-	126: _MagicalPrefix_name[665:673],
-	127: _MagicalPrefix_name[673:681],
-	128: _MagicalPrefix_name[681:686],
-	129: _MagicalPrefix_name[686:691],
-	130: _MagicalPrefix_name[691:696],
-	131: _MagicalPrefix_name[696:701],
-	132: _MagicalPrefix_name[701:706],
-	133: _MagicalPrefix_name[706:714],
-	134: _MagicalPrefix_name[714:722],
-	135: _MagicalPrefix_name[722:727],
-	136: _MagicalPrefix_name[727:732],
-	137: _MagicalPrefix_name[732:737],
-	138: _MagicalPrefix_name[737:745],
-	139: _MagicalPrefix_name[745:753],
-	140: _MagicalPrefix_name[753:759],
-	141: _MagicalPrefix_name[759:763],
-	142: _MagicalPrefix_name[763:768],
-	143: _MagicalPrefix_name[768:774],
-	144: _MagicalPrefix_name[774:780],
-	145: _MagicalPrefix_name[780:786],
-	146: _MagicalPrefix_name[786:794],
-	147: _MagicalPrefix_name[794:801],
-	148: _MagicalPrefix_name[801:808],
-	149: _MagicalPrefix_name[808:812],
-	150: _MagicalPrefix_name[812:817],
-	151: _MagicalPrefix_name[817:824],
-	152: _MagicalPrefix_name[824:829],
-	153: _MagicalPrefix_name[829:833],
-	154: _MagicalPrefix_name[833:842],
-	155: _MagicalPrefix_name[842:845],
-	156: _MagicalPrefix_name[845:848],
-	157: _MagicalPrefix_name[848:858],
-	158: _MagicalPrefix_name[858:868],
-	159: _MagicalPrefix_name[868:874],
-	160: _MagicalPrefix_name[874:877],
-	161: _MagicalPrefix_name[877:887],
-	162: _MagicalPrefix_name[887:893],
-	163: _MagicalPrefix_name[893:896],
-	164: _MagicalPrefix_name[896:906],
-	165: _MagicalPrefix_name[906:912],
-	166: _MagicalPrefix_name[912:919],
-	167: _MagicalPrefix_name[919:926],
-	168: _MagicalPrefix_name[926:932],
-	169: _MagicalPrefix_name[932:938],
-	170: _MagicalPrefix_name[938:944],
-	171: _MagicalPrefix_name[944:950],
-	172: _MagicalPrefix_name[950:956],
-	173: _MagicalPrefix_name[956:964],
-	174: _MagicalPrefix_name[964:972],
-	175: _MagicalPrefix_name[972:978],
-	176: _MagicalPrefix_name[978:984],
-	177: _MagicalPrefix_name[984:990],
-	178: _MagicalPrefix_name[990:996],
-	179: _MagicalPrefix_name[996:1004],
-	180: _MagicalPrefix_name[1004:1010],
-	181: _MagicalPrefix_name[1010:1016],
-	182: _MagicalPrefix_name[1016:1024],
-	183: _MagicalPrefix_name[1024:1033],
-	184: _MagicalPrefix_name[1033:1040],
-	185: _MagicalPrefix_name[1040:1050],
-	186: _MagicalPrefix_name[1050:1056],
-	187: _MagicalPrefix_name[1056:1062],
-	188: _MagicalPrefix_name[1062:1069],
-	189: _MagicalPrefix_name[1069:1075],
-	190: _MagicalPrefix_name[1075:1082],
-	191: _MagicalPrefix_name[1082:1088],
-	192: _MagicalPrefix_name[1088:1097],
-	193: _MagicalPrefix_name[1097:1106],
-	194: _MagicalPrefix_name[1106:1111],
-	195: _MagicalPrefix_name[1111:1119],
-	196: _MagicalPrefix_name[1119:1124],
-	197: _MagicalPrefix_name[1124:1131],
-	198: _MagicalPrefix_name[1131:1135],
-	199: _MagicalPrefix_name[1135:1142],
-	200: _MagicalPrefix_name[1142:1145],
-	201: _MagicalPrefix_name[1145:1153],
-	202: _MagicalPrefix_name[1153:1161],
-	203: _MagicalPrefix_name[1161:1166],
-	204: _MagicalPrefix_name[1166:1172],
-	205: _MagicalPrefix_name[1172:1178],
-	206: _MagicalPrefix_name[1178:1184],
-	207: _MagicalPrefix_name[1184:1190],
-	208: _MagicalPrefix_name[1190:1196],
-	209: _MagicalPrefix_name[1196:1202],
-	210: _MagicalPrefix_name[1202:1208],
-	211: _MagicalPrefix_name[1208:1214],
-	212: _MagicalPrefix_name[1214:1220],
-	213: _MagicalPrefix_name[1220:1226],
-	214: _MagicalPrefix_name[1226:1232],
-	215: _MagicalPrefix_name[1232:1240],
-	216: _MagicalPrefix_name[1240:1248],
-	217: _MagicalPrefix_name[1248:1254],
-	218: _MagicalPrefix_name[1254:1260],
-	219: _MagicalPrefix_name[1260:1266],
-	220: _MagicalPrefix_name[1266:1272],
-	221: _MagicalPrefix_name[1272:1276],
-	222: _MagicalPrefix_name[1276:1280],
-	223: _MagicalPrefix_name[1280:1284],
-	224: _MagicalPrefix_name[1284:1289],
-	225: _MagicalPrefix_name[1289:1294],
-	226: _MagicalPrefix_name[1294:1299],
-	227: _MagicalPrefix_name[1299:1305],
-	228: _MagicalPrefix_name[1305:1311],
-	229: _MagicalPrefix_name[1311:1317],
-	230: _MagicalPrefix_name[1317:1321],
-	231: _MagicalPrefix_name[1321:1325],
-	232: _MagicalPrefix_name[1325:1330],
-	233: _MagicalPrefix_name[1330:1335],
-	234: _MagicalPrefix_name[1335:1341],
-	235: _MagicalPrefix_name[1341:1347],
-	236: _MagicalPrefix_name[1347:1351],
-	237: _MagicalPrefix_name[1351:1356],
-	238: _MagicalPrefix_name[1356:1362],
-	239: _MagicalPrefix_name[1362:1366],
-	240: _MagicalPrefix_name[1366:1371],
-	241: _MagicalPrefix_name[1371:1377],
-	242: _MagicalPrefix_name[1377:1381],
-	243: _MagicalPrefix_name[1381:1389],
-	244: _MagicalPrefix_name[1389:1397],
-	245: _MagicalPrefix_name[1397:1404],
-	246: _MagicalPrefix_name[1404:1409],
-	247: _MagicalPrefix_name[1409:1415],
-	248: _MagicalPrefix_name[1415:1418],
-	249: _MagicalPrefix_name[1418:1424],
-	250: _MagicalPrefix_name[1424:1430],
-	251: _MagicalPrefix_name[1430:1434],
-	252: _MagicalPrefix_name[1434:1438],
-	253: _MagicalPrefix_name[1438:1443],
-	254: _MagicalPrefix_name[1443:1447],
-	255: _MagicalPrefix_name[1447:1452],
-	256: _MagicalPrefix_name[1452:1456],
-	257: _MagicalPrefix_name[1456:1461],
-	258: _MagicalPrefix_name[1461:1465],
-	259: _MagicalPrefix_name[1465:1474],
-	260: _MagicalPrefix_name[1474:1483],
-	261: _MagicalPrefix_name[1483:1491],
-	262: _MagicalPrefix_name[1491:1497],
-	263: _MagicalPrefix_name[1497:1503],
-	264: _MagicalPrefix_name[1503:1511],
-	265: _MagicalPrefix_name[1511:1524],
-	266: _MagicalPrefix_name[1524:1534],
-	267: _MagicalPrefix_name[1534:1541],
-	268: _MagicalPrefix_name[1541:1547],
-	269: _MagicalPrefix_name[1547:1556],
-	270: _MagicalPrefix_name[1556:1563],
-	271: _MagicalPrefix_name[1563:1570],
-	272: _MagicalPrefix_name[1570:1579],
-	273: _MagicalPrefix_name[1579:1586],
-	274: _MagicalPrefix_name[1586:1593],
-	275: _MagicalPrefix_name[1593:1598],
-	276: _MagicalPrefix_name[1598:1603],
-	277: _MagicalPrefix_name[1603:1608],
-	278: _MagicalPrefix_name[1608:1613],
-	279: _MagicalPrefix_name[1613:1618],
-	280: _MagicalPrefix_name[1618:1623],
-	281: _MagicalPrefix_name[1623:1633],
-	282: _MagicalPrefix_name[1633:1643],
-	283: _MagicalPrefix_name[1643:1650],
-	284: _MagicalPrefix_name[1650:1658],
-	285: _MagicalPrefix_name[1658:1666],
-	286: _MagicalPrefix_name[1666:1674],
-	287: _MagicalPrefix_name[1674:1681],
-	288: _MagicalPrefix_name[1681:1688],
-	289: _MagicalPrefix_name[1688:1695],
-	290: _MagicalPrefix_name[1695:1704],
-	291: _MagicalPrefix_name[1704:1713],
-	292: _MagicalPrefix_name[1713:1722],
-	293: _MagicalPrefix_name[1722:1730],
-	294: _MagicalPrefix_name[1730:1738],
-	295: _MagicalPrefix_name[1738:1746],
-	296: _MagicalPrefix_name[1746:1753],
-	297: _MagicalPrefix_name[1753:1760],
-	298: _MagicalPrefix_name[1760:1769],
-	299: _MagicalPrefix_name[1769:1778],
-	300: _MagicalPrefix_name[1778:1786],
-	301: _MagicalPrefix_name[1786:1794],
-	302: _MagicalPrefix_name[1794:1801],
-	303: _MagicalPrefix_name[1801:1810],
-	304: _MagicalPrefix_name[1810:1818],
-	305: _MagicalPrefix_name[1818:1825],
-	306: _MagicalPrefix_name[1825:1834],
-	307: _MagicalPrefix_name[1834:1843],
-	308: _MagicalPrefix_name[1843:1850],
-	309: _MagicalPrefix_name[1850:1858],
-	310: _MagicalPrefix_name[1858:1866],
-	311: _MagicalPrefix_name[1866:1872],
-	312: _MagicalPrefix_name[1872:1884],
-	313: _MagicalPrefix_name[1884:1893],
-	314: _MagicalPrefix_name[1893:1899],
-	315: _MagicalPrefix_name[1899:1906],
-	316: _MagicalPrefix_name[1906:1915],
-	317: _MagicalPrefix_name[1915:1925],
-	318: _MagicalPrefix_name[1925:1935],
-	319: _MagicalPrefix_name[1935:1945],
-	320: _MagicalPrefix_name[1945:1955],
-	321: _MagicalPrefix_name[1955:1965],
-	322: _MagicalPrefix_name[1965:1975],
-	323: _MagicalPrefix_name[1975:1985],
-	324: _MagicalPrefix_name[1985:1992],
-	325: _MagicalPrefix_name[1992:2005],
-	326: _MagicalPrefix_name[2005:2014],
-	327: _MagicalPrefix_name[2014:2023],
-	328: _MagicalPrefix_name[2023:2033],
-	329: _MagicalPrefix_name[2033:2040],
-	330: _MagicalPrefix_name[2040:2053],
-	331: _MagicalPrefix_name[2053:2062],
-	332: _MagicalPrefix_name[2062:2071],
-	333: _MagicalPrefix_name[2071:2081],
-	334: _MagicalPrefix_name[2081:2088],
-	335: _MagicalPrefix_name[2088:2101],
-	336: _MagicalPrefix_name[2101:2111],
-	337: _MagicalPrefix_name[2111:2124],
-	338: _MagicalPrefix_name[2124:2129],
-	339: _MagicalPrefix_name[2129:2134],
-	340: _MagicalPrefix_name[2134:2140],
-	341: _MagicalPrefix_name[2140:2148],
-	342: _MagicalPrefix_name[2148:2153],
-	343: _MagicalPrefix_name[2153:2158],
-	344: _MagicalPrefix_name[2158:2164],
-	345: _MagicalPrefix_name[2164:2172],
-	346: _MagicalPrefix_name[2172:2177],
-	347: _MagicalPrefix_name[2177:2182],
-	348: _MagicalPrefix_name[2182:2188],
-	349: _MagicalPrefix_name[2188:2196],
-	350: _MagicalPrefix_name[2196:2201],
-	351: _MagicalPrefix_name[2201:2206],
-	352: _MagicalPrefix_name[2206:2211],
-	353: _MagicalPrefix_name[2211:2217],
-	354: _MagicalPrefix_name[2217:2223],
-	355: _MagicalPrefix_name[2223:2231],
-	356: _MagicalPrefix_name[2231:2243],
-	357: _MagicalPrefix_name[2243:2251],
-	358: _MagicalPrefix_name[2251:2258],
-	359: _MagicalPrefix_name[2258:2264],
-	360: _MagicalPrefix_name[2264:2270],
-	361: _MagicalPrefix_name[2270:2274],
-	362: _MagicalPrefix_name[2274:2281],
-	363: _MagicalPrefix_name[2281:2287],
-	364: _MagicalPrefix_name[2287:2293],
-	365: _MagicalPrefix_name[2293:2297],
-	366: _MagicalPrefix_name[2297:2304],
-	367: _MagicalPrefix_name[2304:2310],
-	368: _MagicalPrefix_name[2310:2316],
-	369: _MagicalPrefix_name[2316:2320],
-	370: _MagicalPrefix_name[2320:2326],
-	371: _MagicalPrefix_name[2326:2332],
-	372: _MagicalPrefix_name[2332:2338],
-	373: _MagicalPrefix_name[2338:2344],
-	374: _MagicalPrefix_name[2344:2348],
-	375: _MagicalPrefix_name[2348:2354],
-	376: _MagicalPrefix_name[2354:2358],
-	377: _MagicalPrefix_name[2358:2367],
-	378: _MagicalPrefix_name[2367:2372],
-	379: _MagicalPrefix_name[2372:2377],
-	380: _MagicalPrefix_name[2377:2382],
-	381: _MagicalPrefix_name[2382:2391],
-	382: _MagicalPrefix_name[2391:2396],
-	383: _MagicalPrefix_name[2396:2401],
-	384: _MagicalPrefix_name[2401:2406],
-	385: _MagicalPrefix_name[2406:2415],
-	386: _MagicalPrefix_name[2415:2420],
-	387: _MagicalPrefix_name[2420:2425],
-	388: _MagicalPrefix_name[2425:2430],
-	389: _MagicalPrefix_name[2430:2439],
-	390: _MagicalPrefix_name[2439:2444],
-	391: _MagicalPrefix_name[2444:2449],
-	392: _MagicalPrefix_name[2449:2454],
-	393: _MagicalPrefix_name[2454:2459],
-	394: _MagicalPrefix_name[2459:2464],
-	395: _MagicalPrefix_name[2464:2471],
-	396: _MagicalPrefix_name[2471:2480],
-	397: _MagicalPrefix_name[2480:2485],
-	398: _MagicalPrefix_name[2485:2493],
-	399: _MagicalPrefix_name[2493:2497],
-	400: _MagicalPrefix_name[2497:2504],
-	401: _MagicalPrefix_name[2504:2509],
-	402: _MagicalPrefix_name[2509:2517],
-	403: _MagicalPrefix_name[2517:2521],
-	404: _MagicalPrefix_name[2521:2528],
-	405: _MagicalPrefix_name[2528:2533],
-	406: _MagicalPrefix_name[2533:2541],
-	407: _MagicalPrefix_name[2541:2545],
-	408: _MagicalPrefix_name[2545:2552],
-	409: _MagicalPrefix_name[2552:2557],
-	410: _MagicalPrefix_name[2557:2565],
-	411: _MagicalPrefix_name[2565:2573],
-	412: _MagicalPrefix_name[2573:2577],
-	413: _MagicalPrefix_name[2577:2581],
-	414: _MagicalPrefix_name[2581:2588],
-	415: _MagicalPrefix_name[2588:2593],
-	416: _MagicalPrefix_name[2593:2597],
-	417: _MagicalPrefix_name[2597:2607],
-	418: _MagicalPrefix_name[2607:2617],
-	419: _MagicalPrefix_name[2617:2625],
-	420: _MagicalPrefix_name[2625:2636],
-	421: _MagicalPrefix_name[2636:2647],
-	422: _MagicalPrefix_name[2647:2656],
-	423: _MagicalPrefix_name[2656:2663],
-	424: _MagicalPrefix_name[2663:2671],
-	425: _MagicalPrefix_name[2671:2680],
-	426: _MagicalPrefix_name[2680:2686],
-	427: _MagicalPrefix_name[2686:2693],
-	428: _MagicalPrefix_name[2693:2702],
-	429: _MagicalPrefix_name[2702:2709],
-	430: _MagicalPrefix_name[2709:2719],
-	431: _MagicalPrefix_name[2719:2728],
-	432: _MagicalPrefix_name[2728:2740],
-	433: _MagicalPrefix_name[2740:2750],
-	434: _MagicalPrefix_name[2750:2758],
-	435: _MagicalPrefix_name[2758:2766],
-	436: _MagicalPrefix_name[2766:2775],
-	437: _MagicalPrefix_name[2775:2784],
-	438: _MagicalPrefix_name[2784:2793],
-	439: _MagicalPrefix_name[2793:2805],
-	440: _MagicalPrefix_name[2805:2818],
-	441: _MagicalPrefix_name[2818:2826],
-	442: _MagicalPrefix_name[2826:2833],
-	443: _MagicalPrefix_name[2833:2841],
-	444: _MagicalPrefix_name[2841:2849],
-	445: _MagicalPrefix_name[2849:2856],
-	446: _MagicalPrefix_name[2856:2863],
-	447: _MagicalPrefix_name[2863:2871],
-	448: _MagicalPrefix_name[2871:2879],
-	449: _MagicalPrefix_name[2879:2886],
-	450: _MagicalPrefix_name[2886:2893],
-	451: _MagicalPrefix_name[2893:2901],
-	452: _MagicalPrefix_name[2901:2909],
-	453: _MagicalPrefix_name[2909:2916],
-	454: _MagicalPrefix_name[2916:2922],
-	455: _MagicalPrefix_name[2922:2928],
-	456: _MagicalPrefix_name[2928:2941],
-	457: _MagicalPrefix_name[2941:2947],
-	458: _MagicalPrefix_name[2947:2956],
-	459: _MagicalPrefix_name[2956:2964],
-	460: _MagicalPrefix_name[2964:2970],
-	461: _MagicalPrefix_name[2970:2977],
-	462: _MagicalPrefix_name[2977:2985],
-	463: _MagicalPrefix_name[2985:2998],
-	464: _MagicalPrefix_name[2998:3004],
-	465: _MagicalPrefix_name[3004:3015],
-	466: _MagicalPrefix_name[3015:3027],
-	467: _MagicalPrefix_name[3027:3036],
-	468: _MagicalPrefix_name[3036:3047],
-	469: _MagicalPrefix_name[3047:3059],
-	470: _MagicalPrefix_name[3059:3071],
-	471: _MagicalPrefix_name[3071:3083],
-	472: _MagicalPrefix_name[3083:3092],
-	473: _MagicalPrefix_name[3092:3103],
-	474: _MagicalPrefix_name[3103:3112],
-	475: _MagicalPrefix_name[3112:3123],
-	476: _MagicalPrefix_name[3123:3131],
-	477: _MagicalPrefix_name[3131:3141],
-	478: _MagicalPrefix_name[3141:3149],
-	479: _MagicalPrefix_name[3149:3156],
-	480: _MagicalPrefix_name[3156:3164],
-	481: _MagicalPrefix_name[3164:3172],
-	482: _MagicalPrefix_name[3172:3181],
-	483: _MagicalPrefix_name[3181:3189],
-	484: _MagicalPrefix_name[3189:3196],
-	485: _MagicalPrefix_name[3196:3202],
-	486: _MagicalPrefix_name[3202:3209],
-	487: _MagicalPrefix_name[3209:3217],
-	488: _MagicalPrefix_name[3217:3225],
-	489: _MagicalPrefix_name[3225:3232],
-	490: _MagicalPrefix_name[3232:3241],
-	491: _MagicalPrefix_name[3241:3250],
-	492: _MagicalPrefix_name[3250:3258],
-	493: _MagicalPrefix_name[3258:3267],
-	494: _MagicalPrefix_name[3267:3278],
-	495: _MagicalPrefix_name[3278:3286],
-	496: _MagicalPrefix_name[3286:3295],
-	497: _MagicalPrefix_name[3295:3300],
-	498: _MagicalPrefix_name[3300:3308],
-	499: _MagicalPrefix_name[3308:3316],
-	500: _MagicalPrefix_name[3316:3323],
-	501: _MagicalPrefix_name[3323:3329],
-	502: _MagicalPrefix_name[3329:3339],
-	503: _MagicalPrefix_name[3339:3350],
-	504: _MagicalPrefix_name[3350:3362],
-	505: _MagicalPrefix_name[3362:3372],
-	506: _MagicalPrefix_name[3372:3383],
-	507: _MagicalPrefix_name[3383:3390],
-	508: _MagicalPrefix_name[3390:3401],
-	509: _MagicalPrefix_name[3401:3408],
-	510: _MagicalPrefix_name[3408:3414],
-	511: _MagicalPrefix_name[3414:3426],
-	512: _MagicalPrefix_name[3426:3434],
-	513: _MagicalPrefix_name[3434:3442],
-	514: _MagicalPrefix_name[3442:3449],
-	515: _MagicalPrefix_name[3449:3456],
-	516: _MagicalPrefix_name[3456:3465],
-	517: _MagicalPrefix_name[3465:3474],
-	518: _MagicalPrefix_name[3474:3480],
-	519: _MagicalPrefix_name[3480:3486],
-	520: _MagicalPrefix_name[3486:3495],
-	521: _MagicalPrefix_name[3495:3504],
-	522: _MagicalPrefix_name[3504:3511],
-	523: _MagicalPrefix_name[3511:3517],
-	524: _MagicalPrefix_name[3517:3525],
-	525: _MagicalPrefix_name[3525:3532],
-	526: _MagicalPrefix_name[3532:3537],
-	527: _MagicalPrefix_name[3537:3541],
-	528: _MagicalPrefix_name[3541:3548],
-	529: _MagicalPrefix_name[3548:3555],
-	530: _MagicalPrefix_name[3555:3563],
-	531: _MagicalPrefix_name[3563:3572],
-	532: _MagicalPrefix_name[3572:3579],
-	533: _MagicalPrefix_name[3579:3586],
-	534: _MagicalPrefix_name[3586:3594],
-	535: _MagicalPrefix_name[3594:3604],
-	536: _MagicalPrefix_name[3604:3613],
-	537: _MagicalPrefix_name[3613:3620],
-	538: _MagicalPrefix_name[3620:3628],
-	539: _MagicalPrefix_name[3628:3637],
-	540: _MagicalPrefix_name[3637:3645],
-	541: _MagicalPrefix_name[3645:3654],
-	542: _MagicalPrefix_name[3654:3663],
-	543: _MagicalPrefix_name[3663:3669],
-	544: _MagicalPrefix_name[3669:3677],
-	545: _MagicalPrefix_name[3677:3682],
-	546: _MagicalPrefix_name[3682:3692],
-	547: _MagicalPrefix_name[3692:3699],
-	548: _MagicalPrefix_name[3699:3706],
-	549: _MagicalPrefix_name[3706:3715],
-	550: _MagicalPrefix_name[3715:3721],
-	551: _MagicalPrefix_name[3721:3728],
-	552: _MagicalPrefix_name[3728:3735],
-	553: _MagicalPrefix_name[3735:3741],
-	554: _MagicalPrefix_name[3741:3749],
-	555: _MagicalPrefix_name[3749:3755],
-	556: _MagicalPrefix_name[3755:3764],
-	557: _MagicalPrefix_name[3764:3772],
-	558: _MagicalPrefix_name[3772:3777],
-	559: _MagicalPrefix_name[3777:3786],
-	560: _MagicalPrefix_name[3786:3794],
-	561: _MagicalPrefix_name[3794:3804],
-	562: _MagicalPrefix_name[3804:3812],
-	563: _MagicalPrefix_name[3812:3822],
-	564: _MagicalPrefix_name[3822:3828],
-	565: _MagicalPrefix_name[3828:3836],
-	566: _MagicalPrefix_name[3836:3842],
-	567: _MagicalPrefix_name[3842:3850],
-	568: _MagicalPrefix_name[3850:3856],
-	569: _MagicalPrefix_name[3856:3864],
-	570: _MagicalPrefix_name[3864:3874],
-	571: _MagicalPrefix_name[3874:3887],
-	572: _MagicalPrefix_name[3887:3897],
-	573: _MagicalPrefix_name[3897:3910],
-	574: _MagicalPrefix_name[3910:3917],
-	575: _MagicalPrefix_name[3917:3929],
-	576: _MagicalPrefix_name[3929:3936],
-	577: _MagicalPrefix_name[3936:3948],
-	578: _MagicalPrefix_name[3948:3956],
-	579: _MagicalPrefix_name[3956:3967],
-	580: _MagicalPrefix_name[3967:3975],
-	581: _MagicalPrefix_name[3975:3986],
-	582: _MagicalPrefix_name[3986:3994],
-	583: _MagicalPrefix_name[3994:4005],
-	584: _MagicalPrefix_name[4005:4013],
-	585: _MagicalPrefix_name[4013:4025],
-	586: _MagicalPrefix_name[4025:4033],
-	587: _MagicalPrefix_name[4033:4045],
-	588: _MagicalPrefix_name[4045:4057],
-	589: _MagicalPrefix_name[4057:4071],
-	590: _MagicalPrefix_name[4071:4083],
-	591: _MagicalPrefix_name[4083:4097],
-	592: _MagicalPrefix_name[4097:4104],
-	593: _MagicalPrefix_name[4104:4108],
-	594: _MagicalPrefix_name[4108:4113],
-	595: _MagicalPrefix_name[4113:4124],
-	596: _MagicalPrefix_name[4124:4128],
-	597: _MagicalPrefix_name[4128:4134],
-	598: _MagicalPrefix_name[4134:4142],
-	599: _MagicalPrefix_name[4142:4148],
-	600: _MagicalPrefix_name[4148:4153],
-	601: _MagicalPrefix_name[4153:4160],
-	602: _MagicalPrefix_name[4160:4163],
-	603: _MagicalPrefix_name[4163:4173],
-	604: _MagicalPrefix_name[4173:4179],
-	605: _MagicalPrefix_name[4179:4182],
-	606: _MagicalPrefix_name[4182:4192],
-	607: _MagicalPrefix_name[4192:4195],
-	608: _MagicalPrefix_name[4195:4201],
-	609: _MagicalPrefix_name[4201:4207],
-	610: _MagicalPrefix_name[4207:4215],
-	611: _MagicalPrefix_name[4215:4221],
-	612: _MagicalPrefix_name[4221:4227],
-	613: _MagicalPrefix_name[4227:4233],
-	614: _MagicalPrefix_name[4233:4242],
-	615: _MagicalPrefix_name[4242:4251],
-	616: _MagicalPrefix_name[4251:4257],
-	617: _MagicalPrefix_name[4257:4265],
-	618: _MagicalPrefix_name[4265:4274],
-	619: _MagicalPrefix_name[4274:4283],
-	620: _MagicalPrefix_name[4283:4289],
-	621: _MagicalPrefix_name[4289:4297],
-	622: _MagicalPrefix_name[4297:4306],
-	623: _MagicalPrefix_name[4306:4315],
-	624: _MagicalPrefix_name[4315:4321],
-	625: _MagicalPrefix_name[4321:4329],
-	626: _MagicalPrefix_name[4329:4334],
-	627: _MagicalPrefix_name[4334:4344],
-	628: _MagicalPrefix_name[4344:4351],
-	629: _MagicalPrefix_name[4351:4358],
-	630: _MagicalPrefix_name[4358:4363],
-	631: _MagicalPrefix_name[4363:4373],
-	632: _MagicalPrefix_name[4373:4380],
-	633: _MagicalPrefix_name[4380:4387],
-	634: _MagicalPrefix_name[4387:4392],
-	635: _MagicalPrefix_name[4392:4402],
-	636: _MagicalPrefix_name[4402:4409],
-	637: _MagicalPrefix_name[4409:4416],
-	638: _MagicalPrefix_name[4416:4422],
-	639: _MagicalPrefix_name[4422:4429],
-	640: _MagicalPrefix_name[4429:4435],
-	641: _MagicalPrefix_name[4435:4443],
-	642: _MagicalPrefix_name[4443:4449],
-	643: _MagicalPrefix_name[4449:4456],
-	644: _MagicalPrefix_name[4456:4462],
-	645: _MagicalPrefix_name[4462:4470],
-	646: _MagicalPrefix_name[4470:4476],
-	647: _MagicalPrefix_name[4476:4483],
-	648: _MagicalPrefix_name[4483:4489],
-	649: _MagicalPrefix_name[4489:4497],
-	650: _MagicalPrefix_name[4497:4503],
-	651: _MagicalPrefix_name[4503:4512],
-	652: _MagicalPrefix_name[4512:4517],
-	653: _MagicalPrefix_name[4517:4526],
-	654: _MagicalPrefix_name[4526:4532],
-	655: _MagicalPrefix_name[4532:4541],
-	656: _MagicalPrefix_name[4541:4546],
-	657: _MagicalPrefix_name[4546:4555],
-	658: _MagicalPrefix_name[4555:4561],
-	659: _MagicalPrefix_name[4561:4570],
-	660: _MagicalPrefix_name[4570:4575],
-	661: _MagicalPrefix_name[4575:4584],
-	662: _MagicalPrefix_name[4584:4592],
-	663: _MagicalPrefix_name[4592:4600],
-	664: _MagicalPrefix_name[4600:4605],
-	665: _MagicalPrefix_name[4605:4612],
-	666: _MagicalPrefix_name[4612:4621],
-	667: _MagicalPrefix_name[4621:4626],
-	668: _MagicalPrefix_name[4626:4631],
-	669: _MagicalPrefix_name[4631:4636],
-}
+var _MagicalPrefix_index = [...]uint16{0, 6, 14, 21, 28, 32, 39, 48, 54, 60, 67, 73, 80, 86, 95, 102, 110, 116, 122, 126, 131, 137, 141, 149, 157, 162, 166, 175, 184, 192, 198, 204, 211, 221, 231, 238, 246, 253, 262, 269, 277, 283, 292, 297, 302, 308, 316, 323, 331, 337, 341, 346, 355, 360, 365, 370, 374, 382, 389, 399, 407, 413, 421, 431, 444, 451, 463, 471, 482, 492, 497, 502, 510, 518, 524, 528, 533, 539, 544, 549, 553, 562, 565, 575, 581, 588, 594, 602, 611, 618, 628, 637, 642, 650, 655, 662, 665, 670, 678, 686, 692, 699, 704, 710, 713, 719, 727, 740, 746, 755, 762, 767, 777, 788, 797, 803, 810, 819, 829, 836, 849, 858, 869, 875, 882, 891, 901, 909, 920, 931, 940, 947, 955, 964, 970, 977, 986, 993, 1002, 1014, 1022, 1031, 1040, 1053, 1061, 1068, 1076, 1084, 1091, 1099, 1106, 1113, 1121, 1128, 1134, 1140, 1153, 1162, 1170, 1177, 1185, 1191, 1202, 1213, 1222, 1233, 1244, 1255, 1266, 1275, 1283, 1293, 1301, 1308, 1316, 1325, 1331, 1338, 1346, 1353, 1362, 1371, 1379, 1390, 1398, 1403, 1411, 1418, 1424, 1434, 1445, 1457, 1468, 1475, 1482, 1488, 1496, 1504, 1511, 1520, 1526, 1535, 1542, 1548, 1556, 1563, 1568, 1572, 1579, 1586, 1594, 1601, 1609, 1619, 1628, 1635, 1643, 1652, 1660, 1669, 1678, 1684, 1692, 1697, 1707, 1714, 1721, 1730, 1736, 1743, 1749, 1757, 1763, 1772, 1780, 1785, 1794, 1802, 1812, 1820, 1832, 1844, 1858, 1865, 1869, 1874, 1885, 1889, 1895, 1903, 1909, 1914}
 
 func (i MagicalPrefix) String() string {
-	if str, ok := _MagicalPrefix_map[i]; ok {
-		return str
+	if i >= MagicalPrefix(len(_MagicalPrefix_index)-1) {
+		return "MagicalPrefix(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return "MagicalPrefix(" + strconv.FormatInt(int64(i), 10) + ")"
+	return _MagicalPrefix_name[_MagicalPrefix_index[i]:_MagicalPrefix_index[i+1]]
 }

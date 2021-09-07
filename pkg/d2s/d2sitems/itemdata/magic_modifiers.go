@@ -5,677 +5,921 @@ package itemdata
 // MagicalPrefix represents a magical prefix
 type MagicalPrefix uint16
 
-// magical prefixes TODO: names
 const (
-	MagicalPrefix2 MagicalPrefix = iota + 2 //   Sturdy
-	MagicalPrefix3                          //   Strong
-	MagicalPrefix4                          //   Glorious
-	MagicalPrefix5                          //   Blessed
-	MagicalPrefix6                          //   Saintly
-	MagicalPrefix7                          //   Holy
-	MagicalPrefix8                          //   Devious
-	MagicalPrefix9                          //   Fortified
-	_
-	_
-	_
-	MagicalPrefix13 //  Jagged
-	MagicalPrefix14 //  Deadly
-	MagicalPrefix15 //  Vicious
-	MagicalPrefix16 //  Brutal
-	MagicalPrefix17 //  Massive
-	MagicalPrefix18 //  Savage
-	MagicalPrefix19 //  Merciless
-	MagicalPrefix20 //  Vulpine
-	_
-	_
-	_
-	_
-	MagicalPrefix25 //  Tireless
-	MagicalPrefix26 //  Rugged
-	MagicalPrefix27 //  Bronze
-	MagicalPrefix28 //  Iron
-	MagicalPrefix29 //  Steel
-	MagicalPrefix30 //  Silver
-	_
-	MagicalPrefix32 //  Gold
-	MagicalPrefix33 //  Platinum
-	MagicalPrefix34 //  Meteoric
-	MagicalPrefix35 //  Sharp
-	MagicalPrefix36 //  Fine
-	MagicalPrefix37 //  Warrior's
-	MagicalPrefix38 //  Soldier's
-	MagicalPrefix39 //  Knight's
-	MagicalPrefix40 //  Lord's
-	MagicalPrefix41 //  King's
-	MagicalPrefix42 //  Howling
-	MagicalPrefix43 //  Fortuitous
-	_
-	_
-	_
-	_
-	_
-	MagicalPrefix49 //  Glimmering
-	MagicalPrefix50 //  Glowing
-	_
-	_
-	MagicalPrefix53 //  Lizard's
-	_
-	MagicalPrefix55 //  Snake's
-	MagicalPrefix56 //  Serpent's
-	MagicalPrefix57 //  Serpent's
-	MagicalPrefix58 //  Drake's
-	MagicalPrefix59 //  Dragon's
-	MagicalPrefix60 //  Dragon's
-	MagicalPrefix61 //  Wyrm's
-	_
-	_
-	MagicalPrefix64 //  Prismatic
-	MagicalPrefix65 //  Prismatic
-	MagicalPrefix66 //  Azure
-	MagicalPrefix67 //  Lapis
-	MagicalPrefix68 //  Lapis
-	MagicalPrefix69 //  Cobalt
-	MagicalPrefix70 //  Cobalt
-	_
-	MagicalPrefix72 //  Sapphire
-	_
-	_
-	MagicalPrefix75 //  Crimson
-	MagicalPrefix76 //  Burgundy
-	MagicalPrefix77 //  Burgundy
-	MagicalPrefix78 //  Garnet
-	MagicalPrefix79 //  Garnet
-	_
-	MagicalPrefix81 //  Ruby
-	_
-	_
-	MagicalPrefix84 //  Ocher
-	MagicalPrefix85 //  Tangerine
-	MagicalPrefix86 //  Tangerine
-	MagicalPrefix87 //  Coral
-	MagicalPrefix88 //  Coral
-	_
-	MagicalPrefix90 //  Amber
-	_
-	_
-	MagicalPrefix93 //  Beryl
-	MagicalPrefix94 //  Jade
-	MagicalPrefix95 //  Jade
-	MagicalPrefix96 //  Viridian
-	MagicalPrefix97 //  Viridian
-	_
-	MagicalPrefix99 //  Emerald
-	_
-	MagicalPrefix101 // Fletcher's
-	MagicalPrefix102 // Archer's
-	MagicalPrefix103 // Archer's
-	MagicalPrefix104 // Monk's
-	MagicalPrefix105 // Priest's
-	MagicalPrefix106 // Priest's
-	MagicalPrefix107 // Summoner's
-	MagicalPrefix108 // Necromancer's
-	MagicalPrefix109 // Necromancer's
-	MagicalPrefix110 // Angel's
-	MagicalPrefix111 // Arch-Angel's
-	MagicalPrefix112 // Arch-Angel's
-	MagicalPrefix113 // Slayer's
-	MagicalPrefix114 // Berserker's
-	MagicalPrefix115 // Berserker's
-	_
-	_
-	MagicalPrefix118 // Triumphant
-	MagicalPrefix119 // Stout
-	MagicalPrefix120 // Stout
-	MagicalPrefix121 // Stout
-	MagicalPrefix122 // Burly
-	MagicalPrefix123 // Burly
-	MagicalPrefix124 // Burly
-	MagicalPrefix125 // Stalwart
-	MagicalPrefix126 // Stalwart
-	MagicalPrefix127 // Stalwart
-	MagicalPrefix128 // Stout
-	MagicalPrefix129 // Stout
-	MagicalPrefix130 // Stout
-	MagicalPrefix131 // Burly
-	MagicalPrefix132 // Burly
-	MagicalPrefix133 // Stalwart
-	MagicalPrefix134 // Stalwart
-	MagicalPrefix135 // Stout
-	MagicalPrefix136 // Stout
-	MagicalPrefix137 // Burly
-	MagicalPrefix138 // Stalwart
-	MagicalPrefix139 // Blanched
-	MagicalPrefix140 // Eburin
-	MagicalPrefix141 // Bone
-	MagicalPrefix142 // Ivory
-	MagicalPrefix143 // Sturdy
-	MagicalPrefix144 // Sturdy
-	MagicalPrefix145 // Strong
-	MagicalPrefix146 // Glorious
-	MagicalPrefix147 // Blessed
-	MagicalPrefix148 // Saintly
-	MagicalPrefix149 // Holy
-	MagicalPrefix150 // Godly
-	MagicalPrefix151 // Devious
-	MagicalPrefix152 // Blank
-	MagicalPrefix153 // Null
-	MagicalPrefix154 // Antimagic
-	MagicalPrefix155 // Red
-	MagicalPrefix156 // Red
-	MagicalPrefix157 // Sanguinary
-	MagicalPrefix158 // Sanguinary
-	MagicalPrefix159 // Bloody
-	MagicalPrefix160 // Red
-	MagicalPrefix161 // Sanguinary
-	MagicalPrefix162 // Bloody
-	MagicalPrefix163 // Red
-	MagicalPrefix164 // Sanguinary
-	MagicalPrefix165 // Bloody
-	MagicalPrefix166 // Scarlet
-	MagicalPrefix167 // Crimson
-	MagicalPrefix168 // Jagged
-	MagicalPrefix169 // Jagged
-	MagicalPrefix170 // Jagged
-	MagicalPrefix171 // Forked
-	MagicalPrefix172 // Forked
-	MagicalPrefix173 // Serrated
-	MagicalPrefix174 // Serrated
-	MagicalPrefix175 // Jagged
-	MagicalPrefix176 // Jagged
-	MagicalPrefix177 // Forked
-	MagicalPrefix178 // Forked
-	MagicalPrefix179 // Serrated
-	MagicalPrefix180 // Jagged
-	MagicalPrefix181 // Forked
-	MagicalPrefix182 // Serrated
-	MagicalPrefix183 // Carbuncle
-	MagicalPrefix184 // Carmine
-	MagicalPrefix185 // Vermillion
-	MagicalPrefix186 // Jagged
-	MagicalPrefix187 // Deadly
-	MagicalPrefix188 // Vicious
-	MagicalPrefix189 // Brutal
-	MagicalPrefix190 // Massive
-	MagicalPrefix191 // Savage
-	MagicalPrefix192 // Merciless
-	MagicalPrefix193 // Ferocious
-	MagicalPrefix194 // Cruel
-	MagicalPrefix195 // Cinnabar
-	MagicalPrefix196 // Rusty
-	MagicalPrefix197 // Realgar
-	MagicalPrefix198 // Ruby
-	MagicalPrefix199 // Vulpine
-	MagicalPrefix200 // Dun
-	MagicalPrefix201 // Tireless
-	MagicalPrefix202 // Tireless
-	MagicalPrefix203 // Brown
-	MagicalPrefix204 // Rugged
-	MagicalPrefix205 // Rugged
-	MagicalPrefix206 // Rugged
-	MagicalPrefix207 // Rugged
-	MagicalPrefix208 // Rugged
-	MagicalPrefix209 // Rugged
-	MagicalPrefix210 // Rugged
-	MagicalPrefix211 // Rugged
-	MagicalPrefix212 // Rugged
-	MagicalPrefix213 // Rugged
-	MagicalPrefix214 // Rugged
-	MagicalPrefix215 // Vigorous
-	MagicalPrefix216 // Chestnut
-	MagicalPrefix217 // Maroon
-	MagicalPrefix218 // Bronze
-	MagicalPrefix219 // Bronze
-	MagicalPrefix220 // Bronze
-	MagicalPrefix221 // Iron
-	MagicalPrefix222 // Iron
-	MagicalPrefix223 // Iron
-	MagicalPrefix224 // Steel
-	MagicalPrefix225 // Steel
-	MagicalPrefix226 // Steel
-	MagicalPrefix227 // Bronze
-	MagicalPrefix228 // Bronze
-	MagicalPrefix229 // Bronze
-	MagicalPrefix230 // Iron
-	MagicalPrefix231 // Iron
-	MagicalPrefix232 // Steel
-	MagicalPrefix233 // Steel
-	MagicalPrefix234 // Bronze
-	MagicalPrefix235 // Bronze
-	MagicalPrefix236 // Iron
-	MagicalPrefix237 // Steel
-	MagicalPrefix238 // Bronze
-	MagicalPrefix239 // Iron
-	MagicalPrefix240 // Steel
-	MagicalPrefix241 // Silver
-	MagicalPrefix242 // Gold
-	MagicalPrefix243 // Platinum
-	MagicalPrefix244 // Meteoric
-	MagicalPrefix245 // Strange
-	MagicalPrefix246 // Weird
-	MagicalPrefix247 // Nickel
-	MagicalPrefix248 // Tin
-	MagicalPrefix249 // Silver
-	MagicalPrefix250 // Argent
-	MagicalPrefix251 // Fine
-	MagicalPrefix252 // Fine
-	MagicalPrefix253 // Sharp
-	MagicalPrefix254 // Fine
-	MagicalPrefix255 // Sharp
-	MagicalPrefix256 // Fine
-	MagicalPrefix257 // Sharp
-	MagicalPrefix258 // Fine
-	MagicalPrefix259 // Warrior's
-	MagicalPrefix260 // Soldier's
-	MagicalPrefix261 // Knight's
-	MagicalPrefix262 // Lord's
-	MagicalPrefix263 // King's
-	MagicalPrefix264 // Master's
-	MagicalPrefix265 // Grandmaster's
-	MagicalPrefix266 // Glimmering
-	MagicalPrefix267 // Glowing
-	MagicalPrefix268 // Bright
-	MagicalPrefix269 // Screaming
-	MagicalPrefix270 // Howling
-	MagicalPrefix271 // Wailing
-	MagicalPrefix272 // Screaming
-	MagicalPrefix273 // Howling
-	MagicalPrefix274 // Wailing
-	MagicalPrefix275 // Lucky
-	MagicalPrefix276 // Lucky
-	MagicalPrefix277 // Lucky
-	MagicalPrefix278 // Lucky
-	MagicalPrefix279 // Lucky
-	MagicalPrefix280 // Lucky
-	MagicalPrefix281 // Felicitous
-	MagicalPrefix282 // Fortuitous
-	MagicalPrefix283 // Emerald
-	MagicalPrefix284 // Lizard's
-	MagicalPrefix285 // Lizard's
-	MagicalPrefix286 // Lizard's
-	MagicalPrefix287 // Snake's
-	MagicalPrefix288 // Snake's
-	MagicalPrefix289 // Snake's
-	MagicalPrefix290 // Serpent's
-	MagicalPrefix291 // Serpent's
-	MagicalPrefix292 // Serpent's
-	MagicalPrefix293 // Lizard's
-	MagicalPrefix294 // Lizard's
-	MagicalPrefix295 // Lizard's
-	MagicalPrefix296 // Snake's
-	MagicalPrefix297 // Snake's
-	MagicalPrefix298 // Serpent's
-	MagicalPrefix299 // Serpent's
-	MagicalPrefix300 // Lizard's
-	MagicalPrefix301 // Lizard's
-	MagicalPrefix302 // Snake's
-	MagicalPrefix303 // Serpent's
-	MagicalPrefix304 // Lizard's
-	MagicalPrefix305 // Snake's
-	MagicalPrefix306 // Serpent's
-	MagicalPrefix307 // Serpent's
-	MagicalPrefix308 // Drake's
-	MagicalPrefix309 // Dragon's
-	MagicalPrefix310 // Dragon's
-	MagicalPrefix311 // Wyrm's
-	MagicalPrefix312 // Great Wyrm's
-	MagicalPrefix313 // Bahamut's
-	MagicalPrefix314 // Zircon
-	MagicalPrefix315 // Jacinth
-	MagicalPrefix316 // Turquoise
-	MagicalPrefix317 // Shimmering
-	MagicalPrefix318 // Shimmering
-	MagicalPrefix319 // Shimmering
-	MagicalPrefix320 // Shimmering
-	MagicalPrefix321 // Shimmering
-	MagicalPrefix322 // Shimmering
-	MagicalPrefix323 // Shimmering
-	MagicalPrefix324 // Rainbow
-	MagicalPrefix325 // Scintillating
-	MagicalPrefix326 // Prismatic
-	MagicalPrefix327 // Chromatic
-	MagicalPrefix328 // Shimmering
-	MagicalPrefix329 // Rainbow
-	MagicalPrefix330 // Scintillating
-	MagicalPrefix331 // Prismatic
-	MagicalPrefix332 // Chromatic
-	MagicalPrefix333 // Shimmering
-	MagicalPrefix334 // Rainbow
-	MagicalPrefix335 // Scintillating
-	MagicalPrefix336 // Shimmering
-	MagicalPrefix337 // Scintillating
-	MagicalPrefix338 // Azure
-	MagicalPrefix339 // Lapis
-	MagicalPrefix340 // Cobalt
-	MagicalPrefix341 // Sapphire
-	MagicalPrefix342 // Azure
-	MagicalPrefix343 // Lapis
-	MagicalPrefix344 // Cobalt
-	MagicalPrefix345 // Sapphire
-	MagicalPrefix346 // Azure
-	MagicalPrefix347 // Lapis
-	MagicalPrefix348 // Cobalt
-	MagicalPrefix349 // Sapphire
-	MagicalPrefix350 // Azure
-	MagicalPrefix351 // Lapis
-	MagicalPrefix352 // Lapis
-	MagicalPrefix353 // Cobalt
-	MagicalPrefix354 // Cobalt
-	MagicalPrefix355 // Sapphire
-	MagicalPrefix356 // Lapis Lazuli
-	MagicalPrefix357 // Sapphire
-	MagicalPrefix358 // Crimson
-	MagicalPrefix359 // Russet
-	MagicalPrefix360 // Garnet
-	MagicalPrefix361 // Ruby
-	MagicalPrefix362 // Crimson
-	MagicalPrefix363 // Russet
-	MagicalPrefix364 // Garnet
-	MagicalPrefix365 // Ruby
-	MagicalPrefix366 // Crimson
-	MagicalPrefix367 // Russet
-	MagicalPrefix368 // Garnet
-	MagicalPrefix369 // Ruby
-	MagicalPrefix370 // Russet
-	MagicalPrefix371 // Russet
-	MagicalPrefix372 // Garnet
-	MagicalPrefix373 // Garnet
-	MagicalPrefix374 // Ruby
-	MagicalPrefix375 // Garnet
-	MagicalPrefix376 // Ruby
-	MagicalPrefix377 // Tangerine
-	MagicalPrefix378 // Ocher
-	MagicalPrefix379 // Coral
-	MagicalPrefix380 // Amber
-	MagicalPrefix381 // Tangerine
-	MagicalPrefix382 // Ocher
-	MagicalPrefix383 // Coral
-	MagicalPrefix384 // Amber
-	MagicalPrefix385 // Tangerine
-	MagicalPrefix386 // Ocher
-	MagicalPrefix387 // Coral
-	MagicalPrefix388 // Amber
-	MagicalPrefix389 // Tangerine
-	MagicalPrefix390 // Ocher
-	MagicalPrefix391 // Ocher
-	MagicalPrefix392 // Coral
-	MagicalPrefix393 // Coral
-	MagicalPrefix394 // Amber
-	MagicalPrefix395 // Camphor
-	MagicalPrefix396 //  Ambergris
-	MagicalPrefix397 // Beryl
-	MagicalPrefix398 // Viridian
-	MagicalPrefix399 // Jade
-	MagicalPrefix400 // Emerald
-	MagicalPrefix401 // Beryl
-	MagicalPrefix402 // Viridian
-	MagicalPrefix403 // Jade
-	MagicalPrefix404 // Emerald
-	MagicalPrefix405 // Beryl
-	MagicalPrefix406 // Viridian
-	MagicalPrefix407 // Jade
-	MagicalPrefix408 // Emerald
-	MagicalPrefix409 // Beryl
-	MagicalPrefix410 // Viridian
-	MagicalPrefix411 // Viridian
-	MagicalPrefix412 // Jade
-	MagicalPrefix413 // Jade
-	MagicalPrefix414 // Emerald
-	MagicalPrefix415 // Beryl
-	MagicalPrefix416 // Jade
-	MagicalPrefix417 // Triumphant
-	MagicalPrefix418 // Victorious
-	MagicalPrefix419 // Aureolin
-	MagicalPrefix420 // Mechanist's
-	MagicalPrefix421 // Artificer's
-	MagicalPrefix422 // Jeweler's
-	MagicalPrefix423 // Assamic
-	MagicalPrefix424 // Arcadian
-	MagicalPrefix425 // Unearthly
-	MagicalPrefix426 // Astral
-	MagicalPrefix427 // Elysian
-	MagicalPrefix428 // Celestial
-	MagicalPrefix429 // Diamond
-	MagicalPrefix430 // Fletcher's
-	MagicalPrefix431 // Acrobat's
-	MagicalPrefix432 // Harpoonist's
-	MagicalPrefix433 // Fletcher's
-	MagicalPrefix434 // Bowyer's
-	MagicalPrefix435 // Archer's
-	MagicalPrefix436 // Acrobat's
-	MagicalPrefix437 // Gymnast's
-	MagicalPrefix438 // Athlete's
-	MagicalPrefix439 // Harpoonist's
-	MagicalPrefix440 // Spearmaiden's
-	MagicalPrefix441 // Lancer's
-	MagicalPrefix442 // Burning
-	MagicalPrefix443 // Sparking
-	MagicalPrefix444 // Chilling
-	MagicalPrefix445 // Burning
-	MagicalPrefix446 // Blazing
-	MagicalPrefix447 // Volcanic
-	MagicalPrefix448 // Sparking
-	MagicalPrefix449 // Charged
-	MagicalPrefix450 // Powered
-	MagicalPrefix451 // Chilling
-	MagicalPrefix452 // Freezing
-	MagicalPrefix453 // Glacial
-	MagicalPrefix454 // Hexing
-	MagicalPrefix455 // Fungal
-	MagicalPrefix456 // Graverobber's
-	MagicalPrefix457 // Hexing
-	MagicalPrefix458 // Blighting
-	MagicalPrefix459 // Accursed
-	MagicalPrefix460 // Fungal
-	MagicalPrefix461 // Noxious
-	MagicalPrefix462 // Venomous
-	MagicalPrefix463 // Graverobber's
-	MagicalPrefix464 // Vodoun
-	MagicalPrefix465 // Golemlord's
-	MagicalPrefix466 // Lion Branded
-	MagicalPrefix467 // Captain's
-	MagicalPrefix468 // Preserver's
-	MagicalPrefix469 // Lion Branded
-	MagicalPrefix470 // Hawk Branded
-	MagicalPrefix471 // Rose Branded
-	MagicalPrefix472 // Captain's
-	MagicalPrefix473 // Commander's
-	MagicalPrefix474 // Marshal's
-	MagicalPrefix475 // Preserver's
-	MagicalPrefix476 // Warder's
-	MagicalPrefix477 // Guardian's
-	MagicalPrefix478 // Expert's
-	MagicalPrefix479 // Fanatic
-	MagicalPrefix480 // Sounding
-	MagicalPrefix481 // Expert's
-	MagicalPrefix482 // Veteran's
-	MagicalPrefix483 // Master's
-	MagicalPrefix484 // Fanatic
-	MagicalPrefix485 // Raging
-	MagicalPrefix486 // Furious
-	MagicalPrefix487 // Sounding
-	MagicalPrefix488 // Resonant
-	MagicalPrefix489 // Echoing
-	MagicalPrefix490 // Trainer's
-	MagicalPrefix491 // Spiritual
-	MagicalPrefix492 // Nature's
-	MagicalPrefix493 // Trainer's
-	MagicalPrefix494 // Caretaker's
-	MagicalPrefix495 // Keeper's
-	MagicalPrefix496 // Spiritual
-	MagicalPrefix497 // Feral
-	MagicalPrefix498 // Communal
-	MagicalPrefix499 // Nature's
-	MagicalPrefix500 // Terra's
-	MagicalPrefix501 // Gaea's
-	MagicalPrefix502 // Entrapping
-	MagicalPrefix503 // Mentalist's
-	MagicalPrefix504 // Shogukusha's
-	MagicalPrefix505 // Entrapping
-	MagicalPrefix506 // Trickster's
-	MagicalPrefix507 // Cunning
-	MagicalPrefix508 // Mentalist's
-	MagicalPrefix509 // Psychic
-	MagicalPrefix510 // Shadow
-	MagicalPrefix511 // Shogukusha's
-	MagicalPrefix512 // Sensei's
-	MagicalPrefix513 // Kenshi's
-	MagicalPrefix514 // Miocene
-	MagicalPrefix515 // Miocene
-	MagicalPrefix516 // Oligocene
-	MagicalPrefix517 // Oligocene
-	MagicalPrefix518 // Eocene
-	MagicalPrefix519 // Eocene
-	MagicalPrefix520 // Paleocene
-	MagicalPrefix521 // Paleocene
-	MagicalPrefix522 // Knave's
-	MagicalPrefix523 // Jack's
-	MagicalPrefix524 // Jester's
-	MagicalPrefix525 // Joker's
-	MagicalPrefix526 // Trump
-	MagicalPrefix527 // Loud
-	MagicalPrefix528 // Calling
-	MagicalPrefix529 // Yelling
-	MagicalPrefix530 // Shouting
-	MagicalPrefix531 // Screaming
-	MagicalPrefix532 // Paradox
-	MagicalPrefix533 // Paradox
-	MagicalPrefix534 // Robineye
-	MagicalPrefix535 // Sparroweye
-	MagicalPrefix536 // Falconeye
-	MagicalPrefix537 // Hawkeye
-	MagicalPrefix538 // Eagleeye
-	MagicalPrefix539 // Visionary
-	MagicalPrefix540 // Mnemonic
-	MagicalPrefix541 // Snowflake
-	MagicalPrefix542 // Shivering
-	MagicalPrefix543 // Boreal
-	MagicalPrefix544 // Hibernal
-	MagicalPrefix545 // Ember
-	MagicalPrefix546 // Smoldering
-	MagicalPrefix547 // Smoking
-	MagicalPrefix548 // Flaming
-	MagicalPrefix549 // Scorching
-	MagicalPrefix550 // Static
-	MagicalPrefix551 // Glowing
-	MagicalPrefix552 // Buzzing
-	MagicalPrefix553 // Arcing
-	MagicalPrefix554 // Shocking
-	MagicalPrefix555 // Septic
-	MagicalPrefix556 // Envenomed
-	MagicalPrefix557 // Corosive
-	MagicalPrefix558 // Toxic
-	MagicalPrefix559 // Pestilent
-	MagicalPrefix560 // Maiden's
-	MagicalPrefix561 // Valkyrie's
-	MagicalPrefix562 // Maiden's
-	MagicalPrefix563 // Valkyrie's
-	MagicalPrefix564 // Monk's
-	MagicalPrefix565 // Priest's
-	MagicalPrefix566 // Monk's
-	MagicalPrefix567 // Priest's
-	MagicalPrefix568 // Monk's
-	MagicalPrefix569 // Priest's
-	MagicalPrefix570 // Summoner's
-	MagicalPrefix571 // Necromancer's
-	MagicalPrefix572 // Summoner's
-	MagicalPrefix573 // Necromancer's
-	MagicalPrefix574 // Angel's
-	MagicalPrefix575 // Arch-Angel's
-	MagicalPrefix576 // Angel's
-	MagicalPrefix577 // Arch-Angel's
-	MagicalPrefix578 // Slayer's
-	MagicalPrefix579 // Berserker's
-	MagicalPrefix580 // Slayer's
-	MagicalPrefix581 // Berserker's
-	MagicalPrefix582 // Slayer's
-	MagicalPrefix583 // Berserker's
-	MagicalPrefix584 // Shaman's
-	MagicalPrefix585 // Hierophant's
-	MagicalPrefix586 // Shaman's
-	MagicalPrefix587 // Hierophant's
-	MagicalPrefix588 // Magekiller's
-	MagicalPrefix589 // Witch-hunter's
-	MagicalPrefix590 // Magekiller's
-	MagicalPrefix591 // Witch-hunter's
-	MagicalPrefix592 // Compact
-	MagicalPrefix593 // Thin
-	MagicalPrefix594 // Dense
-	MagicalPrefix595 // Consecrated
-	MagicalPrefix596 // Pure
-	MagicalPrefix597 // Sacred
-	MagicalPrefix598 // Hallowed
-	MagicalPrefix599 // Divine
-	MagicalPrefix600 // Pearl
-	MagicalPrefix601 // Crimson
-	MagicalPrefix602 // Red
-	MagicalPrefix603 // Sanguinary
-	MagicalPrefix604 // Bloody
-	MagicalPrefix605 // Red
-	MagicalPrefix606 // Sanguinary
-	MagicalPrefix607 // Red
-	MagicalPrefix608 // Jagged
-	MagicalPrefix609 // Forked
-	MagicalPrefix610 // Serrated
-	MagicalPrefix611 // Jagged
-	MagicalPrefix612 // Forked
-	MagicalPrefix613 // Jagged
-	MagicalPrefix614 // Snowflake
-	MagicalPrefix615 // Shivering
-	MagicalPrefix616 // Boreal
-	MagicalPrefix617 // Hibernal
-	MagicalPrefix618 // Snowflake
-	MagicalPrefix619 // Shivering
-	MagicalPrefix620 // Boreal
-	MagicalPrefix621 // Hibernal
-	MagicalPrefix622 // Snowflake
-	MagicalPrefix623 // Shivering
-	MagicalPrefix624 // Boreal
-	MagicalPrefix625 // Hibernal
-	MagicalPrefix626 // Ember
-	MagicalPrefix627 // Smoldering
-	MagicalPrefix628 // Smoking
-	MagicalPrefix629 // Flaming
-	MagicalPrefix630 // Ember
-	MagicalPrefix631 // Smoldering
-	MagicalPrefix632 // Smoking
-	MagicalPrefix633 // Flaming
-	MagicalPrefix634 // Ember
-	MagicalPrefix635 // Smoldering
-	MagicalPrefix636 // Smoking
-	MagicalPrefix637 // Flaming
-	MagicalPrefix638 // Static
-	MagicalPrefix639 // Glowing
-	MagicalPrefix640 // Arcing
-	MagicalPrefix641 // Shocking
-	MagicalPrefix642 // Static
-	MagicalPrefix643 // Glowing
-	MagicalPrefix644 // Arcing
-	MagicalPrefix645 // Shocking
-	MagicalPrefix646 // Static
-	MagicalPrefix647 // Glowing
-	MagicalPrefix648 // Arcing
-	MagicalPrefix649 // Shocking
-	MagicalPrefix650 // Septic
-	MagicalPrefix651 // Envenomed
-	MagicalPrefix652 // Toxic
-	MagicalPrefix653 // Pestilent
-	MagicalPrefix654 // Septic
-	MagicalPrefix655 // Envenomed
-	MagicalPrefix656 // Toxic
-	MagicalPrefix657 // Pestilent
-	MagicalPrefix658 // Septic
-	MagicalPrefix659 // Envenomed
-	MagicalPrefix660 // Toxic
-	MagicalPrefix661 // Pestilent
-	MagicalPrefix662 // Tireless
-	MagicalPrefix663 // Lizard's
-	MagicalPrefix664 // Azure
-	MagicalPrefix665 // Crimson
-	MagicalPrefix666 // Tangerine
-	MagicalPrefix667 // Beryl
-	MagicalPrefix668 // Godly
-	MagicalPrefix669 // Cruel
+	MagicalPrefixStrong        MagicalPrefix = iota // Strong
+	MagicalPrefixGlorious                           // Glorious
+	MagicalPrefixBlessed                            // Blessed
+	MagicalPrefixSaintly                            // Saintly
+	MagicalPrefixHoly                               // Holy
+	MagicalPrefixDevious                            // Devious
+	MagicalPrefixFortified                          // Fortified
+	MagicalPrefixJagged                             // Jagged
+	MagicalPrefixDeadly                             // Deadly
+	MagicalPrefixVicious                            // Vicious
+	MagicalPrefixBrutal                             // Brutal
+	MagicalPrefixMassive                            // Massive
+	MagicalPrefixSavage                             // Savage
+	MagicalPrefixMerciless                          // Merciless
+	MagicalPrefixVulpine                            // Vulpine
+	MagicalPrefixTireless                           // Tireless
+	MagicalPrefixRugged                             // Rugged
+	MagicalPrefixBronze                             // Bronze
+	MagicalPrefixIron                               // Iron
+	MagicalPrefixSteel                              // Steel
+	MagicalPrefixSilver                             // Silver
+	MagicalPrefixGold                               // Gold
+	MagicalPrefixPlatinum                           // Platinum
+	MagicalPrefixMeteoric                           // Meteoric
+	MagicalPrefixSharp                              // Sharp
+	MagicalPrefixFine                               // Fine
+	MagicalPrefixWarriors                           // Warrior's
+	MagicalPrefixSoldiers                           // Soldier's
+	MagicalPrefixKnights                            // Knight's
+	MagicalPrefixLords                              // Lord's
+	MagicalPrefixKings                              // King's
+	MagicalPrefixHowling                            // Howling
+	MagicalPrefixFortuitous                         // Fortuitous
+	MagicalPrefixGlimmering                         // Glimmering
+	MagicalPrefixGlowing                            // Glowing
+	MagicalPrefixLizards                            // Lizard's
+	MagicalPrefixSnakes                             // Snake's
+	MagicalPrefixSerpents                           // Serpent's
+	MagicalPrefixDrakes                             // Drake's
+	MagicalPrefixDragons                            // Dragon's
+	MagicalPrefixWyrms                              // Wyrm's
+	MagicalPrefixPrismatic                          // Prismatic
+	MagicalPrefixAzure                              // Azure
+	MagicalPrefixLapis                              // Lapis
+	MagicalPrefixCobalt                             // Cobalt
+	MagicalPrefixSapphire                           // Sapphire
+	MagicalPrefixCrimson                            // Crimson
+	MagicalPrefixBurgundy                           // Burgundy
+	MagicalPrefixGarnet                             // Garnet
+	MagicalPrefixRuby                               // Ruby
+	MagicalPrefixOcher                              // Ocher
+	MagicalPrefixTangerine                          // Tangerine
+	MagicalPrefixCoral                              // Coral
+	MagicalPrefixAmber                              // Amber
+	MagicalPrefixBeryl                              // Beryl
+	MagicalPrefixJade                               // Jade
+	MagicalPrefixViridian                           // Viridian
+	MagicalPrefixEmerald                            // Emerald
+	MagicalPrefixFletchers                          // Fletcher's
+	MagicalPrefixArchers                            // Archer's
+	MagicalPrefixMonks                              // Monk's
+	MagicalPrefixPriests                            // Priest's
+	MagicalPrefixSummoners                          // Summoner's
+	MagicalPrefixNecromancers                       // Necromancer's
+	MagicalPrefixAngels                             // Angel's
+	MagicalPrefixArchAngels                         // Arch-Angel's
+	MagicalPrefixSlayers                            // Slayer's
+	MagicalPrefixBerserkers                         // Berserker's
+	MagicalPrefixTriumphant                         // Triumphant
+	MagicalPrefixStout                              // Stout
+	MagicalPrefixBurly                              // Burly
+	MagicalPrefixStalwart                           // Stalwart
+	MagicalPrefixBlanched                           // Blanched
+	MagicalPrefixEburin                             // Eburin
+	MagicalPrefixBone                               // Bone
+	MagicalPrefixIvory                              // Ivory
+	MagicalPrefixSturdy                             // Sturdy
+	MagicalPrefixGodly                              // Godly
+	MagicalPrefixBlank                              // Blank
+	MagicalPrefixNull                               // Null
+	MagicalPrefixAntimagic                          // Antimagic
+	MagicalPrefixRed                                // Red
+	MagicalPrefixSanguinary                         // Sanguinary
+	MagicalPrefixBloody                             // Bloody
+	MagicalPrefixScarlet                            // Scarlet
+	MagicalPrefixForked                             // Forked
+	MagicalPrefixSerrated                           // Serrated
+	MagicalPrefixCarbuncle                          // Carbuncle
+	MagicalPrefixCarmine                            // Carmine
+	MagicalPrefixVermillion                         // Vermillion
+	MagicalPrefixFerocious                          // Ferocious
+	MagicalPrefixCruel                              // Cruel
+	MagicalPrefixCinnabar                           // Cinnabar
+	MagicalPrefixRusty                              // Rusty
+	MagicalPrefixRealgar                            // Realgar
+	MagicalPrefixDun                                // Dun
+	MagicalPrefixBrown                              // Brown
+	MagicalPrefixVigorous                           // Vigorous
+	MagicalPrefixChestnut                           // Chestnut
+	MagicalPrefixMaroon                             // Maroon
+	MagicalPrefixStrange                            // Strange
+	MagicalPrefixWeird                              // Weird
+	MagicalPrefixNickel                             // Nickel
+	MagicalPrefixTin                                // Tin
+	MagicalPrefixArgent                             // Argent
+	MagicalPrefixMasters                            // Master's
+	MagicalPrefixGrandmasters                       // Grandmaster's
+	MagicalPrefixBright                             // Bright
+	MagicalPrefixScreaming                          // Screaming
+	MagicalPrefixWailing                            // Wailing
+	MagicalPrefixLucky                              // Lucky
+	MagicalPrefixFelicitous                         // Felicitous
+	MagicalPrefixGreatWyrms                         // GreatWyrm's
+	MagicalPrefixBahamuts                           // Bahamut's
+	MagicalPrefixZircon                             // Zircon
+	MagicalPrefixJacinth                            // Jacinth
+	MagicalPrefixTurquoise                          // Turquoise
+	MagicalPrefixShimmering                         // Shimmering
+	MagicalPrefixRainbow                            // Rainbow
+	MagicalPrefixScintillating                      // Scintillating
+	MagicalPrefixChromatic                          // Chromatic
+	MagicalPrefixLapisLazuli                        // LapisLazuli
+	MagicalPrefixRusset                             // Russet
+	MagicalPrefixCamphor                            // Camphor
+	MagicalPrefixAmbergris                          // Ambergris
+	MagicalPrefixVictorious                         // Victorious
+	MagicalPrefixAureolin                           // Aureolin
+	MagicalPrefixMechanists                         // Mechanist's
+	MagicalPrefixArtificers                         // Artificer's
+	MagicalPrefixJewelers                           // Jeweler's
+	MagicalPrefixAssamic                            // Assamic
+	MagicalPrefixArcadian                           // Arcadian
+	MagicalPrefixUnearthly                          // Unearthly
+	MagicalPrefixAstral                             // Astral
+	MagicalPrefixElysian                            // Elysian
+	MagicalPrefixCelestial                          // Celestial
+	MagicalPrefixDiamond                            // Diamond
+	MagicalPrefixAcrobats                           // Acrobat's
+	MagicalPrefixHarpoonists                        // Harpoonist's
+	MagicalPrefixBowyers                            // Bowyer's
+	MagicalPrefixGymnasts                           // Gymnast's
+	MagicalPrefixAthletes                           // Athlete's
+	MagicalPrefixSpearmaidens                       // Spearmaiden's
+	MagicalPrefixLancers                            // Lancer's
+	MagicalPrefixBurning                            // Burning
+	MagicalPrefixSparking                           // Sparking
+	MagicalPrefixChilling                           // Chilling
+	MagicalPrefixBlazing                            // Blazing
+	MagicalPrefixVolcanic                           // Volcanic
+	MagicalPrefixCharged                            // Charged
+	MagicalPrefixPowered                            // Powered
+	MagicalPrefixFreezing                           // Freezing
+	MagicalPrefixGlacial                            // Glacial
+	MagicalPrefixHexing                             // Hexing
+	MagicalPrefixFungal                             // Fungal
+	MagicalPrefixGraverobbers                       // Graverobber's
+	MagicalPrefixBlighting                          // Blighting
+	MagicalPrefixAccursed                           // Accursed
+	MagicalPrefixNoxious                            // Noxious
+	MagicalPrefixVenomous                           // Venomous
+	MagicalPrefixVodoun                             // Vodoun
+	MagicalPrefixGolemlords                         // Golemlord's
+	MagicalPrefixLionBranded                        // LionBranded
+	MagicalPrefixCaptains                           // Captain's
+	MagicalPrefixPreservers                         // Preserver's
+	MagicalPrefixHawkBranded                        // HawkBranded
+	MagicalPrefixRoseBranded                        // RoseBranded
+	MagicalPrefixCommanders                         // Commander's
+	MagicalPrefixMarshals                           // Marshal's
+	MagicalPrefixWarders                            // Warder's
+	MagicalPrefixGuardians                          // Guardian's
+	MagicalPrefixExperts                            // Expert's
+	MagicalPrefixFanatic                            // Fanatic
+	MagicalPrefixSounding                           // Sounding
+	MagicalPrefixVeterans                           // Veteran's
+	MagicalPrefixRaging                             // Raging
+	MagicalPrefixFurious                            // Furious
+	MagicalPrefixResonant                           // Resonant
+	MagicalPrefixEchoing                            // Echoing
+	MagicalPrefixTrainers                           // Trainer's
+	MagicalPrefixSpiritual                          // Spiritual
+	MagicalPrefixNatures                            // Nature's
+	MagicalPrefixCaretakers                         // Caretaker's
+	MagicalPrefixKeepers                            // Keeper's
+	MagicalPrefixFeral                              // Feral
+	MagicalPrefixCommunal                           // Communal
+	MagicalPrefixTerras                             // Terra's
+	MagicalPrefixGaeas                              // Gaea's
+	MagicalPrefixEntrapping                         // Entrapping
+	MagicalPrefixMentalists                         // Mentalist's
+	MagicalPrefixShogukushas                        // Shogukusha's
+	MagicalPrefixTricksters                         // Trickster's
+	MagicalPrefixCunning                            // Cunning
+	MagicalPrefixPsychic                            // Psychic
+	MagicalPrefixShadow                             // Shadow
+	MagicalPrefixSenseis                            // Sensei's
+	MagicalPrefixKenshis                            // Kenshi's
+	MagicalPrefixMiocene                            // Miocene
+	MagicalPrefixOligocene                          // Oligocene
+	MagicalPrefixEocene                             // Eocene
+	MagicalPrefixPaleocene                          // Paleocene
+	MagicalPrefixKnaves                             // Knave's
+	MagicalPrefixJacks                              // Jack's
+	MagicalPrefixJesters                            // Jester's
+	MagicalPrefixJokers                             // Joker's
+	MagicalPrefixTrump                              // Trump
+	MagicalPrefixLoud                               // Loud
+	MagicalPrefixCalling                            // Calling
+	MagicalPrefixYelling                            // Yelling
+	MagicalPrefixShouting                           // Shouting
+	MagicalPrefixParadox                            // Paradox
+	MagicalPrefixRobineye                           // Robineye
+	MagicalPrefixSparroweye                         // Sparroweye
+	MagicalPrefixFalconeye                          // Falconeye
+	MagicalPrefixHawkeye                            // Hawkeye
+	MagicalPrefixEagleeye                           // Eagleeye
+	MagicalPrefixVisionary                          // Visionary
+	MagicalPrefixMnemonic                           // Mnemonic
+	MagicalPrefixSnowflake                          // Snowflake
+	MagicalPrefixShivering                          // Shivering
+	MagicalPrefixBoreal                             // Boreal
+	MagicalPrefixHibernal                           // Hibernal
+	MagicalPrefixEmber                              // Ember
+	MagicalPrefixSmoldering                         // Smoldering
+	MagicalPrefixSmoking                            // Smoking
+	MagicalPrefixFlaming                            // Flaming
+	MagicalPrefixScorching                          // Scorching
+	MagicalPrefixStatic                             // Static
+	MagicalPrefixBuzzing                            // Buzzing
+	MagicalPrefixArcing                             // Arcing
+	MagicalPrefixShocking                           // Shocking
+	MagicalPrefixSeptic                             // Septic
+	MagicalPrefixEnvenomed                          // Envenomed
+	MagicalPrefixCorosive                           // Corosive
+	MagicalPrefixToxic                              // Toxic
+	MagicalPrefixPestilent                          // Pestilent
+	MagicalPrefixMaidens                            // Maiden's
+	MagicalPrefixValkyries                          // Valkyrie's
+	MagicalPrefixShamans                            // Shaman's
+	MagicalPrefixHierophants                        // Hierophant's
+	MagicalPrefixMagekillers                        // Magekiller's
+	MagicalPrefixWitchHunters                       // Witch-hunter's
+	MagicalPrefixCompact                            // Compact
+	MagicalPrefixThin                               // Thin
+	MagicalPrefixDense                              // Dense
+	MagicalPrefixConsecrated                        // Consecrated
+	MagicalPrefixPure                               // Pure
+	MagicalPrefixSacred                             // Sacred
+	MagicalPrefixHallowed                           // Hallowed
+	MagicalPrefixDivine                             // Divine
+	MagicalPrefixPearl                              // Pearl
 )
+
+func getMagicalPrefixMap() map[uint16]MagicalPrefix {
+	return map[uint16]MagicalPrefix{
+		2:   MagicalPrefixSturdy,
+		3:   MagicalPrefixStrong,
+		4:   MagicalPrefixGlorious,
+		5:   MagicalPrefixBlessed,
+		6:   MagicalPrefixSaintly,
+		7:   MagicalPrefixHoly,
+		8:   MagicalPrefixDevious,
+		9:   MagicalPrefixFortified,
+		13:  MagicalPrefixJagged,
+		14:  MagicalPrefixDeadly,
+		15:  MagicalPrefixVicious,
+		16:  MagicalPrefixBrutal,
+		17:  MagicalPrefixMassive,
+		18:  MagicalPrefixSavage,
+		19:  MagicalPrefixMerciless,
+		20:  MagicalPrefixVulpine,
+		25:  MagicalPrefixTireless,
+		26:  MagicalPrefixRugged,
+		27:  MagicalPrefixBronze,
+		28:  MagicalPrefixIron,
+		29:  MagicalPrefixSteel,
+		30:  MagicalPrefixSilver,
+		32:  MagicalPrefixGold,
+		33:  MagicalPrefixPlatinum,
+		34:  MagicalPrefixMeteoric,
+		35:  MagicalPrefixSharp,
+		36:  MagicalPrefixFine,
+		37:  MagicalPrefixWarriors,
+		38:  MagicalPrefixSoldiers,
+		39:  MagicalPrefixKnights,
+		40:  MagicalPrefixLords,
+		41:  MagicalPrefixKings,
+		42:  MagicalPrefixHowling,
+		43:  MagicalPrefixFortuitous,
+		49:  MagicalPrefixGlimmering,
+		50:  MagicalPrefixGlowing,
+		53:  MagicalPrefixLizards,
+		55:  MagicalPrefixSnakes,
+		56:  MagicalPrefixSerpents,
+		57:  MagicalPrefixSerpents,
+		58:  MagicalPrefixDrakes,
+		59:  MagicalPrefixDragons,
+		60:  MagicalPrefixDragons,
+		61:  MagicalPrefixWyrms,
+		64:  MagicalPrefixPrismatic,
+		65:  MagicalPrefixPrismatic,
+		66:  MagicalPrefixAzure,
+		67:  MagicalPrefixLapis,
+		68:  MagicalPrefixLapis,
+		69:  MagicalPrefixCobalt,
+		70:  MagicalPrefixCobalt,
+		72:  MagicalPrefixSapphire,
+		75:  MagicalPrefixCrimson,
+		76:  MagicalPrefixBurgundy,
+		77:  MagicalPrefixBurgundy,
+		78:  MagicalPrefixGarnet,
+		79:  MagicalPrefixGarnet,
+		81:  MagicalPrefixRuby,
+		84:  MagicalPrefixOcher,
+		85:  MagicalPrefixTangerine,
+		86:  MagicalPrefixTangerine,
+		87:  MagicalPrefixCoral,
+		88:  MagicalPrefixCoral,
+		90:  MagicalPrefixAmber,
+		93:  MagicalPrefixBeryl,
+		94:  MagicalPrefixJade,
+		95:  MagicalPrefixJade,
+		96:  MagicalPrefixViridian,
+		97:  MagicalPrefixViridian,
+		99:  MagicalPrefixEmerald,
+		101: MagicalPrefixFletchers,
+		102: MagicalPrefixArchers,
+		103: MagicalPrefixArchers,
+		104: MagicalPrefixMonks,
+		105: MagicalPrefixPriests,
+		106: MagicalPrefixPriests,
+		107: MagicalPrefixSummoners,
+		108: MagicalPrefixNecromancers,
+		109: MagicalPrefixNecromancers,
+		110: MagicalPrefixAngels,
+		111: MagicalPrefixArchAngels,
+		112: MagicalPrefixArchAngels,
+		113: MagicalPrefixSlayers,
+		114: MagicalPrefixBerserkers,
+		115: MagicalPrefixBerserkers,
+		118: MagicalPrefixTriumphant,
+		119: MagicalPrefixStout,
+		120: MagicalPrefixStout,
+		121: MagicalPrefixStout,
+		122: MagicalPrefixBurly,
+		123: MagicalPrefixBurly,
+		124: MagicalPrefixBurly,
+		125: MagicalPrefixStalwart,
+		126: MagicalPrefixStalwart,
+		127: MagicalPrefixStalwart,
+		128: MagicalPrefixStout,
+		129: MagicalPrefixStout,
+		130: MagicalPrefixStout,
+		131: MagicalPrefixBurly,
+		132: MagicalPrefixBurly,
+		133: MagicalPrefixStalwart,
+		134: MagicalPrefixStalwart,
+		135: MagicalPrefixStout,
+		136: MagicalPrefixStout,
+		137: MagicalPrefixBurly,
+		138: MagicalPrefixStalwart,
+		139: MagicalPrefixBlanched,
+		140: MagicalPrefixEburin,
+		141: MagicalPrefixBone,
+		142: MagicalPrefixIvory,
+		143: MagicalPrefixSturdy,
+		144: MagicalPrefixSturdy,
+		145: MagicalPrefixStrong,
+		146: MagicalPrefixGlorious,
+		147: MagicalPrefixBlessed,
+		148: MagicalPrefixSaintly,
+		149: MagicalPrefixHoly,
+		150: MagicalPrefixGodly,
+		151: MagicalPrefixDevious,
+		152: MagicalPrefixBlank,
+		153: MagicalPrefixNull,
+		154: MagicalPrefixAntimagic,
+		155: MagicalPrefixRed,
+		156: MagicalPrefixRed,
+		157: MagicalPrefixSanguinary,
+		158: MagicalPrefixSanguinary,
+		159: MagicalPrefixBloody,
+		160: MagicalPrefixRed,
+		161: MagicalPrefixSanguinary,
+		162: MagicalPrefixBloody,
+		163: MagicalPrefixRed,
+		164: MagicalPrefixSanguinary,
+		165: MagicalPrefixBloody,
+		166: MagicalPrefixScarlet,
+		167: MagicalPrefixCrimson,
+		168: MagicalPrefixJagged,
+		169: MagicalPrefixJagged,
+		170: MagicalPrefixJagged,
+		171: MagicalPrefixForked,
+		172: MagicalPrefixForked,
+		173: MagicalPrefixSerrated,
+		174: MagicalPrefixSerrated,
+		175: MagicalPrefixJagged,
+		176: MagicalPrefixJagged,
+		177: MagicalPrefixForked,
+		178: MagicalPrefixForked,
+		179: MagicalPrefixSerrated,
+		180: MagicalPrefixJagged,
+		181: MagicalPrefixForked,
+		182: MagicalPrefixSerrated,
+		183: MagicalPrefixCarbuncle,
+		184: MagicalPrefixCarmine,
+		185: MagicalPrefixVermillion,
+		186: MagicalPrefixJagged,
+		187: MagicalPrefixDeadly,
+		188: MagicalPrefixVicious,
+		189: MagicalPrefixBrutal,
+		190: MagicalPrefixMassive,
+		191: MagicalPrefixSavage,
+		192: MagicalPrefixMerciless,
+		193: MagicalPrefixFerocious,
+		194: MagicalPrefixCruel,
+		195: MagicalPrefixCinnabar,
+		196: MagicalPrefixRusty,
+		197: MagicalPrefixRealgar,
+		198: MagicalPrefixRuby,
+		199: MagicalPrefixVulpine,
+		200: MagicalPrefixDun,
+		201: MagicalPrefixTireless,
+		202: MagicalPrefixTireless,
+		203: MagicalPrefixBrown,
+		204: MagicalPrefixRugged,
+		205: MagicalPrefixRugged,
+		206: MagicalPrefixRugged,
+		207: MagicalPrefixRugged,
+		208: MagicalPrefixRugged,
+		209: MagicalPrefixRugged,
+		210: MagicalPrefixRugged,
+		211: MagicalPrefixRugged,
+		212: MagicalPrefixRugged,
+		213: MagicalPrefixRugged,
+		214: MagicalPrefixRugged,
+		215: MagicalPrefixVigorous,
+		216: MagicalPrefixChestnut,
+		217: MagicalPrefixMaroon,
+		218: MagicalPrefixBronze,
+		219: MagicalPrefixBronze,
+		220: MagicalPrefixBronze,
+		221: MagicalPrefixIron,
+		222: MagicalPrefixIron,
+		223: MagicalPrefixIron,
+		224: MagicalPrefixSteel,
+		225: MagicalPrefixSteel,
+		226: MagicalPrefixSteel,
+		227: MagicalPrefixBronze,
+		228: MagicalPrefixBronze,
+		229: MagicalPrefixBronze,
+		230: MagicalPrefixIron,
+		231: MagicalPrefixIron,
+		232: MagicalPrefixSteel,
+		233: MagicalPrefixSteel,
+		234: MagicalPrefixBronze,
+		235: MagicalPrefixBronze,
+		236: MagicalPrefixIron,
+		237: MagicalPrefixSteel,
+		238: MagicalPrefixBronze,
+		239: MagicalPrefixIron,
+		240: MagicalPrefixSteel,
+		241: MagicalPrefixSilver,
+		242: MagicalPrefixGold,
+		243: MagicalPrefixPlatinum,
+		244: MagicalPrefixMeteoric,
+		245: MagicalPrefixStrange,
+		246: MagicalPrefixWeird,
+		247: MagicalPrefixNickel,
+		248: MagicalPrefixTin,
+		249: MagicalPrefixSilver,
+		250: MagicalPrefixArgent,
+		251: MagicalPrefixFine,
+		252: MagicalPrefixFine,
+		253: MagicalPrefixSharp,
+		254: MagicalPrefixFine,
+		255: MagicalPrefixSharp,
+		256: MagicalPrefixFine,
+		257: MagicalPrefixSharp,
+		258: MagicalPrefixFine,
+		259: MagicalPrefixWarriors,
+		260: MagicalPrefixSoldiers,
+		261: MagicalPrefixKnights,
+		262: MagicalPrefixLords,
+		263: MagicalPrefixKings,
+		264: MagicalPrefixMasters,
+		265: MagicalPrefixGrandmasters,
+		266: MagicalPrefixGlimmering,
+		267: MagicalPrefixGlowing,
+		268: MagicalPrefixBright,
+		269: MagicalPrefixScreaming,
+		270: MagicalPrefixHowling,
+		271: MagicalPrefixWailing,
+		272: MagicalPrefixScreaming,
+		273: MagicalPrefixHowling,
+		274: MagicalPrefixWailing,
+		275: MagicalPrefixLucky,
+		276: MagicalPrefixLucky,
+		277: MagicalPrefixLucky,
+		278: MagicalPrefixLucky,
+		279: MagicalPrefixLucky,
+		280: MagicalPrefixLucky,
+		281: MagicalPrefixFelicitous,
+		282: MagicalPrefixFortuitous,
+		283: MagicalPrefixEmerald,
+		284: MagicalPrefixLizards,
+		285: MagicalPrefixLizards,
+		286: MagicalPrefixLizards,
+		287: MagicalPrefixSnakes,
+		288: MagicalPrefixSnakes,
+		289: MagicalPrefixSnakes,
+		290: MagicalPrefixSerpents,
+		291: MagicalPrefixSerpents,
+		292: MagicalPrefixSerpents,
+		293: MagicalPrefixLizards,
+		294: MagicalPrefixLizards,
+		295: MagicalPrefixLizards,
+		296: MagicalPrefixSnakes,
+		297: MagicalPrefixSnakes,
+		298: MagicalPrefixSerpents,
+		299: MagicalPrefixSerpents,
+		300: MagicalPrefixLizards,
+		301: MagicalPrefixLizards,
+		302: MagicalPrefixSnakes,
+		303: MagicalPrefixSerpents,
+		304: MagicalPrefixLizards,
+		305: MagicalPrefixSnakes,
+		306: MagicalPrefixSerpents,
+		307: MagicalPrefixSerpents,
+		308: MagicalPrefixDrakes,
+		309: MagicalPrefixDragons,
+		310: MagicalPrefixDragons,
+		311: MagicalPrefixWyrms,
+		312: MagicalPrefixGreatWyrms,
+		313: MagicalPrefixBahamuts,
+		314: MagicalPrefixZircon,
+		315: MagicalPrefixJacinth,
+		316: MagicalPrefixTurquoise,
+		317: MagicalPrefixShimmering,
+		318: MagicalPrefixShimmering,
+		319: MagicalPrefixShimmering,
+		320: MagicalPrefixShimmering,
+		321: MagicalPrefixShimmering,
+		322: MagicalPrefixShimmering,
+		323: MagicalPrefixShimmering,
+		324: MagicalPrefixRainbow,
+		325: MagicalPrefixScintillating,
+		326: MagicalPrefixPrismatic,
+		327: MagicalPrefixChromatic,
+		328: MagicalPrefixShimmering,
+		329: MagicalPrefixRainbow,
+		330: MagicalPrefixScintillating,
+		331: MagicalPrefixPrismatic,
+		332: MagicalPrefixChromatic,
+		333: MagicalPrefixShimmering,
+		334: MagicalPrefixRainbow,
+		335: MagicalPrefixScintillating,
+		336: MagicalPrefixShimmering,
+		337: MagicalPrefixScintillating,
+		338: MagicalPrefixAzure,
+		339: MagicalPrefixLapis,
+		340: MagicalPrefixCobalt,
+		341: MagicalPrefixSapphire,
+		342: MagicalPrefixAzure,
+		343: MagicalPrefixLapis,
+		344: MagicalPrefixCobalt,
+		345: MagicalPrefixSapphire,
+		346: MagicalPrefixAzure,
+		347: MagicalPrefixLapis,
+		348: MagicalPrefixCobalt,
+		349: MagicalPrefixSapphire,
+		350: MagicalPrefixAzure,
+		351: MagicalPrefixLapis,
+		352: MagicalPrefixLapis,
+		353: MagicalPrefixCobalt,
+		354: MagicalPrefixCobalt,
+		355: MagicalPrefixSapphire,
+		356: MagicalPrefixLapisLazuli,
+		357: MagicalPrefixSapphire,
+		358: MagicalPrefixCrimson,
+		359: MagicalPrefixRusset,
+		360: MagicalPrefixGarnet,
+		361: MagicalPrefixRuby,
+		362: MagicalPrefixCrimson,
+		363: MagicalPrefixRusset,
+		364: MagicalPrefixGarnet,
+		365: MagicalPrefixRuby,
+		366: MagicalPrefixCrimson,
+		367: MagicalPrefixRusset,
+		368: MagicalPrefixGarnet,
+		369: MagicalPrefixRuby,
+		370: MagicalPrefixRusset,
+		371: MagicalPrefixRusset,
+		372: MagicalPrefixGarnet,
+		373: MagicalPrefixGarnet,
+		374: MagicalPrefixRuby,
+		375: MagicalPrefixGarnet,
+		376: MagicalPrefixRuby,
+		377: MagicalPrefixTangerine,
+		378: MagicalPrefixOcher,
+		379: MagicalPrefixCoral,
+		380: MagicalPrefixAmber,
+		381: MagicalPrefixTangerine,
+		382: MagicalPrefixOcher,
+		383: MagicalPrefixCoral,
+		384: MagicalPrefixAmber,
+		385: MagicalPrefixTangerine,
+		386: MagicalPrefixOcher,
+		387: MagicalPrefixCoral,
+		388: MagicalPrefixAmber,
+		389: MagicalPrefixTangerine,
+		390: MagicalPrefixOcher,
+		391: MagicalPrefixOcher,
+		392: MagicalPrefixCoral,
+		393: MagicalPrefixCoral,
+		394: MagicalPrefixAmber,
+		395: MagicalPrefixCamphor,
+		396: MagicalPrefixAmbergris,
+		397: MagicalPrefixBeryl,
+		398: MagicalPrefixViridian,
+		399: MagicalPrefixJade,
+		400: MagicalPrefixEmerald,
+		401: MagicalPrefixBeryl,
+		402: MagicalPrefixViridian,
+		403: MagicalPrefixJade,
+		404: MagicalPrefixEmerald,
+		405: MagicalPrefixBeryl,
+		406: MagicalPrefixViridian,
+		407: MagicalPrefixJade,
+		408: MagicalPrefixEmerald,
+		409: MagicalPrefixBeryl,
+		410: MagicalPrefixViridian,
+		411: MagicalPrefixViridian,
+		412: MagicalPrefixJade,
+		413: MagicalPrefixJade,
+		414: MagicalPrefixEmerald,
+		415: MagicalPrefixBeryl,
+		416: MagicalPrefixJade,
+		417: MagicalPrefixTriumphant,
+		418: MagicalPrefixVictorious,
+		419: MagicalPrefixAureolin,
+		420: MagicalPrefixMechanists,
+		421: MagicalPrefixArtificers,
+		422: MagicalPrefixJewelers,
+		423: MagicalPrefixAssamic,
+		424: MagicalPrefixArcadian,
+		425: MagicalPrefixUnearthly,
+		426: MagicalPrefixAstral,
+		427: MagicalPrefixElysian,
+		428: MagicalPrefixCelestial,
+		429: MagicalPrefixDiamond,
+		430: MagicalPrefixFletchers,
+		431: MagicalPrefixAcrobats,
+		432: MagicalPrefixHarpoonists,
+		433: MagicalPrefixFletchers,
+		434: MagicalPrefixBowyers,
+		435: MagicalPrefixArchers,
+		436: MagicalPrefixAcrobats,
+		437: MagicalPrefixGymnasts,
+		438: MagicalPrefixAthletes,
+		439: MagicalPrefixHarpoonists,
+		440: MagicalPrefixSpearmaidens,
+		441: MagicalPrefixLancers,
+		442: MagicalPrefixBurning,
+		443: MagicalPrefixSparking,
+		444: MagicalPrefixChilling,
+		445: MagicalPrefixBurning,
+		446: MagicalPrefixBlazing,
+		447: MagicalPrefixVolcanic,
+		448: MagicalPrefixSparking,
+		449: MagicalPrefixCharged,
+		450: MagicalPrefixPowered,
+		451: MagicalPrefixChilling,
+		452: MagicalPrefixFreezing,
+		453: MagicalPrefixGlacial,
+		454: MagicalPrefixHexing,
+		455: MagicalPrefixFungal,
+		456: MagicalPrefixGraverobbers,
+		457: MagicalPrefixHexing,
+		458: MagicalPrefixBlighting,
+		459: MagicalPrefixAccursed,
+		460: MagicalPrefixFungal,
+		461: MagicalPrefixNoxious,
+		462: MagicalPrefixVenomous,
+		463: MagicalPrefixGraverobbers,
+		464: MagicalPrefixVodoun,
+		465: MagicalPrefixGolemlords,
+		466: MagicalPrefixLionBranded,
+		467: MagicalPrefixCaptains,
+		468: MagicalPrefixPreservers,
+		469: MagicalPrefixLionBranded,
+		470: MagicalPrefixHawkBranded,
+		471: MagicalPrefixRoseBranded,
+		472: MagicalPrefixCaptains,
+		473: MagicalPrefixCommanders,
+		474: MagicalPrefixMarshals,
+		475: MagicalPrefixPreservers,
+		476: MagicalPrefixWarders,
+		477: MagicalPrefixGuardians,
+		478: MagicalPrefixExperts,
+		479: MagicalPrefixFanatic,
+		480: MagicalPrefixSounding,
+		481: MagicalPrefixExperts,
+		482: MagicalPrefixVeterans,
+		483: MagicalPrefixMasters,
+		484: MagicalPrefixFanatic,
+		485: MagicalPrefixRaging,
+		486: MagicalPrefixFurious,
+		487: MagicalPrefixSounding,
+		488: MagicalPrefixResonant,
+		489: MagicalPrefixEchoing,
+		490: MagicalPrefixTrainers,
+		491: MagicalPrefixSpiritual,
+		492: MagicalPrefixNatures,
+		493: MagicalPrefixTrainers,
+		494: MagicalPrefixCaretakers,
+		495: MagicalPrefixKeepers,
+		496: MagicalPrefixSpiritual,
+		497: MagicalPrefixFeral,
+		498: MagicalPrefixCommunal,
+		499: MagicalPrefixNatures,
+		500: MagicalPrefixTerras,
+		501: MagicalPrefixGaeas,
+		502: MagicalPrefixEntrapping,
+		503: MagicalPrefixMentalists,
+		504: MagicalPrefixShogukushas,
+		505: MagicalPrefixEntrapping,
+		506: MagicalPrefixTricksters,
+		507: MagicalPrefixCunning,
+		508: MagicalPrefixMentalists,
+		509: MagicalPrefixPsychic,
+		510: MagicalPrefixShadow,
+		511: MagicalPrefixShogukushas,
+		512: MagicalPrefixSenseis,
+		513: MagicalPrefixKenshis,
+		514: MagicalPrefixMiocene,
+		515: MagicalPrefixMiocene,
+		516: MagicalPrefixOligocene,
+		517: MagicalPrefixOligocene,
+		518: MagicalPrefixEocene,
+		519: MagicalPrefixEocene,
+		520: MagicalPrefixPaleocene,
+		521: MagicalPrefixPaleocene,
+		522: MagicalPrefixKnaves,
+		523: MagicalPrefixJacks,
+		524: MagicalPrefixJesters,
+		525: MagicalPrefixJokers,
+		526: MagicalPrefixTrump,
+		527: MagicalPrefixLoud,
+		528: MagicalPrefixCalling,
+		529: MagicalPrefixYelling,
+		530: MagicalPrefixShouting,
+		531: MagicalPrefixScreaming,
+		532: MagicalPrefixParadox,
+		533: MagicalPrefixParadox,
+		534: MagicalPrefixRobineye,
+		535: MagicalPrefixSparroweye,
+		536: MagicalPrefixFalconeye,
+		537: MagicalPrefixHawkeye,
+		538: MagicalPrefixEagleeye,
+		539: MagicalPrefixVisionary,
+		540: MagicalPrefixMnemonic,
+		541: MagicalPrefixSnowflake,
+		542: MagicalPrefixShivering,
+		543: MagicalPrefixBoreal,
+		544: MagicalPrefixHibernal,
+		545: MagicalPrefixEmber,
+		546: MagicalPrefixSmoldering,
+		547: MagicalPrefixSmoking,
+		548: MagicalPrefixFlaming,
+		549: MagicalPrefixScorching,
+		550: MagicalPrefixStatic,
+		551: MagicalPrefixGlowing,
+		552: MagicalPrefixBuzzing,
+		553: MagicalPrefixArcing,
+		554: MagicalPrefixShocking,
+		555: MagicalPrefixSeptic,
+		556: MagicalPrefixEnvenomed,
+		557: MagicalPrefixCorosive,
+		558: MagicalPrefixToxic,
+		559: MagicalPrefixPestilent,
+		560: MagicalPrefixMaidens,
+		561: MagicalPrefixValkyries,
+		562: MagicalPrefixMaidens,
+		563: MagicalPrefixValkyries,
+		564: MagicalPrefixMonks,
+		565: MagicalPrefixPriests,
+		566: MagicalPrefixMonks,
+		567: MagicalPrefixPriests,
+		568: MagicalPrefixMonks,
+		569: MagicalPrefixPriests,
+		570: MagicalPrefixSummoners,
+		571: MagicalPrefixNecromancers,
+		572: MagicalPrefixSummoners,
+		573: MagicalPrefixNecromancers,
+		574: MagicalPrefixAngels,
+		575: MagicalPrefixArchAngels,
+		576: MagicalPrefixAngels,
+		577: MagicalPrefixArchAngels,
+		578: MagicalPrefixSlayers,
+		579: MagicalPrefixBerserkers,
+		580: MagicalPrefixSlayers,
+		581: MagicalPrefixBerserkers,
+		582: MagicalPrefixSlayers,
+		583: MagicalPrefixBerserkers,
+		584: MagicalPrefixShamans,
+		585: MagicalPrefixHierophants,
+		586: MagicalPrefixShamans,
+		587: MagicalPrefixHierophants,
+		588: MagicalPrefixMagekillers,
+		589: MagicalPrefixWitchHunters,
+		590: MagicalPrefixMagekillers,
+		591: MagicalPrefixWitchHunters,
+		592: MagicalPrefixCompact,
+		593: MagicalPrefixThin,
+		594: MagicalPrefixDense,
+		595: MagicalPrefixConsecrated,
+		596: MagicalPrefixPure,
+		597: MagicalPrefixSacred,
+		598: MagicalPrefixHallowed,
+		599: MagicalPrefixDivine,
+		600: MagicalPrefixPearl,
+		601: MagicalPrefixCrimson,
+		602: MagicalPrefixRed,
+		603: MagicalPrefixSanguinary,
+		604: MagicalPrefixBloody,
+		605: MagicalPrefixRed,
+		606: MagicalPrefixSanguinary,
+		607: MagicalPrefixRed,
+		608: MagicalPrefixJagged,
+		609: MagicalPrefixForked,
+		610: MagicalPrefixSerrated,
+		611: MagicalPrefixJagged,
+		612: MagicalPrefixForked,
+		613: MagicalPrefixJagged,
+		614: MagicalPrefixSnowflake,
+		615: MagicalPrefixShivering,
+		616: MagicalPrefixBoreal,
+		617: MagicalPrefixHibernal,
+		618: MagicalPrefixSnowflake,
+		619: MagicalPrefixShivering,
+		620: MagicalPrefixBoreal,
+		621: MagicalPrefixHibernal,
+		622: MagicalPrefixSnowflake,
+		623: MagicalPrefixShivering,
+		624: MagicalPrefixBoreal,
+		625: MagicalPrefixHibernal,
+		626: MagicalPrefixEmber,
+		627: MagicalPrefixSmoldering,
+		628: MagicalPrefixSmoking,
+		629: MagicalPrefixFlaming,
+		630: MagicalPrefixEmber,
+		631: MagicalPrefixSmoldering,
+		632: MagicalPrefixSmoking,
+		633: MagicalPrefixFlaming,
+		634: MagicalPrefixEmber,
+		635: MagicalPrefixSmoldering,
+		636: MagicalPrefixSmoking,
+		637: MagicalPrefixFlaming,
+		638: MagicalPrefixStatic,
+		639: MagicalPrefixGlowing,
+		640: MagicalPrefixArcing,
+		641: MagicalPrefixShocking,
+		642: MagicalPrefixStatic,
+		643: MagicalPrefixGlowing,
+		644: MagicalPrefixArcing,
+		645: MagicalPrefixShocking,
+		646: MagicalPrefixStatic,
+		647: MagicalPrefixGlowing,
+		648: MagicalPrefixArcing,
+		649: MagicalPrefixShocking,
+		650: MagicalPrefixSeptic,
+		651: MagicalPrefixEnvenomed,
+		652: MagicalPrefixToxic,
+		653: MagicalPrefixPestilent,
+		654: MagicalPrefixSeptic,
+		655: MagicalPrefixEnvenomed,
+		656: MagicalPrefixToxic,
+		657: MagicalPrefixPestilent,
+		658: MagicalPrefixSeptic,
+		659: MagicalPrefixEnvenomed,
+		660: MagicalPrefixToxic,
+		661: MagicalPrefixPestilent,
+		662: MagicalPrefixTireless,
+		663: MagicalPrefixLizards,
+		664: MagicalPrefixAzure,
+		665: MagicalPrefixCrimson,
+		666: MagicalPrefixTangerine,
+		667: MagicalPrefixBeryl,
+		668: MagicalPrefixGodly,
+		669: MagicalPrefixCruel,
+	}
+}
+
+func GetMagicalPrefix(id uint16) (result MagicalPrefix, found bool) {
+	lookup := getMagicalPrefixMap()
+
+	result, found = lookup[id]
+	return result, found
+}
+
+func (m MagicalPrefix) GetID() uint16 {
+	lookup := getMagicalPrefixMap()
+
+	for key, value := range lookup {
+		if value == m {
+			return key
+		}
+	}
+
+	// should not be reached
+	panic("d2d2s: (MagicalPrefix).GetID: unknown id")
+}
 
 //go:generate stringer -linecomment -type MagicalSuffix -output magical_suffix_string.go
 
