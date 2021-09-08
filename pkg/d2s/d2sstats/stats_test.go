@@ -3,8 +3,9 @@ package d2sstats
 import (
 	"testing"
 
-	"github.com/gucio321/d2d2s/internal/datautils"
 	"github.com/stretchr/testify/assert"
+
+	"github.com/gucio321/d2d2s/internal/datautils"
 )
 
 func testdata() map[*Stats][]byte {

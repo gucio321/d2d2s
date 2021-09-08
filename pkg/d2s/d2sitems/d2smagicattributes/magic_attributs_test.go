@@ -4,8 +4,9 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/gucio321/d2d2s/internal/datautils"
 	"github.com/stretchr/testify/assert"
+
+	"github.com/gucio321/d2d2s/internal/datautils"
 )
 
 func testdataString() map[string]*MagicAttribute {

@@ -3,8 +3,9 @@ package d2sdifficulty
 import (
 	"testing"
 
-	"github.com/gucio321/d2d2s/pkg/d2s/d2senums"
 	"github.com/stretchr/testify/assert"
+
+	"github.com/gucio321/d2d2s/pkg/d2s/d2senums"
 )
 
 func testdata() map[[NumDifficultyBytes]byte]*Difficulty {

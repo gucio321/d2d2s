@@ -4,7 +4,6 @@ import (
 	"errors"
 
 	"github.com/gucio321/d2d2s/internal/datautils"
-
 	"github.com/gucio321/d2d2s/pkg/d2s/d2senums"
 )
 
