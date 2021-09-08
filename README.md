@@ -45,7 +45,7 @@ import (
         "ioutil"
         "log"
 
-        "github.com/gucio321/d2d2s"
+        "github.com/gucio321/d2d2s/pkg/d2s"
 )
 
 func main() {
@@ -54,7 +54,7 @@ func main() {
                 log.Fatal(err)
         }
 
-        character, err := d2d2s.Unmarshal(data)
+        character, err := d2s.Unmarshal(data)
         if err != nil {
                 log.Fatal(err)
         }
@@ -66,7 +66,9 @@ func main() {
                 log.fatal(err)
         }
 
-        ioutil.WriteFile("/path/to/new/file.d2s", newData, 0o600)
+        if err := ioutil.WriteFile("/path/to/new/file.d2s", newData, 0o600); err != nil {
+                log.Fatal("error writing file")
+        }
 }
 ```
 
