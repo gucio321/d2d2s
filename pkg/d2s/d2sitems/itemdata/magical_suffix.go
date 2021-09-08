@@ -5,6 +5,7 @@ package itemdata
 // MagicalSuffix represents a magical suffix
 type MagicalSuffix uint16
 
+// magical suffixes
 const (
 	MagicalSuffixProtection          MagicalSuffix = iota // Protection
 	MagicalSuffixAbsorption                               // Absorption
@@ -312,6 +313,7 @@ const (
 )
 
 // magical suffixes - TODO: constant names
+// nolint:funlen // cannot reduce
 func getSuffixMap() map[uint16]MagicalSuffix {
 	return map[uint16]MagicalSuffix{
 		1:   MagicalSuffixHealth,              //   Health
@@ -1064,12 +1066,15 @@ func getSuffixMap() map[uint16]MagicalSuffix {
 	}
 }
 
+// GetMagicalSuffix returns magical suffix basing on its id
 func GetMagicalSuffix(id uint16) (result MagicalSuffix, found bool) {
 	lookup := getSuffixMap()
 	result, found = lookup[id]
+
 	return result, found
 }
 
+// GetID returns magical suffix ID
 func (m MagicalSuffix) GetID() uint16 {
 	lookup := getSuffixMap()
 

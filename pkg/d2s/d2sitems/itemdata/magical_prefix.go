@@ -5,6 +5,7 @@ package itemdata
 // MagicalPrefix represents a magical prefix
 type MagicalPrefix uint16
 
+// magical prefixes
 const (
 	MagicalPrefixStrong        MagicalPrefix = iota // Strong
 	MagicalPrefixGlorious                           // Glorious
@@ -259,6 +260,7 @@ const (
 	MagicalPrefixPearl                              // Pearl
 )
 
+// nolint:funlen // data function
 func getMagicalPrefixMap() map[uint16]MagicalPrefix {
 	return map[uint16]MagicalPrefix{
 		2:   MagicalPrefixSturdy,
@@ -901,13 +903,15 @@ func getMagicalPrefixMap() map[uint16]MagicalPrefix {
 	}
 }
 
+// GetMagicalPrefix returns magical prefix basing on its id
 func GetMagicalPrefix(id uint16) (result MagicalPrefix, found bool) {
 	lookup := getMagicalPrefixMap()
-
 	result, found = lookup[id]
+
 	return result, found
 }
 
+// GetID returns magical prefix id
 func (m MagicalPrefix) GetID() uint16 {
 	lookup := getMagicalPrefixMap()
 
