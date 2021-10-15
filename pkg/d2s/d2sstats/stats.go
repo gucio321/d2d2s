@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/gucio321/d2d2s/internal/datautils"
+	"github.com/gucio321/d2d2s/pkg/common"
 )
 
 const (
@@ -45,7 +46,7 @@ func New() *Stats {
 func (s *Stats) Load(sr *datautils.BitMuncher) error {
 	id := sr.GetBytes(numHeaderBytes)
 	if string(id) != statsHeaderID {
-		return errors.New("unexpected header")
+		return common.ErrUnexpectedHeader
 	}
 
 	bm := sr.Copy()

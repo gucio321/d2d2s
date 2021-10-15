@@ -1,9 +1,8 @@
 package d2snpc
 
 import (
-	"errors"
-
 	"github.com/gucio321/d2d2s/internal/datautils"
+	"github.com/gucio321/d2d2s/pkg/common"
 )
 
 const (
@@ -31,7 +30,7 @@ func (n *NPC) Load(data [NumNPCBytes]byte) error {
 
 	id := sr.GetBytes(len(npcHeaderID))
 	if string(id) != npcHeaderID {
-		return errors.New("unexpected header ID")
+		return common.ErrUnexpectedHeader
 	}
 
 	n.Data = sr.GetBytes(49) // nolint:gomnd // TODO: parse to something human-readable

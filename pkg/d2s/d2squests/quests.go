@@ -1,9 +1,10 @@
 package d2squests
 
 import (
-	"errors"
+	"fmt"
 
 	"github.com/gucio321/d2d2s/internal/datautils"
+	"github.com/gucio321/d2d2s/pkg/common"
 	"github.com/gucio321/d2d2s/pkg/d2s/d2senums"
 )
 
@@ -75,7 +76,7 @@ func (q *Quests) Unmarshal(data *[NumQuestsBytes]byte) error {
 	questHeaderID := sr.GetBytes(questHeaderIDLen)
 
 	if string(questHeaderID) != expectedQuestHeaderID {
-		return errors.New("unexpected quest header")
+		return fmt.Errorf("quest header: %w", common.ErrUnexpectedHeader)
 	}
 
 	_ = sr.GetBytes(questHeaderUnknownBytesCount)

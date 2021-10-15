@@ -1,10 +1,10 @@
 package d2sirongolem
 
 import (
-	"errors"
 	"fmt"
 
 	"github.com/gucio321/d2d2s/internal/datautils"
+	"github.com/gucio321/d2d2s/pkg/common"
 	"github.com/gucio321/d2d2s/pkg/d2s/d2sitems"
 )
 
@@ -30,7 +30,7 @@ type IronGolem struct {
 func (i *IronGolem) Load(sr *datautils.BitMuncher) error {
 	id := sr.GetBytes(len(golemHeaderID))
 	if string(id) != golemHeaderID {
-		return errors.New("unexpected golem header")
+		return fmt.Errorf("golem header: %w", common.ErrUnexpectedHeader)
 	}
 
 	i.HasGolem = sr.GetByte() == 1

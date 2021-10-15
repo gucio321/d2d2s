@@ -1,10 +1,10 @@
 package d2smercenary
 
 import (
-	"errors"
 	"fmt"
 
 	"github.com/gucio321/d2d2s/internal/datautils"
+	"github.com/gucio321/d2d2s/pkg/common"
 	"github.com/gucio321/d2d2s/pkg/d2s/d2sitems"
 	"github.com/gucio321/d2d2s/pkg/d2s/d2smercenary/d2smercenarytype"
 )
@@ -46,7 +46,7 @@ func (m *Mercenary) LoadHeader(sr *datautils.BitMuncher) {
 // LoadMercItems loads merc items
 func (m *Mercenary) LoadMercItems(sr *datautils.BitMuncher) error {
 	if id := sr.GetBytes(headerLen); string(id) != "jf" {
-		return errors.New("unexpected merc header")
+		return fmt.Errorf("merc header: %w", common.ErrUnexpectedHeader)
 	}
 
 	// we need to check if there is a merc at all :)

@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	"github.com/gucio321/d2d2s/internal/datautils"
+	"github.com/gucio321/d2d2s/pkg/common"
 	"github.com/gucio321/d2d2s/pkg/d2s/d2scorpse"
 	"github.com/gucio321/d2d2s/pkg/d2s/d2sdifficulty"
 	"github.com/gucio321/d2d2s/pkg/d2s/d2senums"
@@ -134,7 +135,7 @@ func Load(data []byte) (*D2S, error) {
 
 func (d *D2S) loadHeader(sr *datautils.BitMuncher) error {
 	if signature := sr.GetUInt32(); signature != saveFileSignature {
-		return errors.New("unexpected file signature")
+		return fmt.Errorf("unexpected file signature: %w", common.ErrUnexpectedHeader)
 	}
 
 	v := sr.GetUInt32()

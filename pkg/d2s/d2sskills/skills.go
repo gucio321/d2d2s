@@ -1,9 +1,8 @@
 package d2sskills
 
 import (
-	"errors"
-
 	"github.com/gucio321/d2d2s/internal/datautils"
+	"github.com/gucio321/d2d2s/pkg/common"
 	"github.com/gucio321/d2d2s/pkg/d2s/d2senums"
 )
 
@@ -31,7 +30,7 @@ func (s *Skills) Load(data [NumSkillBytes]byte, class d2senums.CharacterClass) e
 
 	skillsID := sr.GetBytes(len(skillsHeaderID))
 	if string(skillsID) != skillsHeaderID {
-		return errors.New("unexpected skills section header")
+		return common.ErrUnexpectedHeader
 	}
 
 	skills := d2senums.GetSkillList(class)

@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/gucio321/d2d2s/internal/datautils"
+	"github.com/gucio321/d2d2s/pkg/common"
 	"github.com/gucio321/d2d2s/pkg/d2s/d2senums"
 	"github.com/gucio321/d2d2s/pkg/d2s/d2sitems/d2smagicattributes"
 	"github.com/gucio321/d2d2s/pkg/d2s/d2sitems/itemdata"
@@ -77,7 +78,7 @@ type Items []*Item
 func (i *Items) LoadHeader(sr *datautils.BitMuncher) (numItems uint16, err error) {
 	id := sr.GetBytes(numHeaderBytes)
 	if string(id) != itemListID {
-		return 0, errors.New("unexpected item header")
+		return 0, fmt.Errorf("item header list: %w", common.ErrUnexpectedHeader)
 	}
 
 	numItems = sr.GetUInt16()

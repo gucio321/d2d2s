@@ -1,10 +1,10 @@
 package d2scorpse
 
 import (
-	"errors"
 	"fmt"
 
 	"github.com/gucio321/d2d2s/internal/datautils"
+	"github.com/gucio321/d2d2s/pkg/common"
 	"github.com/gucio321/d2d2s/pkg/d2s/d2sitems"
 )
 
@@ -31,7 +31,7 @@ func (c *Corpse) Load(sr *datautils.BitMuncher) error {
 	id := sr.GetBytes(len(corpseHeaderID))
 
 	if string(id) != corpseHeaderID {
-		return errors.New("unexpected header")
+		return common.ErrUnexpectedHeader
 	}
 
 	isDead := sr.GetUInt16() == 1
