@@ -8,6 +8,8 @@ import (
 	"github.com/gucio321/d2d2s/pkg/common"
 )
 
+var ErrIncorrectStatID = errors.New("incorrect stat identifier")
+
 const (
 	numHeaderBytes = 2
 	statsHeaderID  = "gf"
@@ -203,7 +205,7 @@ func (i StatID) GetStatLen() (int, error) {
 
 	s, ok := attributeBitMap[i]
 	if !ok {
-		return 0, errors.New("unexpected attribute ID")
+		return 0, ErrIncorrectStatID
 	}
 
 	return s, nil

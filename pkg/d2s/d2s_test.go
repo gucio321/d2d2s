@@ -33,10 +33,12 @@ func Test_LoadEncode(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	_, err = x.Encode()
+	out, err := x.Encode()
 	if err != nil {
 		t.Fatal(err)
 	}
+
+	assert.Equal(t, data, out, "Unexpected character data after encoding")
 }
 
 func Test_New(t *testing.T) {

@@ -84,3 +84,8 @@ func Test_Encode(t *testing.T) {
 		assert.Equal(t, value, data, "unexpected data after encoding stats")
 	}
 }
+
+func Test_GetStatLen_incorrect_id(t *testing.T) {
+	_, err := StatID(200).GetStatLen()
+	assert.Equal(t, ErrIncorrectStatID, err, "Unexpected behavior")
+}
