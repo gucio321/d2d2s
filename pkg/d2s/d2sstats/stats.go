@@ -8,6 +8,7 @@ import (
 	"github.com/gucio321/d2d2s/pkg/common"
 )
 
+// ErrIncorrectStatID is returned by GetStatLen when stat id is unknown
 var ErrIncorrectStatID = errors.New("incorrect stat identifier")
 
 const (
