@@ -33,11 +33,13 @@ func (r *Reader) Read(p []byte) (n int, err error) {
 	}
 
 	for ; n < len(p); n++ {
-		p[n] = r.GetByte()
+		result := r.GetByte()
 
 		if err := r.Error(); err != nil {
 			return n, err
 		}
+
+		p[n] = result
 	}
 
 	return n, nil
@@ -67,6 +69,7 @@ func (r *Reader) getCurrentByte() byte {
 	pos := r.bitPosition / byteLen
 	if pos >= uint64(r.length) {
 		r.err = io.EOF
+		return 0
 	}
 
 	result := r.data[pos]

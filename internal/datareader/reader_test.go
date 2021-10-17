@@ -1,6 +1,7 @@
 package datareader
 
 import (
+	"io"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -33,6 +34,11 @@ func Test_Read(t *testing.T) {
 			a.Equal(test.data, p, "unexpected result")
 		})
 	}
+}
+
+func Test_Reade_eof(t *testing.T) {
+	_, err := NewReader([]byte{}).Read([]byte{0})
+	assert.Equal(t, io.EOF, err, "Unexpected behavior")
 }
 
 func Test_GetBit(t *testing.T) {
