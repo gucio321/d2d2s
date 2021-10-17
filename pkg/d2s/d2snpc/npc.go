@@ -1,6 +1,7 @@
 package d2snpc
 
 import (
+	"github.com/gucio321/d2d2s/internal/datareader"
 	"github.com/gucio321/d2d2s/internal/datautils"
 	"github.com/gucio321/d2d2s/pkg/common"
 )
@@ -26,7 +27,7 @@ type NPC struct {
 
 // Load loads NPC data into NPC structure
 func (n *NPC) Load(data [NumNPCBytes]byte) error {
-	sr := datautils.CreateBitMuncher(data[:], 0)
+	sr := datareader.NewReader(data[:])
 
 	id := sr.GetBytes(len(npcHeaderID))
 	if string(id) != npcHeaderID {

@@ -21,6 +21,14 @@ func (r *Reader) SkipBits(count uint64) {
 	r.bitPosition += count
 }
 
+func (r *Reader) SkipByte() {
+	r.SkipBits(byteLen)
+}
+
+func (r *Reader) SkipBytes(count uint64) {
+	r.SkipBits(count * byteLen)
+}
+
 func (r *Reader) Align() {
 	r.SkipBits(uint64(byteLen - r.GetBitOffset()))
 }

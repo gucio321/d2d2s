@@ -3,6 +3,7 @@ package d2squests
 import (
 	"fmt"
 
+	"github.com/gucio321/d2d2s/internal/datareader"
 	"github.com/gucio321/d2d2s/internal/datautils"
 	"github.com/gucio321/d2d2s/pkg/common"
 	"github.com/gucio321/d2d2s/pkg/d2s/d2senums"
@@ -71,7 +72,7 @@ func unknownQuestsHeaderBytes() [questHeaderUnknownBytesCount]byte {
 
 // Unmarshal unmarshals quests status data
 func (q *Quests) Unmarshal(data *[NumQuestsBytes]byte) error {
-	sr := datautils.CreateBitMuncher((*data)[:], 0)
+	sr := datareader.NewReader((*data)[:])
 
 	questHeaderID := sr.GetBytes(questHeaderIDLen)
 
@@ -126,10 +127,10 @@ type QuestsSet struct {
 }
 
 // Unmarshal unmarshals quests set
-func (q *QuestsSet) Unmarshal(sr *datautils.BitMuncher, act int) (err error) {
+func (q *QuestsSet) Unmarshal(sr *datareader.Reader, act int) (err error) {
 	q.Act = act
 
-	loadQuests := func(sr *datautils.BitMuncher) {
+	loadQuests := func(sr *datareader.Reader) {
 		for qst := range q.Quests {
 			q.Quests[qst] = &Quest{}
 			data := sr.GetBytes(2) // nolint:gomnd // quest bytes. TODO: https://github.com/gucio321/d2d2s/issues/11
@@ -140,27 +141,27 @@ func (q *QuestsSet) Unmarshal(sr *datautils.BitMuncher, act int) (err error) {
 
 	switch act {
 	case act4:
-		q.Introduced = sr.GetUInt16() == 1
+		q.Introduced = sr.GetUint16() == 1
 
 		loadQuests(sr)
 
-		q.ActEnd = sr.GetUInt16() == 1
+		q.ActEnd = sr.GetUint16() == 1
 		q.unknown1 = sr.GetBytes(act4UnknownBytesCount)
 	case act5:
-		q.Introduced = sr.GetUInt16() == 1
+		q.Introduced = sr.GetUint16() == 1
 		q.unknown1 = sr.GetBytes(act5Unknown1BytesCount)
 
 		loadQuests(sr)
 
-		q.ActEnd = sr.GetUInt16() == 1
+		q.ActEnd = sr.GetUint16() == 1
 
 		q.unknown2 = sr.GetBytes(act5Unknown2BytesCount)
 	default:
-		q.Introduced = sr.GetUInt16() == 1
+		q.Introduced = sr.GetUint16() == 1
 
 		loadQuests(sr)
 
-		q.ActEnd = sr.GetUInt16() == 1
+		q.ActEnd = sr.GetUint16() == 1
 	}
 
 	return nil
@@ -248,16 +249,16 @@ type Quest struct {
 
 // Load loads quest into Quest structure
 func (q *Quest) Load() {
-	bm := datautils.CreateBitMuncher(q.Data[:], 0)
+	bm := datareader.NewReader(q.Data[:])
 
-	q.Completed = bm.GetBit() == 1
-	q.Done = bm.GetBit() == 1
-	q.Started = bm.GetBit() == 1
+	q.Completed = bm.GetBit()
+	q.Done = bm.GetBit()
+	q.Started = bm.GetBit()
 
 	for i := 0; i < 9; i++ {
-		q.Body[i] = bm.GetBit() == 1
+		q.Body[i] = bm.GetBit()
 	}
 
-	q.Closed = bm.GetBit() == 1
-	q.JustCompleted = bm.GetBit() == 1
+	q.Closed = bm.GetBit()
+	q.JustCompleted = bm.GetBit()
 }

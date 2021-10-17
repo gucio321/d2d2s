@@ -1,6 +1,7 @@
 package d2sskills
 
 import (
+	"github.com/gucio321/d2d2s/internal/datareader"
 	"github.com/gucio321/d2d2s/internal/datautils"
 	"github.com/gucio321/d2d2s/pkg/common"
 	"github.com/gucio321/d2d2s/pkg/d2s/d2senums"
@@ -26,7 +27,7 @@ func New() *Skills {
 
 // Load loads skills from bitmuncher given
 func (s *Skills) Load(data [NumSkillBytes]byte, class d2senums.CharacterClass) error {
-	sr := datautils.CreateBitMuncher(data[:], 0)
+	sr := datareader.NewReader(data[:])
 
 	skillsID := sr.GetBytes(len(skillsHeaderID))
 	if string(skillsID) != skillsHeaderID {

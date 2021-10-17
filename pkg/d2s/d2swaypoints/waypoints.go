@@ -1,6 +1,7 @@
 package d2swaypoints
 
 import (
+	"github.com/gucio321/d2d2s/internal/datareader"
 	"github.com/gucio321/d2d2s/internal/datautils"
 	"github.com/gucio321/d2d2s/pkg/common"
 	"github.com/gucio321/d2d2s/pkg/d2s/d2senums"
@@ -53,7 +54,7 @@ func New() *Waypoints {
 
 // Load loads waypoints data
 func (w *Waypoints) Load(data *[NumWaypointsBytes]byte) error {
-	sr := datautils.CreateBitMuncher((*data)[:], 0)
+	sr := datareader.NewReader((*data)[:])
 
 	id := sr.GetBytes(len(waypointHeaderID))
 	if string(id) != waypointHeaderID {
@@ -72,11 +73,11 @@ func (w *Waypoints) Load(data *[NumWaypointsBytes]byte) error {
 
 		sr.SkipBytes(unknownWaypointsBytesCount)
 
-		bm := datautils.CreateBitMuncher(d, 0)
+		bm := datareader.NewReader(d)
 
 		for act := 1; act <= d2senums.NumActs; act++ {
 			for wp := range (*w)[i][act-1] {
-				(*w)[i][act-1][wp] = (bm.GetBit() == 1)
+				(*w)[i][act-1][wp] = bm.GetBit()
 			}
 		}
 	}
