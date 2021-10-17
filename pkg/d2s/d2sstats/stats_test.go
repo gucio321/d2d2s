@@ -1,11 +1,13 @@
 package d2sstats
 
 import (
+	"errors"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 
 	"github.com/gucio321/d2d2s/internal/datareader"
+	"github.com/gucio321/d2d2s/pkg/common"
 )
 
 func testdata() map[*Stats][]byte {
@@ -82,6 +84,23 @@ func Test_Encode(t *testing.T) {
 		}
 
 		assert.Equal(t, value, data, "unexpected data after encoding stats")
+	}
+}
+
+func Test_Load_errors(t *testing.T) {
+	tests := []struct {
+		name     string
+		data     []byte
+		expected error
+	}{
+		{"unexpected header", []byte{10, 10}, common.ErrUnexpectedHeader},
+		{"unexpected stat id", []byte{byte('g'), byte('f'), 90}, ErrIncorrectStatID},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(tt *testing.T) {
+			assert.True(tt, errors.Is((&Stats{}).Load(datareader.NewReader(test.data)), test.expected), "unexpected result")
+		})
 	}
 }
 
