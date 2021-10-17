@@ -3,6 +3,7 @@ package d2smercenary
 import (
 	"fmt"
 
+	"github.com/gucio321/d2d2s/internal/datareader"
 	"github.com/gucio321/d2d2s/internal/datautils"
 	"github.com/gucio321/d2d2s/pkg/common"
 	"github.com/gucio321/d2d2s/pkg/d2s/d2sitems"
@@ -32,19 +33,19 @@ func New() *Mercenary {
 }
 
 // LoadHeader loads merc header
-func (m *Mercenary) LoadHeader(sr *datautils.BitMuncher) {
-	m.Died = sr.GetUInt16()
-	m.ID = sr.GetUInt32()
-	m.Name = sr.GetUInt16()
+func (m *Mercenary) LoadHeader(sr *datareader.Reader) {
+	m.Died = sr.GetUint16()
+	m.ID = sr.GetUint32()
+	m.Name = sr.GetUint16()
 
-	mercType := sr.GetUInt16()
+	mercType := sr.GetUint16()
 	m.Type = d2smercenarytype.Load(mercType)
 
-	m.Experience = sr.GetUInt32()
+	m.Experience = sr.GetUint32()
 }
 
 // LoadMercItems loads merc items
-func (m *Mercenary) LoadMercItems(sr *datautils.BitMuncher) error {
+func (m *Mercenary) LoadMercItems(sr *datareader.Reader) error {
 	if id := sr.GetBytes(headerLen); string(id) != "jf" {
 		return fmt.Errorf("merc header: %w", common.ErrUnexpectedHeader)
 	}

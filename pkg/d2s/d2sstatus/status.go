@@ -1,6 +1,7 @@
 package d2sstatus
 
 import (
+	"github.com/gucio321/d2d2s/internal/datareader"
 	"github.com/gucio321/d2d2s/internal/datautils"
 )
 
@@ -24,15 +25,15 @@ func New() *Status {
 
 // Load loads data into status structure
 func (s *Status) Load(data byte) {
-	bm := datautils.CreateBitMuncher([]byte{data}, 0)
-	s.Unknown0 = bm.GetBit() == 1
-	s.Unknown1 = bm.GetBit() == 1
-	s.Hardcore = bm.GetBit() == 1
-	s.Died = bm.GetBit() == 1
-	s.Unknown4 = bm.GetBit() == 1
-	s.Expansion = bm.GetBit() == 1
-	s.Ladder = bm.GetBit() == 1
-	s.Unknown7 = bm.GetBit() == 1
+	bm := datareader.NewReader([]byte{data})
+	s.Unknown0 = bm.GetBit()
+	s.Unknown1 = bm.GetBit()
+	s.Hardcore = bm.GetBit()
+	s.Died = bm.GetBit()
+	s.Unknown4 = bm.GetBit()
+	s.Expansion = bm.GetBit()
+	s.Ladder = bm.GetBit()
+	s.Unknown7 = bm.GetBit()
 }
 
 // Encode encodes status back into a byte data

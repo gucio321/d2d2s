@@ -5,6 +5,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/gucio321/d2d2s/internal/datareader"
 	"github.com/gucio321/d2d2s/internal/datautils"
 )
 
@@ -17,9 +18,9 @@ const (
 type MagicAttributes []MagicAttribute
 
 // Load loads magic attributes for n item
-func (m *MagicAttributes) Load(sr *datautils.BitMuncher) error {
+func (m *MagicAttributes) Load(sr *datareader.Reader) error {
 	for {
-		id := uint16(sr.GetBits(idLen))
+		id := sr.GetBits16(idLen)
 		if id == endOfListMark {
 			break
 		}
@@ -32,7 +33,7 @@ func (m *MagicAttributes) Load(sr *datautils.BitMuncher) error {
 		var values []int64
 
 		for _, bitLength := range prop.Bits {
-			val := sr.GetBits(int(bitLength))
+			val := sr.GetBits32(int(bitLength))
 			if prop.Bias != 0 {
 				val -= uint32(prop.Bias)
 			}

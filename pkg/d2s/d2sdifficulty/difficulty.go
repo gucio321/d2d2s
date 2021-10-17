@@ -1,6 +1,7 @@
 package d2sdifficulty
 
 import (
+	"github.com/gucio321/d2d2s/internal/datareader"
 	"github.com/gucio321/d2d2s/internal/datautils"
 	"github.com/gucio321/d2d2s/pkg/d2s/d2senums"
 )
@@ -29,7 +30,7 @@ type Difficulty map[d2senums.DifficultyType]*DifficultyLevelStatus
 
 // Load loads difficulty status
 func (d *Difficulty) Load(data [NumDifficultyBytes]byte) {
-	sr := datautils.CreateBitMuncher(data[:], 0)
+	sr := datareader.NewReader(data[:])
 	for i := d2senums.DifficultyNormal; i <= d2senums.DifficultyHell; i++ {
 		data := sr.GetByte()
 
@@ -63,13 +64,13 @@ type DifficultyLevelStatus struct {
 
 // Load loads byte into DifficultyLevelStatus structure
 func (d *DifficultyLevelStatus) Load(data byte) {
-	bm := datautils.CreateBitMuncher([]byte{data}, 0)
-	d.Act = byte(bm.GetBits(actBitsCount))
-	d.unknown3 = bm.GetBit() == 1
-	d.unknown4 = bm.GetBit() == 1
-	d.unknown5 = bm.GetBit() == 1
-	d.unknown6 = bm.GetBit() == 1
-	d.Active = bm.GetBit() == 1
+	bm := datareader.NewReader([]byte{data})
+	d.Act = bm.GetBits(actBitsCount)
+	d.unknown3 = bm.GetBit()
+	d.unknown4 = bm.GetBit()
+	d.unknown5 = bm.GetBit()
+	d.unknown6 = bm.GetBit()
+	d.Active = bm.GetBit()
 }
 
 // Encode encodes a difficulty level status back into byte data

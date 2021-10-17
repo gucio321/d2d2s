@@ -8,6 +8,7 @@ import (
 	"math"
 	"strings"
 
+	"github.com/gucio321/d2d2s/internal/datareader"
 	"github.com/gucio321/d2d2s/internal/datautils"
 	"github.com/gucio321/d2d2s/pkg/common"
 	"github.com/gucio321/d2d2s/pkg/d2s/d2scorpse"
@@ -100,7 +101,7 @@ func New() *D2S {
 func Load(data []byte) (*D2S, error) {
 	result := New()
 
-	sr := datautils.CreateBitMuncher(data, 0)
+	sr := datareader.NewReader(data)
 
 	if err := result.loadHeader(sr); err != nil {
 		return nil, fmt.Errorf("loading header: %w", err)
@@ -133,12 +134,12 @@ func Load(data []byte) (*D2S, error) {
 	return result, nil
 }
 
-func (d *D2S) loadHeader(sr *datautils.BitMuncher) error {
-	if signature := sr.GetUInt32(); signature != saveFileSignature {
+func (d *D2S) loadHeader(sr *datareader.Reader) error {
+	if signature := sr.GetUint32(); signature != saveFileSignature {
 		return fmt.Errorf("unexpected file signature: %w", common.ErrUnexpectedHeader)
 	}
 
-	v := sr.GetUInt32()
+	v := sr.GetUint32()
 	version := d2senums.Version(v)
 
 	if version != d2senums.VersionLODLatest {
@@ -151,9 +152,9 @@ func (d *D2S) loadHeader(sr *datautils.BitMuncher) error {
 	_ = sr.GetInt32()
 
 	// checksum (32-bit checksum)
-	_ = sr.GetUInt32()
+	_ = sr.GetUint32()
 
-	d.unknown1 = sr.GetUInt32()
+	d.unknown1 = sr.GetUint32()
 
 	name := sr.GetBytes(characterNameSize)
 	d.Name = strings.ReplaceAll(string(name), string(rune(0)), "")
@@ -161,24 +162,24 @@ func (d *D2S) loadHeader(sr *datautils.BitMuncher) error {
 	return nil
 }
 
-func (d *D2S) loadCharDetails(sr *datautils.BitMuncher) {
+func (d *D2S) loadCharDetails(sr *datareader.Reader) {
 	status := sr.GetByte()
 	d.Status.Load(status)
 
 	d.Progression.Load(sr.GetByte())
-	d.unknown2 = sr.GetUInt16()
+	d.unknown2 = sr.GetUint16()
 
 	class := sr.GetByte()
 	d.Class = d2senums.CharacterClass(class)
 
-	d.unknown3 = sr.GetUInt16()
+	d.unknown3 = sr.GetUint16()
 	d.Level = sr.GetByte()
-	d.unknown4 = sr.GetUInt32()
-	d.Time = sr.GetUInt32()
-	d.unknown5 = sr.GetUInt32()
+	d.unknown4 = sr.GetUint32()
+	d.Time = sr.GetUint32()
+	d.unknown5 = sr.GetUint32()
 }
 
-func (d *D2S) loadInterfaceState(sr *datautils.BitMuncher) {
+func (d *D2S) loadInterfaceState(sr *datareader.Reader) {
 	hd := sr.GetBytes(d2shotkeys.NumHotkeysBytes)
 
 	var hotkeysData [d2shotkeys.NumHotkeysBytes]byte
@@ -187,24 +188,24 @@ func (d *D2S) loadInterfaceState(sr *datautils.BitMuncher) {
 
 	d.Hotkeys.Load(hotkeysData)
 
-	lsk := sr.GetUInt32()
+	lsk := sr.GetUint32()
 	d.LeftSkill = d2senums.SkillID(lsk)
 
-	rsk := sr.GetUInt32()
+	rsk := sr.GetUint32()
 	d.RightSkill = d2senums.SkillID(rsk)
 
 	if d.Status.Expansion {
-		alsk := sr.GetUInt32()
+		alsk := sr.GetUint32()
 		d.LeftSkillSwitch = d2senums.SkillID(alsk)
 
-		arsk := sr.GetUInt32()
+		arsk := sr.GetUint32()
 		d.RightSkillSwitch = d2senums.SkillID(arsk)
 	}
 }
 
-func (d *D2S) loadMapDetails(sr *datautils.BitMuncher) error {
-	d.MapID = sr.GetUInt32()
-	d.unknown7 = sr.GetUInt16()
+func (d *D2S) loadMapDetails(sr *datareader.Reader) error {
+	d.MapID = sr.GetUint32()
+	d.unknown7 = sr.GetUint16()
 
 	d.Mercenary.LoadHeader(sr)
 
@@ -245,7 +246,7 @@ func (d *D2S) loadMapDetails(sr *datautils.BitMuncher) error {
 	return nil
 }
 
-func (d *D2S) loadCharacterDetails(sr *datautils.BitMuncher) error {
+func (d *D2S) loadCharacterDetails(sr *datareader.Reader) error {
 	if err := d.Stats.Load(sr); err != nil {
 		return fmt.Errorf("loading character stats: %w", err)
 	}

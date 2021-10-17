@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 
+	"github.com/gucio321/d2d2s/internal/datareader"
 	"github.com/gucio321/d2d2s/internal/datautils"
 	"github.com/gucio321/d2d2s/pkg/common"
 )
@@ -46,16 +47,14 @@ func New() *Stats {
 }
 
 // Load loads hero stats
-func (s *Stats) Load(sr *datautils.BitMuncher) error {
+func (s *Stats) Load(sr *datareader.Reader) error {
 	id := sr.GetBytes(numHeaderBytes)
 	if string(id) != statsHeaderID {
 		return common.ErrUnexpectedHeader
 	}
 
-	bm := sr.Copy()
-
 	for {
-		id := StatID(bm.GetBits(statIDLen))
+		id := StatID(sr.GetBits16(statIDLen))
 
 		// If all 9 bits are set, we've hit the end of the attributes section
 		//  at 0x1ff and exit the loop.
@@ -70,7 +69,7 @@ func (s *Stats) Load(sr *datautils.BitMuncher) error {
 		}
 
 		// The attribute value.
-		attr := bm.GetBits(length)
+		attr := sr.GetBits32(length)
 
 		// this map connects StatID with appropriate value from stats structure
 		statMap := map[StatID]interface{}{
@@ -103,10 +102,7 @@ func (s *Stats) Load(sr *datautils.BitMuncher) error {
 		}
 	}
 
-	// need to equalize offsets
-	const byteSize = 8
-
-	sr.SkipBits((byteSize * (bm.BitsRead() / byteSize)) + byteSize)
+	sr.Align()
 
 	return nil
 }

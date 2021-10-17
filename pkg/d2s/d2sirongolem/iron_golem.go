@@ -3,6 +3,7 @@ package d2sirongolem
 import (
 	"fmt"
 
+	"github.com/gucio321/d2d2s/internal/datareader"
 	"github.com/gucio321/d2d2s/internal/datautils"
 	"github.com/gucio321/d2d2s/pkg/common"
 	"github.com/gucio321/d2d2s/pkg/d2s/d2sitems"
@@ -27,7 +28,7 @@ type IronGolem struct {
 }
 
 // Load loads a golem's data
-func (i *IronGolem) Load(sr *datautils.BitMuncher) error {
+func (i *IronGolem) Load(sr *datareader.Reader) error {
 	id := sr.GetBytes(len(golemHeaderID))
 	if string(id) != golemHeaderID {
 		return fmt.Errorf("golem header: %w", common.ErrUnexpectedHeader)
