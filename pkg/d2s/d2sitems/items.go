@@ -274,7 +274,7 @@ func (i *Item) Load(sr *datareader.Reader) (err error) {
 
 func (i *Item) loadExtendedFields(sr *datareader.Reader) (err error) {
 	i.ID = sr.GetUint32() // probably 4 * 8 chars
-	i.Level = byte(sr.GetBits(levelLen))
+	i.Level = sr.GetBits(levelLen)
 	i.Quality = d2senums.ItemQuality(sr.GetBits(qualityLen))
 
 	i.loadMultiplePicture(sr)
@@ -290,25 +290,25 @@ func (i *Item) loadExtendedFields(sr *datareader.Reader) (err error) {
 	i.loadPersonalizationData(sr)
 
 	if i.Type.IsTome() {
-		i.unknown11 = byte(sr.GetBits(unknown11Len))
+		i.unknown11 = sr.GetBits(unknown11Len)
 	}
 
 	i.Timestamp = sr.GetBit()
 
 	if i.TypeID == itemdata.ItemTypeIDArmor ||
 		i.TypeID == itemdata.ItemTypeIDShield {
-		defRating := uint16(sr.GetBits(defenseRatingLen))
+		defRating := sr.GetBits16(defenseRatingLen)
 		i.ExtraStats.DefenseRating = defRating - defenseRatingModifier
 	}
 
 	i.loadDurability(sr)
 
 	if i.Type.HasQuantity() {
-		i.ExtraStats.Quantity = uint16(sr.GetBits(quantityLen))
+		i.ExtraStats.Quantity = sr.GetBits16(quantityLen)
 	}
 
 	if i.Socketed.IsInSocket {
-		i.Socketed.TotalNumberOfSockets = byte(sr.GetBits(totalNSocketsLen))
+		i.Socketed.TotalNumberOfSockets = sr.GetBits(totalNSocketsLen)
 	}
 
 	i.loadSetAttrList(sr)
@@ -343,14 +343,14 @@ func (i *Item) loadExtendedFields(sr *datareader.Reader) (err error) {
 func (i *Item) loadQualityData(sr *datareader.Reader) error {
 	switch i.Quality {
 	case d2senums.ItemQualityLow:
-		i.QualityData.LowQualityID = byte(sr.GetBits(lowQualityIDLen))
+		i.QualityData.LowQualityID = sr.GetBits(lowQualityIDLen)
 	case d2senums.ItemQualityNormal:
 		// noop
 	case d2senums.ItemQualityHigh:
-		i.QualityData.HighQualityData = byte(sr.GetBits(highQualityDataLen))
+		i.QualityData.HighQualityData = sr.GetBits(highQualityDataLen)
 	case d2senums.ItemQualityEnchanced:
 		i.QualityData.MagicPrefix = make([]itemdata.MagicalPrefix, 1)
-		id := uint16(sr.GetBits(magicModifierIDLen)) // helper variable (avoid noise with x.y.z.id ;-)
+		id := sr.GetBits16(magicModifierIDLen) // helper variable (avoid noise with x.y.z.id ;-)
 
 		var found bool
 
@@ -359,19 +359,19 @@ func (i *Item) loadQualityData(sr *datareader.Reader) error {
 		}
 
 		i.QualityData.MagicSuffix = make([]itemdata.MagicalSuffix, 1)
-		id = uint16(sr.GetBits(magicModifierIDLen)) // helper variable (avoid noise with x.y.z.id ;-)
+		id = sr.GetBits16(magicModifierIDLen) // helper variable (avoid noise with x.y.z.id ;-)
 
 		if i.QualityData.MagicSuffix[0], found = itemdata.GetMagicalSuffix(id); !found {
 			return errors.New("loading item suffix: unknown id")
 		}
 	case d2senums.ItemQualitySet:
-		id := uint16(sr.GetBits(setIDLen))
+		id := sr.GetBits16(setIDLen)
 		i.QualityData.SetID = itemdata.SetID(id)
 	case d2senums.ItemQualityRare, d2senums.ItemQualityCrafted:
 		i.QualityData.RareNames = make([]itemdata.RareName, rareNamesCount)
 
 		for n := 0; n < rareNamesCount; n++ {
-			id := uint16(sr.GetBits(rareNameIDLen))
+			id := sr.GetBits16(rareNameIDLen)
 			i.QualityData.RareNames[n] = itemdata.RareName(id)
 		}
 
@@ -381,7 +381,7 @@ func (i *Item) loadQualityData(sr *datareader.Reader) error {
 		for p := 0; p < 3; p++ {
 			prefixExist := sr.GetBit()
 			if prefixExist {
-				id := uint16(sr.GetBits(magicModifierIDLen))
+				id := sr.GetBits16(magicModifierIDLen)
 
 				prefix, found := itemdata.GetMagicalPrefix(id)
 				if !found {
@@ -393,7 +393,7 @@ func (i *Item) loadQualityData(sr *datareader.Reader) error {
 
 			suffixExist := sr.GetBit()
 			if suffixExist {
-				id, found := itemdata.GetMagicalSuffix(uint16(sr.GetBits(magicModifierIDLen)))
+				id, found := itemdata.GetMagicalSuffix(sr.GetBits16(magicModifierIDLen))
 				if !found {
 					return errors.New("loading item suffix: unknown id")
 				}
@@ -402,7 +402,7 @@ func (i *Item) loadQualityData(sr *datareader.Reader) error {
 			}
 		}
 	case d2senums.ItemQualityUnique:
-		id := uint16(sr.GetBits(uniqueIDLen))
+		id := sr.GetBits16(uniqueIDLen)
 		i.QualityData.UniqueID = itemdata.UniqueID(id)
 	}
 
@@ -411,10 +411,10 @@ func (i *Item) loadQualityData(sr *datareader.Reader) error {
 
 func (i *Item) loadRuneword(sr *datareader.Reader) {
 	if i.RuneWord.HasRuneWord {
-		id := uint16(sr.GetBits(runeWordIDLen))
+		id := sr.GetBits16(runeWordIDLen)
 		i.RuneWord.ID = itemdata.RunewordID(id)
 
-		i.RuneWord.unknown = byte(sr.GetBits(runeWordUnknownLen))
+		i.RuneWord.unknown = sr.GetBits(runeWordUnknownLen)
 	}
 }
 
@@ -423,7 +423,7 @@ func (i *Item) loadPersonalizationData(sr *datareader.Reader) {
 		name := make([]byte, 0)
 
 		for {
-			char := byte(sr.GetBits(characterLen))
+			char := sr.GetBits(characterLen)
 			if char == 0 {
 				break
 			}
@@ -450,7 +450,7 @@ func (i *Item) loadDurability(sr *datareader.Reader) {
 func (i *Item) loadSetAttrList(sr *datareader.Reader) {
 	var setListValue byte
 	if i.Quality == d2senums.ItemQualitySet {
-		setListValue = byte(sr.GetBits(setListIDLen))
+		setListValue = sr.GetBits(setListIDLen)
 		listCount := itemdata.GetSetAttributesLen(setListValue)
 		i.QualityData.SetListID = setListValue
 
@@ -461,7 +461,7 @@ func (i *Item) loadSetAttrList(sr *datareader.Reader) {
 func (i *Item) loadMultiplePicture(sr *datareader.Reader) {
 	i.MultiplePicture.HasMultiplePicture = sr.GetBit()
 	if i.MultiplePicture.HasMultiplePicture {
-		i.MultiplePicture.ID = byte(sr.GetBits(multiplePictureIDLen))
+		i.MultiplePicture.ID = sr.GetBits(multiplePictureIDLen)
 	}
 }
 
@@ -469,7 +469,7 @@ func (i *Item) loadClassSpecific(sr *datareader.Reader) {
 	i.ClassSpecific.IsClassSpecific = sr.GetBit()
 	if i.ClassSpecific.IsClassSpecific {
 		// probably class is somewhere here ... ?
-		i.ClassSpecific.Data = uint16(sr.GetBits(classSpecificDataLen))
+		i.ClassSpecific.Data = sr.GetBits16(classSpecificDataLen)
 	}
 }
 
@@ -479,40 +479,40 @@ func (i *Item) loadSimpleFields(sr *datareader.Reader) (err error) {
 		return errors.New("unexpected item signature")
 	}
 
-	i.unknown1 = byte(sr.GetBits(unknown1Len))
+	i.unknown1 = sr.GetBits(unknown1Len)
 	i.Identified = sr.GetBit()
-	i.unknown2 = byte(sr.GetBits(unknown2Len))
+	i.unknown2 = sr.GetBits(unknown2Len)
 	i.Socketed.IsInSocket = sr.GetBit()
 	i.unknown3 = sr.GetBit()
 	i.JustPicked = sr.GetBit()
-	i.unknown4 = byte(sr.GetBits(unknown4Len))
+	i.unknown4 = sr.GetBits(unknown4Len)
 	i.IsEar = sr.GetBit()
 	i.NewbieItem = sr.GetBit()
-	i.unknown5 = byte(sr.GetBits(unknown5Len))
+	i.unknown5 = sr.GetBits(unknown5Len)
 	i.IsSimple = sr.GetBit()
 	i.Etheral = sr.GetBit()
 	i.unknown6 = sr.GetBit()
 	i.Personalization.IsPersonalized = sr.GetBit()
 	i.unknown7 = sr.GetBit()
 	i.RuneWord.HasRuneWord = sr.GetBit()
-	i.unknown8 = byte(sr.GetBits(unknown8Len))
+	i.unknown8 = sr.GetBits(unknown8Len)
 	i.Version = sr.GetByte()
-	i.unknown9 = byte(sr.GetBits(unknown9Len))
+	i.unknown9 = sr.GetBits(unknown9Len)
 	i.Location.LocationID = d2senums.ItemLocationType(sr.GetBits(locationLocationIDLen))
 	i.Location.EquippedID = d2senums.ItemEquippedPlace(sr.GetBits(locationEquippedIDLen))
-	i.Location.X = byte(sr.GetBits(locationXLen))
-	i.Location.Y = byte(sr.GetBits(locationYLen))
+	i.Location.X = sr.GetBits(locationXLen)
+	i.Location.Y = sr.GetBits(locationYLen)
 	i.unknown10 = sr.GetBit()
 	i.Location.StorageID = d2senums.StoragePlace(sr.GetBits(locationStorageIDLen))
 
 	if i.IsEar {
 		i.Ear.Class = d2senums.CharacterClass(sr.GetBits(earClassLen))
-		i.Ear.Level = byte(sr.GetBits(earLevelLen))
+		i.Ear.Level = sr.GetBits(earLevelLen)
 
 		var name []byte
 
 		for {
-			char := byte(sr.GetBits(characterLen))
+			char := sr.GetBits(characterLen)
 			if char == 0 {
 				break
 			}
@@ -527,7 +527,7 @@ func (i *Item) loadSimpleFields(sr *datareader.Reader) (err error) {
 		t := sr.GetBytes(typeLen)
 		i.Type = itemdata.ItemCodeFromString(strings.Trim(string(t), " "))
 		i.loadTypeInfo()
-		i.NumberOfItemsInSockets = byte(sr.GetBits(numItemsInSocketsLen))
+		i.NumberOfItemsInSockets = sr.GetBits(numItemsInSocketsLen)
 	}
 
 	return nil

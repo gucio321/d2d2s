@@ -65,7 +65,7 @@ type DifficultyLevelStatus struct {
 // Load loads byte into DifficultyLevelStatus structure
 func (d *DifficultyLevelStatus) Load(data byte) {
 	bm := datareader.NewReader([]byte{data})
-	d.Act = byte(bm.GetBits(actBitsCount))
+	d.Act = bm.GetBits(actBitsCount)
 	d.unknown3 = bm.GetBit()
 	d.unknown4 = bm.GetBit()
 	d.unknown5 = bm.GetBit()
