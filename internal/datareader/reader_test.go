@@ -11,6 +11,7 @@ func Test_Read(t *testing.T) {
 		name string
 		data []byte
 	}{
+		{"nil", nil},
 		{"empty", []byte{}},
 		{"one index - 0", []byte{0}},
 		{"one index - non-zero", []byte{20}},
@@ -21,6 +22,11 @@ func Test_Read(t *testing.T) {
 		t.Run(test.name, func(tt *testing.T) {
 			a := assert.New(tt)
 			p := make([]byte, len(test.data))
+
+			if test.data == nil {
+				p = nil
+			}
+
 			n, err := NewReader(test.data).Read(p)
 			a.Nil(err, "Error occurred")
 			a.Equal(len(test.data), n, "Unexpected bytes count")
