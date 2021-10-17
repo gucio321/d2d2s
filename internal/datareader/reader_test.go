@@ -73,6 +73,26 @@ func Test_SkipBytes(t *testing.T) {
 	}
 }
 
+func Test_Align(t *testing.T) {
+	tests := []struct {
+		name       string
+		data       []byte
+		bitsToSkip uint64
+	}{
+		{"one-index-slice", []byte{5}, 1},
+		{"random data; > 8 bits to skip", []byte{5, 8, 29, 48, 79, 102}, 19},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(tt *testing.T) {
+			r := NewReader(test.data)
+			r.SkipBits(test.bitsToSkip)
+			r.Align()
+			assert.Equal(tt, uint64(0), r.bitPosition%8, "Unexpected bit position")
+		})
+	}
+}
+
 func Test_GetBit(t *testing.T) {
 	tests := []struct {
 		name     string
