@@ -1,20 +1,43 @@
 package datareader
 
 import (
+	"io"
 	"log"
 )
 
+// Reader implements io.Reader
+var _ io.Reader = &Reader{}
+
+// Reader represents bit-level data reader
 type Reader struct {
 	data        []byte
+	length      int
 	bitPosition uint64
+	err         error
 }
 
 func NewReader(data []byte) *Reader {
 	result := &Reader{
-		data: data,
+		data:   data,
+		length: len(data),
 	}
 
 	return result
+}
+
+func (r *Reader) Read(p []byte) (n int, err error) {
+	if p == nil {
+		return 0, nil
+	}
+
+	for ; n < len(p); n++ {
+		p[n] = r.GetByte()
+		if err := r.Error(); err != nil {
+			return n, err
+		}
+	}
+
+	return n, nil
 }
 
 func (r *Reader) SkipBits(count uint64) {
@@ -34,7 +57,14 @@ func (r *Reader) Align() {
 }
 
 func (r *Reader) getCurrentByte() byte {
-	return r.data[r.bitPosition/byteLen]
+	pos := r.bitPosition / byteLen
+	if pos >= uint64(r.length) {
+		r.err = io.EOF
+	}
+
+	result := r.data[r.bitPosition/byteLen]
+
+	return result
 }
 
 func (r *Reader) GetBitOffset() byte {
@@ -113,4 +143,8 @@ func (r *Reader) GetUint32() uint32 {
 
 func (r *Reader) GetInt32() int32 {
 	return int32(r.GetUint32())
+}
+
+func (r *Reader) Error() error {
+	return r.err
 }

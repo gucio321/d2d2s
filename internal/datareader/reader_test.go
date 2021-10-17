@@ -6,6 +6,29 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func Test_Read(t *testing.T) {
+	tests := []struct {
+		name string
+		data []byte
+	}{
+		{"empty", []byte{}},
+		{"one index - 0", []byte{0}},
+		{"one index - non-zero", []byte{20}},
+		{"byte slice", []byte{20, 15, 228, 189, 72}},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(tt *testing.T) {
+			a := assert.New(tt)
+			p := make([]byte, len(test.data))
+			n, err := NewReader(test.data).Read(p)
+			a.Nil(err, "Error occured")
+			a.Equal(len(test.data), n, "Unexpected bytes count")
+			a.Equal(test.data, p, "unexpected result")
+		})
+	}
+}
+
 func Test_GetBit(t *testing.T) {
 	tests := []struct {
 		name     string
