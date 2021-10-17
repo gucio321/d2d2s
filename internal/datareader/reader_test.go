@@ -41,6 +41,38 @@ func Test_Reade_eof(t *testing.T) {
 	assert.Equal(t, io.EOF, err, "Unexpected behavior")
 }
 
+func Test_SkipBits(t *testing.T) {
+	r := NewReader([]byte{5})
+	r.SkipBits(5)
+	assert.Equal(t, uint64(5), r.bitPosition, "unexpected position")
+}
+
+func Test_SkipByte(t *testing.T) {
+	r := NewReader([]byte{5})
+	r.SkipByte()
+	assert.Equal(t, uint64(8), r.bitPosition, "unexpected position")
+}
+
+func Test_SkipBytes(t *testing.T) {
+	tests := []struct {
+		name  string
+		data  []byte
+		count uint64
+	}{
+		{"skip 0 bytes with empty data", []byte{}, 0},
+		{"skip 0 bytes", []byte{5, 8}, 0},
+		{"skip 5 bytes", []byte{5, 8, 29, 48, 79, 102}, 5},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(tt *testing.T) {
+			r := NewReader(test.data)
+			r.SkipBytes(test.count)
+			assert.Equal(tt, test.count*8, r.bitPosition, "Unexpected bit position")
+		})
+	}
+}
+
 func Test_GetBit(t *testing.T) {
 	tests := []struct {
 		name     string
