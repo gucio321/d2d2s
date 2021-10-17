@@ -5,6 +5,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
+	"github.com/gucio321/d2d2s/internal/datareader"
 )
 
 func testdata() map[*Stats][]byte {
