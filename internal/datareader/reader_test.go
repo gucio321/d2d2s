@@ -22,7 +22,7 @@ func Test_Read(t *testing.T) {
 			a := assert.New(tt)
 			p := make([]byte, len(test.data))
 			n, err := NewReader(test.data).Read(p)
-			a.Nil(err, "Error occured")
+			a.Nil(err, "Error occurred")
 			a.Equal(len(test.data), n, "Unexpected bytes count")
 			a.Equal(test.data, p, "unexpected result")
 		})
