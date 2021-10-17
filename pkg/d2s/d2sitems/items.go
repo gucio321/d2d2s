@@ -6,6 +6,7 @@ import (
 	"log"
 	"strings"
 
+	"github.com/gucio321/d2d2s/internal/datareader"
 	"github.com/gucio321/d2d2s/internal/datautils"
 	"github.com/gucio321/d2d2s/pkg/common"
 	"github.com/gucio321/d2d2s/pkg/d2s/d2senums"
@@ -75,20 +76,20 @@ func New() *Items {
 type Items []*Item
 
 // LoadHeader loads items header and returns items count
-func (i *Items) LoadHeader(sr *datautils.BitMuncher) (numItems uint16, err error) {
+func (i *Items) LoadHeader(sr *datareader.Reader) (numItems uint16, err error) {
 	id := sr.GetBytes(numHeaderBytes)
 	if string(id) != itemListID {
 		return 0, fmt.Errorf("item header list: %w", common.ErrUnexpectedHeader)
 	}
 
-	numItems = sr.GetUInt16()
+	numItems = sr.GetUint16()
 
 	return numItems, nil
 }
 
 // LoadList loads items list data into Items structure
 // If not, theis function must be changed
-func (i *Items) LoadList(sr *datautils.BitMuncher, numItems uint16) error {
+func (i *Items) LoadList(sr *datareader.Reader, numItems uint16) error {
 	// note: if item has sockets, it is followed by item socketed in!
 	for n := uint16(0); n < numItems; n++ {
 		item := &Item{}
@@ -254,7 +255,7 @@ type Item struct {
 }
 
 // Load loads an item
-func (i *Item) Load(sr *datautils.BitMuncher) (err error) {
+func (i *Item) Load(sr *datareader.Reader) (err error) {
 	if err := i.loadSimpleFields(sr); err != nil {
 		return err
 	}
@@ -266,13 +267,13 @@ func (i *Item) Load(sr *datautils.BitMuncher) (err error) {
 		}
 	}
 
-	sr.AlignToBytes()
+	sr.Align()
 
 	return nil
 }
 
-func (i *Item) loadExtendedFields(sr *datautils.BitMuncher) (err error) {
-	i.ID = sr.GetUInt32() // probably 4 * 8 chars
+func (i *Item) loadExtendedFields(sr *datareader.Reader) (err error) {
+	i.ID = sr.GetUint32() // probably 4 * 8 chars
 	i.Level = byte(sr.GetBits(levelLen))
 	i.Quality = d2senums.ItemQuality(sr.GetBits(qualityLen))
 
@@ -292,7 +293,7 @@ func (i *Item) loadExtendedFields(sr *datautils.BitMuncher) (err error) {
 		i.unknown11 = byte(sr.GetBits(unknown11Len))
 	}
 
-	i.Timestamp = sr.GetBit() == 1
+	i.Timestamp = sr.GetBit()
 
 	if i.TypeID == itemdata.ItemTypeIDArmor ||
 		i.TypeID == itemdata.ItemTypeIDShield {
@@ -339,7 +340,7 @@ func (i *Item) loadExtendedFields(sr *datautils.BitMuncher) (err error) {
 }
 
 // nolint:gocyclo // will fix later
-func (i *Item) loadQualityData(sr *datautils.BitMuncher) error {
+func (i *Item) loadQualityData(sr *datareader.Reader) error {
 	switch i.Quality {
 	case d2senums.ItemQualityLow:
 		i.QualityData.LowQualityID = byte(sr.GetBits(lowQualityIDLen))
@@ -378,7 +379,7 @@ func (i *Item) loadQualityData(sr *datautils.BitMuncher) error {
 		i.QualityData.MagicSuffix = make([]itemdata.MagicalSuffix, 0)
 
 		for p := 0; p < 3; p++ {
-			prefixExist := sr.GetBit() == 1
+			prefixExist := sr.GetBit()
 			if prefixExist {
 				id := uint16(sr.GetBits(magicModifierIDLen))
 
@@ -390,7 +391,7 @@ func (i *Item) loadQualityData(sr *datautils.BitMuncher) error {
 				i.QualityData.MagicPrefix = append(i.QualityData.MagicPrefix, prefix)
 			}
 
-			suffixExist := sr.GetBit() == 1
+			suffixExist := sr.GetBit()
 			if suffixExist {
 				id, found := itemdata.GetMagicalSuffix(uint16(sr.GetBits(magicModifierIDLen)))
 				if !found {
@@ -408,7 +409,7 @@ func (i *Item) loadQualityData(sr *datautils.BitMuncher) error {
 	return nil
 }
 
-func (i *Item) loadRuneword(sr *datautils.BitMuncher) {
+func (i *Item) loadRuneword(sr *datareader.Reader) {
 	if i.RuneWord.HasRuneWord {
 		id := uint16(sr.GetBits(runeWordIDLen))
 		i.RuneWord.ID = itemdata.RunewordID(id)
@@ -417,7 +418,7 @@ func (i *Item) loadRuneword(sr *datautils.BitMuncher) {
 	}
 }
 
-func (i *Item) loadPersonalizationData(sr *datautils.BitMuncher) {
+func (i *Item) loadPersonalizationData(sr *datareader.Reader) {
 	if i.Personalization.IsPersonalized {
 		name := make([]byte, 0)
 
@@ -434,19 +435,19 @@ func (i *Item) loadPersonalizationData(sr *datautils.BitMuncher) {
 	}
 }
 
-func (i *Item) loadDurability(sr *datautils.BitMuncher) {
+func (i *Item) loadDurability(sr *datareader.Reader) {
 	if i.TypeID == itemdata.ItemTypeIDArmor ||
 		i.TypeID == itemdata.ItemTypeIDWeapon ||
 		i.TypeID == itemdata.ItemTypeIDShield {
 		i.ExtraStats.Durability.Max = sr.GetByte()
 		if i.ExtraStats.Durability.Max > 0 {
 			i.ExtraStats.Durability.Current = sr.GetByte()
-			i.unknown12 = sr.GetBit() == 1
+			i.unknown12 = sr.GetBit()
 		}
 	}
 }
 
-func (i *Item) loadSetAttrList(sr *datautils.BitMuncher) {
+func (i *Item) loadSetAttrList(sr *datareader.Reader) {
 	var setListValue byte
 	if i.Quality == d2senums.ItemQualitySet {
 		setListValue = byte(sr.GetBits(setListIDLen))
@@ -457,43 +458,43 @@ func (i *Item) loadSetAttrList(sr *datautils.BitMuncher) {
 	}
 }
 
-func (i *Item) loadMultiplePicture(sr *datautils.BitMuncher) {
-	i.MultiplePicture.HasMultiplePicture = sr.GetBit() == 1
+func (i *Item) loadMultiplePicture(sr *datareader.Reader) {
+	i.MultiplePicture.HasMultiplePicture = sr.GetBit()
 	if i.MultiplePicture.HasMultiplePicture {
 		i.MultiplePicture.ID = byte(sr.GetBits(multiplePictureIDLen))
 	}
 }
 
-func (i *Item) loadClassSpecific(sr *datautils.BitMuncher) {
-	i.ClassSpecific.IsClassSpecific = sr.GetBit() == 1
+func (i *Item) loadClassSpecific(sr *datareader.Reader) {
+	i.ClassSpecific.IsClassSpecific = sr.GetBit()
 	if i.ClassSpecific.IsClassSpecific {
 		// probably class is somewhere here ... ?
 		i.ClassSpecific.Data = uint16(sr.GetBits(classSpecificDataLen))
 	}
 }
 
-func (i *Item) loadSimpleFields(sr *datautils.BitMuncher) (err error) {
+func (i *Item) loadSimpleFields(sr *datareader.Reader) (err error) {
 	id := sr.GetBytes(numHeaderBytes)
 	if string(id) != itemListID {
 		return errors.New("unexpected item signature")
 	}
 
 	i.unknown1 = byte(sr.GetBits(unknown1Len))
-	i.Identified = sr.GetBit() == 1
+	i.Identified = sr.GetBit()
 	i.unknown2 = byte(sr.GetBits(unknown2Len))
-	i.Socketed.IsInSocket = sr.GetBit() == 1
-	i.unknown3 = sr.GetBit() == 1
-	i.JustPicked = sr.GetBit() == 1
+	i.Socketed.IsInSocket = sr.GetBit()
+	i.unknown3 = sr.GetBit()
+	i.JustPicked = sr.GetBit()
 	i.unknown4 = byte(sr.GetBits(unknown4Len))
-	i.IsEar = sr.GetBit() == 1
-	i.NewbieItem = sr.GetBit() == 1
+	i.IsEar = sr.GetBit()
+	i.NewbieItem = sr.GetBit()
 	i.unknown5 = byte(sr.GetBits(unknown5Len))
-	i.IsSimple = sr.GetBit() == 1
-	i.Etheral = sr.GetBit() == 1
-	i.unknown6 = sr.GetBit() == 1
-	i.Personalization.IsPersonalized = sr.GetBit() == 1
-	i.unknown7 = sr.GetBit() == 1
-	i.RuneWord.HasRuneWord = sr.GetBit() == 1
+	i.IsSimple = sr.GetBit()
+	i.Etheral = sr.GetBit()
+	i.unknown6 = sr.GetBit()
+	i.Personalization.IsPersonalized = sr.GetBit()
+	i.unknown7 = sr.GetBit()
+	i.RuneWord.HasRuneWord = sr.GetBit()
 	i.unknown8 = byte(sr.GetBits(unknown8Len))
 	i.Version = sr.GetByte()
 	i.unknown9 = byte(sr.GetBits(unknown9Len))
@@ -501,7 +502,7 @@ func (i *Item) loadSimpleFields(sr *datautils.BitMuncher) (err error) {
 	i.Location.EquippedID = d2senums.ItemEquippedPlace(sr.GetBits(locationEquippedIDLen))
 	i.Location.X = byte(sr.GetBits(locationXLen))
 	i.Location.Y = byte(sr.GetBits(locationYLen))
-	i.unknown10 = sr.GetBit() == 1
+	i.unknown10 = sr.GetBit()
 	i.Location.StorageID = d2senums.StoragePlace(sr.GetBits(locationStorageIDLen))
 
 	if i.IsEar {
@@ -521,7 +522,7 @@ func (i *Item) loadSimpleFields(sr *datautils.BitMuncher) (err error) {
 
 		i.Ear.Name = string(name)
 
-		sr.AlignToBytes()
+		sr.Align()
 	} else {
 		t := sr.GetBytes(typeLen)
 		i.Type = itemdata.ItemCodeFromString(strings.Trim(string(t), " "))

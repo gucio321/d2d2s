@@ -3,9 +3,8 @@ package d2sstats
 import (
 	"testing"
 
+	"github.com/gucio321/d2d2s/internal/datareader"
 	"github.com/stretchr/testify/assert"
-
-	"github.com/gucio321/d2d2s/internal/datautils"
 )
 
 func testdata() map[*Stats][]byte {
@@ -60,7 +59,7 @@ func Test_Load(t *testing.T) {
 	td := testdata()
 
 	for key, value := range td {
-		sr := datautils.CreateBitMuncher(value, 0)
+		sr := datareader.NewReader(value)
 		l := New()
 
 		err := l.Load(sr)

@@ -62,3 +62,19 @@ func Test_GetUint16(t *testing.T) {
 		})
 	}
 }
+
+func Test_GetInt16(t *testing.T) {
+	tests := []struct {
+		name     string
+		source   []byte
+		expected int16
+	}{
+		{"Example number (-800)", []byte{224, 252}, -800},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(tt *testing.T) {
+			assert.Equal(tt, test.expected, NewReader(test.source).GetInt16(), "unexpected result")
+		})
+	}
+}

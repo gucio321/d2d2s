@@ -6,6 +6,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
+	"github.com/gucio321/d2d2s/internal/datareader"
 	"github.com/gucio321/d2d2s/internal/datautils"
 )
 
@@ -43,7 +44,7 @@ func testdata() map[*MagicAttributes][]byte {
 
 func Test_Load(t *testing.T) {
 	for key, value := range testdata() {
-		sr := datautils.CreateBitMuncher(value, 0)
+		sr := datareader.NewReader(value)
 		m := &MagicAttributes{}
 
 		if err := m.Load(sr); err != nil {

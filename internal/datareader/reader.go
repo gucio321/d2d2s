@@ -1,6 +1,8 @@
 package datareader
 
-import "log"
+import (
+	"log"
+)
 
 type Reader struct {
 	data        []byte
@@ -13,6 +15,14 @@ func NewReader(data []byte) *Reader {
 	}
 
 	return result
+}
+
+func (r *Reader) SkipBits(count uint64) {
+	r.bitPosition += count
+}
+
+func (r *Reader) Align() {
+	r.SkipBits(uint64(byteLen - r.GetBitOffset()))
 }
 
 func (r *Reader) getCurrentByte() byte {
@@ -87,4 +97,12 @@ func (r *Reader) GetUint16() uint16 {
 
 func (r *Reader) GetInt16() int16 {
 	return int16(r.GetUint16())
+}
+
+func (r *Reader) GetUint32() uint32 {
+	return r.GetBits32(int32Len)
+}
+
+func (r *Reader) GetInt32() int32 {
+	return int32(r.GetUint32())
 }

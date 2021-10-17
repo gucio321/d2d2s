@@ -3,6 +3,7 @@ package d2scorpse
 import (
 	"fmt"
 
+	"github.com/gucio321/d2d2s/internal/datareader"
 	"github.com/gucio321/d2d2s/internal/datautils"
 	"github.com/gucio321/d2d2s/pkg/common"
 	"github.com/gucio321/d2d2s/pkg/d2s/d2sitems"
@@ -27,14 +28,14 @@ type Corpse struct {
 }
 
 // Load loads corpse
-func (c *Corpse) Load(sr *datautils.BitMuncher) error {
+func (c *Corpse) Load(sr *datareader.Reader) error {
 	id := sr.GetBytes(len(corpseHeaderID))
 
 	if string(id) != corpseHeaderID {
 		return common.ErrUnexpectedHeader
 	}
 
-	isDead := sr.GetUInt16() == 1
+	isDead := sr.GetUint16() == 1
 	if !isDead {
 		return nil
 	}
