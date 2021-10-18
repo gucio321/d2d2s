@@ -134,6 +134,46 @@ func Test_GetBits_incorrect_bit_count(t *testing.T) {
 	assert.Panics(t, func() { NewReader([]byte{0}).GetBits(20) }, "Unexpected behavior")
 }
 
+func Test_GetBytes(t *testing.T) {
+	tests := []struct {
+		name           string
+		data           []byte
+		startPos       uint64
+		numBytesToRead int
+		expected       []byte
+	}{
+		{"nil source", nil, 0, 0, []byte{}},
+		{"nil source, 2 bytes to read", nil, 0, 2, []byte{0, 0}},
+		{"source; 0 start position; 2 bytes to read", []byte{10, 11, 12, 13, 14}, 0, 2, []byte{10, 11}},
+		{"source; 0 start position; read all the source", []byte{10, 11, 12, 13, 14}, 0, 5, []byte{10, 11, 12, 13, 14}},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(tt *testing.T) {
+			r := NewReader(test.data)
+			r.bitPosition = test.startPos
+			assert.Equal(tt, test.expected, r.GetBytes(test.numBytesToRead), "unexpected result")
+		})
+	}
+}
+
+func Test_GetInt8(t *testing.T) {
+	tests := []struct {
+		name     string
+		source   []byte
+		expected int8
+	}{
+		{"Example positive number", []byte{56}, 56},
+		{"Example negative number", []byte{200}, -56},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(tt *testing.T) {
+			assert.Equal(tt, test.expected, NewReader(test.source).GetInt8(), "unexpected result")
+		})
+	}
+}
+
 func Test_GetUint16(t *testing.T) {
 	tests := []struct {
 		name     string

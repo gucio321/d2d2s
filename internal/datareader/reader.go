@@ -136,6 +136,10 @@ func (r *Reader) GetByte() byte {
 
 // GetBytes returns slice of `count` bytes
 func (r *Reader) GetBytes(count int) (result []byte) {
+	if count == 0 {
+		return []byte{}
+	}
+
 	for i := 0; i < count; i++ {
 		result = append(result, r.GetByte())
 	}
@@ -166,6 +170,16 @@ func (r *Reader) GetUint32() uint32 {
 // GetInt32 returns 32-bit signed int
 func (r *Reader) GetInt32() int32 {
 	return int32(r.GetUint32())
+}
+
+// GetUint64 returns 64-bit unsigned int
+func (r *Reader) GetUint64() uint64 {
+	return uint64(r.GetBits64(int64Len))
+}
+
+// GetInt64 returns 64-bit signed int
+func (r *Reader) GetInt64() int64 {
+	return int64(r.GetUint64())
 }
 
 // Error returns not nil error if some errror reached during reading
