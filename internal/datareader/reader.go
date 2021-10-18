@@ -174,7 +174,7 @@ func (r *Reader) GetInt32() int32 {
 
 // GetUint64 returns 64-bit unsigned int
 func (r *Reader) GetUint64() uint64 {
-	return uint64(r.GetBits64(int64Len))
+	return r.GetBits64(int64Len)
 }
 
 // GetInt64 returns 64-bit signed int
