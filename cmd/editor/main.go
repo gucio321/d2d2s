@@ -19,12 +19,12 @@ func main() {
 
 	d2sdata, err := ioutil.ReadFile(*d2spath)
 	if err != nil {
-		log.Fatalf("error loading data file %v: %v", d2spath, err)
+		log.Fatalf("error loading data file %v: %v", *d2spath, err)
 	}
 
 	loadedD2S, err := d2s.Load(d2sdata)
 	if err != nil {
-		log.Fatalf("error loading d2s file %v: %v", d2spath, err)
+		log.Fatalf("error loading d2s file %v: %v", *d2spath, err)
 	}
 
 	const windowW, windowH = 640, 480
