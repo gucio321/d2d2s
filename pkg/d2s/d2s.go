@@ -7,6 +7,7 @@ import (
 	"log"
 	"math"
 	"strings"
+	"time"
 
 	"github.com/gucio321/d2d2s/internal/datareader"
 	"github.com/gucio321/d2d2s/internal/datautils"
@@ -50,7 +51,7 @@ type D2S struct {
 	unknown3    uint16
 	Level       byte
 	unknown4    uint32
-	Time        uint32
+	Time        time.Time
 	unknown5    uint32
 	Hotkeys     *d2shotkeys.Hotkeys
 	LeftSkill,
@@ -175,7 +176,7 @@ func (d *D2S) loadCharDetails(sr *datareader.Reader) {
 	d.unknown3 = sr.GetUint16()
 	d.Level = sr.GetByte()
 	d.unknown4 = sr.GetUint32()
-	d.Time = sr.GetUint32()
+	d.Time = time.Unix(int64(sr.GetUint32()), 0)
 	d.unknown5 = sr.GetUint32()
 }
 
@@ -306,7 +307,7 @@ func (d *D2S) Encode() ([]byte, error) {
 	sw.PushUint16(d.unknown3)
 	sw.PushBytes(d.Level)
 	sw.PushUint32(d.unknown4)
-	sw.PushUint32(d.Time)
+	sw.PushUint32(uint32(d.Time.Unix()))
 	sw.PushUint32(d.unknown5)
 
 	hd := d.Hotkeys.Encode()
