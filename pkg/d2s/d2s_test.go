@@ -9,36 +9,61 @@ import (
 )
 
 func Test_Load(t *testing.T) {
-	data, err := testdata.Testdata.ReadFile("example.d2s")
-	if err != nil {
-		t.Fatal(err)
+	tests := []struct {
+		name     string
+		filename string
+		charname string
+	}{
+		{"empty character created by d2d2s.New()", "example.d2s", "example"},
+		{"New character created by Diablo II: Lord of Destruction v1.14d", "newGameChar.d2s", "emptychar"},
 	}
 
-	x, err := Load(data)
-	if err != nil {
-		t.Fatal(err)
-	}
+	for _, test := range tests {
+		t.Run(test.name, func(tt *testing.T) {
+			data, err := testdata.Testdata.ReadFile(test.filename)
+			if err != nil {
+				tt.Fatal(err)
+			}
 
-	assert.Equal(t, "example", x.Name, "Unexpected name read")
+			x, err := Load(data)
+			if err != nil {
+				tt.Fatal(err)
+			}
+
+			assert.Equal(tt, test.charname, x.Name, "Unexpected name read")
+		})
+	}
 }
 
 func Test_LoadEncode(t *testing.T) {
-	data, err := testdata.Testdata.ReadFile("example.d2s")
-	if err != nil {
-		t.Fatal(err)
+	tests := []struct {
+		name     string
+		filename string
+	}{
+		{"empty character created by d2d2s.New()", "example.d2s"},
+		{"New character created by Diablo II: Lord of Destruction v1.14d", "newGameChar.d2s"},
 	}
 
-	x, err := Load(data)
-	if err != nil {
-		t.Fatal(err)
-	}
+	for _, test := range tests {
+		t.Run(test.name, func(tt *testing.T) {
+			data, err := testdata.Testdata.ReadFile(test.filename)
+			if err != nil {
+				tt.Fatal(err)
+			}
 
-	out, err := x.Encode()
-	if err != nil {
-		t.Fatal(err)
-	}
+			x, err := Load(data)
+			if err != nil {
+				tt.Fatal(err)
+			}
 
-	assert.Equal(t, data, out, "Unexpected character data after encoding")
+			out, err := x.Encode()
+			if err != nil {
+				tt.Fatal(err)
+			}
+
+			assert.Equal(tt, data, out, "Unexpected character data after encoding")
+		})
+	}
 }
 
 func Test_New(t *testing.T) {
