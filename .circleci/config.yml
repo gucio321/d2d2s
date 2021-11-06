@@ -17,7 +17,7 @@ jobs:
           command: go mod download
       - run:
           name: install golangci-lint
-          command:  curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.42.1
+          command:  curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.43
       - save_cache:
           key: go-mod-v4-{{ checksum "go.sum" }}
           paths:

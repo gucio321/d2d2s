@@ -2,8 +2,8 @@ package main
 
 import (
 	"flag"
-	"io/ioutil"
 	"log"
+	"os"
 
 	"github.com/AllenDang/giu"
 
@@ -17,7 +17,7 @@ func main() {
 	d2spath := flag.String("path", "", "D2S file path")
 	flag.Parse()
 
-	d2sdata, err := ioutil.ReadFile(*d2spath)
+	d2sdata, err := os.ReadFile(*d2spath)
 	if err != nil {
 		log.Fatalf("error loading data file %v: %v", *d2spath, err)
 	}
@@ -38,7 +38,7 @@ func main() {
 					log.Fatalf("error encoding d2s file: %v", err)
 				}
 
-				if err := ioutil.WriteFile(*d2spath, d2sdata, newFileMode); err != nil {
+				if err := os.WriteFile(*d2spath, d2sdata, newFileMode); err != nil {
 					log.Fatalf("error writing d2s file: %v", err)
 				}
 			}),
