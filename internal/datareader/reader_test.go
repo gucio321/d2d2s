@@ -80,6 +80,7 @@ func Test_Align(t *testing.T) {
 		bitsToSkip uint64
 	}{
 		{"one-index-slice", []byte{5}, 1},
+		{"already aligned", []byte{5, 28, 182}, 32},
 		{"random data; > 8 bits to skip", []byte{5, 8, 29, 48, 79, 102}, 19},
 	}
 

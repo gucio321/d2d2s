@@ -62,6 +62,13 @@ func (r *Reader) SkipBytes(count uint64) {
 
 // Align byte-aligns reader
 func (r *Reader) Align() {
+	offset := r.GetBitOffset()
+
+	// no need to align anything
+	if offset == 0 {
+		return
+	}
+
 	r.SkipBits(uint64(byteLen - r.GetBitOffset()))
 }
 
