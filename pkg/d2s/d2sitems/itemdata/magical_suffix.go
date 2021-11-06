@@ -7,7 +7,8 @@ type MagicalSuffix uint16
 
 // magical suffixes
 const (
-	MagicalSuffixProtection          MagicalSuffix = iota // Protection
+	MagicalSuffixNone                MagicalSuffix = iota //
+	MagicalSuffixProtection                               // Protection
 	MagicalSuffixAbsorption                               // Absorption
 	MagicalSuffixLife                                     // Life
 	MagicalSuffixEmpty                                    // Empty(nothing?)
@@ -316,6 +317,7 @@ const (
 // nolint:funlen // cannot reduce
 func getSuffixMap() map[uint16]MagicalSuffix {
 	return map[uint16]MagicalSuffix{
+		0:   MagicalSuffixNone,
 		1:   MagicalSuffixHealth,              //   Health
 		2:   MagicalSuffixProtection,          // Protection
 		3:   MagicalSuffixAbsorption,          // Absorption

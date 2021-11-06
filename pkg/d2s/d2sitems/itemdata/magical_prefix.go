@@ -7,7 +7,8 @@ type MagicalPrefix uint16
 
 // magical prefixes
 const (
-	MagicalPrefixStrong        MagicalPrefix = iota // Strong
+	MagicalPrefixNone          MagicalPrefix = iota //
+	MagicalPrefixStrong                             // Strong
 	MagicalPrefixGlorious                           // Glorious
 	MagicalPrefixBlessed                            // Blessed
 	MagicalPrefixSaintly                            // Saintly
@@ -263,6 +264,7 @@ const (
 // nolint:funlen // data function
 func getMagicalPrefixMap() map[uint16]MagicalPrefix {
 	return map[uint16]MagicalPrefix{
+		0:   MagicalPrefixNone,
 		2:   MagicalPrefixSturdy,
 		3:   MagicalPrefixStrong,
 		4:   MagicalPrefixGlorious,
