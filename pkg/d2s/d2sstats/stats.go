@@ -173,6 +173,18 @@ func (s *Stats) Encode() ([]byte, error) {
 		sw.PushBits32(statMap[i], l)
 	}
 
+	if s.ExtraStats != nil {
+		for key, value := range s.ExtraStats {
+			l, err := key.GetStatLen(s.userStatIdMap)
+			if err != nil {
+				return nil, errors.New("Adding user-definied stat: custom stat value len wasn't found. Did you forgot to call UserStatMap()?")
+			}
+
+			sw.PushBits16(uint16(key), statIDLen)
+			sw.PushBits32(value, l)
+		}
+	}
+
 	sw.PushBits16(statEndMark, statIDLen)
 	sw.Align()
 
