@@ -81,6 +81,47 @@ for more examples, see [here](./examples)
 
 this programm should be able to decode, encode and create a new D2S files
 
-## Notes
+## Legal Notes
 
-Diablo 2 and its content is ©2000 Blizzard Entertainment, Inc. All rights reserved. Diablo and Blizzard Entertainment are trademarks or registered trademarks of Blizzard Entertainment, Inc. in the U.S. and/or other countries.
+Diablo 2 and its content is ©2000 Blizzard Entertainment, Inc. All rights reserved.
+Diablo and Blizzard Entertainment are trademarks or registered trademarks of Blizzard Entertainment,
+Inc. in the U.S. and/or other countries.
+
+This package is ABSOLUTLY NO WARRITY!
+The code developers aren't responsible
+for any damage caused by this software or illegal uses of it!
+
+## Custom D2S Files
+
+Sometimes, you may want to parse some custom d2s files. For example
+these created by certain d2 mods. They are not supported by default,
+however you can do some configuration to support them.
+
+**NOTE:** add this code in your custom implementation of package or
+modify cmd/editor
+
+**NOTE:** in case of any problems/errors please fill an issue in this repo!
+
+- [MedianXL](https://www.median-xl.com/)
+```golang
+        m := map[d2sstats.StatID]int{
+                d2sstats.Strength:       11,
+                d2sstats.Energy:         11,
+                d2sstats.Dexterity:      11,
+                d2sstats.Vitality:       11,
+                d2sstats.UnusedStats:    11,
+                d2sstats.UnusedSkills:   8,
+                d2sstats.CurrentHP:      21,
+                d2sstats.MaxHP:          21,
+                d2sstats.CurrentMana:    21,
+                d2sstats.MaxMana:        21,
+                d2sstats.CurrentStamina: 21,
+                d2sstats.MaxStamina:     21,
+                d2sstats.Level:          8,
+                d2sstats.Experience:     32,
+                d2sstats.Gold:           22,
+                d2sstats.StashedGold:    25,
+                88:                      17,
+        }
+        loadedD2S.Stats.UserStatMap(m)
+```
