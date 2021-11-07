@@ -101,11 +101,15 @@ func New() *D2S {
 // Load loads d2s file into D2S structure
 func Load(data []byte) (*D2S, error) {
 	result := New()
+	err := result.Load(data)
+	return result, err
+}
 
+func (result *D2S) Load(data []byte) error {
 	sr := datareader.NewReader(data)
 
 	if err := result.loadHeader(sr); err != nil {
-		return nil, fmt.Errorf("loading header: %w", err)
+		return fmt.Errorf("loading header: %w", err)
 	}
 
 	result.loadCharDetails(sr)
@@ -125,14 +129,14 @@ func Load(data []byte) (*D2S, error) {
 	result.Difficulty.Load(difficultyData)
 
 	if err := result.loadMapDetails(sr); err != nil {
-		return nil, fmt.Errorf("loading map data: %w", err)
+		return fmt.Errorf("loading map data: %w", err)
 	}
 
 	if err := result.loadCharacterDetails(sr); err != nil {
-		return nil, fmt.Errorf("loading character details: %w", err)
+		return fmt.Errorf("loading character details: %w", err)
 	}
 
-	return result, nil
+	return nil
 }
 
 func (d *D2S) loadHeader(sr *datareader.Reader) error {

@@ -196,17 +196,17 @@ func (w *D2SWidget) stats() giu.Layout {
 	)
 
 	strength := strconv.Itoa(int(w.d2s.Stats.Strength))
-	strengthLen, _ := d2sstats.Strength.GetStatLen()
+	strengthLen, _ := d2sstats.Strength.GetStatLen(nil)
 	energy := strconv.Itoa(int(w.d2s.Stats.Energy))
-	energyLen, _ := d2sstats.Energy.GetStatLen()
+	energyLen, _ := d2sstats.Energy.GetStatLen(nil)
 	dexterity := strconv.Itoa(int(w.d2s.Stats.Dexterity))
-	dexterityLen, _ := d2sstats.Dexterity.GetStatLen()
+	dexterityLen, _ := d2sstats.Dexterity.GetStatLen(nil)
 	vitality := strconv.Itoa(int(w.d2s.Stats.Vitality))
-	vitalityLen, _ := d2sstats.Vitality.GetStatLen()
+	vitalityLen, _ := d2sstats.Vitality.GetStatLen(nil)
 	ustats := strconv.Itoa(int(w.d2s.Stats.UnusedStats))
-	ustatsLen, _ := d2sstats.UnusedStats.GetStatLen()
+	ustatsLen, _ := d2sstats.UnusedStats.GetStatLen(nil)
 	uskills := strconv.Itoa(int(w.d2s.Stats.UnusedSkillPoints))
-	uskillsLen, _ := d2sstats.UnusedSkills.GetStatLen()
+	uskillsLen, _ := d2sstats.UnusedSkills.GetStatLen(nil)
 
 	currentHP := strconv.Itoa(int(w.d2s.Stats.CurrentHP))
 	maxHP := strconv.Itoa(int(w.d2s.Stats.MaxHP))
@@ -216,11 +216,11 @@ func (w *D2SWidget) stats() giu.Layout {
 	maxStamina := strconv.Itoa(int(w.d2s.Stats.MaxStamina))
 
 	exp := strconv.Itoa(int(w.d2s.Stats.Experience))
-	expLen, _ := d2sstats.Experience.GetStatLen()
+	expLen, _ := d2sstats.Experience.GetStatLen(nil)
 	gold := strconv.Itoa(int(w.d2s.Stats.Gold))
-	goldLen, _ := d2sstats.Gold.GetStatLen()
+	goldLen, _ := d2sstats.Gold.GetStatLen(nil)
 	stashGold := strconv.Itoa(int(w.d2s.Stats.StashedGold))
-	stashGoldLen, _ := d2sstats.StashedGold.GetStatLen()
+	stashGoldLen, _ := d2sstats.StashedGold.GetStatLen(nil)
 
 	return giu.Layout{
 		giu.Row(

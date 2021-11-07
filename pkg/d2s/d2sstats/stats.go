@@ -38,12 +38,31 @@ type Stats struct {
 	Experience,
 	Gold,
 	StashedGold uint32
+
+	// user can also specify self-definied stat ids
+	ExtraStats map[StatID]uint32
+	// this map should contain pairs of StatID:bit length of stat value
+	userStatIdMap map[StatID]int
 }
 
 // New creates a new stats list
 func New() *Stats {
-	result := &Stats{}
+	result := &Stats{
+		ExtraStats: make(map[StatID]uint32),
+	}
 	return result
+}
+
+// UserStatMap allows to specify user-definied map of stat ids
+// These ids will be saved inside of ExtraStats map
+// values in m should be of types:
+// key - StatID
+// value - int (how many bits does value in d2s file use to be saved)
+// NOTE: if existing value was added (e.g. user want to modify len of stat value)
+// this stat will be still saved in corseponding field in Stats structure (not ExtraStats).
+func (s *Stats) UserStatMap(m map[StatID]int) *Stats {
+	s.userStatIdMap = m
+	return s
 }
 
 // Load loads hero stats
@@ -63,7 +82,7 @@ func (s *Stats) Load(sr *datareader.Reader) error {
 		}
 
 		// The attribute value bit length, so we'll know how many bits to read next.
-		length, err := id.GetStatLen()
+		length, err := id.GetStatLen(s.userStatIdMap)
 		if err != nil {
 			return fmt.Errorf("error reading stat id: %w", err)
 		}
@@ -96,9 +115,14 @@ func (s *Stats) Load(sr *datareader.Reader) error {
 		case CurrentHP, MaxHP, CurrentMana, MaxMana, CurrentStamina, MaxStamina:
 			value := statMap[id].(*float32)
 			*value = float32(attr) / statsModifier
-		default:
+		case Strength, Energy, Dexterity, Vitality, UnusedStats,
+			UnusedSkills, Level, Experience, Gold, StashedGold:
 			value := statMap[id].(*uint32)
 			*value = attr
+		default: // check extra stats map
+			if _, exists := s.userStatIdMap[id]; exists {
+				s.ExtraStats[id] = attr
+			}
 		}
 	}
 
@@ -140,7 +164,7 @@ func (s *Stats) Encode() ([]byte, error) {
 			}
 		}
 
-		l, err := i.GetStatLen()
+		l, err := i.GetStatLen(s.userStatIdMap)
 		if err != nil {
 			return nil, err
 		}
@@ -182,7 +206,7 @@ const (
 )
 
 // GetStatLen returns length of stat id data
-func (i StatID) GetStatLen() (int, error) {
+func (i StatID) GetStatLen(extra map[StatID]int) (int, error) {
 	// nolint:gomnd // data function
 	attributeBitMap := map[StatID]int{
 		Strength:       10,
@@ -203,10 +227,11 @@ func (i StatID) GetStatLen() (int, error) {
 		StashedGold:    25,
 	}
 
-	s, ok := attributeBitMap[i]
-	if !ok {
-		return 0, ErrIncorrectStatID
+	if s, ok := extra[i]; ok {
+		return s, nil
+	} else if s, ok := attributeBitMap[i]; ok {
+		return s, nil
 	}
 
-	return s, nil
+	return 0, ErrIncorrectStatID
 }
