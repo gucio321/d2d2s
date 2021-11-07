@@ -155,6 +155,9 @@ func (s *Stats) Encode() ([]byte, error) {
 	return sw.GetBytes(), nil
 }
 
+// it may be easier to debug, if each stat id have its own human-readable name
+//go:generate stringer -type StatID
+
 // StatID represents a stat id
 type StatID uint16
 
