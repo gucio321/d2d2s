@@ -17,6 +17,10 @@ func main() {
 	d2spath := flag.String("path", "", "D2S file path")
 	flag.Parse()
 
+	if *d2spath == "" {
+		log.Fatal("Please specify -path argument")
+	}
+
 	d2sdata, err := os.ReadFile(*d2spath)
 	if err != nil {
 		log.Fatalf("error loading data file %v: %v", *d2spath, err)
