@@ -121,7 +121,7 @@ modify cmd/editor
                 d2sstats.Experience:     32,
                 d2sstats.Gold:           22,
                 d2sstats.StashedGold:    25,
-                88:                      17,
+                88:                      48,
         }
         loadedD2S.Stats.UserStatMap(m)
 ```

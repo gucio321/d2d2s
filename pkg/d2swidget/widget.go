@@ -228,7 +228,7 @@ func (w *D2SWidget) stats() giu.Layout {
 			giu.InputText(&strength).
 				Flags(giu.InputTextFlagsCharsDecimal).OnChange(func() {
 				s, _ := strconv.ParseUint(strength, decimal, strengthLen)
-				w.d2s.Stats.Strength = uint32(s)
+				w.d2s.Stats.Strength = uint64(s)
 			}),
 		),
 		giu.Row(
@@ -236,7 +236,7 @@ func (w *D2SWidget) stats() giu.Layout {
 			giu.InputText(&energy).
 				Flags(giu.InputTextFlagsCharsDecimal).OnChange(func() {
 				e, _ := strconv.ParseUint(energy, decimal, energyLen)
-				w.d2s.Stats.Energy = uint32(e)
+				w.d2s.Stats.Energy = uint64(e)
 			}),
 		),
 		giu.Row(
@@ -244,7 +244,7 @@ func (w *D2SWidget) stats() giu.Layout {
 			giu.InputText(&dexterity).
 				Flags(giu.InputTextFlagsCharsDecimal).OnChange(func() {
 				d, _ := strconv.ParseUint(dexterity, decimal, dexterityLen)
-				w.d2s.Stats.Dexterity = uint32(d)
+				w.d2s.Stats.Dexterity = uint64(d)
 			}),
 		),
 		giu.Row(
@@ -252,7 +252,7 @@ func (w *D2SWidget) stats() giu.Layout {
 			giu.InputText(&vitality).
 				Flags(giu.InputTextFlagsCharsDecimal).OnChange(func() {
 				v, _ := strconv.ParseUint(vitality, decimal, vitalityLen)
-				w.d2s.Stats.Vitality = uint32(v)
+				w.d2s.Stats.Vitality = uint64(v)
 			}),
 		),
 		giu.Row(
@@ -260,7 +260,7 @@ func (w *D2SWidget) stats() giu.Layout {
 			giu.InputText(&ustats).
 				Flags(giu.InputTextFlagsCharsDecimal).OnChange(func() {
 				u, _ := strconv.ParseUint(ustats, decimal, ustatsLen)
-				w.d2s.Stats.UnusedStats = uint32(u)
+				w.d2s.Stats.UnusedStats = uint64(u)
 			}),
 		),
 		giu.Row(
@@ -268,7 +268,7 @@ func (w *D2SWidget) stats() giu.Layout {
 			giu.InputText(&uskills).
 				Flags(giu.InputTextFlagsCharsDecimal).OnChange(func() {
 				u, _ := strconv.ParseUint(uskills, decimal, uskillsLen)
-				w.d2s.Stats.UnusedSkillPoints = uint32(u)
+				w.d2s.Stats.UnusedSkillPoints = uint64(u)
 			}),
 		),
 		giu.Row(
@@ -276,57 +276,57 @@ func (w *D2SWidget) stats() giu.Layout {
 			giu.InputText(&currentHP).
 				Flags(giu.InputTextFlagsCharsDecimal).OnChange(func() {
 				c, _ := strconv.ParseFloat(currentHP, floatSize)
-				w.d2s.Stats.CurrentHP = float32(c)
+				w.d2s.Stats.CurrentHP = float64(c)
 			}),
 			giu.Label("/"),
 			giu.InputText(&maxHP).
 				Flags(giu.InputTextFlagsCharsDecimal).OnChange(func() {
 				c, _ := strconv.ParseFloat(maxHP, floatSize)
-				w.d2s.Stats.MaxHP = float32(c)
+				w.d2s.Stats.MaxHP = float64(c)
 			}),
 		),
 		giu.Style().SetColor(giu.StyleColorProgressBarActive, colornames.Red).To(
-			giu.ProgressBar(w.d2s.Stats.CurrentHP/w.d2s.Stats.MaxHP).Size(progressBarSize, progressBarSize),
+			giu.ProgressBar(float32(w.d2s.Stats.CurrentHP/w.d2s.Stats.MaxHP)).Size(progressBarSize, progressBarSize),
 		),
 		giu.Row(
 			giu.Label("Mana: "),
 			giu.InputText(&currentMana).
 				Flags(giu.InputTextFlagsCharsDecimal).OnChange(func() {
 				c, _ := strconv.ParseFloat(currentMana, floatSize)
-				w.d2s.Stats.CurrentMana = float32(c)
+				w.d2s.Stats.CurrentMana = float64(c)
 			}),
 			giu.Label("/"),
 			giu.InputText(&maxMana).
 				Flags(giu.InputTextFlagsCharsDecimal).OnChange(func() {
 				c, _ := strconv.ParseFloat(maxMana, floatSize)
-				w.d2s.Stats.MaxMana = float32(c)
+				w.d2s.Stats.MaxMana = float64(c)
 			}),
 		),
 		giu.Style().SetColor(giu.StyleColorProgressBarActive, colornames.Blue).To(
-			giu.ProgressBar(w.d2s.Stats.CurrentMana/w.d2s.Stats.MaxMana).Size(progressBarSize, progressBarSize),
+			giu.ProgressBar(float32(w.d2s.Stats.CurrentMana/w.d2s.Stats.MaxMana)).Size(progressBarSize, progressBarSize),
 		),
 		giu.Row(
 			giu.Label("Stamina: "),
 			giu.InputText(&currentStamina).
 				Flags(giu.InputTextFlagsCharsDecimal).OnChange(func() {
 				c, _ := strconv.ParseFloat(currentStamina, floatSize)
-				w.d2s.Stats.CurrentStamina = float32(c)
+				w.d2s.Stats.CurrentStamina = float64(c)
 			}),
 			giu.Label("/"),
 			giu.InputText(&maxStamina).
 				Flags(giu.InputTextFlagsCharsDecimal).OnChange(func() {
 				c, _ := strconv.ParseFloat(maxStamina, floatSize)
-				w.d2s.Stats.MaxStamina = float32(c)
+				w.d2s.Stats.MaxStamina = float64(c)
 			}),
 		),
-		giu.ProgressBar(w.d2s.Stats.CurrentStamina / w.d2s.Stats.MaxStamina),
+		giu.ProgressBar(float32(w.d2s.Stats.CurrentStamina / w.d2s.Stats.MaxStamina)),
 		giu.Label(fmt.Sprintf("Level: %v", w.d2s.Stats.Level)),
 		giu.Row(
 			giu.Label("Experience: "),
 			giu.InputText(&strength).
 				Flags(giu.InputTextFlagsCharsDecimal).OnChange(func() {
 				e, _ := strconv.ParseUint(exp, decimal, expLen)
-				w.d2s.Stats.Experience = uint32(e)
+				w.d2s.Stats.Experience = uint64(e)
 			}),
 		),
 		giu.Row(
@@ -334,7 +334,7 @@ func (w *D2SWidget) stats() giu.Layout {
 			giu.InputText(&gold).
 				Flags(giu.InputTextFlagsCharsDecimal).OnChange(func() {
 				g, _ := strconv.ParseUint(gold, decimal, goldLen)
-				w.d2s.Stats.Gold = uint32(g)
+				w.d2s.Stats.Gold = uint64(g)
 			}),
 		),
 		giu.Row(
@@ -342,7 +342,7 @@ func (w *D2SWidget) stats() giu.Layout {
 			giu.InputText(&stashGold).
 				Flags(giu.InputTextFlagsCharsDecimal).OnChange(func() {
 				s, _ := strconv.ParseUint(stashGold, decimal, stashGoldLen)
-				w.d2s.Stats.StashedGold = uint32(s)
+				w.d2s.Stats.StashedGold = uint64(s)
 			}),
 		),
 	}

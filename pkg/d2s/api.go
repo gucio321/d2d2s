@@ -111,7 +111,7 @@ func (d *D2S) SetLevel(level byte) *D2S {
 	}
 
 	d.Level = level
-	d.Stats.Level = uint32(level)
+	d.Stats.Level = uint64(level)
 
 	return d
 }

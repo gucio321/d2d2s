@@ -27,20 +27,20 @@ type Stats struct {
 	Dexterity,
 	Vitality,
 	UnusedStats,
-	UnusedSkillPoints uint32
+	UnusedSkillPoints uint64
 	CurrentHP,
 	MaxHP,
 	CurrentMana,
 	MaxMana,
 	CurrentStamina,
-	MaxStamina float32
+	MaxStamina float64
 	Level,
 	Experience,
 	Gold,
-	StashedGold uint32
+	StashedGold uint64
 
 	// user can also specify self-definied stat ids
-	ExtraStats map[StatID]uint32
+	ExtraStats map[StatID]uint64
 	// this map should contain pairs of StatID:bit length of stat value
 	userStatIdMap map[StatID]int
 }
@@ -48,7 +48,7 @@ type Stats struct {
 // New creates a new stats list
 func New() *Stats {
 	result := &Stats{
-		ExtraStats: make(map[StatID]uint32),
+		ExtraStats: make(map[StatID]uint64),
 	}
 	return result
 }
@@ -88,7 +88,7 @@ func (s *Stats) Load(sr *datareader.Reader) error {
 		}
 
 		// The attribute value.
-		attr := sr.GetBits32(length)
+		attr := sr.GetBits64(length)
 
 		// this map connects StatID with appropriate value from stats structure
 		statMap := map[StatID]interface{}{
@@ -113,11 +113,11 @@ func (s *Stats) Load(sr *datareader.Reader) error {
 		// if id is HP/mana/stamina, make it float, by default uint32
 		switch id {
 		case CurrentHP, MaxHP, CurrentMana, MaxMana, CurrentStamina, MaxStamina:
-			value := statMap[id].(*float32)
-			*value = float32(attr) / statsModifier
+			value := statMap[id].(*float64)
+			*value = float64(attr) / statsModifier
 		case Strength, Energy, Dexterity, Vitality, UnusedStats,
 			UnusedSkills, Level, Experience, Gold, StashedGold:
-			value := statMap[id].(*uint32)
+			value := statMap[id].(*uint64)
 			*value = attr
 		default: // check extra stats map
 			if _, exists := s.userStatIdMap[id]; exists {
@@ -136,19 +136,19 @@ func (s *Stats) Encode() ([]byte, error) {
 	sw := datautils.CreateStreamWriter()
 	sw.PushBytes([]byte(statsHeaderID)...)
 
-	statMap := map[StatID]uint32{
+	statMap := map[StatID]uint64{
 		Strength:       s.Strength,
 		Energy:         s.Energy,
 		Dexterity:      s.Dexterity,
 		Vitality:       s.Vitality,
 		UnusedStats:    s.UnusedStats,
 		UnusedSkills:   s.UnusedSkillPoints,
-		CurrentHP:      uint32(s.CurrentHP * statsModifier),
-		MaxHP:          uint32(s.MaxHP * statsModifier),
-		CurrentMana:    uint32(s.CurrentMana * statsModifier),
-		MaxMana:        uint32(s.MaxMana * statsModifier),
-		CurrentStamina: uint32(s.CurrentStamina * statsModifier),
-		MaxStamina:     uint32(s.MaxStamina * statsModifier),
+		CurrentHP:      uint64(s.CurrentHP * statsModifier),
+		MaxHP:          uint64(s.MaxHP * statsModifier),
+		CurrentMana:    uint64(s.CurrentMana * statsModifier),
+		MaxMana:        uint64(s.MaxMana * statsModifier),
+		CurrentStamina: uint64(s.CurrentStamina * statsModifier),
+		MaxStamina:     uint64(s.MaxStamina * statsModifier),
 		Level:          s.Level,
 		Experience:     s.Experience,
 		Gold:           s.Gold,
@@ -170,7 +170,7 @@ func (s *Stats) Encode() ([]byte, error) {
 		}
 
 		sw.PushBits16(uint16(i), statIDLen)
-		sw.PushBits32(statMap[i], l)
+		sw.PushBits64(statMap[i], l)
 	}
 
 	if s.ExtraStats != nil {
@@ -181,7 +181,7 @@ func (s *Stats) Encode() ([]byte, error) {
 			}
 
 			sw.PushBits16(uint16(key), statIDLen)
-			sw.PushBits32(value, l)
+			sw.PushBits64(value, l)
 		}
 	}
 

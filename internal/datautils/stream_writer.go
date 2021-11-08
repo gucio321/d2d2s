@@ -9,6 +9,7 @@ const (
 	bitsPerByte   = 8
 	bytesPerint16 = 2
 	bytesPerint32 = 4
+	bytesPerint64 = 8
 )
 
 // StreamWriter allows you to create a byte array by streaming in writes of various sizes
@@ -93,6 +94,20 @@ func (v *StreamWriter) PushBits16(b uint16, bits int) {
 // PushBits32 pushes bits (with max range 32)
 func (v *StreamWriter) PushBits32(b uint32, bits int) {
 	if bits > bitsPerByte*bytesPerint32 {
+		log.Print("input bits number must be less (or equal) than 32")
+	}
+
+	val := b
+
+	for i := 0; i < bits; i++ {
+		v.PushBit(val&1 == 1)
+		val >>= 1
+	}
+}
+
+// PushBits64 pushes bits (with max range 64)
+func (v *StreamWriter) PushBits64(b uint64, bits int) {
+	if bits > bitsPerByte*bytesPerint64 {
 		log.Print("input bits number must be less (or equal) than 32")
 	}
 
