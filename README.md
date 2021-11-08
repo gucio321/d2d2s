@@ -123,5 +123,7 @@ modify cmd/editor
                 d2sstats.StashedGold:    25,
                 88:                      48,
         }
+
         loadedD2S.Stats.UserStatMap(m)
+        loadedD2S.Skills.SetSkillsCount(95)
 ```
