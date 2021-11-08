@@ -104,6 +104,7 @@ modify cmd/editor
 
 - [MedianXL](https://www.median-xl.com/)
 ```golang
+        myD2S := d2s.New()
         m := map[d2sstats.StatID]int{
                 d2sstats.Strength:       11,
                 d2sstats.Energy:         11,
@@ -124,6 +125,7 @@ modify cmd/editor
                 88:                      48,
         }
 
-        loadedD2S.Stats.UserStatMap(m)
-        loadedD2S.Skills.SetSkillsCount(95)
+        myD2S.Stats.UserStatMap(m)
+        myD2S.Skills.SetSkillsCount(95)
+        myD2S.Items.IgnoreErrors()
 ```
