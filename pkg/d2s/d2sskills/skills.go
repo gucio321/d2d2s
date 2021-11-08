@@ -8,57 +8,58 @@ import (
 )
 
 const (
-	// NumSkillBytes is a total number of encoded skills structure
-	NumSkillBytes = d2senums.NumSkills + 2
-
 	skillsHeaderID = "if"
 )
 
 // Skills stores skillID:level values
-type Skills map[d2senums.SkillID]byte
+type Skills struct {
+	skillsCount int
+	SkillLevels map[d2senums.SkillID]byte
+}
 
 // New creates a new skills structure
 func New() *Skills {
-	result := &Skills{}
-	*result = make(Skills)
+	result := &Skills{
+		skillsCount: d2senums.NumSkills,
+		SkillLevels: make(map[d2senums.SkillID]byte),
+	}
 
 	return result
 }
 
-// Load loads skills from bitmuncher given
-func (s *Skills) Load(data [NumSkillBytes]byte, class d2senums.CharacterClass) error {
-	sr := datareader.NewReader(data[:])
+// SetSkillsCount could be used to parse custom d2s files. It sets
+// custom number of character skills.
+func (s *Skills) SetSkillsCount(count int) *Skills {
+	s.skillsCount = count
+	return s
+}
 
+// Load loads skills from bitmuncher given
+func (s *Skills) Load(sr *datareader.Reader, class d2senums.CharacterClass) error {
 	skillsID := sr.GetBytes(len(skillsHeaderID))
 	if string(skillsID) != skillsHeaderID {
 		return common.ErrUnexpectedHeader
 	}
 
-	skills := d2senums.GetSkillList(class)
+	mod := d2senums.GetSkillModifier(class)
 
-	for _, skill := range skills {
+	for skill := 0; skill < s.skillsCount; skill++ {
+		skill := skill + int(mod)
 		value := sr.GetByte()
-		(*s)[skill] = value
+		s.SkillLevels[d2senums.SkillID(skill)] = value
 	}
 
 	return nil
 }
 
 // Encode encodes skills data into stream writer
-func (s *Skills) Encode(class d2senums.CharacterClass) (result [NumSkillBytes]byte) {
-	sw := datautils.CreateStreamWriter()
-
+func (s *Skills) Encode(sw *datautils.StreamWriter, class d2senums.CharacterClass) {
 	sw.PushBytes([]byte(skillsHeaderID)...)
 
-	skills := d2senums.GetSkillList(class)
+	mod := d2senums.GetSkillModifier(class)
 
-	for _, skill := range skills {
-		sw.PushBytes((*s)[skill])
+	for skill := 0; skill < s.skillsCount; skill++ {
+		skill := skill + int(mod)
+		sw.PushBytes(s.SkillLevels[d2senums.SkillID(skill)])
 	}
-
-	data := sw.GetBytes()
-
-	copy(result[:], data[:NumSkillBytes])
-
-	return result
 }

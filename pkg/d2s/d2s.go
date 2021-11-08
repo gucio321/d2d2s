@@ -256,13 +256,7 @@ func (d *D2S) loadCharacterDetails(sr *datareader.Reader) error {
 		return fmt.Errorf("loading character stats: %w", err)
 	}
 
-	var skillData [d2sskills.NumSkillBytes]byte
-
-	sd := sr.GetBytes(d2sskills.NumSkillBytes)
-
-	copy(skillData[:], sd[:d2sskills.NumSkillBytes])
-
-	if skillErr := d.Skills.Load(skillData, d.Class); skillErr != nil {
+	if skillErr := d.Skills.Load(sr, d.Class); skillErr != nil {
 		return fmt.Errorf("loading skills: %w", skillErr)
 	}
 
@@ -353,8 +347,7 @@ func (d *D2S) Encode() ([]byte, error) {
 
 	sw.PushBytes(sd...)
 
-	skillData := d.Skills.Encode(d.Class)
-	sw.PushBytes(skillData[:]...)
+	d.Skills.Encode(sw, d.Class)
 
 	sw.PushBytes(d.Items.Encode()...)
 
