@@ -45,7 +45,7 @@ func (i *IronGolem) Load(sr *datareader.Reader) error {
 		return fmt.Errorf("error lading golem item: %w", err)
 	}
 
-	i.Item = (*item)[0]
+	i.Item = item.List[0]
 
 	return nil
 }

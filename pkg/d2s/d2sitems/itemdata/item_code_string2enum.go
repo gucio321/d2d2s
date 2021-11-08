@@ -21,1298 +21,1300 @@ func _(s string) {
 	// Check for duplicate string values in type "ItemCode".
 	switch s {
 	// 0
-	case "dr6":
+	case "ItemCodeNotFound":
 	// 1
-	case "aar":
+	case "dr6":
 	// 2
-	case "dr3":
+	case "aar":
 	// 3
-	case "utp":
+	case "dr3":
 	// 4
-	case "ulm":
+	case "utp":
 	// 5
-	case "ba4":
+	case "ulm":
 	// 6
-	case "ba5":
+	case "ba4":
 	// 7
-	case "upl":
+	case "ba5":
 	// 8
-	case "xhl":
+	case "upl":
 	// 9
-	case "ztb":
+	case "xhl":
 	// 10
-	case "xtb":
+	case "ztb":
 	// 11
-	case "xtg":
+	case "xtb":
 	// 12
-	case "mbl":
+	case "xtg":
 	// 13
-	case "drb":
+	case "mbl":
 	// 14
-	case "bhm":
+	case "drb":
 	// 15
-	case "uh9":
+	case "bhm":
 	// 16
-	case "uhn":
+	case "uh9":
 	// 17
-	case "umb":
+	case "uhn":
 	// 18
-	case "mgl":
+	case "umb":
 	// 19
-	case "ulg":
+	case "mgl":
 	// 20
-	case "brs":
+	case "ulg":
 	// 21
-	case "cap":
+	case "brs":
 	// 22
-	case "bab":
+	case "cap":
 	// 23
-	case "xlm":
+	case "bab":
 	// 24
-	case "mbt":
+	case "xlm":
 	// 25
-	case "chn":
+	case "mbt":
 	// 26
-	case "xul":
+	case "chn":
 	// 27
-	case "ci0":
+	case "xul":
 	// 28
-	case "uhc":
+	case "ci0":
 	// 29
-	case "bae":
+	case "uhc":
 	// 30
-	case "urn":
+	case "bae":
 	// 31
-	case "ci1":
+	case "urn":
 	// 32
-	case "crn":
+	case "ci1":
 	// 33
-	case "utg":
+	case "crn":
 	// 34
-	case "xrs":
+	case "utg":
 	// 35
-	case "xsk":
+	case "xrs":
 	// 36
-	case "usk":
+	case "xsk":
 	// 37
-	case "xla":
+	case "usk":
 	// 38
-	case "xlb":
+	case "xla":
 	// 39
-	case "xlg":
+	case "xlb":
 	// 40
-	case "zlb":
+	case "xlg":
 	// 41
-	case "bad":
+	case "zlb":
 	// 42
-	case "ci3":
+	case "bad":
 	// 43
-	case "ung":
+	case "ci3":
 	// 44
-	case "drf":
+	case "ung":
 	// 45
-	case "uui":
+	case "drf":
 	// 46
-	case "drd":
+	case "uui":
 	// 47
-	case "xth":
+	case "drd":
 	// 48
-	case "dr4":
+	case "xth":
 	// 49
-	case "ba2":
+	case "dr4":
 	// 50
-	case "fld":
+	case "ba2":
 	// 51
-	case "fhl":
+	case "fld":
 	// 52
-	case "plt":
+	case "fhl":
 	// 53
-	case "ful":
+	case "plt":
 	// 54
-	case "bac":
+	case "ful":
 	// 55
-	case "hgl":
+	case "bac":
 	// 56
-	case "xui":
+	case "hgl":
 	// 57
-	case "uhl":
+	case "xui":
 	// 58
-	case "hbl":
+	case "uhl":
 	// 59
-	case "lgl":
+	case "hbl":
 	// 60
-	case "gth":
+	case "lgl":
 	// 61
-	case "xrn":
+	case "gth":
 	// 62
-	case "urs":
+	case "xrn":
 	// 63
-	case "ghm":
+	case "urs":
 	// 64
-	case "dr7":
+	case "ghm":
 	// 65
-	case "xh9":
+	case "dr7":
 	// 66
-	case "baf":
+	case "xh9":
 	// 67
-	case "hla":
+	case "baf":
 	// 68
-	case "dr2":
+	case "hla":
 	// 69
-	case "tbl":
+	case "dr2":
 	// 70
-	case "vbt":
+	case "tbl":
 	// 71
-	case "xmg":
+	case "vbt":
 	// 72
-	case "vgl":
+	case "xmg":
 	// 73
-	case "ult":
+	case "vgl":
 	// 74
-	case "hlm":
+	case "ult":
 	// 75
-	case "ba3":
+	case "hlm":
 	// 76
-	case "dr8":
+	case "ba3":
 	// 77
-	case "ukp":
+	case "dr8":
 	// 78
-	case "urg":
+	case "ukp":
 	// 79
-	case "ba1":
+	case "urg":
 	// 80
-	case "ba6":
+	case "ba1":
 	// 81
-	case "uld":
+	case "ba6":
 	// 82
-	case "uth":
+	case "uld":
 	// 83
-	case "lea":
+	case "uth":
 	// 84
-	case "lbt":
+	case "lea":
 	// 85
-	case "vbl":
+	case "lbt":
 	// 86
-	case "tgl":
+	case "vbl":
 	// 87
-	case "ltp":
+	case "tgl":
 	// 88
-	case "tbt":
+	case "ltp":
 	// 89
-	case "xng":
+	case "tbt":
 	// 90
-	case "ba7":
+	case "xng":
 	// 91
-	case "ucl":
+	case "ba7":
 	// 92
-	case "xtp":
+	case "ucl":
 	// 93
-	case "msk":
+	case "xtp":
 	// 94
-	case "xhn":
+	case "msk":
 	// 95
-	case "zmb":
+	case "xhn":
 	// 96
-	case "xmb":
+	case "zmb":
 	// 97
-	case "utb":
+	case "xmb":
 	// 98
-	case "umc":
+	case "utb":
 	// 99
-	case "uhb":
+	case "umc":
 	// 100
-	case "uhg":
+	case "uhb":
 	// 101
-	case "xar":
+	case "uhg":
 	// 102
-	case "hbt":
+	case "xar":
 	// 103
-	case "qui":
+	case "hbt":
 	// 104
-	case "ba8":
+	case "qui":
 	// 105
-	case "rng":
+	case "ba8":
 	// 106
-	case "xpl":
+	case "rng":
 	// 107
-	case "uar":
+	case "xpl":
 	// 108
-	case "dr9":
+	case "uar":
 	// 109
-	case "xkp":
+	case "dr9":
 	// 110
-	case "lbl":
+	case "xkp":
 	// 111
-	case "ba9":
+	case "lbl":
 	// 112
-	case "scl":
+	case "ba9":
 	// 113
-	case "ula":
+	case "scl":
 	// 114
-	case "uvb":
+	case "ula":
 	// 115
-	case "xea":
+	case "uvb":
 	// 116
-	case "uul":
+	case "xea":
 	// 117
-	case "uap":
+	case "uul":
 	// 118
-	case "zvb":
+	case "uap":
 	// 119
-	case "xvb":
+	case "zvb":
 	// 120
-	case "xvg":
+	case "xvb":
 	// 121
-	case "xld":
+	case "xvg":
 	// 122
-	case "skp":
+	case "xld":
 	// 123
-	case "dre":
+	case "skp":
 	// 124
-	case "baa":
+	case "dre":
 	// 125
-	case "ulc":
+	case "baa":
 	// 126
-	case "uhm":
+	case "ulc":
 	// 127
-	case "dr5":
+	case "uhm":
 	// 128
-	case "spl":
+	case "dr5":
 	// 129
-	case "stu":
+	case "spl":
 	// 130
-	case "drc":
+	case "stu":
 	// 131
-	case "xlt":
+	case "drc":
 	// 132
-	case "ci2":
+	case "xlt":
 	// 133
-	case "xcl":
+	case "ci2":
 	// 134
-	case "dra":
+	case "xcl":
 	// 135
-	case "xtu":
+	case "dra":
 	// 136
-	case "utc":
+	case "xtu":
 	// 137
-	case "umg":
+	case "utc":
 	// 138
-	case "uvg":
+	case "umg":
 	// 139
-	case "uvc":
+	case "uvg":
 	// 140
-	case "zhb":
+	case "uvc":
 	// 141
-	case "xhb":
+	case "zhb":
 	// 142
-	case "xhg":
+	case "xhb":
 	// 143
-	case "xap":
+	case "xhg":
 	// 144
-	case "xhm":
+	case "xap":
 	// 145
-	case "utu":
+	case "xhm":
 	// 146
-	case "dr1":
+	case "utu":
 	// 147
-	case "uea":
+	case "dr1":
 	// 148
-	case "ulb":
+	case "uea":
 	// 149
-	case "gsv":
+	case "ulb":
 	// 150
-	case "r11":
+	case "gsv":
 	// 151
-	case "amu":
+	case "r11":
 	// 152
-	case "yps":
+	case "amu":
 	// 153
-	case "aqv":
+	case "yps":
 	// 154
-	case "bey":
+	case "aqv":
 	// 155
-	case "bks":
+	case "bey":
 	// 156
-	case "r30":
+	case "bks":
 	// 157
-	case "cqv":
+	case "r30":
 	// 158
-	case "ass":
+	case "cqv":
 	// 159
-	case "bet":
+	case "ass":
 	// 160
-	case "r32":
+	case "bet":
 	// 161
-	case "ceh":
+	case "r32":
 	// 162
-	case "cm3":
+	case "ceh":
 	// 163
-	case "cm2":
+	case "cm3":
 	// 164
-	case "cm1":
+	case "cm2":
 	// 165
-	case "gcv":
+	case "cm1":
 	// 166
-	case "gcw":
+	case "gcv":
 	// 167
-	case "gcg":
+	case "gcw":
 	// 168
-	case "gcr":
+	case "gcg":
 	// 169
-	case "gcb":
+	case "gcr":
 	// 170
-	case "skc":
+	case "gcb":
 	// 171
-	case "gcy":
+	case "skc":
 	// 172
-	case "bkd":
+	case "gcy":
 	// 173
-	case "dhn":
+	case "bkd":
 	// 174
-	case "gsw":
+	case "dhn":
 	// 175
-	case "r14":
+	case "gsw":
 	// 176
-	case "r01":
+	case "r14":
 	// 177
-	case "r02":
+	case "r01":
 	// 178
-	case "elx":
+	case "r02":
 	// 179
-	case "gsg":
+	case "elx":
 	// 180
-	case "r05":
+	case "gsg":
 	// 181
-	case "r19":
+	case "r05":
 	// 182
-	case "fed":
+	case "r19":
 	// 183
-	case "gfv":
+	case "fed":
 	// 184
-	case "gfw":
+	case "gfv":
 	// 185
-	case "gfg":
+	case "gfw":
 	// 186
-	case "gfr":
+	case "gfg":
 	// 187
-	case "gfb":
+	case "gfr":
 	// 188
-	case "skf":
+	case "gfb":
 	// 189
-	case "gfy":
+	case "skf":
 	// 190
-	case "gzv":
+	case "gfy":
 	// 191
-	case "glw":
+	case "gzv":
 	// 192
-	case "glg":
+	case "glw":
 	// 193
-	case "glr":
+	case "glg":
 	// 194
-	case "glb":
+	case "glr":
 	// 195
-	case "skl":
+	case "glb":
 	// 196
-	case "gly":
+	case "skl":
 	// 197
-	case "hpf":
+	case "gly":
 	// 198
-	case "mpf":
+	case "hpf":
 	// 199
-	case "rvl":
+	case "mpf":
 	// 200
-	case "gld":
+	case "rvl":
 	// 201
-	case "g34":
+	case "gld":
 	// 202
-	case "hp5":
+	case "g34":
 	// 203
-	case "mp5":
+	case "hp5":
 	// 204
-	case "r25":
+	case "mp5":
 	// 205
-	case "hp3":
+	case "r25":
 	// 206
-	case "hpo":
+	case "hp3":
 	// 207
-	case "r15":
+	case "hpo":
 	// 208
-	case "hrb":
+	case "r15":
 	// 209
-	case "box":
+	case "hrb":
 	// 210
-	case "ibk":
+	case "box":
 	// 211
-	case "isc":
+	case "ibk":
 	// 212
-	case "r16":
+	case "isc":
 	// 213
-	case "r24":
+	case "r16":
 	// 214
-	case "r06":
+	case "r24":
 	// 215
-	case "j34":
+	case "r06":
 	// 216
-	case "r31":
+	case "j34":
 	// 217
-	case "jew":
+	case "r31":
 	// 218
-	case "pk3":
+	case "jew":
 	// 219
-	case "pk2":
+	case "pk3":
 	// 220
-	case "pk1":
+	case "pk2":
 	// 221
-	case "qbr":
+	case "pk1":
 	// 222
-	case "qey":
+	case "qbr":
 	// 223
-	case "qhr":
+	case "qey":
 	// 224
-	case "r18":
+	case "qhr":
 	// 225
-	case "bbb":
+	case "r18":
 	// 226
-	case "bpl":
+	case "bbb":
 	// 227
-	case "rpl":
+	case "bpl":
 	// 228
-	case "r20":
+	case "rpl":
 	// 229
-	case "hp1":
+	case "r20":
 	// 230
-	case "mp1":
+	case "hp1":
 	// 231
-	case "hp2":
+	case "mp1":
 	// 232
-	case "mp2":
+	case "hp2":
 	// 233
-	case "r28":
+	case "mp2":
 	// 234
-	case "r17":
+	case "r28":
 	// 235
-	case "ice":
+	case "r17":
 	// 236
-	case "r23":
+	case "ice":
 	// 237
-	case "mp3":
+	case "r23":
 	// 238
-	case "mpo":
+	case "mp3":
 	// 239
-	case "mbr":
+	case "mpo":
 	// 240
-	case "luv":
+	case "mbr":
 	// 241
-	case "mss":
+	case "luv":
 	// 242
-	case "r04":
+	case "mss":
 	// 243
-	case "r27":
+	case "r04":
 	// 244
-	case "r09":
+	case "r27":
 	// 245
-	case "gpv":
+	case "r09":
 	// 246
-	case "gpw":
+	case "gpv":
 	// 247
-	case "gpg":
+	case "gpw":
 	// 248
-	case "gpr":
+	case "gpg":
 	// 249
-	case "gpb":
+	case "gpr":
 	// 250
-	case "skz":
+	case "gpb":
 	// 251
-	case "gpy":
+	case "skz":
 	// 252
-	case "ear":
+	case "gpy":
 	// 253
-	case "r21":
+	case "ear":
 	// 254
-	case "r08":
+	case "r21":
 	// 255
-	case "rvs":
+	case "r08":
 	// 256
-	case "rin":
+	case "rvs":
 	// 257
-	case "gsr":
+	case "rin":
 	// 258
-	case "gsb":
+	case "gsr":
 	// 259
-	case "0sc":
+	case "gsb":
 	// 260
-	case "tr1":
+	case "0sc":
 	// 261
-	case "tr2":
+	case "tr1":
 	// 262
-	case "xyz":
+	case "tr2":
 	// 263
-	case "r13":
+	case "xyz":
 	// 264
-	case "key":
+	case "r13":
 	// 265
-	case "sku":
+	case "key":
 	// 266
-	case "bps":
+	case "sku":
 	// 267
-	case "rps":
+	case "bps":
 	// 268
-	case "r12":
+	case "rps":
 	// 269
-	case "vps":
+	case "r12":
 	// 270
-	case "std":
+	case "vps":
 	// 271
-	case "hp4":
+	case "std":
 	// 272
-	case "mp4":
+	case "hp4":
 	// 273
-	case "r29":
+	case "mp4":
 	// 274
-	case "r07":
+	case "r29":
 	// 275
-	case "wms":
+	case "r07":
 	// 276
-	case "r10":
+	case "wms":
 	// 277
-	case "r03":
+	case "r10":
 	// 278
-	case "toa":
+	case "r03":
 	// 279
-	case "gsy":
+	case "toa":
 	// 280
-	case "tch":
+	case "gsy":
 	// 281
-	case "tbk":
+	case "tch":
 	// 282
-	case "tsc":
+	case "tbk":
 	// 283
-	case "tes":
+	case "tsc":
 	// 284
-	case "r22":
+	case "tes":
 	// 285
-	case "r26":
+	case "r22":
 	// 286
-	case "vip":
+	case "r26":
 	// 287
-	case "r33":
+	case "vip":
 	// 288
-	case "uow":
+	case "r33":
 	// 289
-	case "pa4":
+	case "uow":
 	// 290
-	case "pa7":
+	case "pa4":
 	// 291
-	case "pa6":
+	case "pa7":
 	// 292
-	case "pad":
+	case "pa6":
 	// 293
-	case "xts":
+	case "pad":
 	// 294
-	case "xpk":
+	case "xts":
 	// 295
-	case "upk":
+	case "xpk":
 	// 296
-	case "nef":
+	case "upk":
 	// 297
-	case "bsh":
+	case "nef":
 	// 298
-	case "buc":
+	case "bsh":
 	// 299
-	case "ne9":
+	case "buc":
 	// 300
-	case "pa5":
+	case "ne9":
 	// 301
-	case "xuc":
+	case "pa5":
 	// 302
-	case "ne5":
+	case "xuc":
 	// 303
-	case "xit":
+	case "ne5":
 	// 304
-	case "ne7":
+	case "xit":
 	// 305
-	case "ne4":
+	case "ne7":
 	// 306
-	case "gts":
+	case "ne4":
 	// 307
-	case "xsh":
+	case "gts":
 	// 308
-	case "pa9":
+	case "xsh":
 	// 309
-	case "nea":
+	case "pa9":
 	// 310
-	case "uuc":
+	case "nea":
 	// 311
-	case "neg":
+	case "uuc":
 	// 312
-	case "pa3":
+	case "neg":
 	// 313
-	case "kit":
+	case "pa3":
 	// 314
-	case "lrg":
+	case "kit":
 	// 315
-	case "uml":
+	case "lrg":
 	// 316
-	case "neb":
+	case "uml":
 	// 317
-	case "uit":
+	case "neb":
 	// 318
-	case "ne6":
+	case "uit":
 	// 319
-	case "ned":
+	case "ne6":
 	// 320
-	case "xow":
+	case "ned":
 	// 321
-	case "ne1":
+	case "xow":
 	// 322
-	case "pa8":
+	case "ne1":
 	// 323
-	case "pa2":
+	case "pa8":
 	// 324
-	case "xml":
+	case "pa2":
 	// 325
-	case "paa":
+	case "xml":
 	// 326
-	case "pac":
+	case "paa":
 	// 327
-	case "pab":
+	case "pac":
 	// 328
-	case "xrg":
+	case "pab":
 	// 329
-	case "ne8":
+	case "xrg":
 	// 330
-	case "sml":
+	case "ne8":
 	// 331
-	case "spk":
+	case "sml":
 	// 332
-	case "nee":
+	case "spk":
 	// 333
-	case "pa1":
+	case "nee":
 	// 334
-	case "tow":
+	case "pa1":
 	// 335
-	case "ush":
+	case "tow":
 	// 336
-	case "ne3":
+	case "ush":
 	// 337
-	case "paf":
+	case "ne3":
 	// 338
-	case "uts":
+	case "paf":
 	// 339
-	case "pae":
+	case "uts":
 	// 340
-	case "ne2":
+	case "pae":
 	// 341
-	case "9gi":
+	case "ne2":
 	// 342
-	case "9wd":
+	case "9gi":
 	// 343
-	case "8lx":
+	case "9wd":
 	// 344
-	case "6ws":
+	case "8lx":
 	// 345
-	case "am6":
+	case "6ws":
 	// 346
-	case "7sm":
+	case "am6":
 	// 347
-	case "axe":
+	case "7sm":
 	// 348
-	case "bal":
+	case "axe":
 	// 349
-	case "bkf":
+	case "bal":
 	// 350
-	case "8hx":
+	case "bkf":
 	// 351
-	case "7gs":
+	case "8hx":
 	// 352
-	case "7s7":
+	case "7gs":
 	// 353
-	case "9sp":
+	case "7s7":
 	// 354
-	case "bar":
+	case "9sp":
 	// 355
-	case "bsw":
+	case "bar":
 	// 356
-	case "btx":
+	case "bsw":
 	// 357
-	case "7cs":
+	case "btx":
 	// 358
-	case "9tk":
+	case "7cs":
 	// 359
-	case "9wh":
+	case "9tk":
 	// 360
-	case "9s8":
+	case "9wh":
 	// 361
-	case "bst":
+	case "9s8":
 	// 362
-	case "9bs":
+	case "bst":
 	// 363
-	case "9ba":
+	case "9bs":
 	// 364
-	case "9h9":
+	case "9ba":
 	// 365
-	case "7wa":
+	case "9h9":
 	// 366
-	case "9vo":
+	case "7wa":
 	// 367
-	case "bld":
+	case "9vo":
 	// 368
-	case "6hb":
+	case "bld":
 	// 369
-	case "btl":
+	case "6hb":
 	// 370
-	case "7dg":
+	case "btl":
 	// 371
-	case "bwn":
+	case "7dg":
 	// 372
-	case "brn":
+	case "bwn":
 	// 373
-	case "bax":
+	case "brn":
 	// 374
-	case "bsd":
+	case "bax":
 	// 375
-	case "9wn":
+	case "bsd":
 	// 376
-	case "7ws":
+	case "9wn":
 	// 377
-	case "8lb":
+	case "7ws":
 	// 378
-	case "8cs":
+	case "8lb":
 	// 379
-	case "am7":
+	case "8cs":
 	// 380
-	case "ama":
+	case "am7":
 	// 381
-	case "am9":
+	case "ama":
 	// 382
-	case "am8":
+	case "am9":
 	// 383
-	case "ces":
+	case "am8":
 	// 384
-	case "7ga":
+	case "ces":
 	// 385
-	case "7b7":
+	case "7ga":
 	// 386
-	case "gpm":
+	case "7b7":
 	// 387
-	case "8rx":
+	case "gpm":
 	// 388
-	case "9kr":
+	case "8rx":
 	// 389
-	case "ob4":
+	case "9kr":
 	// 390
-	case "clw":
+	case "ob4":
 	// 391
-	case "clm":
+	case "clw":
 	// 392
-	case "9ax":
+	case "clm":
 	// 393
-	case "ob8":
+	case "9ax":
 	// 394
-	case "clb":
+	case "ob8":
 	// 395
-	case "7fb":
+	case "clb":
 	// 396
-	case "7gd":
+	case "7fb":
 	// 397
-	case "6hx":
+	case "7gd":
 	// 398
-	case "7vo":
+	case "6hx":
 	// 399
-	case "cbw":
+	case "7vo":
 	// 400
-	case "7bs":
+	case "cbw":
 	// 401
-	case "mxb":
+	case "7bs":
 	// 402
-	case "9mp":
+	case "mxb":
 	// 403
-	case "6l7":
+	case "9mp":
 	// 404
-	case "7pa":
+	case "6l7":
 	// 405
-	case "7ls":
+	case "7pa":
 	// 406
-	case "crs":
+	case "7ls":
 	// 407
-	case "ob7":
+	case "crs":
 	// 408
-	case "9cl":
+	case "ob7":
 	// 409
-	case "9sm":
+	case "9cl":
 	// 410
-	case "9cm":
+	case "9sm":
 	// 411
-	case "dgr":
+	case "9cm":
 	// 412
-	case "7bt":
+	case "dgr":
 	// 413
-	case "d33":
+	case "7bt":
 	// 414
-	case "6rx":
+	case "d33":
 	// 415
-	case "obd":
+	case "6rx":
 	// 416
-	case "7mt":
+	case "obd":
 	// 417
-	case "6s7":
+	case "7mt":
 	// 418
-	case "9cr":
+	case "6s7":
 	// 419
-	case "obf":
+	case "9cr":
 	// 420
-	case "dir":
+	case "obf":
 	// 421
-	case "9ws":
+	case "dir":
 	// 422
-	case "2ax":
+	case "9ws":
 	// 423
-	case "8cb":
+	case "2ax":
 	// 424
-	case "ob5":
+	case "8cb":
 	// 425
-	case "ob1":
+	case "ob5":
 	// 426
-	case "8sb":
+	case "ob1":
 	// 427
-	case "6cs":
+	case "8sb":
 	// 428
-	case "obc":
+	case "6cs":
 	// 429
-	case "7sb":
+	case "obc":
 	// 430
-	case "92h":
+	case "7sb":
 	// 431
-	case "72a":
+	case "92h":
 	// 432
-	case "9gd":
+	case "72a":
 	// 433
-	case "opm":
+	case "9gd":
 	// 434
-	case "7ss":
+	case "opm":
 	// 435
-	case "flc":
+	case "7ss":
 	// 436
-	case "7kr":
+	case "flc":
 	// 437
-	case "9xf":
+	case "7kr":
 	// 438
-	case "7la":
+	case "9xf":
 	// 439
-	case "7lw":
+	case "7la":
 	// 440
-	case "fla":
+	case "7lw":
 	// 441
-	case "flb":
+	case "fla":
 	// 442
-	case "9ma":
+	case "flb":
 	// 443
-	case "7ta":
+	case "9ma":
 	// 444
-	case "7tk":
+	case "7ta":
 	// 445
-	case "9ta":
+	case "7tk":
 	// 446
-	case "opl":
+	case "9ta":
 	// 447
-	case "9tr":
+	case "opl":
 	// 448
-	case "7gl":
+	case "9tr":
 	// 449
-	case "7st":
+	case "7gl":
 	// 450
-	case "7yw":
+	case "7st":
 	// 451
-	case "gix":
+	case "7yw":
 	// 452
-	case "gis":
+	case "gix":
 	// 453
-	case "7wc":
+	case "gis":
 	// 454
-	case "g33":
+	case "7wc":
 	// 455
-	case "9ss":
+	case "g33":
 	// 456
-	case "glv":
+	case "9ss":
 	// 457
-	case "7gi":
+	case "glv":
 	// 458
-	case "ob6":
+	case "7gi":
 	// 459
-	case "cst":
+	case "ob6":
 	// 460
-	case "6mx":
+	case "cst":
 	// 461
-	case "9ga":
+	case "6mx":
 	// 462
-	case "8lw":
+	case "9ga":
 	// 463
-	case "8bs":
+	case "8lw":
 	// 464
-	case "9b9":
+	case "8bs":
 	// 465
-	case "amc":
+	case "9b9":
 	// 466
-	case "gsc":
+	case "amc":
 	// 467
-	case "9gw":
+	case "gsc":
 	// 468
-	case "gax":
+	case "9gw":
 	// 469
-	case "6cb":
+	case "gax":
 	// 470
-	case "gma":
+	case "6cb":
 	// 471
-	case "9pi":
+	case "gma":
 	// 472
-	case "7h7":
+	case "9pi":
 	// 473
-	case "gsd":
+	case "7h7":
 	// 474
-	case "9lw":
+	case "gsd":
 	// 475
-	case "9tw":
+	case "9lw":
 	// 476
-	case "9wc":
+	case "9tw":
 	// 477
-	case "gwn":
+	case "9wc":
 	// 478
-	case "hal":
+	case "gwn":
 	// 479
-	case "hax":
+	case "hal":
 	// 480
-	case "9cs":
+	case "hax":
 	// 481
-	case "9ts":
+	case "9cs":
 	// 482
-	case "9ha":
+	case "9ts":
 	// 483
-	case "axf":
+	case "9ha":
 	// 484
-	case "obb":
+	case "axf":
 	// 485
-	case "hxb":
+	case "obb":
 	// 486
-	case "hfh":
+	case "hxb":
 	// 487
-	case "7cm":
+	case "hfh":
 	// 488
-	case "9qs":
+	case "7cm":
 	// 489
-	case "hdm":
+	case "9qs":
 	// 490
-	case "hst":
+	case "hdm":
 	// 491
-	case "hbw":
+	case "hst":
 	// 492
-	case "9b8":
+	case "hbw":
 	// 493
-	case "6lw":
+	case "9b8":
 	// 494
-	case "7fc":
+	case "6lw":
 	// 495
-	case "7ja":
+	case "7fc":
 	// 496
-	case "7sr":
+	case "7ja":
 	// 497
-	case "9mt":
+	case "7sr":
 	// 498
-	case "jav":
+	case "9mt":
 	// 499
-	case "8ss":
+	case "jav":
 	// 500
-	case "ktr":
+	case "8ss":
 	// 501
-	case "qf1":
+	case "ktr":
 	// 502
-	case "9fl":
+	case "qf1":
 	// 503
-	case "kri":
+	case "9fl":
 	// 504
-	case "9p9":
+	case "kri":
 	// 505
-	case "lax":
+	case "9p9":
 	// 506
-	case "7bl":
+	case "lax":
 	// 507
-	case "72h":
+	case "7bl":
 	// 508
-	case "7wh":
+	case "72h":
 	// 509
-	case "7bw":
+	case "7wh":
 	// 510
-	case "lxb":
+	case "7bw":
 	// 511
-	case "9b7":
+	case "lxb":
 	// 512
-	case "lbb":
+	case "9b7":
 	// 513
-	case "lbw":
+	case "lbb":
 	// 514
-	case "8l8":
+	case "lbw":
 	// 515
-	case "lst":
+	case "8l8":
 	// 516
-	case "lsd":
+	case "lst":
 	// 517
-	case "lwb":
+	case "lsd":
 	// 518
-	case "mac":
+	case "lwb":
 	// 519
-	case "am5":
+	case "mac":
 	// 520
-	case "am4":
+	case "am5":
 	// 521
-	case "am3":
+	case "am4":
 	// 522
-	case "7br":
+	case "am3":
 	// 523
-	case "9gm":
+	case "7br":
 	// 524
-	case "amb":
+	case "9gm":
 	// 525
-	case "ame":
+	case "amb":
 	// 526
-	case "amd":
+	case "ame":
 	// 527
-	case "amf":
+	case "amd":
 	// 528
-	case "mau":
+	case "amf":
 	// 529
-	case "7sc":
+	case "mau":
 	// 530
-	case "9la":
+	case "7sc":
 	// 531
-	case "mpi":
+	case "9la":
 	// 532
-	case "7di":
+	case "mpi":
 	// 533
-	case "mst":
+	case "7di":
 	// 534
-	case "7wd":
+	case "mst":
 	// 535
-	case "9wa":
+	case "7wd":
 	// 536
-	case "7o7":
+	case "9wa":
 	// 537
-	case "7m7":
+	case "7o7":
 	// 538
-	case "ops":
+	case "7m7":
 	// 539
-	case "9pa":
+	case "ops":
 	// 540
-	case "6lx":
+	case "9pa":
 	// 541
-	case "9yw":
+	case "6lx":
 	// 542
-	case "7cr":
+	case "9yw":
 	// 543
-	case "pik":
+	case "7cr":
 	// 544
-	case "pil":
+	case "pik":
 	// 545
-	case "9dg":
+	case "pil":
 	// 546
-	case "pax":
+	case "9dg":
 	// 547
-	case "7wn":
+	case "pax":
 	// 548
-	case "8ls":
+	case "7wn":
 	// 549
-	case "9ar":
+	case "8ls":
 	// 550
-	case "gps":
+	case "9ar":
 	// 551
-	case "8hb":
+	case "gps":
 	// 552
-	case "am2":
+	case "8hb":
 	// 553
-	case "7ma":
+	case "am2":
 	// 554
-	case "rxb":
+	case "7ma":
 	// 555
-	case "9di":
+	case "rxb":
 	// 556
-	case "8sw":
+	case "9di":
 	// 557
-	case "9sc":
+	case "8sw":
 	// 558
-	case "8ws":
+	case "9sc":
 	// 559
-	case "9ls":
+	case "8ws":
 	// 560
-	case "7tw":
+	case "9ls":
 	// 561
-	case "sbr":
+	case "7tw":
 	// 562
-	case "ob2":
+	case "sbr":
 	// 563
-	case "scp":
+	case "ob2":
 	// 564
-	case "scm":
+	case "scp":
 	// 565
-	case "skr":
+	case "scm":
 	// 566
-	case "9qr":
+	case "skr":
 	// 567
-	case "7qr":
+	case "9qr":
 	// 568
-	case "7fl":
+	case "7qr":
 	// 569
-	case "scy":
+	case "7fl":
 	// 570
-	case "7qs":
+	case "scy":
 	// 571
-	case "6lb":
+	case "7qs":
 	// 572
-	case "9sb":
+	case "6lb":
 	// 573
-	case "6bs":
+	case "9sb":
 	// 574
-	case "sbb":
+	case "6bs":
 	// 575
-	case "sbw":
+	case "sbb":
 	// 576
-	case "8s8":
+	case "sbw":
 	// 577
-	case "ssp":
+	case "8s8":
 	// 578
-	case "sst":
+	case "ssp":
 	// 579
-	case "ssd":
+	case "sst":
 	// 580
-	case "swb":
+	case "ssd":
 	// 581
-	case "8mx":
+	case "swb":
 	// 582
-	case "7ba":
+	case "8mx":
 	// 583
-	case "9s9":
+	case "7ba":
 	// 584
-	case "7ax":
+	case "9s9":
 	// 585
-	case "ob3":
+	case "7ax":
 	// 586
-	case "ob9":
+	case "ob3":
 	// 587
-	case "spr":
+	case "ob9":
 	// 588
-	case "spt":
+	case "spr":
 	// 589
-	case "9gl":
+	case "spt":
 	// 590
-	case "6sb":
+	case "9gl":
 	// 591
-	case "spc":
+	case "6sb":
 	// 592
-	case "msf":
+	case "spc":
 	// 593
-	case "am1":
+	case "msf":
 	// 594
-	case "6ls":
+	case "am1":
 	// 595
-	case "9bl":
+	case "6ls":
 	// 596
-	case "gpl":
+	case "9bl":
 	// 597
-	case "7tr":
+	case "gpl":
 	// 598
-	case "7pi":
+	case "7tr":
 	// 599
-	case "qf2":
+	case "7pi":
 	// 600
-	case "7ar":
+	case "qf2":
 	// 601
-	case "oba":
+	case "7ar":
 	// 602
-	case "9bt":
+	case "oba":
 	// 603
-	case "7s8":
+	case "9bt":
 	// 604
-	case "tax":
+	case "7s8":
 	// 605
-	case "tkf":
+	case "tax":
 	// 606
-	case "tsp":
+	case "tkf":
 	// 607
-	case "7gm":
+	case "tsp":
 	// 608
-	case "7ha":
+	case "7gm":
 	// 609
-	case "9bw":
+	case "7ha":
 	// 610
-	case "tri":
+	case "9bw":
 	// 611
-	case "7cl":
+	case "tri":
 	// 612
-	case "9fc":
+	case "7cl":
 	// 613
-	case "9gs":
+	case "9fc":
 	// 614
-	case "92a":
+	case "9gs":
 	// 615
-	case "2hs":
+	case "92a":
 	// 616
-	case "7sp":
+	case "2hs":
 	// 617
-	case "7gw":
+	case "7sp":
 	// 618
-	case "obe":
+	case "7gw":
 	// 619
-	case "vou":
+	case "obe":
 	// 620
-	case "6ss":
+	case "vou":
 	// 621
-	case "wnd":
+	case "6ss":
 	// 622
-	case "wax":
+	case "wnd":
 	// 623
-	case "9m9":
+	case "wax":
 	// 624
-	case "9bk":
+	case "9m9":
 	// 625
-	case "7xf":
+	case "9bk":
 	// 626
-	case "9br":
+	case "7xf":
 	// 627
-	case "whm":
+	case "9br":
 	// 628
-	case "9ja":
+	case "whm":
 	// 629
-	case "7p7":
+	case "9ja":
 	// 630
-	case "wsp":
+	case "7p7":
 	// 631
-	case "wsc":
+	case "wsp":
 	// 632
-	case "9sr":
+	case "wsc":
 	// 633
-	case "7mp":
+	case "9sr":
 	// 634
-	case "wst":
+	case "7mp":
 	// 635
-	case "wsd":
+	case "wst":
 	// 636
-	case "6sw":
+	case "wsd":
 	// 637
-	case "7b8":
+	case "6sw":
 	// 638
-	case "7ts":
+	case "7b8":
 	// 639
-	case "7bk":
+	case "7ts":
 	// 640
-	case "leg":
+	case "7bk":
 	// 641
-	case "wrb":
+	case "leg":
 	// 642
-	case "9wb":
+	case "wrb":
 	// 643
-	case "7wb":
+	case "9wb":
 	// 644
-	case "9st":
+	case "7wb":
 	// 645
-	case "ywn":
+	case "9st":
 	// 646
+	case "ywn":
+	// 647
 	case "9fb":
 	}
 }

@@ -66,14 +66,24 @@ const (
 
 // New creates a new Items list
 func New() *Items {
-	result := &Items{}
-	*result = make([]*Item, 0)
+	result := &Items{
+		ignoreErrors: false,
+		List:         make([]*Item, 0),
+	}
 
 	return result
 }
 
 // Items represents items list
-type Items []*Item
+type Items struct {
+	ignoreErrors bool
+	List         []*Item
+}
+
+func (i *Items) IgnoreErrors() *Items {
+	i.ignoreErrors = true
+	return i
+}
 
 // LoadHeader loads items header and returns items count
 func (i *Items) LoadHeader(sr *datareader.Reader) (numItems uint16, err error) {
@@ -92,7 +102,9 @@ func (i *Items) LoadHeader(sr *datareader.Reader) (numItems uint16, err error) {
 func (i *Items) LoadList(sr *datareader.Reader, numItems uint16) error {
 	// note: if item has sockets, it is followed by item socketed in!
 	for n := uint16(0); n < numItems; n++ {
-		item := &Item{}
+		item := &Item{
+			ignoreErrors: i.ignoreErrors,
+		}
 		if err := item.Load(sr); err != nil {
 			return err
 		}
@@ -100,14 +112,14 @@ func (i *Items) LoadList(sr *datareader.Reader, numItems uint16) error {
 		i.Add(item)
 
 		// if item is socketed into another item ( last on list) we need to append it
-		if !(*i)[n].IsSimple {
-			for s := byte(0); s < (*i)[n].NumberOfItemsInSockets; s++ {
+		if !i.List[n].IsSimple {
+			for s := byte(0); s < i.List[n].NumberOfItemsInSockets; s++ {
 				item := &Item{}
 				if err := item.Load(sr); err != nil {
 					return err
 				}
 
-				(*i)[n].SocketedItems = append((*i)[n].SocketedItems, item)
+				i.List[n].SocketedItems = append(i.List[n].SocketedItems, item)
 			}
 		}
 	}
@@ -121,11 +133,10 @@ func (i *Items) Encode() []byte {
 
 	// header
 	sw.PushBytes([]byte(itemListID)...)
-	sw.PushUint16(uint16(len(*i)))
+	sw.PushUint16(uint16(len(i.List)))
 
-	for n := range *i {
-		// for n := 0; n < 42; n++ {
-		item := (*i)[n]
+	for n := range i.List {
+		item := i.List[n]
 		sw.PushBytes(item.Encode()...)
 
 		for s := 0; s < len(item.SocketedItems); s++ {
@@ -138,20 +149,22 @@ func (i *Items) Encode() []byte {
 
 // Add adds an item / items given
 func (i *Items) Add(items ...*Item) {
-	*i = append(*i, items...)
+	i.List = append(i.List, items...)
 }
 
 // DeleteAt deletes an item at given index
 func (i *Items) DeleteAt(idx int) {
-	if idx > len(*i) {
+	if idx > len(i.List) {
 		return
 	}
 
-	*i = append((*i)[:idx], (*i)[idx+1:]...)
+	i.List = append(i.List[:idx], i.List[idx+1:]...)
 }
 
 // Item represents an item
 type Item struct {
+	ignoreErrors bool
+
 	unknown1  byte // 4 bits
 	unknown2  byte // 6 bits
 	unknown3  bool // 1 bit
@@ -185,6 +198,8 @@ type Item struct {
 		Level byte                    // 7 bits
 		Name  string                  // len(Name) * 7 bits
 	}
+
+	TypeCode   string
 	Type       itemdata.ItemCode
 	TypeID     itemdata.ItemTypeID
 	TypeName   string
@@ -524,8 +539,11 @@ func (i *Item) loadSimpleFields(sr *datareader.Reader) (err error) {
 
 		sr.Align()
 	} else {
-		t := sr.GetBytes(typeLen)
-		i.Type = itemdata.ItemCodeFromString(strings.Trim(string(t), " "))
+		i.TypeCode = strings.Trim(string(sr.GetBytes(typeLen)), " ")
+		i.Type, err = itemdata.ItemCodeFromStringWithError(i.TypeCode)
+		if err != nil && (!i.ignoreErrors || !errors.Is(err, itemdata.ItemCodeNotFoundError)) {
+			return fmt.Errorf("decoding item type: %w", err)
+		}
 		i.loadTypeInfo()
 		i.NumberOfItemsInSockets = sr.GetBits(numItemsInSocketsLen)
 	}
@@ -773,6 +791,10 @@ func (i *Item) encodeSimpleFields(sw *datautils.StreamWriter) {
 		sw.Align()
 	} else {
 		name := []byte(i.Type.String())
+		if i.Type == itemdata.ItemCodeNotFound {
+			name = []byte(i.TypeCode)
+		}
+
 		for _, c := range name {
 			sw.PushBits(c, byteLen)
 		}
