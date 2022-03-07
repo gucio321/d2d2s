@@ -3,7 +3,6 @@ package d2sstats
 import (
 	"errors"
 	"fmt"
-
 	"github.com/gucio321/d2d2s/internal/datareader"
 	"github.com/gucio321/d2d2s/internal/datautils"
 	"github.com/gucio321/d2d2s/pkg/common"
@@ -167,6 +166,10 @@ func (s *Stats) Encode() ([]byte, error) {
 		l, err := i.GetStatLen(s.userStatIdMap)
 		if err != nil {
 			return nil, err
+		}
+
+		if statMap[i] == 0 {
+			continue
 		}
 
 		sw.PushBits16(uint16(i), statIDLen)
