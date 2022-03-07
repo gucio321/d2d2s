@@ -35,8 +35,7 @@ func (c *Corpse) Load(sr *datareader.Reader) error {
 		return common.ErrUnexpectedHeader
 	}
 
-	isDead := sr.GetUint16() == 1
-	if !isDead {
+	if isDead := sr.GetUint16() == 1; !isDead {
 		return nil
 	}
 
@@ -61,9 +60,7 @@ func (c *Corpse) Load(sr *datareader.Reader) error {
 func (c *Corpse) Encode(sw *datautils.StreamWriter) (err error) {
 	sw.PushBytes([]byte("JM")...)
 
-	isDead := c.Items != nil
-
-	if !isDead {
+	if isDead := c.Items != nil; !isDead {
 		sw.PushUint16(0)
 		return nil
 	}

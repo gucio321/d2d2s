@@ -44,9 +44,9 @@ func (s *Skills) Load(sr *datareader.Reader, class d2senums.CharacterClass) erro
 	mod := d2senums.GetSkillModifier(class)
 
 	for skill := 0; skill < s.skillsCount; skill++ {
-		skill := skill + int(mod)
+		skillID := d2senums.SkillID(skill + int(mod))
 		value := sr.GetByte()
-		s.SkillLevels[d2senums.SkillID(skill)] = value
+		s.SkillLevels[skillID] = value
 	}
 
 	return nil
@@ -59,7 +59,7 @@ func (s *Skills) Encode(sw *datautils.StreamWriter, class d2senums.CharacterClas
 	mod := d2senums.GetSkillModifier(class)
 
 	for skill := 0; skill < s.skillsCount; skill++ {
-		skill := skill + int(mod)
-		sw.PushBytes(s.SkillLevels[d2senums.SkillID(skill)])
+		skillID := d2senums.SkillID(skill + int(mod))
+		sw.PushBytes(s.SkillLevels[skillID])
 	}
 }

@@ -73,6 +73,7 @@ func Test_Load(t *testing.T) {
 		s := New()
 
 		reader := datareader.NewReader(key[:])
+
 		err := s.Load(reader, value.class)
 		if err != nil {
 			t.Error(err)
@@ -87,6 +88,7 @@ func Test_Encode(t *testing.T) {
 
 	for key, value := range td {
 		var data [standardSkillsLen]byte
+
 		writer := datautils.CreateStreamWriter()
 		value.skills.Encode(writer, value.class)
 		copy(data[:], writer.GetBytes()[:standardSkillsLen])

@@ -30,7 +30,7 @@ func testdata() map[*Stats][]byte {
 			Gold:              20000,
 			StashedGold:       100000,
 			ExtraStats:        map[StatID]uint64{},
-			userStatIdMap:     nil,
+			userStatIDMap:     nil,
 		}: {
 			103, 102, 0, 10, 8, 208, 129, 128, 52, 6, 64, 83, 160, 192, 0, 0, 50, 56, 0, 128, 12, 16,
 			0, 208, 135, 4, 0, 0, 66, 1, 0, 250, 88, 0, 0, 125, 24, 160, 26, 0, 32, 0, 0, 56, 0, 113, 2, 240, 0, 212, 48, 192, 127,
@@ -53,7 +53,7 @@ func testdata() map[*Stats][]byte {
 			Gold:              200000,
 			StashedGold:       1000000,
 			ExtraStats:        map[StatID]uint64{},
-			userStatIdMap:     nil,
+			userStatIDMap:     nil,
 		}: {
 			103, 102, 0, 184, 9, 64, 148, 128, 122, 6, 96,
 			102, 0, 0, 113, 30, 0, 128, 187, 8, 0, 0, 68, 2, 0, 244, 162, 0, 0, 128, 44,

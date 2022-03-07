@@ -42,7 +42,7 @@ type Stats struct {
 	// user can also specify self-definied stat ids
 	ExtraStats map[StatID]uint64
 	// this map should contain pairs of StatID:bit length of stat value
-	userStatIdMap map[StatID]int
+	userStatIDMap map[StatID]int
 }
 
 // New creates a new stats list
@@ -50,6 +50,7 @@ func New() *Stats {
 	result := &Stats{
 		ExtraStats: make(map[StatID]uint64),
 	}
+
 	return result
 }
 
@@ -61,7 +62,7 @@ func New() *Stats {
 // NOTE: if existing value was added (e.g. user want to modify len of stat value)
 // this stat will be still saved in corseponding field in Stats structure (not ExtraStats).
 func (s *Stats) UserStatMap(m map[StatID]int) *Stats {
-	s.userStatIdMap = m
+	s.userStatIDMap = m
 	return s
 }
 
@@ -82,7 +83,7 @@ func (s *Stats) Load(sr *datareader.Reader) error {
 		}
 
 		// The attribute value bit length, so we'll know how many bits to read next.
-		length, err := id.GetStatLen(s.userStatIdMap)
+		length, err := id.GetStatLen(s.userStatIDMap)
 		if err != nil {
 			return fmt.Errorf("error reading stat id: %w", err)
 		}
@@ -120,7 +121,7 @@ func (s *Stats) Load(sr *datareader.Reader) error {
 			value := statMap[id].(*uint64)
 			*value = attr
 		default: // check extra stats map
-			if _, exists := s.userStatIdMap[id]; exists {
+			if _, exists := s.userStatIDMap[id]; exists {
 				s.ExtraStats[id] = attr
 			}
 		}
@@ -164,7 +165,7 @@ func (s *Stats) Encode() ([]byte, error) {
 			}
 		}
 
-		l, err := i.GetStatLen(s.userStatIdMap)
+		l, err := i.GetStatLen(s.userStatIDMap)
 		if err != nil {
 			return nil, err
 		}
@@ -179,9 +180,9 @@ func (s *Stats) Encode() ([]byte, error) {
 
 	if s.ExtraStats != nil {
 		for key, value := range s.ExtraStats {
-			l, err := key.GetStatLen(s.userStatIdMap)
+			l, err := key.GetStatLen(s.userStatIDMap)
 			if err != nil {
-				return nil, errors.New("Adding user-definied stat: custom stat value len wasn't found. Did you forgot to call UserStatMap()?")
+				return nil, errors.New("adding user-definied stat: custom stat value len wasn't found. Did you forgot to call UserStatMap()?")
 			}
 
 			sw.PushBits16(uint16(key), statIDLen)

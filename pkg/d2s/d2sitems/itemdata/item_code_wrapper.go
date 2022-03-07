@@ -5,7 +5,8 @@ import (
 	"fmt"
 )
 
-var ItemCodeNotFoundError = errors.New("Item code doesn't exist")
+// ErrItemCodeNotFound is returned, when ItemFromString couldn't found appropriate code
+var ErrItemCodeNotFound = errors.New("item code doesn't exist")
 
 // ItemCodeFromStringWithError calls ItemCodeFromString but doesn't panic when string wasn't found.
 func ItemCodeFromStringWithError(c string) (ItemCode, error) {
@@ -23,7 +24,7 @@ func ItemCodeFromStringWithError(c string) (ItemCode, error) {
 	}()
 
 	if shouldReturnError {
-		return ItemCodeNotFound, fmt.Errorf("Getting wrapped item code for %s: %w", c, ItemCodeNotFoundError)
+		return ItemCodeNotFound, fmt.Errorf("getting wrapped item code for %s: %w", c, ErrItemCodeNotFound)
 	}
 
 	return ItemCodeFromString(c), nil

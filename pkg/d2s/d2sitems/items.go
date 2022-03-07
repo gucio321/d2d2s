@@ -80,6 +80,8 @@ type Items struct {
 	List         []*Item
 }
 
+// IgnoreErrors tells decoder to ignore some errors/unexpected data
+// It should be used when parsing some custom d2s files (e.g. from modded d2)
 func (i *Items) IgnoreErrors() *Items {
 	i.ignoreErrors = true
 	return i
@@ -541,7 +543,7 @@ func (i *Item) loadSimpleFields(sr *datareader.Reader) (err error) {
 	} else {
 		i.TypeCode = strings.Trim(string(sr.GetBytes(typeLen)), " ")
 		i.Type, err = itemdata.ItemCodeFromStringWithError(i.TypeCode)
-		if err != nil && (!i.ignoreErrors || !errors.Is(err, itemdata.ItemCodeNotFoundError)) {
+		if err != nil && (!i.ignoreErrors || !errors.Is(err, itemdata.ErrItemCodeNotFound)) {
 			return fmt.Errorf("decoding item type: %w", err)
 		}
 		i.loadTypeInfo()
