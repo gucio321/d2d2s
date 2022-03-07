@@ -18,9 +18,9 @@ decoder and encoder written in [golang](https://golang.org)
 *   [nokka/d2s](https://github.com/nokka/d2s) [(see details)](./docs/base.md)
 *   [pairofdocs/d2s_edit_recalc](https://github.com/pairofdocs/d2s_edit_recalc)
 
-### data reader
+### I depend on
 
-this project uses [Stream readers based on these used in OpenDiablo2 project](https://github.com/OpenDiablo2/OpenDiablo2)
+This project uses [Data stream writer based on these used in OpenDiablo2 project](https://github.com/OpenDiablo2/OpenDiablo2)
 for more informations, see [here](./docs/base.md)
 
 ## Status
