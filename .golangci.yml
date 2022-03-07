@@ -41,7 +41,7 @@ linters:
     - errorlint
     - exportloopref
     - funlen
-    - gci
+      #- gci
     - gochecknoglobals
     - gochecknoinits
     - gocognit
