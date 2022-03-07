@@ -174,7 +174,7 @@ func (w *D2SWidget) waypoints() giu.Layout {
 
 	return giu.Layout{
 		difficultySlider(&state.waypointDifficulty),
-		giu.SliderInt(giu.GenAutoID("##waypointsAct"), &state.waypointAct, 1, d2senums.NumActs).Format("Act: %d"),
+		giu.SliderInt(&state.waypointAct, 1, d2senums.NumActs).Format("Act: %d"),
 		giu.Custom(func() {
 			for i := range (*w.d2s.Waypoints)[state.waypointDifficulty][state.waypointAct] {
 				giu.Checkbox(fmt.Sprintf("waypoint %d", i), &(*w.d2s.Waypoints)[state.waypointDifficulty][state.waypointAct][i]).Build()
@@ -400,7 +400,7 @@ func skillCombo(value *d2senums.SkillID) giu.Widget {
 func difficultySlider(value *d2senums.DifficultyType) giu.Widget {
 	v := int32(*value)
 
-	return giu.SliderInt("##difficultySlider", &v, int32(d2senums.DifficultyNormal), int32(d2senums.DifficultyHell)).
+	return giu.SliderInt(&v, int32(d2senums.DifficultyNormal), int32(d2senums.DifficultyHell)).
 		Format(value.String()).OnChange(func() {
 		*value = d2senums.DifficultyType(v)
 	})
