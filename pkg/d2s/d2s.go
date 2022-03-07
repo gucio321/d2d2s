@@ -58,7 +58,7 @@ type D2S struct {
 	RightSkill,
 	LeftSkillSwitch,
 	RightSkillSwitch d2senums.SkillID
-	unknown6   [unknown6BytesCount]byte // probably character apperence in char select menu
+	unknown6   [unknown6BytesCount]byte // probably character appearance in char select menu
 	Difficulty *d2sdifficulty.Difficulty
 	MapID      uint32
 	unknown7   uint16
@@ -98,13 +98,15 @@ func New() *D2S {
 	return result
 }
 
-// Load loads d2s file into D2S structure
+// Load creates a new d2s structure and loads d2s file's data into it.
 func Load(data []byte) (*D2S, error) {
 	result := New()
 	err := result.Load(data)
+
 	return result, err
 }
 
+// Load loads d2s file into D2S structure
 func (d2s *D2S) Load(data []byte) error {
 	sr := datareader.NewReader(data)
 
@@ -200,11 +202,11 @@ func (d2s *D2S) loadInterfaceState(sr *datareader.Reader) {
 	d2s.RightSkill = d2senums.SkillID(rsk)
 
 	if d2s.Status.Expansion {
-		alsk := sr.GetUint32()
-		d2s.LeftSkillSwitch = d2senums.SkillID(alsk)
+		alternativeLeftSkill := sr.GetUint32()
+		d2s.LeftSkillSwitch = d2senums.SkillID(alternativeLeftSkill)
 
-		arsk := sr.GetUint32()
-		d2s.RightSkillSwitch = d2senums.SkillID(arsk)
+		alternativeRightSkill := sr.GetUint32()
+		d2s.RightSkillSwitch = d2senums.SkillID(alternativeRightSkill)
 	}
 }
 
@@ -269,7 +271,7 @@ func (d2s *D2S) loadCharacterDetails(sr *datareader.Reader) error {
 		return fmt.Errorf("loading items list: %w", err)
 	}
 
-	// thanks to @nokka <https://github.com/nokka/d2s> for figuring out these fields!
+	// thanks to @nokka <https://github.com/nokka/d2s> for figuring out that fields!
 	if err := d2s.Corpse.Load(sr); err != nil {
 		return fmt.Errorf("loading corpse: %w", err)
 	}
@@ -398,13 +400,13 @@ func CalculateChecksum(data *[]byte) {
 	var sum uint32
 	for i := range *data {
 		// thanks goes to <https://github.com/pairofdocs>
-		// this shift expresion was translated from here: https://github.com/pairofdocs/d2s_edit_recalc
+		// this shift expression was translated from here: https://github.com/pairofdocs/d2s_edit_recalc
 		// origin:
 		// ```python
 		// # from stackoverflow ref
-		// def leftshift(int_in, shift_n, tot_bits):
+		// def leftShift(int_in, shift_n, tot_bits):
 		//    # returns an int.  take bin() to get  '0b10101'
-		//    # bin(leftshift(int('10000000000000000000000000000000',2), 1, 32) )  ---> 0000...1
+		//    # bin(leftShift(int('10000000000000000000000000000000',2), 1, 32) )  ---> 0000...1
 		//    return ((int_in << shift_n) % (1 << tot_bits)) | (int_in >> (tot_bits - shift_n))
 		// ```
 		sum = ((sum << 1) % math.MaxUint32) | (sum >> (int32Size*byteLen - 1))
