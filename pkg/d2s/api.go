@@ -28,7 +28,7 @@ func NewCharacter(
 // SetName sets character name.
 // NOTE: maximal allowed name length is 15, the name can contain only lower and upper cases (a-Z)
 // and 1 "-" or 1 "_"  but it cannot be a first or the last character. the name should
-func (d *D2S) SetName(name string) *D2S {
+func (d2s *D2S) SetName(name string) *D2S {
 	// first remove illegal characters (like numbers or special chars)
 	// copy name, remove all allowed characters from the copy
 	n := name
@@ -98,38 +98,38 @@ cullingCharsAtTheEndOfName:
 		}
 	}
 
-	d.Name = name
+	d2s.Name = name
 
-	return d
+	return d2s
 }
 
 // SetLevel sets character's level
-func (d *D2S) SetLevel(level byte) *D2S {
+func (d2s *D2S) SetLevel(level byte) *D2S {
 	if level > maxAllowedLevel {
 		log.Printf("D2S: SetLevel: assertion: %d > %d:  level is too large; it must be in range 0-%d", level, maxAllowedLevel, maxAllowedLevel)
 		level = maxAllowedLevel
 	}
 
-	d.Level = level
-	d.Stats.Level = uint64(level)
+	d2s.Level = level
+	d2s.Stats.Level = uint64(level)
 
-	return d
+	return d2s
 }
 
 // SetIsHardcore sets if character is hardcore character
-func (d *D2S) SetIsHardcore(b bool) *D2S {
-	d.Status.Hardcore = b
-	return d
+func (d2s *D2S) SetIsHardcore(b bool) *D2S {
+	d2s.Status.Hardcore = b
+	return d2s
 }
 
 // SetClass sets character class (default is 0 - amazon)
-func (d *D2S) SetClass(c d2senums.CharacterClass) *D2S {
-	d.Class = c
-	return d
+func (d2s *D2S) SetClass(c d2senums.CharacterClass) *D2S {
+	d2s.Class = c
+	return d2s
 }
 
 // PushItems adds items to item list
-func (d *D2S) PushItems(items ...*d2sitems.Item) *D2S {
-	d.Items.Add(items...)
-	return d
+func (d2s *D2S) PushItems(items ...*d2sitems.Item) *D2S {
+	d2s.Items.Add(items...)
+	return d2s
 }

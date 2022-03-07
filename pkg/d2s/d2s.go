@@ -105,20 +105,20 @@ func Load(data []byte) (*D2S, error) {
 	return result, err
 }
 
-func (result *D2S) Load(data []byte) error {
+func (d2s *D2S) Load(data []byte) error {
 	sr := datareader.NewReader(data)
 
-	if err := result.loadHeader(sr); err != nil {
+	if err := d2s.loadHeader(sr); err != nil {
 		return fmt.Errorf("loading header: %w", err)
 	}
 
-	result.loadCharDetails(sr)
+	d2s.loadCharDetails(sr)
 
-	result.loadInterfaceState(sr)
+	d2s.loadInterfaceState(sr)
 
 	unknown6 := sr.GetBytes(unknown6BytesCount)
 
-	copy(result.unknown6[:], unknown6[:unknown6BytesCount])
+	copy(d2s.unknown6[:], unknown6[:unknown6BytesCount])
 
 	dd := sr.GetBytes(d2sdifficulty.NumDifficultyBytes)
 
@@ -126,20 +126,20 @@ func (result *D2S) Load(data []byte) error {
 
 	copy(difficultyData[:], dd[:d2sdifficulty.NumDifficultyBytes])
 
-	result.Difficulty.Load(difficultyData)
+	d2s.Difficulty.Load(difficultyData)
 
-	if err := result.loadMapDetails(sr); err != nil {
+	if err := d2s.loadMapDetails(sr); err != nil {
 		return fmt.Errorf("loading map data: %w", err)
 	}
 
-	if err := result.loadCharacterDetails(sr); err != nil {
+	if err := d2s.loadCharacterDetails(sr); err != nil {
 		return fmt.Errorf("loading character details: %w", err)
 	}
 
 	return nil
 }
 
-func (d *D2S) loadHeader(sr *datareader.Reader) error {
+func (d2s *D2S) loadHeader(sr *datareader.Reader) error {
 	if signature := sr.GetUint32(); signature != saveFileSignature {
 		return fmt.Errorf("unexpected file signature: %w", common.ErrUnexpectedHeader)
 	}
@@ -151,7 +151,7 @@ func (d *D2S) loadHeader(sr *datareader.Reader) error {
 		log.Printf("Warning! wrong version %s. It might be unsupported", version.String())
 	}
 
-	d.Version = version
+	d2s.Version = version
 
 	// file size in bytes ( len(data) )
 	_ = sr.GetInt32()
@@ -159,64 +159,64 @@ func (d *D2S) loadHeader(sr *datareader.Reader) error {
 	// checksum (32-bit checksum)
 	_ = sr.GetUint32()
 
-	d.unknown1 = sr.GetUint32()
+	d2s.unknown1 = sr.GetUint32()
 
 	name := sr.GetBytes(characterNameSize)
-	d.Name = strings.ReplaceAll(string(name), string(rune(0)), "")
+	d2s.Name = strings.ReplaceAll(string(name), string(rune(0)), "")
 
 	return nil
 }
 
-func (d *D2S) loadCharDetails(sr *datareader.Reader) {
+func (d2s *D2S) loadCharDetails(sr *datareader.Reader) {
 	status := sr.GetByte()
-	d.Status.Load(status)
+	d2s.Status.Load(status)
 
-	d.Progression.Load(sr.GetByte())
-	d.unknown2 = sr.GetUint16()
+	d2s.Progression.Load(sr.GetByte())
+	d2s.unknown2 = sr.GetUint16()
 
 	class := sr.GetByte()
-	d.Class = d2senums.CharacterClass(class)
+	d2s.Class = d2senums.CharacterClass(class)
 
-	d.unknown3 = sr.GetUint16()
-	d.Level = sr.GetByte()
-	d.unknown4 = sr.GetUint32()
-	d.Time = time.Unix(int64(sr.GetUint32()), 0)
-	d.unknown5 = sr.GetUint32()
+	d2s.unknown3 = sr.GetUint16()
+	d2s.Level = sr.GetByte()
+	d2s.unknown4 = sr.GetUint32()
+	d2s.Time = time.Unix(int64(sr.GetUint32()), 0)
+	d2s.unknown5 = sr.GetUint32()
 }
 
-func (d *D2S) loadInterfaceState(sr *datareader.Reader) {
+func (d2s *D2S) loadInterfaceState(sr *datareader.Reader) {
 	hd := sr.GetBytes(d2shotkeys.NumHotkeysBytes)
 
 	var hotkeysData [d2shotkeys.NumHotkeysBytes]byte
 
 	copy(hotkeysData[:], hd[:d2shotkeys.NumHotkeysBytes])
 
-	d.Hotkeys.Load(hotkeysData)
+	d2s.Hotkeys.Load(hotkeysData)
 
 	lsk := sr.GetUint32()
-	d.LeftSkill = d2senums.SkillID(lsk)
+	d2s.LeftSkill = d2senums.SkillID(lsk)
 
 	rsk := sr.GetUint32()
-	d.RightSkill = d2senums.SkillID(rsk)
+	d2s.RightSkill = d2senums.SkillID(rsk)
 
-	if d.Status.Expansion {
+	if d2s.Status.Expansion {
 		alsk := sr.GetUint32()
-		d.LeftSkillSwitch = d2senums.SkillID(alsk)
+		d2s.LeftSkillSwitch = d2senums.SkillID(alsk)
 
 		arsk := sr.GetUint32()
-		d.RightSkillSwitch = d2senums.SkillID(arsk)
+		d2s.RightSkillSwitch = d2senums.SkillID(arsk)
 	}
 }
 
-func (d *D2S) loadMapDetails(sr *datareader.Reader) error {
-	d.MapID = sr.GetUint32()
-	d.unknown7 = sr.GetUint16()
+func (d2s *D2S) loadMapDetails(sr *datareader.Reader) error {
+	d2s.MapID = sr.GetUint32()
+	d2s.unknown7 = sr.GetUint16()
 
-	d.Mercenary.LoadHeader(sr)
+	d2s.Mercenary.LoadHeader(sr)
 
 	unknown8 := sr.GetBytes(unknown8BytesCount)
 
-	copy(d.unknown8[:], unknown8[:unknown8BytesCount])
+	copy(d2s.unknown8[:], unknown8[:unknown8BytesCount])
 
 	qd := sr.GetBytes(d2squests.NumQuestsBytes)
 
@@ -224,7 +224,7 @@ func (d *D2S) loadMapDetails(sr *datareader.Reader) error {
 
 	copy(questsData[:], qd[:d2squests.NumQuestsBytes])
 
-	if err := d.Quests.Unmarshal(&questsData); err != nil {
+	if err := d2s.Quests.Unmarshal(&questsData); err != nil {
 		return fmt.Errorf("loading quests: %w", err)
 	}
 
@@ -234,7 +234,7 @@ func (d *D2S) loadMapDetails(sr *datareader.Reader) error {
 
 	copy(waypointsData[:], wd[:d2swaypoints.NumWaypointsBytes])
 
-	if err := d.Waypoints.Load(&waypointsData); err != nil {
+	if err := d2s.Waypoints.Load(&waypointsData); err != nil {
 		return fmt.Errorf("loading waypoints data: %w", err)
 	}
 
@@ -244,45 +244,45 @@ func (d *D2S) loadMapDetails(sr *datareader.Reader) error {
 
 	copy(npcData[:], nd[:d2snpc.NumNPCBytes])
 
-	if err := d.NPC.Load(npcData); err != nil {
+	if err := d2s.NPC.Load(npcData); err != nil {
 		return fmt.Errorf("loading npcs data: %w", err)
 	}
 
 	return nil
 }
 
-func (d *D2S) loadCharacterDetails(sr *datareader.Reader) error {
-	if err := d.Stats.Load(sr); err != nil {
+func (d2s *D2S) loadCharacterDetails(sr *datareader.Reader) error {
+	if err := d2s.Stats.Load(sr); err != nil {
 		return fmt.Errorf("loading character stats: %w", err)
 	}
 
-	if skillErr := d.Skills.Load(sr, d.Class); skillErr != nil {
+	if skillErr := d2s.Skills.Load(sr, d2s.Class); skillErr != nil {
 		return fmt.Errorf("loading skills: %w", skillErr)
 	}
 
-	numItems, err := d.Items.LoadHeader(sr)
+	numItems, err := d2s.Items.LoadHeader(sr)
 	if err != nil {
 		return fmt.Errorf("loading items header: %w", err)
 	}
 
-	if err := d.Items.LoadList(sr, numItems); err != nil {
+	if err := d2s.Items.LoadList(sr, numItems); err != nil {
 		return fmt.Errorf("loading items list: %w", err)
 	}
 
 	// thanks to @nokka <https://github.com/nokka/d2s> for figuring out these fields!
-	if err := d.Corpse.Load(sr); err != nil {
+	if err := d2s.Corpse.Load(sr); err != nil {
 		return fmt.Errorf("loading corpse: %w", err)
 	}
 
-	if d.Status.Expansion {
-		if err := d.Mercenary.LoadMercItems(sr); err != nil {
+	if d2s.Status.Expansion {
+		if err := d2s.Mercenary.LoadMercItems(sr); err != nil {
 			return fmt.Errorf("loading merc items: %w", err)
 		}
 	}
 
 	// iron golem for necromancer
-	if d.Class == d2senums.CharacterNecromancer && d.Status.Expansion {
-		if err := d.IronGolem.Load(sr); err != nil {
+	if d2s.Class == d2senums.CharacterNecromancer && d2s.Status.Expansion {
+		if err := d2s.IronGolem.Load(sr); err != nil {
 			return fmt.Errorf("loading iron golem: %w", err)
 		}
 	}
@@ -291,74 +291,74 @@ func (d *D2S) loadCharacterDetails(sr *datareader.Reader) error {
 }
 
 // Encode encodes character save back into a byte slice (WIP)
-func (d *D2S) Encode() ([]byte, error) {
+func (d2s *D2S) Encode() ([]byte, error) {
 	sw := datautils.CreateStreamWriter()
 
-	if err := d.encodeHeader(sw); err != nil {
+	if err := d2s.encodeHeader(sw); err != nil {
 		return nil, err
 	}
 
-	sw.PushBytes(d.Status.Encode())
-	sw.PushBytes(d.Progression.Encode())
-	sw.PushUint16(d.unknown2)
-	sw.PushBytes(byte(d.Class))
-	sw.PushUint16(d.unknown3)
-	sw.PushBytes(d.Level)
-	sw.PushUint32(d.unknown4)
-	sw.PushUint32(uint32(d.Time.Unix()))
-	sw.PushUint32(d.unknown5)
+	sw.PushBytes(d2s.Status.Encode())
+	sw.PushBytes(d2s.Progression.Encode())
+	sw.PushUint16(d2s.unknown2)
+	sw.PushBytes(byte(d2s.Class))
+	sw.PushUint16(d2s.unknown3)
+	sw.PushBytes(d2s.Level)
+	sw.PushUint32(d2s.unknown4)
+	sw.PushUint32(uint32(d2s.Time.Unix()))
+	sw.PushUint32(d2s.unknown5)
 
-	hd := d.Hotkeys.Encode()
+	hd := d2s.Hotkeys.Encode()
 	sw.PushBytes(hd[:]...)
 
-	sw.PushUint32(uint32(d.LeftSkill))
-	sw.PushUint32(uint32(d.RightSkill))
+	sw.PushUint32(uint32(d2s.LeftSkill))
+	sw.PushUint32(uint32(d2s.RightSkill))
 
-	if d.Status.Expansion {
-		sw.PushUint32(uint32(d.LeftSkillSwitch))
-		sw.PushUint32(uint32(d.RightSkillSwitch))
+	if d2s.Status.Expansion {
+		sw.PushUint32(uint32(d2s.LeftSkillSwitch))
+		sw.PushUint32(uint32(d2s.RightSkillSwitch))
 	}
 
-	sw.PushBytes(d.unknown6[:]...)
+	sw.PushBytes(d2s.unknown6[:]...)
 
-	dd := d.Difficulty.Encode()
+	dd := d2s.Difficulty.Encode()
 	sw.PushBytes(dd[:]...)
 
-	sw.PushUint32(d.MapID)
-	sw.PushUint16(d.unknown7)
+	sw.PushUint32(d2s.MapID)
+	sw.PushUint16(d2s.unknown7)
 
-	d.Mercenary.EncodeHeader(sw)
+	d2s.Mercenary.EncodeHeader(sw)
 
-	sw.PushBytes(d.unknown8[:]...)
+	sw.PushBytes(d2s.unknown8[:]...)
 
-	qd := d.Quests.Encode()
+	qd := d2s.Quests.Encode()
 	sw.PushBytes(qd[:]...)
 
-	wd := d.Waypoints.Encode()
+	wd := d2s.Waypoints.Encode()
 	sw.PushBytes(wd[:]...)
 
-	nd := d.NPC.Encode()
+	nd := d2s.NPC.Encode()
 	sw.PushBytes(nd[:]...)
 
-	sd, err := d.Stats.Encode()
+	sd, err := d2s.Stats.Encode()
 	if err != nil {
 		return nil, fmt.Errorf("encoding stats: %w", err)
 	}
 
 	sw.PushBytes(sd...)
 
-	d.Skills.Encode(sw, d.Class)
+	d2s.Skills.Encode(sw, d2s.Class)
 
-	sw.PushBytes(d.Items.Encode()...)
+	sw.PushBytes(d2s.Items.Encode()...)
 
-	if err := d.Corpse.Encode(sw); err != nil {
+	if err := d2s.Corpse.Encode(sw); err != nil {
 		return nil, fmt.Errorf("encoding corpse: %w", err)
 	}
 
-	d.Mercenary.EncodeItems(sw)
+	d2s.Mercenary.EncodeItems(sw)
 
-	if d.Class == d2senums.CharacterNecromancer && d.Status.Expansion {
-		d.IronGolem.Encode(sw)
+	if d2s.Class == d2senums.CharacterNecromancer && d2s.Status.Expansion {
+		d2s.IronGolem.Encode(sw)
 	}
 
 	// we need to write file size and checksum here:
@@ -369,20 +369,20 @@ func (d *D2S) Encode() ([]byte, error) {
 	return data, nil
 }
 
-func (d *D2S) encodeHeader(sw *datautils.StreamWriter) error {
+func (d2s *D2S) encodeHeader(sw *datautils.StreamWriter) error {
 	sw.PushUint32(saveFileSignature)
-	sw.PushUint32(uint32(d.Version))
+	sw.PushUint32(uint32(d2s.Version))
 	// file size, 0 for now
 	sw.PushUint32(0)
 	// checksum - 0 for now
 	sw.PushUint32(0)
 
-	name := []byte(d.Name)
+	name := []byte(d2s.Name)
 	if len(name) > characterNameSize {
 		return errors.New("wrong character name! (len(name) > 16)")
 	}
 
-	sw.PushUint32(d.unknown1)
+	sw.PushUint32(d2s.unknown1)
 
 	sw.PushBytes(name...)
 
