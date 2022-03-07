@@ -3,6 +3,7 @@ package d2sstats
 import (
 	"errors"
 	"fmt"
+
 	"github.com/gucio321/d2d2s/internal/datareader"
 	"github.com/gucio321/d2d2s/internal/datautils"
 	"github.com/gucio321/d2d2s/pkg/common"

@@ -14,7 +14,7 @@ func Test_Load(t *testing.T) {
 		filename string
 		charname string
 	}{
-		//{"empty character created by d2d2s.New()", "example.d2s", "example"},
+		// {"empty character created by d2d2s.New()", "example.d2s", "example"},
 		{"New character created by Diablo II: Lord of Destruction v1.14d", "newGameChar.d2s", "emptychar"},
 	}
 
@@ -40,7 +40,7 @@ func Test_LoadEncode(t *testing.T) {
 		name     string
 		filename string
 	}{
-		//{"empty character created by d2d2s.New()", "example.d2s"},
+		// {"empty character created by d2d2s.New()", "example.d2s"},
 		{"New character created by Diablo II: Lord of Destruction v1.14d", "newGameChar.d2s"},
 	}
 
