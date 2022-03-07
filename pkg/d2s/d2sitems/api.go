@@ -127,7 +127,7 @@ func (i *Item) SetQualityHigh(data byte) *Item {
 // SetMagicalyEnchanced sets quality to magicaly enchanced and sets prefix/suffix
 func (i *Item) SetMagicalyEnchanced(p itemdata.MagicalPrefix, s itemdata.MagicalSuffix) *Item {
 	i.ensureExtended()
-	i.Quality = d2senums.ItemQualityEnchanced
+	i.Quality = d2senums.ItemQualityEnchanted
 	i.QualityData.MagicPrefix = []itemdata.MagicalPrefix{p}
 	i.QualityData.MagicSuffix = []itemdata.MagicalSuffix{s}
 

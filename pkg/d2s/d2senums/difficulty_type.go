@@ -5,7 +5,7 @@ package d2senums
 // DifficultyType represents a difficulty level
 type DifficultyType byte
 
-// idfficulty types
+// difficulty types
 const (
 	DifficultyNormal DifficultyType = iota
 	DifficultyNightmare

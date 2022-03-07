@@ -363,7 +363,7 @@ func (i *Item) loadQualityData(sr *datareader.Reader) error {
 		// noop
 	case d2senums.ItemQualityHigh:
 		i.QualityData.HighQualityData = sr.GetBits(highQualityDataLen)
-	case d2senums.ItemQualityEnchanced:
+	case d2senums.ItemQualityEnchanted:
 		i.QualityData.MagicPrefix = make([]itemdata.MagicalPrefix, 1)
 		id := sr.GetBits16(magicModifierIDLen) // helper variable (avoid noise with x.y.z.id ;-)
 
@@ -719,7 +719,7 @@ func (i *Item) encodeQuality(sw *datautils.StreamWriter) {
 		// noop
 	case d2senums.ItemQualityHigh:
 		sw.PushBits(i.QualityData.HighQualityData, highQualityDataLen)
-	case d2senums.ItemQualityEnchanced:
+	case d2senums.ItemQualityEnchanted:
 		sw.PushBits16(i.QualityData.MagicPrefix[0].GetID(), magicModifierIDLen)
 		sw.PushBits16(i.QualityData.MagicSuffix[0].GetID(), magicModifierIDLen)
 	case d2senums.ItemQualitySet:

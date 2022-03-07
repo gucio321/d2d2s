@@ -11,7 +11,7 @@ const (
 	ItemQualityLow       ItemQuality = iota + 1 // low
 	ItemQualityNormal                           // normal
 	ItemQualityHigh                             // high
-	ItemQualityEnchanced                        // magically enchanced
+	ItemQualityEnchanted                        // magically enchanced
 	ItemQualitySet                              // part of set
 	ItemQualityRare                             // rare
 	ItemQualityUnique                           // unique

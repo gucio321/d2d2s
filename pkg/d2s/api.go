@@ -15,7 +15,7 @@ const (
 	maxAllowedLevel = 99
 )
 
-// NewCharacter creates a new character (for now, wrapps New)
+// NewCharacter creates a new character (for now, wraps New)
 func NewCharacter(
 	name string,
 	class d2senums.CharacterClass,
@@ -58,7 +58,7 @@ cullingCharsAtTheStartOfName:
 		}
 	}
 
-	// if the name has more than one `_` and `-`, it should be cleanded
+	// if the name has more than one `_` and `-`, it should be cleaned.
 	if x := strings.Count(name, "-") + strings.Count(name, "_"); x > 1 {
 		log.Printf("D2s: SetName: Exception - name contains more than 1 \"-\" and \"_\" - disallowed")
 

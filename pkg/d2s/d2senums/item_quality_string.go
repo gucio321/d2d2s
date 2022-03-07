@@ -11,7 +11,7 @@ func _() {
 	_ = x[ItemQualityLow-1]
 	_ = x[ItemQualityNormal-2]
 	_ = x[ItemQualityHigh-3]
-	_ = x[ItemQualityEnchanced-4]
+	_ = x[ItemQualityEnchanted-4]
 	_ = x[ItemQualitySet-5]
 	_ = x[ItemQualityRare-6]
 	_ = x[ItemQualityUnique-7]
