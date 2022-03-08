@@ -300,67 +300,18 @@ func (d2s *D2S) Encode() ([]byte, error) {
 		return nil, err
 	}
 
-	sw.PushBytes(d2s.Status.Encode())
-	sw.PushBytes(d2s.Progression.Encode())
-	sw.PushUint16(d2s.unknown2)
-	sw.PushBytes(byte(d2s.Class))
-	sw.PushUint16(d2s.unknown3)
-	sw.PushBytes(d2s.Level)
-	sw.PushUint32(d2s.unknown4)
-	sw.PushUint32(uint32(d2s.Time.Unix()))
-	sw.PushUint32(d2s.unknown5)
-
-	hd := d2s.Hotkeys.Encode()
-	sw.PushBytes(hd[:]...)
-
-	sw.PushUint32(uint32(d2s.LeftSkill))
-	sw.PushUint32(uint32(d2s.RightSkill))
-
-	if d2s.Status.Expansion {
-		sw.PushUint32(uint32(d2s.LeftSkillSwitch))
-		sw.PushUint32(uint32(d2s.RightSkillSwitch))
-	}
+	d2s.encodeCharDetails(sw)
+	d2s.encodeInterfaceState(sw)
 
 	sw.PushBytes(d2s.unknown6[:]...)
 
 	dd := d2s.Difficulty.Encode()
 	sw.PushBytes(dd[:]...)
 
-	sw.PushUint32(d2s.MapID)
-	sw.PushUint16(d2s.unknown7)
+	d2s.encodeMapDetails(sw)
 
-	d2s.Mercenary.EncodeHeader(sw)
-
-	sw.PushBytes(d2s.unknown8[:]...)
-
-	qd := d2s.Quests.Encode()
-	sw.PushBytes(qd[:]...)
-
-	wd := d2s.Waypoints.Encode()
-	sw.PushBytes(wd[:]...)
-
-	nd := d2s.NPC.Encode()
-	sw.PushBytes(nd[:]...)
-
-	sd, err := d2s.Stats.Encode()
-	if err != nil {
-		return nil, fmt.Errorf("encoding stats: %w", err)
-	}
-
-	sw.PushBytes(sd...)
-
-	d2s.Skills.Encode(sw, d2s.Class)
-
-	sw.PushBytes(d2s.Items.Encode()...)
-
-	if err := d2s.Corpse.Encode(sw); err != nil {
-		return nil, fmt.Errorf("encoding corpse: %w", err)
-	}
-
-	d2s.Mercenary.EncodeItems(sw)
-
-	if d2s.Class == d2senums.CharacterNecromancer && d2s.Status.Expansion {
-		d2s.IronGolem.Encode(sw)
+	if err := d2s.encodeCharacterDetails(sw); err != nil {
+		return nil, fmt.Errorf("encoding character details: %w", err)
 	}
 
 	// we need to write file size and checksum here:
@@ -390,6 +341,74 @@ func (d2s *D2S) encodeHeader(sw *datautils.StreamWriter) error {
 
 	for i := 0; i < characterNameSize-len(name); i++ {
 		sw.PushBytes(0)
+	}
+
+	return nil
+}
+
+func (d2s *D2S) encodeCharDetails(sw *datautils.StreamWriter) {
+	sw.PushBytes(d2s.Status.Encode())
+	sw.PushBytes(d2s.Progression.Encode())
+	sw.PushUint16(d2s.unknown2)
+	sw.PushBytes(byte(d2s.Class))
+	sw.PushUint16(d2s.unknown3)
+	sw.PushBytes(d2s.Level)
+	sw.PushUint32(d2s.unknown4)
+	sw.PushUint32(uint32(d2s.Time.Unix()))
+	sw.PushUint32(d2s.unknown5)
+}
+
+func (d2s *D2S) encodeInterfaceState(sw *datautils.StreamWriter) {
+	hd := d2s.Hotkeys.Encode()
+	sw.PushBytes(hd[:]...)
+
+	sw.PushUint32(uint32(d2s.LeftSkill))
+	sw.PushUint32(uint32(d2s.RightSkill))
+
+	if d2s.Status.Expansion {
+		sw.PushUint32(uint32(d2s.LeftSkillSwitch))
+		sw.PushUint32(uint32(d2s.RightSkillSwitch))
+	}
+}
+
+func (d2s *D2S) encodeMapDetails(sw *datautils.StreamWriter) {
+	sw.PushUint32(d2s.MapID)
+	sw.PushUint16(d2s.unknown7)
+
+	d2s.Mercenary.EncodeHeader(sw)
+
+	sw.PushBytes(d2s.unknown8[:]...)
+
+	qd := d2s.Quests.Encode()
+	sw.PushBytes(qd[:]...)
+
+	wd := d2s.Waypoints.Encode()
+	sw.PushBytes(wd[:]...)
+
+	nd := d2s.NPC.Encode()
+	sw.PushBytes(nd[:]...)
+}
+
+func (d2s *D2S) encodeCharacterDetails(sw *datautils.StreamWriter) error {
+	sd, err := d2s.Stats.Encode()
+	if err != nil {
+		return fmt.Errorf("encoding stats: %w", err)
+	}
+
+	sw.PushBytes(sd...)
+
+	d2s.Skills.Encode(sw, d2s.Class)
+
+	sw.PushBytes(d2s.Items.Encode()...)
+
+	if err := d2s.Corpse.Encode(sw); err != nil {
+		return fmt.Errorf("encoding corpse: %w", err)
+	}
+
+	d2s.Mercenary.EncodeItems(sw)
+
+	if d2s.Class == d2senums.CharacterNecromancer && d2s.Status.Expansion {
+		d2s.IronGolem.Encode(sw)
 	}
 
 	return nil
