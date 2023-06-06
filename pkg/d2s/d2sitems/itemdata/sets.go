@@ -5,7 +5,7 @@ import "log"
 // GetSetAttributesLen : each set item has 5 bits of data containing the number of set lists follow
 // the magical attributes list, this map tells us how many lists to read
 // depending on the value given from the 5 bits. A number of 0-5 set lists.
-// nolint:gomnd // data method
+//nolint:gomnd // data method
 func GetSetAttributesLen(id byte) byte {
 	lookup := map[byte]byte{
 		0:  0,

@@ -224,7 +224,7 @@ const (
 
 // GetStatLen returns length of stat id data
 func (i StatID) GetStatLen(extra map[StatID]int) (int, error) {
-	// nolint:gomnd // data function
+	//nolint:gomnd // data function
 	attributeBitMap := map[StatID]int{
 		Strength:       10,
 		Energy:         10,

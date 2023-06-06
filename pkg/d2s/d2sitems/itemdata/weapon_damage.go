@@ -20,7 +20,7 @@ func (w *WeaponDamage) Etheral() {
 }
 
 // WeaponDamage returns weapon's damage
-// nolint:gomnd,funlen // constant values / data function
+//nolint:gomnd,funlen // constant values / data function
 func (c ItemCode) WeaponDamage() *WeaponDamage {
 	lookup := map[ItemCode]WeaponDamage{
 		// Axes

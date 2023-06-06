@@ -34,7 +34,7 @@ func (n *NPC) Load(data [NumNPCBytes]byte) error {
 		return common.ErrUnexpectedHeader
 	}
 
-	n.Data = sr.GetBytes(49) // nolint:gomnd // TODO: parse to something human-readable
+	n.Data = sr.GetBytes(49) //nolint:gomnd // TODO: parse to something human-readable
 
 	return nil
 }

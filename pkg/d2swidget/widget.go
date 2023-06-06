@@ -187,7 +187,7 @@ func (w *D2SWidget) npc() giu.Layout {
 	return giu.Layout{giu.Label("TODO")}
 }
 
-// nolint:funlen // will fix later
+//nolint:funlen // will fix later
 func (w *D2SWidget) stats() giu.Layout {
 	const (
 		decimal         = 10

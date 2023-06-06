@@ -261,7 +261,7 @@ const (
 	MagicalPrefixPearl                              // Pearl
 )
 
-// nolint:funlen // data function
+//nolint:funlen // data function
 func getMagicalPrefixMap() map[uint16]MagicalPrefix {
 	return map[uint16]MagicalPrefix{
 		0:   MagicalPrefixNone,

@@ -133,7 +133,7 @@ func (q *QuestsSet) Unmarshal(sr *datareader.Reader, act int) (err error) {
 	loadQuests := func(sr *datareader.Reader) {
 		for qst := range q.Quests {
 			q.Quests[qst] = &Quest{}
-			data := sr.GetBytes(2) // nolint:gomnd // quest bytes. TODO: https://github.com/gucio321/d2d2s/issues/11
+			data := sr.GetBytes(2) //nolint:gomnd // quest bytes. TODO: https://github.com/gucio321/d2d2s/issues/11
 			copy(q.Quests[qst].Data[:], data[:2])
 			q.Quests[qst].Load()
 		}

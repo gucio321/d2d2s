@@ -75,7 +75,7 @@ func (c ItemCode) IsTome() bool {
 }
 
 // ShieldCodes shield item codes mapped to their in game, human-friendly, readable name.
-// nolint:gochecknoglobals // data variable
+//nolint:gochecknoglobals // data variable
 var ShieldCodes = map[ItemCode]string{
 	Aegis:            "Aegis",
 	AerinShield:      "Aerin Shield",
@@ -133,7 +133,7 @@ var ShieldCodes = map[ItemCode]string{
 }
 
 // ArmorCodes - Armor item codes mapped to their in game, human-friendly, readable name.
-// nolint:gochecknoglobals // data variable
+//nolint:gochecknoglobals // data variable
 var ArmorCodes = map[ItemCode]string{
 	AlphaHelm:         "Alpha Helm",
 	AncientArmor:      "Ancient Armor",
@@ -287,7 +287,7 @@ var ArmorCodes = map[ItemCode]string{
 }
 
 // WeaponCodes : Weapon item codes mapped to their in game, human-friendly, readable name.
-// nolint:gochecknoglobals // data variable
+//nolint:gochecknoglobals // data variable
 var WeaponCodes = map[ItemCode]string{
 	AncientAxe:          "Ancient Axe",
 	AncientSword:        "Ancient Sword",
@@ -599,7 +599,7 @@ var WeaponCodes = map[ItemCode]string{
 
 // MiscCodes - Misc items codes, like jewelry, gems, potions and runes, mapped to their in
 // game, human-friendly, readable name.
-// nolint:gochecknoglobals // data var
+//nolint:gochecknoglobals // data var
 var MiscCodes = map[ItemCode]string{
 	Amethyst:                      "Amethyst",
 	AmnRune:                       "Amn Rune",

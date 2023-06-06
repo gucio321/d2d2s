@@ -334,7 +334,7 @@ func (i *Item) loadExtendedFields(sr *datareader.Reader) (err error) {
 		return fmt.Errorf("error loading item attributes: %w", err)
 	}
 
-	// nolint:wsl // note at the end of block
+	//nolint:wsl // note at the end of block
 	if c := i.QualityData.SetListCount; c > 0 {
 		for j := 0; j < int(c); j++ {
 			i.QualityData.SetAttributes = append(i.QualityData.SetAttributes, d2smagicattributes.MagicAttributes{})
@@ -356,7 +356,7 @@ func (i *Item) loadExtendedFields(sr *datareader.Reader) (err error) {
 	return nil
 }
 
-// nolint:gocyclo // will fix later
+//nolint:gocyclo // will fix later
 func (i *Item) loadQualityData(sr *datareader.Reader) error {
 	switch i.Quality {
 	case d2senums.ItemQualityLow:

@@ -78,7 +78,7 @@ const (
 )
 
 func (m MercClass) numAttributes() int {
-	// nolint:gomnd // data function
+	//nolint:gomnd // data function
 	lookup := map[MercClass]int{
 		MercRogue:     2,
 		MercDesert:    3,

@@ -314,7 +314,7 @@ const (
 )
 
 // magical suffixes - TODO: constant names
-// nolint:funlen // cannot reduce
+//nolint:funlen // cannot reduce
 func getSuffixMap() map[uint16]MagicalSuffix {
 	return map[uint16]MagicalSuffix{
 		0:   MagicalSuffixNone,

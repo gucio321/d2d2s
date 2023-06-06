@@ -9,7 +9,7 @@ import (
 )
 
 func testdata() map[[NumWaypointsBytes]byte]*Waypoints {
-	// nolint:dupl // data variable - not duplicate
+	//nolint:dupl // data variable - not duplicate
 	return map[[NumWaypointsBytes]byte]*Waypoints{
 		{
 			87, 83, 1, 0, 0, 0, 80, 0, 2, 1, 75, 163, 70, 220, 81, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
