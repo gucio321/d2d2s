@@ -4,8 +4,8 @@ go 1.20
 
 require (
 	github.com/AllenDang/giu v0.6.2
-	github.com/stretchr/testify v1.8.1
-	golang.org/x/image v0.0.0-20220302094943-723b81ca9867
+	github.com/stretchr/testify v1.8.4
+	golang.org/x/image v0.7.0
 )
 
 require (
@@ -20,7 +20,7 @@ require (
 	github.com/pkg/browser v0.0.0-20210911075715-681adbf594b8 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/sahilm/fuzzy v0.1.0 // indirect
-	golang.org/x/sys v0.0.0-20220315194320-039c03cc5b86 // indirect
+	golang.org/x/sys v0.5.0 // indirect
 	gopkg.in/check.v1 v1.0.0-20200902074654-038fdea0a05b // indirect
 	gopkg.in/eapache/queue.v1 v1.1.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
