@@ -16,8 +16,8 @@ jobs:
           command: |
             go mod download
             go install gotest.tools/gotestsum@latest
-      - run: apt update
-      - run: apt install libx11-dev libxcursor-dev libxrandr-dev libxinerama-dev libxi-dev libglx-dev libgl1-mesa-dev libxxf86vm-dev
+      - run: apt update -y
+      - run: apt install -y libx11-dev libxcursor-dev libxrandr-dev libxinerama-dev libxi-dev libglx-dev libgl1-mesa-dev libxxf86vm-dev
       - save_cache:
           key: go-mod-v4-{{ checksum "go.sum" }}
           paths:
