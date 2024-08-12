@@ -5,7 +5,7 @@ go 1.20
 require (
 	github.com/AllenDang/giu v0.8.1
 	github.com/stretchr/testify v1.9.0
-	golang.org/x/image v0.18.0
+	golang.org/x/image v0.19.0
 )
 
 require (
