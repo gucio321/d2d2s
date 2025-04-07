@@ -3,13 +3,13 @@ module github.com/gucio321/d2d2s
 go 1.20
 
 require (
-	github.com/AllenDang/giu v0.11.0
+	github.com/AllenDang/giu v0.13.0
 	github.com/stretchr/testify v1.10.0
 	golang.org/x/image v0.25.0
 )
 
 require (
-	github.com/AllenDang/cimgui-go v1.2.0 // indirect
+	github.com/AllenDang/cimgui-go v1.3.1 // indirect
 	github.com/AllenDang/go-findfont v0.0.0-20200702051237-9f180485aeb8 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/faiface/mainthread v0.0.0-20171120011319-8b78f0a41ae3 // indirect
