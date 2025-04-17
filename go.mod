@@ -1,6 +1,8 @@
 module github.com/gucio321/d2d2s
 
-go 1.20
+go 1.24.0
+
+toolchain go1.24.2
 
 require (
 	github.com/AllenDang/giu v0.13.0
