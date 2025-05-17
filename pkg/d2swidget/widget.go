@@ -20,7 +20,7 @@ var _ giu.Widget = &D2SWidget{}
 // D2SWidget represents d2s widget
 type D2SWidget struct {
 	d2s *d2s.D2S
-	id  string
+	id  giu.ID
 }
 
 // D2S creates d2s widget
@@ -362,7 +362,7 @@ func difficultyCombo(value *d2senums.DifficultyType) giu.Widget {
 
 	v := int32(*value)
 
-	return giu.Combo(giu.GenAutoID("##difficultyCombo"), list[v], list, &v).OnChange(func() {
+	return giu.Combo(string(giu.GenAutoID("##difficultyCombo")), list[v], list, &v).OnChange(func() {
 		*value = d2senums.DifficultyType(v)
 	})
 }
@@ -375,7 +375,7 @@ func charClassCombo(value *d2senums.CharacterClass) giu.Widget {
 
 	v := int32(*value)
 
-	return giu.Combo(giu.GenAutoID("##charClassCombo"), list[v], list, &v).OnChange(func() {
+	return giu.Combo(string(giu.GenAutoID("##charClassCombo")), list[v], list, &v).OnChange(func() {
 		*value = d2senums.CharacterClass(v)
 	})
 }
@@ -392,7 +392,7 @@ func skillCombo(value *d2senums.SkillID) giu.Widget {
 
 	v := int32(*value)
 
-	return giu.Combo(giu.GenAutoID("##skillCombo"), list[v], list, &v).OnChange(func() {
+	return giu.Combo(string(giu.GenAutoID("##skillCombo")), list[v], list, &v).OnChange(func() {
 		*value = d2senums.SkillID(v)
 	})
 }

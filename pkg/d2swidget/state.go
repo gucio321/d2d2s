@@ -20,7 +20,7 @@ func (s *widgetState) Dispose() {
 }
 
 func (w *D2SWidget) getState() *widgetState {
-	stateID := fmt.Sprintf("%s_state", w.id)
+	stateID := giu.ID(fmt.Sprintf("%s_state", w.id))
 
 	s := giu.Context.GetState(stateID)
 	if s == nil {
