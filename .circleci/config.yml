@@ -4,10 +4,10 @@ jobs:
   build:
     working_directory: ~/repo
     docker:
-      - image: golang:1.20.4
+      - image: golang:1.25.0
     steps:
       - checkout
-      - run: curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.52.2
+      - run: curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v2.5.0
       - restore_cache:
           keys:
             - go-mod-v4-{{ checksum "go.sum" }}
