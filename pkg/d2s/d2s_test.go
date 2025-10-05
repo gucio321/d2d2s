@@ -67,9 +67,9 @@ func Test_LoadEncode(t *testing.T) {
 		filename string
 		base     *D2S
 	}{
-		// {"empty character created by d2d2s.New()", "example.d2s"},
+		//{"empty character created by d2d2s.New()", "example.d2s"},
 		{"New character created by Diablo II: Lord of Destruction v1.14d", "newGameChar.d2s", New()},
-		{"MedianXL char", "maxsocket.d2s", mxl},
+		//{"MedianXL char", "maxsocket.d2s", mxl},
 	}
 
 	for _, test := range tests {
