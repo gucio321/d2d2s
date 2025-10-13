@@ -7,7 +7,7 @@ toolchain go1.24.2
 require (
 	github.com/AllenDang/giu v0.14.1
 	github.com/stretchr/testify v1.11.1
-	golang.org/x/image v0.31.0
+	golang.org/x/image v0.32.0
 )
 
 require (
